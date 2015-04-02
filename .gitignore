@@ -59,3 +59,6 @@ target/
 
 ### custom
 venv/
+srv.pid
+output/
+cache/
