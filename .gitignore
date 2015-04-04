@@ -62,3 +62,4 @@ venv/
 srv.pid
 output/
 cache/
+pelican.pid
