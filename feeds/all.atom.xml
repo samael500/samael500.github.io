@@ -46,7 +46,7 @@
 &lt;h2&gt;Трасса&lt;/h2&gt;
 &lt;p&gt;&lt;img alt="rally" src="media/browsers/rally.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;Для наших, замечательных конкурсантов, предстоит пройти трек по пересеченной
-местности c четырьмя крутыми поворотами с 16-ю чекпоинтами, а именно:
+местности с четырьмя крутыми поворотами с 16-ю чекпоинтами, а именно:
 показать свои навыки на следующих&amp;nbsp;ресурсах:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=""&gt;https://google.com/&lt;/a&gt;&lt;/li&gt;
@@ -101,7 +101,7 @@
 &lt;p&gt;Некоторые из участников соревнований, а именно &lt;code&gt;Phantom.js&lt;/code&gt; и &lt;code&gt;Slimer.js&lt;/code&gt;,
 не смогли бы пройти все этапы ралли, под своими именами, поэтому пришлось
 выдать им фальшивые&amp;nbsp;паспорта.&lt;/p&gt;
-&lt;p&gt;Google выдает различные версии сайта, в зависимости от того: какой user agent у
+&lt;p&gt;Google выдает различные версии сайта, в зависимости от того: какой &lt;code&gt;user agent&lt;/code&gt; у
 браузера запрашивающего страницу, и если этот агент неизвестный или старый, то
 выдается старая версия гугл, с черной полоской&amp;nbsp;меню.&lt;/p&gt;
 &lt;blockquote&gt;
@@ -142,7 +142,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="media/
 &lt;p&gt;&lt;img alt="speed" src="media/browsers/speed.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;На данном этапе измерялось время, необходимое для создания браузера,
 открытия нужной страницы, изменения ширины окна до заданной, сохранения страницы
-как изображения &lt;span class="caps"&gt;PNG&lt;/span&gt;, закрытия страницы и уничтожения объекта&amp;nbsp;браузера.&lt;/p&gt;
+как изображения &lt;code&gt;PNG&lt;/code&gt;, закрытия страницы и уничтожения объекта&amp;nbsp;браузера.&lt;/p&gt;
 &lt;p&gt;Измерения проводились при помощи стандартной библиотеки &lt;code&gt;time&lt;/code&gt;, как разница
 времени между началом запуска функции и её&amp;nbsp;окончания.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;time&lt;/span&gt;
@@ -276,7 +276,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="media/
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;В python запускаем браузер с помощью стандартной библиотеки &lt;code&gt;subprocess&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;В &lt;code&gt;python&lt;/code&gt; запускаем браузер с помощью стандартной библиотеки &lt;code&gt;subprocess&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;subprocess&lt;/span&gt;
 &lt;span class="c"&gt;# ...&lt;/span&gt;
 &lt;span class="n"&gt;subprocess&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;check_call&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;phantom_path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;script_path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;--ssl-protocol=any&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
@@ -301,7 +301,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="media/
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;В python запускаем браузер с помощью стандартной библиотеки &lt;code&gt;subprocess&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;В &lt;code&gt;python&lt;/code&gt; запускаем браузер с помощью стандартной библиотеки &lt;code&gt;subprocess&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pyvirtualdisplay&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Display&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;subprocess&lt;/span&gt;
 &lt;span class="c"&gt;# ...&lt;/span&gt;
