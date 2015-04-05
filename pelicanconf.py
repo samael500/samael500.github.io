@@ -36,7 +36,11 @@ LINKS = (
 DEFAULT_PAGINATION = 15
 
 # Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
+RELATIVE_URLS = True
 
 THEME = './theme'
 GITHUB_URL = 'https://github.com/Samael500'
+
+STATIC_PATHS = ['icons', 'media', 'extra', ]
+
+TYPOGRIFY = True
