@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Samael500" />
+    <meta name="robots" content="index, follow"/>
+
+    <meta property="og:title" content="Ралли на браузерах"/>
+    <meta property="og:url" content="/test-screenshot.html"/>
+    <meta property="og:site_name" content="Samael500 blog"/>
+    <meta property="og:type" content="article"/>
+
+    <link rel="canonical" href="/test-screenshot.html" />
+
+    <title>Ралли на браузерах | Samael500 blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
+    <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Samael500 blog Atom Feed" />
+
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">
+        stLight.options({
+            publisher: "",
+            doNotHash: false,
+            doNotCopy: false,
+            hashAddressBar: false
+        });
+    </script>
+</head>
+
+<body id="index">
+<a class="hidden-phone" href="https://github.com/Samael500">
+<img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub" />
+</a>
+    <div class="row-fluid">
+        <div class="span10 offset1">
+            <header id="banner" >
+                <h1>
+                    <a href="/">Samael500 blog </a>
+                </h1>
+                <nav class="navbar">
+                    <div class="navbar-inner">
+                        <ul class="nav">
+                            <li class="active"><a href="/category/python.html">Python</a></li>
+                        </ul>
+
+                    </div>
+                </nav>
+            </header><!-- /#banner -->
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span10 offset1">
+            <div class="row-fluid">
+<div class="span10 offset1">
+  <section>
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="/test-screenshot.html" rel="bookmark"
+             title="Permalink to Ралли на браузерах">Ралли на&nbsp;браузерах</a></h1>
+      </header>
+      <div class="entry-content">
+<footer class="post-info">
+    <address class="vcard author">
+        by <a class="url fn" href="/author/admin.html">Admin</a>
+    </address>
+
+    in <a href="/category/python.html">Python</a>
+
+    on 2015-04-01
+
+        |
+        tags:         <a href="/tag/browsers.html">browsers</a>
+        <a href="/tag/wb-tech.html">wb-tech</a>
+
+
+
+    
+</footer><!-- /.post-info -->
+
+        <h1></h1>
+<p>Собственный проект <a href="http://wbtech.pro/"><span class="caps">WB</span>&#8212;Tech</a> по комментированию
+скриншотов <a href="http://coment.me/">coment.me</a> на сегодняшний день, для получения
+снимка сайта, использует связку <code>selenium + firefox</code>. Данный подход решает
+задачи получения скриншота, однако тратит достаточно много памяти, и к тому же
+со временем накапливается большое количество повисших процессов, что в свою
+очередь приводит к подвисанию сервиса. В связи с этим, необходимо исследовать
+доступные варианты и определить наилучший из браузеров для автоматического
+создания&nbsp;скриншотов.</p>
+<p>Критерииями для выбора победителя будут&nbsp;являтся:</p>
+<ul>
+<li>Качество&nbsp;скриншотов</li>
+<li>Скорость&nbsp;работы</li>
+<li>Затрачиваемые&nbsp;ресурсы</li>
+</ul>
+<h2>Участники&nbsp;соревнований</h2>
+<p>На участие в ралли были отобранны следующие&nbsp;кандидаты:</p>
+<ul>
+<li>Firefox <code>36.0.1</code></li>
+<li>Google Chrome <code>41.0.2272.89</code></li>
+<li>Chromium <code>Not tested</code></li>
+<li><a href="http://splash.readthedocs.org/en/latest/">Splash</a> <code>1.5</code></li>
+<li><a href="http://ghost-py.readthedocs.org/en/latest/">Ghost.py</a> <code>0.1.1</code></li>
+<li><a href="https://github.com/ryanpetrello/python-zombie/">Zombie.js</a> <code>0.2.0</code></li>
+<li><a href="http://phantomjs.org/">Pantom.js</a> <code>1.9.8</code>, <code>2.0.0</code></li>
+<li><a href="http://slimerjs.org/">Slimer.js</a> <code>0.9.5</code>, <code>0.10.0pre</code></li>
+</ul>
+<p>Познакомимся с участниками&nbsp;поближе:</p>
+<ul>
+<li><em>Firefox</em> &#8212; Наиболее массовый не <code>WebKit</code> браузер на сегодняшний&nbsp;день.</li>
+<li><em>Google Chrome</em> / <em>Chromium</em> &#8212; Один из самых быстрых и популярных&nbsp;браузеров.</li>
+<li><em>Splash</em> &#8212; легкий браузер с поддержкой <code>javascript</code> реализовыннй на
+<code>python</code>-е предоставляюший для управления <code>http api</code>.</li>
+<li><em>Ghost.py</em> &#8212; <code>python</code> браузер с поддержкой <code>javascript</code> ориентированный
+на автоматическое функциональное&nbsp;тестирование.</li>
+<li><em>Zombie.js</em> &#8212; легкий и быстрый безголовый браузер для автоматического
+тестирования основаный на <code>node.js</code>.</li>
+<li><em>Phantom.js</em> &#8212; быстрый безголовый браузер на движке <code>WebKit</code> со
+встроенной поддержкой <code>svg</code>. Управляется при помощи <code>javascript api</code>.</li>
+<li><em>Slimer.js</em> &#8212; быстрый браузер, похожий на <code>phantom.js</code>, однако использует
+движок <code>Gecko</code> от <code>firefox</code>. Управляется при помощи <code>javascript api</code>.</li>
+</ul>
+<p>Итак, участники отобраны, и готовы показать себя во всей красе, что ж &#8212;
+приступим к&nbsp;соревнованиям.</p>
+<h2>Трасса</h2>
+<p><img alt="rally" src="media/browsers/rally.jpg" /></p>
+<p>Для наших, замечательных конкурсантов, предстоит пройти трек по пересеченной
+местности c четырьмя крутыми поворотами с 16-ю чекпоинтами, а именно:
+показать свои навыки на следующих&nbsp;ресурсах:</p>
+<ul>
+<li><a href="">https://google.com/</a></li>
+<li><a href="">https://www.facebook.com/</a></li>
+<li><a href="">http://habrahabr.ru/</a></li>
+<li><a href="">http://wbtech.pro/</a></li>
+</ul>
+<p>при следующих разрешениях экранов по ширине: <code>240</code>, <code>780</code>, <code>1320</code>, <code>1920</code>
+пикселей.</p>
+<h2>Заезд первый &#8212;&nbsp;&#8220;Качество&#8221;</h2>
+<blockquote>
+<p>Качество &#8212; это делать что-либо правильно, даже когда никто не&nbsp;смотрит.</p>
+</blockquote>
+<p>Поскольку, в конечном счете, результат должен быть не хуже, чем имеющийся на
+настоящий момент &#8212; эталоном качества будут выступать снимки <code>firefox</code>-а.</p>
+<p>На данном этапе сошли с дистанции сразу 4 участника. Причем, если бы я делал
+ставки, то проиграл бы, ведь хром, которого я считал фаворитом
+соревнований, оказался абсолютно некомпетентным&nbsp;участником.</p>
+<h4>Только видимая&nbsp;область</h4>
+<p>Для связки <code>selenium</code>-а и <code>google chrome</code>
+необходимо использовать <code>chromedriver</code> текущая стабильная версия <code>2.14</code>.
+И, как оказалось, в нем содержится баг, который тянется с 2013 года, известным
+<a href="https://code.google.com/p/chromedriver/issues/detail?id=294">issue</a>.
+Хром драйвер не пролистывает окно браузера при захвате изображения,
+а делает снимок видимой&nbsp;области.</p>
+<blockquote>
+<p><img alt="chrome fail" class="shadow" src="media/browsers/chrome.png" /></p>
+</blockquote>
+<p>Так что <code>Google Chrome</code> и <code>Chromium</code> не прошли данный&nbsp;этап.</p>
+<h4>Неверный&nbsp;resize</h4>
+<p>Безголовый браузер <code>Splash</code>, запускается демоном и слушает <code>localhost:8050</code>, по
+которому предоставляет <code>http api</code> управления браузером. Для сохранения скриншота
+необходимо указать адрес сайта и ширину окна&nbsp;браузера.</p>
+<div class="highlight"><pre><span class="n">request</span> <span class="o">=</span> <span class="s">&#39;http://localhost:8050/render.png?url={url}&amp;width={res}&amp;render_all=1&amp;wait=1&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span><span class="s">&#39;curl&#39;</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="s">&#39;-o&#39;</span><span class="p">,</span> <span class="n">save_as</span><span class="p">])</span>
+</pre></div>
+
+
+<p>Однако, как оказалось, ширина окна браузера всегда 1024px, а параметр
+<code>width</code> влияет только на фактическую ширину полученного изображения,
+к тому же сжатого как <code>thumbnail</code>.</p>
+<blockquote>
+<p>240px<br /><img alt="splash" class="shadow" src="media/browsers/splash.png" />
+<hr />
+780px<br /><img alt="splash big" class="shadow" src="media/browsers/splash_big.png" /></p>
+</blockquote>
+<p>Так что <code>splash</code> не прошел данный&nbsp;этап.</p>
+<h4><span class="dquo">&#8220;</span>Что я вообще сдесь делаю&#8221; &copy;&nbsp;Zombie</h4>
+<p><img alt="zombie" src="media/browsers/zombie.jpg" /></p>
+<p>Как оказалось, зомби вообще не умеет делать скриншоты, поэтому выбывает из&nbsp;соревнований.</p>
+<h4>Фальшивые паспорта &#8212; старый&nbsp;гугл</h4>
+<p>Некоторые из участников соревнований, а именно <code>Phantom.js</code> и <code>Slimer.js</code>,
+не смогли бы пройти все этапы ралли, под своими именами, поэтому пришлось
+выдать им фальшивые&nbsp;паспорта.</p>
+<p>Google выдает различные версии сайта, в зависимости от того: какой user agent у
+браузера запрашивающего страницу, и если этот агент неизвестный или старый, то
+выдается старая версия гугл, с черной полоской&nbsp;меню.</p>
+<blockquote>
+<p>Phantom.js 240px<br /><img alt="old google" class="shadow" src="media/browsers/old_google_phantom.png" />
+<hr />
+Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/old_google_slimer.png" /></p>
+</blockquote>
+<p>Но при использовании поддельных паспортов, от <code>firefox</code> результат такой как&nbsp;нужно.</p>
+<div class="highlight"><pre><span class="s">&#39;Mozilla/5.0 (X11; Linux x86_64) Gecko/20100101 Firefox/36.0&#39;</span>
+</pre></div>
+
+
+<blockquote>
+<p><img alt="google ok" class="shadow" src="media/browsers/google.png" /></p>
+</blockquote>
+<h4>Пикселизация &#8212; выколи&nbsp;глаза.</h4>
+<p><code>Ghost.py</code> не очень хорошо умеет захватывать картинки, логотип google выглядит
+похожим на&nbsp;забор.</p>
+<blockquote>
+<p><img alt="ghost" class="shadow" src="media/browsers/ghost.png" /></p>
+</blockquote>
+<p>Хоть это и недопустимо, однако, ограничимся предупреждением, и пропустим
+призрака в следующий&nbsp;тур.</p>
+<h3>Результаты первого&nbsp;заезда</h3>
+<p>Во второй тур прошли 4 участника и 4 участника покинули соревнования.
+Турнирная таблица по окончанию первого&nbsp;этапа.</p>
+<ul>
+<li>:white_check_mark:&nbsp;Firefox</li>
+<li>:white_check_mark:&nbsp;Pantom.js</li>
+<li>:white_check_mark:&nbsp;Slimer.js</li>
+<li>:warning:&nbsp;Ghost.py</li>
+<li>:x:&nbsp;Chromium</li>
+<li>:x: Google&nbsp;Chrome</li>
+<li>:x:&nbsp;Splash</li>
+<li>:x:&nbsp;Zombie.js</li>
+</ul>
+<h2>Заезд второй &#8212;&nbsp;&#8220;Скорость&#8221;</h2>
+<p><img alt="speed" src="media/browsers/speed.jpg" /></p>
+<p>На данном этапе измерялось время, необходимое для создания браузера,
+открытия нужной страницы, изменения ширины окна до заданной, сохранения страницы
+как изображения <span class="caps">PNG</span>, закрытия страницы и уничтожения объекта&nbsp;браузера.</p>
+<p>Измерения проводились при помощи стандартной библиотеки <code>time</code>, как разница
+времени между началом запуска функции и её&nbsp;окончания.</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">time</span>
+<span class="c"># ...</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="c"># call test browser fun()</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="c"># ...</span>
+    <span class="n">times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+</pre></div>
+
+
+<p><strong>Легенда:</strong>
+    <ul class="browsers1"></ul>
+</p>
+
+<h5>Time</h5>
+
+<div><canvas id="canvas-time"></canvas></div>
+
+<h3>Результаты второго&nbsp;заезда</h3>
+<p>В ходе данного этапа, участники заняли следующие&nbsp;места:</p>
+<ol>
+<li>Phantom.js <code>2.x</code></li>
+<li>Phantom.js <code>1.x</code></li>
+<li>Ghost.py</li>
+<li>Phantom.js <code>1.x</code> +&nbsp;selenium</li>
+<li>Phantom.js <code>2.x</code> +&nbsp;selenium</li>
+<li>Slimer.js <code>9.x</code></li>
+<li>Slimer.js <code>10.x</code></li>
+<li>Firefox +&nbsp;selenium</li>
+</ol>
+<p>В результате, ни один из участников не оказался значительно хуже чем <code>firefox</code>,
+поэтому выбывших нет, все переходят к следующему&nbsp;этапу.</p>
+<h2>Заезд третий &#8212;&nbsp;&#8220;Ресурсы&#8221;</h2>
+<p><img alt="fuel" src="media/browsers/fuel.jpg" /></p>
+<p>Учитывалась память, которую тратит главный процесс, и все его дочерние процессы.
+Память измерялась при помощи функции <code>memory_usage</code> библиотеки <code>memory_profiler</code>
+с указанием параметра <code>include_children</code>.</p>
+<p>Измерялась минимальная, средняя, и максимальная память для каждого&nbsp;скриншота.</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">memory_profiler</span> <span class="kn">import</span> <span class="n">memory_usage</span>
+<span class="c"># ...</span>
+    <span class="n">memory</span> <span class="o">=</span> <span class="n">memory_usage</span><span class="p">((</span><span class="n">fun</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="n">include_children</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="c"># ...</span>
+    <span class="n">mins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">memory</span><span class="p">))</span>
+    <span class="n">maxs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">memory</span><span class="p">))</span>
+    <span class="n">avgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">avg</span><span class="p">(</span><span class="n">memory</span><span class="p">))</span>
+</pre></div>
+
+
+<h4>Ненасытное&nbsp;привидение</h4>
+<p><code>Ghost.py</code> &#8212; оказался чрезвычайно прожорливым, занимая всю доступную
+память, доходил до максимума и вылетал. Единственный из участников, кто не
+сумел пройти все 16 чекпоинтов за один&nbsp;подход.</p>
+<p>Учитывая вынесенное ранее предупреждение, призрак вылетает из&nbsp;конкурса!</p>
+<blockquote>
+<p>I ain&#8217;t afraid of no&nbsp;ghosts</p>
+</blockquote>
+<p><img alt="ghostbusters" src="media/browsers/ghostbusters.png" /></p>
+<h4>Двуличный&nbsp;хитрец</h4>
+<p>Оказалось, что <code>Slimer.js</code> притворяется: запускается дочерний процесс <code>slimerjs</code>,
+который потребляет не более 3&nbsp;Mb памяти, но при этом запускает ещё один
+дочерний процесс с именем <code>firefox</code>, который уже добирает память до&nbsp;300&nbsp;Mb.</p>
+<h4>Общие затраты&nbsp;памяти</h4>
+<p>Поскольку <code>Ghost.py</code> потребляет уж слишком много ресурсов, на графиках не&nbsp;указывается.</p>
+<p><strong>Легенда:</strong>
+    <ul class="browsers2"></ul>
+</p>
+
+<h5>Memory&nbsp;max</h5>
+
+<div><canvas id="canvas-memory_max"></canvas></div>
+
+<h5>Memory&nbsp;avg</h5>
+
+<div><canvas id="canvas-memory_avg"></canvas></div>
+
+<h3>Результаты третьего&nbsp;заезда</h3>
+<p>В ходе данного этапа, участники заняли следующие&nbsp;места:</p>
+<ol>
+<li>Phantom.js <code>1.x</code></li>
+<li>Phantom.js <code>2.x</code></li>
+<li>Phantom.js <code>1.x</code> +&nbsp;selenium</li>
+<li>Phantom.js <code>2.x</code> +&nbsp;selenium</li>
+<li>Slimer.js <code>9.x</code></li>
+<li>Slimer.js <code>10.x</code></li>
+<li>Firefox +&nbsp;selenium</li>
+<li>Ghost.py</li>
+</ol>
+<p>На этом этапе выбывает <code>Ghost.py</code>, турнирная таблица принимает&nbsp;вид:</p>
+<ul>
+<li>:white_check_mark:&nbsp;Pantom.js</li>
+<li>:white_check_mark:&nbsp;Slimer.js</li>
+<li>:white_check_mark:&nbsp;Firefox</li>
+<li>:x:&nbsp;Ghost.py</li>
+</ul>
+<h2>Заезд четвертый &#8212;&nbsp;&#8220;Управляемость&#8221;</h2>
+<p><img alt="wet road" src="media/browsers/wet_road.png" /></p>
+<p>Несмотря на то, что определилась тройка лидеров и уже можно подвести итоги,
+рассмотрим как управлять безголовыми&nbsp;браузерами.</p>
+<h4>Firefox</h4>
+<p><code>Firefox</code> работает в связке с <code>selenium</code>-ом и управляется достаточно просто,
+единственная особенность &#8212; это то, что браузер запускает графическую
+оболочку, поэтому нужно использовать виртуальный&nbsp;дисплей.</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">pyvirtualdisplay</span> <span class="kn">import</span> <span class="n">Display</span>
+<span class="c"># ...</span>
+<span class="k">with</span> <span class="n">Display</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">),</span> <span class="n">backend</span><span class="o">=</span><span class="s">&#39;xvfb&#39;</span><span class="p">):</span>
+    <span class="n">browser</span> <span class="o">=</span> <span class="n">Browser</span><span class="p">(</span><span class="o">**</span><span class="n">param</span><span class="p">)</span>
+    <span class="n">browser</span><span class="o">.</span><span class="n">set_window_size</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="mi">768</span><span class="p">)</span>
+    <span class="n">browser</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">browser</span><span class="o">.</span><span class="n">save_screenshot</span><span class="p">(</span><span class="n">save_as</span><span class="p">)</span>
+    <span class="n">browser</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+
+
+<h4>Phantom</h4>
+<p><code>Phantom.js</code> можно использовать, как самостоятельный безголовый браузер, так и
+в связке с <code>selenium</code>-ом.
+Работа с <code>selenium</code>-ом аналогична <code>firefox</code>, за тем лишь исключением, что нет
+необходимости запускать виртуальный&nbsp;дисплей.</p>
+<p>Собственная работа <code>phantom.js</code>, заключается в вызове консольной команды,
+и передаче ей скрипта для выполнения&nbsp;браузером.</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">page</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;webpage&#39;</span><span class="p">).</span><span class="nx">create</span><span class="p">();</span>
+<span class="nx">page</span><span class="p">.</span><span class="nx">settings</span><span class="p">.</span><span class="nx">userAgent</span> <span class="o">=</span> <span class="s1">&#39;Mozilla/5.0 (X11; Linux x86_64) Firefox/36.0&#39;</span><span class="p">;</span>
+<span class="nx">page</span><span class="p">.</span><span class="nx">viewportSize</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">width</span><span class="o">:</span><span class="mi">1920</span><span class="p">,</span> <span class="nx">height</span><span class="o">:</span><span class="mi">768</span> <span class="p">};</span>
+<span class="nx">page</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">&#39;http://wbtech.pro/&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">page</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">&#39;img/phantomjs2-no_selenium/wbtech.pro-1920px.png&#39;</span><span class="p">);</span>
+    <span class="nx">phantom</span><span class="p">.</span><span class="nx">exit</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>В python запускаем браузер с помощью стандартной библиотеки <code>subprocess</code>.</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="c"># ...</span>
+<span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span><span class="n">phantom_path</span><span class="p">,</span> <span class="n">script_path</span><span class="p">,</span> <span class="s">&#39;--ssl-protocol=any&#39;</span><span class="p">])</span>
+</pre></div>
+
+
+<h4>Slimer</h4>
+<p><code>Slimer.js</code> работает точно так же, как и <code>phantom.js</code> без <code>selenium</code>-а,
+но является не совсем безголовым, он запускает графическую оболочку, поэтому
+требует виртуальный&nbsp;дисплей.</p>
+<p>А так же, в ходе тестирования было выявлено, что для корректного скриншота
+нужно всегда, перед открытием страницы, указывать базовую ширину окна&nbsp;браузера.</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">page</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;webpage&#39;</span><span class="p">).</span><span class="nx">create</span><span class="p">();</span>
+<span class="nx">page</span><span class="p">.</span><span class="nx">viewportSize</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">width</span><span class="o">:</span><span class="mi">1024</span><span class="p">,</span> <span class="nx">height</span><span class="o">:</span><span class="mi">768</span> <span class="p">};</span>
+<span class="nx">page</span><span class="p">.</span><span class="nx">settings</span><span class="p">.</span><span class="nx">userAgent</span> <span class="o">=</span> <span class="s1">&#39;Mozilla/5.0 (X11; Linux x86_64) Firefox/36.0&#39;</span><span class="p">;</span>
+<span class="nx">page</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">&#39;http://wbtech.pro/&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">page</span><span class="p">.</span><span class="nx">viewportSize</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">width</span><span class="o">:</span><span class="mi">1920</span><span class="p">,</span> <span class="nx">height</span><span class="o">:</span><span class="mi">768</span> <span class="p">};</span>
+    <span class="nx">page</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">&#39;img/slimerjs10/wbtech.pro-1920px.png&#39;</span><span class="p">);</span>
+    <span class="nx">page</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+    <span class="nx">slimer</span><span class="p">.</span><span class="nx">exit</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>В python запускаем браузер с помощью стандартной библиотеки <code>subprocess</code>.</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyvirtualdisplay</span> <span class="kn">import</span> <span class="n">Display</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="c"># ...</span>
+<span class="k">with</span> <span class="n">Display</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">),</span> <span class="n">backend</span><span class="o">=</span><span class="s">&#39;xvfb&#39;</span><span class="p">):</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span><span class="n">slimer_path</span><span class="p">,</span> <span class="n">script_path</span><span class="p">,</span> <span class="s">&#39;--ssl-protocol=any&#39;</span><span class="p">])</span>
+</pre></div>
+
+
+<h2>Финиш</h2>
+<p><img alt="chess flag" src="media/browsers/chess_flag.png" /></p>
+<p>Гонка завершилась, пришло время подвести итоги и определить&nbsp;победителей.</p>
+<p>До финиша доехали всего три команды, так что тройка лидеров очевидна. Учитывая
+затраты ресурсов и времени, участники занимают следующие&nbsp;места:</p>
+<ol>
+<li>Phantom.js <code>2.x</code></li>
+<li>Phantom.js <code>1.x</code></li>
+<li>Phantom.js <code>1.x</code> +&nbsp;selenium</li>
+<li>Phantom.js <code>2.x</code> +&nbsp;selenium</li>
+<li>Slimer.js <code>9.x</code></li>
+<li>Slimer.js <code>10.x</code></li>
+<li>Firefox +&nbsp;selenium</li>
+</ol>
+<p>Безоговорочным лидером гонки стал <code>phantom.js</code>, в качестве награды ему будет
+предложено занять пост огненной лисы, на сервисе <a href="http://coment.me/">coment.me</a>.</p>
+<p><img alt="pedestal" src="media/browsers/pedestal.png" /></p>
+<script type="text/javascript" src="extra/browsers/jquery.min.js"></script>
+
+<script type="text/javascript" src="extra/browsers/chart.min.js"></script>
+
+<script type="text/javascript" src="extra/browsers/data.js"></script>
+
+      </div><!-- /.entry-content -->
+
+    </article>
+  </section>
+</div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="site-footer">
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <address>
+                </address>
+            </div>
+        </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
+</body>
+</html>
