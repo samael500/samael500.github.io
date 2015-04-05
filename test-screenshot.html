@@ -88,7 +88,7 @@
         <h1></h1>
 <p>Собственный проект <a href="http://wbtech.pro/"><span class="caps">WB</span>&#8212;Tech</a> по комментированию
 скриншотов <a href="http://coment.me/">coment.me</a> на сегодняшний день, для получения
-снимка сайта, использует связку <code>selenium + firefox</code>. Данный подход решает
+снимка сайта использует связку <code>selenium + firefox</code>. Данный подход решает
 задачи получения скриншота, однако тратит достаточно много памяти, и к тому же
 со временем накапливается большое количество повисших процессов, что в свою
 очередь приводит к подвисанию сервиса. В связи с этим, необходимо исследовать
@@ -131,7 +131,7 @@
 приступим к&nbsp;соревнованиям.</p>
 <h2>Трасса</h2>
 <p><img alt="rally" src="media/browsers/rally.jpg" /></p>
-<p>Для наших, замечательных конкурсантов, предстоит пройти трек по пересеченной
+<p>Нашим замечательным конкурсантам предстоит пройти трек по пересеченной
 местности с четырьмя крутыми поворотами с 16-ю чекпоинтами, а именно:
 показать свои навыки на следующих&nbsp;ресурсах:</p>
 <ul>
@@ -182,14 +182,14 @@
 <p>Так что <code>splash</code> не прошел данный&nbsp;этап.</p>
 <h4><span class="dquo">&#8220;</span>Что я вообще сдесь делаю&#8221; &copy;&nbsp;Zombie</h4>
 <p><img alt="zombie" src="media/browsers/zombie.jpg" /></p>
-<p>Как оказалось, зомби вообще не умеет делать скриншоты, поэтому выбывает из&nbsp;соревнований.</p>
+<p>Как оказалось, <code>Zombie</code> вообще не умеет делать скриншоты, поэтому выбывает из&nbsp;соревнований.</p>
 <h4>Фальшивые паспорта &#8212; старый&nbsp;гугл</h4>
-<p>Некоторые из участников соревнований, а именно <code>Phantom.js</code> и <code>Slimer.js</code>,
+<p>Некоторые из участников соревнований, а именно <code>Phantom.js</code> и <code>Slimer.js</code>
 не смогли бы пройти все этапы ралли, под своими именами, поэтому пришлось
 выдать им фальшивые&nbsp;паспорта.</p>
 <p>Google выдает различные версии сайта, в зависимости от того: какой <code>user agent</code> у
 браузера запрашивающего страницу, и если этот агент неизвестный или старый, то
-выдается старая версия гугл, с черной полоской&nbsp;меню.</p>
+выдается старая версия google, с черной полоской&nbsp;меню.</p>
 <blockquote>
 <p>Phantom.js 240px<br /><img alt="old google" class="shadow" src="media/browsers/old_google_phantom.png" />
 <hr />
@@ -210,7 +210,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
 <p><img alt="ghost" class="shadow" src="media/browsers/ghost.png" /></p>
 </blockquote>
 <p>Хоть это и недопустимо, однако, ограничимся предупреждением, и пропустим
-призрака в следующий&nbsp;тур.</p>
+<code>Ghost.py</code> в следующий&nbsp;тур.</p>
 <h3>Результаты первого&nbsp;заезда</h3>
 <p>Во второй тур прошли 4 участника и 4 участника покинули соревнования.
 Турнирная таблица по окончанию первого&nbsp;этапа.</p>
@@ -250,7 +250,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
 <div><canvas id="canvas-time"></canvas></div>
 
 <h3>Результаты второго&nbsp;заезда</h3>
-<p>В ходе данного этапа, участники заняли следующие&nbsp;места:</p>
+<p>В ходе данного этапа участники заняли следующие&nbsp;места:</p>
 <ol>
 <li>Phantom.js <code>2.x</code></li>
 <li>Phantom.js <code>1.x</code></li>
@@ -268,7 +268,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
 <p>Учитывалась память, которую тратит главный процесс, и все его дочерние процессы.
 Память измерялась при помощи функции <code>memory_usage</code> библиотеки <code>memory_profiler</code>
 с указанием параметра <code>include_children</code>.</p>
-<p>Измерялась минимальная, средняя, и максимальная память для каждого&nbsp;скриншота.</p>
+<p>Измерялась минимальная, средняя и максимальная память для каждого&nbsp;скриншота.</p>
 <div class="highlight"><pre><span class="kn">from</span> <span class="nn">memory_profiler</span> <span class="kn">import</span> <span class="n">memory_usage</span>
 <span class="c"># ...</span>
     <span class="n">memory</span> <span class="o">=</span> <span class="n">memory_usage</span><span class="p">((</span><span class="n">fun</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="n">include_children</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -280,7 +280,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
 
 
 <h4>Ненасытное&nbsp;привидение</h4>
-<p><code>Ghost.py</code> &#8212; оказался чрезвычайно прожорливым, занимая всю доступную
+<p><code>Ghost.py</code> оказался чрезвычайно прожорливым, занимая всю доступную
 память, доходил до максимума и вылетал. Единственный из участников, кто не
 сумел пройти все 16 чекпоинтов за один&nbsp;подход.</p>
 <p>Учитывая вынесенное ранее предупреждение, призрак вылетает из&nbsp;конкурса!</p>
@@ -307,7 +307,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
 <div><canvas id="canvas-memory_avg"></canvas></div>
 
 <h3>Результаты третьего&nbsp;заезда</h3>
-<p>В ходе данного этапа, участники заняли следующие&nbsp;места:</p>
+<p>В ходе данного этапа участники заняли следующие&nbsp;места:</p>
 <ol>
 <li>Phantom.js <code>1.x</code></li>
 <li>Phantom.js <code>2.x</code></li>
@@ -373,8 +373,9 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
 <p><code>Slimer.js</code> работает точно так же, как и <code>phantom.js</code> без <code>selenium</code>-а,
 но является не совсем безголовым, он запускает графическую оболочку, поэтому
 требует виртуальный&nbsp;дисплей.</p>
-<p>А так же, в ходе тестирования было выявлено, что для корректного скриншота
-нужно всегда, перед открытием страницы, указывать базовую ширину окна&nbsp;браузера.</p>
+<p>А так же, в ходе тестирования было <a href="выявлено">http://stackoverflow.com/questions/29280104/slimerjs-takes-a-snapshot-of-only-the-visible-area/</a>,
+что для корректного скриншота нужно всегда, перед открытием страницы,
+указывать базовую ширину окна&nbsp;браузера.</p>
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">page</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;webpage&#39;</span><span class="p">).</span><span class="nx">create</span><span class="p">();</span>
 <span class="nx">page</span><span class="p">.</span><span class="nx">viewportSize</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">width</span><span class="o">:</span><span class="mi">1024</span><span class="p">,</span> <span class="nx">height</span><span class="o">:</span><span class="mi">768</span> <span class="p">};</span>
 <span class="nx">page</span><span class="p">.</span><span class="nx">settings</span><span class="p">.</span><span class="nx">userAgent</span> <span class="o">=</span> <span class="s1">&#39;Mozilla/5.0 (X11; Linux x86_64) Firefox/36.0&#39;</span><span class="p">;</span>
@@ -411,7 +412,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
 <li>Firefox +&nbsp;selenium</li>
 </ol>
 <p>Безоговорочным лидером гонки стал <code>phantom.js</code>, в качестве награды ему будет
-предложено занять пост огненной лисы, на сервисе <a href="http://coment.me/">coment.me</a>.</p>
+предложено занять пост <code>firefox</code>-а на сервисе <a href="http://coment.me/">coment.me</a>.</p>
 <p><img alt="pedestal" src="media/browsers/pedestal.png" /></p>
 <script type="text/javascript" src="extra/browsers/jquery.min.js"></script>
 
