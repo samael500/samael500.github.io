@@ -21,6 +21,7 @@
     <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
     <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Samael500 blog Atom Feed" />
 
+    <script type="text/javascript" src="/theme/js/jquery.min.js"></script>
     <script type="text/javascript">var switchTo5x=true;</script>
     <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
     <script type="text/javascript">
@@ -31,6 +32,19 @@
             hashAddressBar: false
         });
     </script>
+
+    <script type="text/javascript" src="/emojify/js/emojify.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/emojify/css/emojify.min.css" />
+    <script type="text/javascript">
+        emojify.setConfig({
+            img_dir : '/emojify/images',
+            ignore_emoticons: true,
+        });
+        $(document).ready(function() {
+            emojify.run(document.getElementsByTagName('article')[0]);
+        });
+    </script>
+
 </head>
 
 <body id="index">
@@ -58,6 +72,7 @@
     <div class="row-fluid">
         <div class="span10 offset1">
             <div class="row-fluid">
+                <div id="content">
 <div class="span10 offset1">
   <section>
     <article>
@@ -414,8 +429,6 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
 <p>Безоговорочным лидером гонки стал <code>phantom.js</code>, в качестве награды ему будет
 предложено занять пост <code>firefox</code>-а на сервисе <a href="http://coment.me/">coment.me</a>.</p>
 <p><img alt="pedestal" src="media/browsers/pedestal.png" /></p>
-<script type="text/javascript" src="extra/browsers/jquery.min.js"></script>
-
 <script type="text/javascript" src="extra/browsers/chart.min.js"></script>
 
 <script type="text/javascript" src="extra/browsers/data.js"></script>
@@ -425,6 +438,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
     </article>
   </section>
 </div>
+                </div>
             </div>
         </div>
     </div>

@@ -21,6 +21,7 @@
     <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
     <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Samael500 blog Atom Feed" />
 
+    <script type="text/javascript" src="/theme/js/jquery.min.js"></script>
     <script type="text/javascript">var switchTo5x=true;</script>
     <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
     <script type="text/javascript">
@@ -31,6 +32,19 @@
             hashAddressBar: false
         });
     </script>
+
+    <script type="text/javascript" src="/emojify/js/emojify.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/emojify/css/emojify.min.css" />
+    <script type="text/javascript">
+        emojify.setConfig({
+            img_dir : '/emojify/images',
+            ignore_emoticons: true,
+        });
+        $(document).ready(function() {
+            emojify.run(document.getElementsByTagName('article')[0]);
+        });
+    </script>
+
 </head>
 
 <body id="index">
@@ -58,6 +72,7 @@
     <div class="row-fluid">
         <div class="span10 offset1">
             <div class="row-fluid">
+                <div id="content">
 <div class="span9">
     <section>
     <h1>Articles in Python</h1>
@@ -78,6 +93,7 @@
         </div>
     </section>
 </div>
+                </div>
 <div class="span3">
     <section id="sidebar">
             <div>
@@ -101,8 +117,8 @@
             <div>
                 <h2>Tags</h2>
                 <ul id="cloud">
-                     <li class="tag-4"><a href="/tag/wb-tech.html">wb-tech</a></li>
                      <li class="tag-4"><a href="/tag/browsers.html">browsers</a></li>
+                     <li class="tag-4"><a href="/tag/wb-tech.html">wb-tech</a></li>
                 </ul>
              </div>
 <!-- /.Tags -->

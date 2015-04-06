@@ -21,6 +21,7 @@
     <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
     <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Samael500 blog Atom Feed" />
 
+    <script type="text/javascript" src="/theme/js/jquery.min.js"></script>
     <script type="text/javascript">var switchTo5x=true;</script>
     <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
     <script type="text/javascript">
@@ -31,6 +32,19 @@
             hashAddressBar: false
         });
     </script>
+
+    <script type="text/javascript" src="/emojify/js/emojify.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/emojify/css/emojify.min.css" />
+    <script type="text/javascript">
+        emojify.setConfig({
+            img_dir : '/emojify/images',
+            ignore_emoticons: true,
+        });
+        $(document).ready(function() {
+            emojify.run(document.getElementsByTagName('article')[0]);
+        });
+    </script>
+
 </head>
 
 <body id="index">
@@ -58,10 +72,12 @@
     <div class="row-fluid">
         <div class="span10 offset1">
             <div class="row-fluid">
+                <div id="content">
     <h1>Authors on Samael500 blog</h1>
 
     <ul>        <li><a href="/author/admin.html">Admin</a> (1)</li>
     </ul>
+                </div>
             </div>
         </div>
     </div>
