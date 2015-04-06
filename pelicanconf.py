@@ -41,6 +41,6 @@ RELATIVE_URLS = True
 THEME = './theme'
 GITHUB_URL = 'https://github.com/Samael500'
 
-STATIC_PATHS = ['icons', 'media', 'extra', ]
+STATIC_PATHS = ['icons', 'media', 'extra', 'emojify', ]
 
 TYPOGRIFY = True

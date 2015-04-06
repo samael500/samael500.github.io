@@ -375,6 +375,5 @@ with Display(visible=0, size=(1024, 768), backend='xvfb'):
 
 ![pedestal](media/browsers/pedestal.png)
 
-<script type="text/javascript" src="extra/browsers/jquery.min.js"></script>
 <script type="text/javascript" src="extra/browsers/chart.min.js"></script>
 <script type="text/javascript" src="extra/browsers/data.js"></script>

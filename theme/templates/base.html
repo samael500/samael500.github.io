@@ -26,6 +26,7 @@
     <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} RSS Feed" />
     {% endif %}
 
+    <script type="text/javascript" src="/theme/js/jquery.min.js"></script>
     <script type="text/javascript">var switchTo5x=true;</script>
     <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
     <script type="text/javascript">
@@ -36,6 +37,21 @@
             hashAddressBar: false
         });
     </script>
+
+    {# emojify #}
+    <script type="text/javascript" src="/emojify/js/emojify.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/emojify/css/emojify.min.css" />
+    <script type="text/javascript">
+        emojify.setConfig({
+            img_dir : '/emojify/images',
+            ignore_emoticons: true,
+        });
+        $(document).ready(function() {
+            emojify.run(document.getElementsByTagName('article')[0]);
+        });
+    </script>
+    {# /emojify #}
+
 </head>
 
 <body id="index">
@@ -74,7 +90,9 @@
     <div class="row-fluid">
         <div class="span10 offset1">
             <div class="row-fluid">
-                {% block content %}{% endblock %}
+                <div id="content">
+                    {% block content %}{% endblock %}
+                </div>
                 {% block sidebar %}{% endblock %}
             </div>
         </div>
