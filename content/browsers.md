@@ -4,7 +4,6 @@ Modified: 2015-04-05 19:30
 Category: Python
 Tags: browsers, wb-tech
 Slug: test-screenshot
-Authors: Admin
 Summary:
     Собственный проект [WB--Tech](http://wbtech.pro/) по комментированию
     скриншотов [coment.me](http://coment.me/) на сегодняшний день, для получения
