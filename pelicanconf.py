@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 AUTHOR = u'Maks'
 SITENAME = u'Samael500 blog'
 SITEURL = ''
+KEYWORDS = u'Samael500 personal blog'
 
 PATH = 'content'
 
@@ -44,3 +45,5 @@ GITHUB_URL = 'https://github.com/Samael500'
 STATIC_PATHS = ['icons', 'media', 'extra', 'emojify', ]
 
 TYPOGRIFY = True
+
+DISPLAY_PAGES_ON_MENU = True
