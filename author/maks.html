@@ -2,8 +2,11 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta name="author" content="Maks" />
     <meta name="robots" content="index, follow"/>
+    <meta name="keywords" content="Samael500 personal blog" />
 
     <meta property="og:title" content="Samael500 blog - Maks"/>
     <meta property="og:url" content="/author/maks.html"/>
@@ -13,15 +16,15 @@
     <link rel="canonical" href="/author/maks.html" />
 
     <title>Samael500 blog - Maks | Samael500 blog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" />
-
-    <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
-    <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Samael500 blog Atom Feed" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
 
     <script type="text/javascript" src="/theme/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/theme/js/move-top.js"></script>
+    <script type="text/javascript" src="/theme/js/easing.js"></script>
+
+
     <script type="text/javascript">var switchTo5x=true;</script>
     <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
     <script type="text/javascript">
@@ -30,6 +33,20 @@
             doNotHash: false,
             doNotCopy: false,
             hashAddressBar: false
+        });
+     </script>
+
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,900,300italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".scroll").click(function(event){     
+                event.preventDefault();
+                $('html,body').animate({scrollTop:$(this.hash).offset().top},900);
+            });
         });
     </script>
 
@@ -46,47 +63,49 @@
     </script>
 
 </head>
-
 <body id="index">
 <a class="hidden-phone" href="https://github.com/Samael500">
 <img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub" />
 </a>
-    <div class="row-fluid">
-        <div class="span10 offset1">
-            <header id="banner" >
-                <h1>
-                    <a href="/">Samael500 blog </a>
-                </h1>
-                <nav class="navbar">
-                    <div class="navbar-inner">
-                        <ul class="nav">
-                            <li ><a href="/category/python.html">Python</a></li>
-                        </ul>
-
-                    </div>
-                </nav>
-            </header><!-- /#banner -->
+<div class="header">  
+    <div class="container">
+        <div class="logo">
+            <a href="/"><img src="/theme/images/logo.jpg" title="Samael500 blog" alt="Samael500 blog" /></a>
         </div>
-    </div>
+        <!-- start-top-nav -->
+            <div class="top-menu">
 
-    <div class="row-fluid">
-        <div class="span10 offset1">
-            <div class="row-fluid">
-                <div id="content">
-<div class="span9">
+                <span class="menu"> </span> 
+                    <ul>
+                                <li ><a href="/category/python.html">Python</a></li>
+
+
+
+                        <div class="clearfix"></div>
+                    </ul>
+            </div>
+
+            <div class="clearfix"></div>
+            <script>
+                $("span.menu").click(function(){
+                    $(".top-menu ul").slideToggle("slow" , function(){
+                    });
+                });
+            </script>
+     </div>
+</div>
+    <div class="content">
+        <div class="container">
+            <div class="content-grids">
+                <div class="col-md-8 content-main">
+<div class="content-grid">
                 <section>
                     <ol id="posts-list" class="hfeed" start="14">
-                    <li>
-                        <article>
-                            <header>
-                                <h1 class="entry-title">
-                                    <a href="/test-screenshot.html" rel="bookmark" title="Permalink to Ралли на браузерах">
-                                       Ралли на&nbsp;браузерах
-                                    </a>
-                                </h1>
-                            </header>
-                            <div class="entry-content">
-<footer class="post-info">
+                    <div class="content-grid-info">
+                        <img src="images/post1.jpg" alt=""/>
+                        <div class="post-info">
+                        <h4><a href="/test-screenshot.html" title="Ралли на браузерах">Ралли на&nbsp;браузерах</a></h4>
+                        <p><footer class="post-info">
     <address class="vcard author">
         by <a class="url fn" href="/author/maks.html">Maks</a>
     </address>
@@ -102,25 +121,24 @@
 
 
     
-</footer><!-- /.post-info -->                                <p>Собственный проект <a href="http://wbtech.pro/"><span class="caps">WB</span>&#8212;Tech</a> по комментированию
+</footer><!-- /.post-info --></p>
+                        <p><p>Собственный проект <a href="http://wbtech.pro/"><span class="caps">WB</span>&#8212;Tech</a> по комментированию
 скриншотов <a href="http://coment.me/">coment.me</a> на сегодняшний день, для получения
 снимка сайта использует связку <code>selenium + firefox</code>. Данный подход решает
 задачи получения скриншота, однако тратит достаточно много памяти, и к тому же
 со временем накапливается большое количество повисших процессов, что в свою
 очередь приводит к подвисанию сервиса. В связи с этим, необходимо исследовать
 доступные варианты и определить наилучший из браузеров для автоматического
-создания&nbsp;скриншотов&#8230;</p>
-                                <p class="readmore">
-                                    <a class="btn btn-small btn-info" href="/test-screenshot.html">Read more...</a>
-                                </p>
-                            </div><!-- /.entry-content -->
-                            <hr/>
-                        </article>
-                    </li>
+создания&nbsp;скриншотов&#8230;</p></p>
+                        <a href="/test-screenshot.html"><span></span>далее...</a>
+                        </div>
+                    </div>
                     </ol><!-- /#posts-list -->
                 </section><!-- /#content -->
 </div>
                 </div>
+
+                <div class="col-md-4 content-right">
 <div class="span3">
     <section id="sidebar">
             <div>
@@ -144,25 +162,25 @@
             <div>
                 <h2>Tags</h2>
                 <ul id="cloud">
-                     <li class="tag-4"><a href="/tag/wb-tech.html">wb-tech</a></li>
                      <li class="tag-4"><a href="/tag/browsers.html">browsers</a></li>
+                     <li class="tag-4"><a href="/tag/wb-tech.html">wb-tech</a></li>
                 </ul>
              </div>
 <!-- /.Tags -->
     </section><!-- /#sidebar -->
 </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
             </div>
         </div>
     </div>
 
-    <footer id="site-footer">
-        <div class="row-fluid">
-            <div class="span10 offset1">
-                <address>
-                </address>
-            </div>
+    <div class="footer">
+        <div class="container">
+            <p>Copyrights © 2015 Blog All rights reserved | Template by <a href="http://w3layouts.com/">W3layouts</a></p>
         </div>
-    </footer>
+    </div>
 
     <script src="//code.jquery.com/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
