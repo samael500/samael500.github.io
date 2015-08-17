@@ -50,3 +50,5 @@ STATIC_PATHS = ['icons', 'media', 'extra', 'emojify', ]
 TYPOGRIFY = True
 
 DISPLAY_PAGES_ON_MENU = True
+
+GOOGLE_CUSTOM_SEARCH = None  # '006263355362628034990:cuxoisonrno'
