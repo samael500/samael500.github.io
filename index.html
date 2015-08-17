@@ -19,6 +19,8 @@
 
     <link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
 
     <script type="text/javascript" src="/theme/js/jquery.min.js"></script>
     <script type="text/javascript" src="/theme/js/move-top.js"></script>
@@ -72,57 +74,58 @@
         <div class="logo">
             <a href="/"><img src="/theme/images/logo.jpg" title="Samael500 blog" alt="Samael500 blog" /></a>
         </div>
-        <!-- start-top-nav -->
-            <div class="top-menu">
 
-                <span class="menu"> </span> 
-                    <ul>
-                                <li ><a href="/category/python.html">Python</a></li>
+        <div class="top-menu">
 
+            <div class="search">
+            </div>
 
+            <span class="menu"> </span>
+                <ul>
+                            <li ><a href="/category/python.html">Python</a></li>
 
-                        <div class="clearfix"></div>
-                    </ul>
+                    <div class="clearfix"></div>
+                </ul>
             </div>
 
             <div class="clearfix"></div>
+
             <script>
                 $("span.menu").click(function(){
                     $(".top-menu ul").slideToggle("slow" , function(){
                     });
                 });
             </script>
-     </div>
+        </div>
+    </div>
 </div>
     <div class="content">
         <div class="container">
             <div class="content-grids">
                 <div class="col-md-8 content-main">
 <div class="content-grid">
-                <section>
-                    <ol id="posts-list" class="hfeed" start="14">
+
+
                     <div class="content-grid-info">
-                        <img src="images/post1.jpg" alt=""/>
+                        <img src="/media/browsers/pedestal.png" alt="Ралли на браузерах"/>
                         <div class="post-info">
-                        <h4><a href="/test-screenshot.html" title="Ралли на браузерах">Ралли на&nbsp;браузерах</a></h4>
-                        <p><footer class="post-info">
-    <address class="vcard author">
-        by <a class="url fn" href="/author/maks.html">Maks</a>
-    </address>
+<h4>
+    <a href="/test-screenshot.html" title="Ралли на браузерах">Ралли на&nbsp;браузерах</a>
+    Апр. 01, 2015
+</h4>
 
-    in <a href="/category/python.html">Python</a>
+<div class="footer art-info">
+        Автор: <a class="url fn" href="/author/maks.html">Maks</a>
 
-    on 2015-04-01
+    Категория: <a href="/category/python.html">Python</a>
 
         |
-        tags:         <a href="/tag/browsers.html">browsers</a>
+        теги:         <a href="/tag/browsers.html">browsers</a>
         <a href="/tag/wb-tech.html">wb-tech</a>
 
 
 
-    
-</footer><!-- /.post-info --></p>
-                        <p><p>Собственный проект <a href="http://wbtech.pro/"><span class="caps">WB</span>&#8212;Tech</a> по комментированию
+</div>                            <p><p>Собственный проект <a href="http://wbtech.pro/"><span class="caps">WB</span>&#8212;Tech</a> по комментированию
 скриншотов <a href="http://coment.me/">coment.me</a> на сегодняшний день, для получения
 снимка сайта использует связку <code>selenium + firefox</code>. Данный подход решает
 задачи получения скриншота, однако тратит достаточно много памяти, и к тому же
@@ -130,45 +133,53 @@
 очередь приводит к подвисанию сервиса. В связи с этим, необходимо исследовать
 доступные варианты и определить наилучший из браузеров для автоматического
 создания&nbsp;скриншотов&#8230;</p></p>
-                        <a href="/test-screenshot.html"><span></span>далее...</a>
+                            <a href="/test-screenshot.html"><span></span>далее...</a>
                         </div>
                     </div>
-                    </ol><!-- /#posts-list -->
-                </section><!-- /#content -->
+
+
 </div>
                 </div>
 
                 <div class="col-md-4 content-right">
-<div class="span3">
-    <section id="sidebar">
-            <div>
-                <h2>Browse content by</h2>
-                <ul class="fa-ul">
-                <li><a href="/categories.html"><i class="fa-li fa fa-tags"></i> Categories</a></li>
-                <li><a href="/archives.html"><i class="fa-li fa fa-calendar"></i> Dates</a></li>
-                <li><a href="/tags.html"><i class="fa-li fa fa-tag"></i> Tags</a></li>
+
+    <div class="recent">
+        <h3>Содержимое</h3>
+        <ul class="fa-ul">
+            <li><a href="/categories.html"><i class="fa-li fa fa-tags"></i> Категории</a></li>
+            <li><a href="/archives.html"><i class="fa-li fa fa-calendar"></i> Архив</a></li>
+            <li><a href="/tags.html"><i class="fa-li fa fa-tag"></i> Теги</a></li>
 
                 <li><a href="/feeds/all.atom.xml"><i class="fa-li fa fa-rss"></i> Feed</a></li>
-                </ul>
-            </div><!-- /.browse -->
-            <div>
-                <h2>Links</h2>
-                <ul>
-                    <li><a href="http://getpelican.com/">Pelican</a></li>
-                    <li><a href="http://python.org/">Python.org</a></li>
-                    <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
-                </ul>
-            </div><!-- /.Links -->
-            <div>
-                <h2>Tags</h2>
-                <ul id="cloud">
-                     <li class="tag-4"><a href="/tag/browsers.html">browsers</a></li>
-                     <li class="tag-4"><a href="/tag/wb-tech.html">wb-tech</a></li>
-                </ul>
-             </div>
-<!-- /.Tags -->
-    </section><!-- /#sidebar -->
-</div>
+        </ul>
+    </div>
+
+        <div class="side-links">
+            <h3>Links</h3>
+            <ul class="fa-ul">
+                    <li><a href="http://getpelican.com/"><i class="fa-li fa fa-external-link"></i> Pelican</a></li>
+                    <li><a href="http://python.org/"><i class="fa-li fa fa-external-link"></i> Python.org</a></li>
+                    <li><a href="http://jinja.pocoo.org/"><i class="fa-li fa fa-external-link"></i> Jinja2</a></li>
+            </ul>
+        </div>
+
+        <div class="side-links">
+            <h3>Social links</h3>
+            <ul class="fa-ul">
+                    <li><a href="https://vk.com/id44829586"><i class="fa-li fa fa-vk"></i> ВКонтакте</a></li>
+                    <li><a href="https://www.facebook.com/100009559792869"><i class="fa-li fa fa-facebook"></i> Facebook</a></li>
+                    <li><a href="https://twitter.com/samael500"><i class="fa-li fa fa-twitter"></i> Twitter</a></li>
+            </ul>
+        </div>
+
+        <div class="categories">
+            <h3>Теги</h3>
+            <ul id="cloud">
+                    <li class="tag-4"><a href="/tag/browsers.html">browsers</a></li>
+                    <li class="tag-4"><a href="/tag/wb-tech.html">wb-tech</a></li>
+            </ul>
+         </div>
+
                     <div class="clearfix"></div>
                 </div>
                 <div class="clearfix"></div>

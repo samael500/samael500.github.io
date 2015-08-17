@@ -44,7 +44,7 @@
 &lt;p&gt;Итак, участники отобраны, и готовы показать себя во всей красе, что ж &amp;#8212;
 приступим к&amp;nbsp;соревнованиям.&lt;/p&gt;
 &lt;h2&gt;Трасса&lt;/h2&gt;
-&lt;p&gt;&lt;img alt="rally" src="media/browsers/rally.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="rally" src="/media/browsers/rally.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;Нашим замечательным конкурсантам предстоит пройти трек по пересеченной
 местности с четырьмя крутыми поворотами с 16-ю чекпоинтами, а именно:
 показать свои навыки на следующих&amp;nbsp;ресурсах:&lt;/p&gt;
@@ -73,7 +73,7 @@
 Хром драйвер не пролистывает окно браузера при захвате изображения,
 а делает снимок видимой&amp;nbsp;области.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;img alt="chrome fail" class="shadow" src="media/browsers/chrome.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="chrome fail" class="shadow" src="/media/browsers/chrome.png" /&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Так что &lt;code&gt;Google Chrome&lt;/code&gt; и &lt;code&gt;Chromium&lt;/code&gt; не прошли данный&amp;nbsp;этап.&lt;/p&gt;
 &lt;h4&gt;Неверный&amp;nbsp;resize&lt;/h4&gt;
@@ -89,13 +89,13 @@
 &lt;code&gt;width&lt;/code&gt; влияет только на фактическую ширину полученного изображения,
 к тому же сжатого как &lt;code&gt;thumbnail&lt;/code&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;240px&lt;br /&gt;&lt;img alt="splash" class="shadow" src="media/browsers/splash.png" /&gt;
+&lt;p&gt;240px&lt;br /&gt;&lt;img alt="splash" class="shadow" src="/media/browsers/splash.png" /&gt;
 &lt;hr /&gt;
-780px&lt;br /&gt;&lt;img alt="splash big" class="shadow" src="media/browsers/splash_big.png" /&gt;&lt;/p&gt;
+780px&lt;br /&gt;&lt;img alt="splash big" class="shadow" src="/media/browsers/splash_big.png" /&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Так что &lt;code&gt;splash&lt;/code&gt; не прошел данный&amp;nbsp;этап.&lt;/p&gt;
 &lt;h4&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;Что я вообще сдесь делаю&amp;#8221; &amp;copy;&amp;nbsp;Zombie&lt;/h4&gt;
-&lt;p&gt;&lt;img alt="zombie" src="media/browsers/zombie.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="zombie" src="/media/browsers/zombie.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;Как оказалось, Зомби вообще не умеет делать скриншоты, поэтому выбывает из&amp;nbsp;соревнований.&lt;/p&gt;
 &lt;h4&gt;Фальшивые паспорта &amp;#8212; старый&amp;nbsp;гугл&lt;/h4&gt;
 &lt;p&gt;Некоторые из участников соревнований, а именно &lt;code&gt;Phantom.js&lt;/code&gt; и &lt;code&gt;Slimer.js&lt;/code&gt;
@@ -105,9 +105,9 @@
 браузера запрашивающего страницу, и если этот агент неизвестный или старый, то
 выдается старая версия google, с черной полоской&amp;nbsp;меню.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Phantom.js 240px&lt;br /&gt;&lt;img alt="old google" class="shadow" src="media/browsers/old_google_phantom.png" /&gt;
+&lt;p&gt;Phantom.js 240px&lt;br /&gt;&lt;img alt="old google" class="shadow" src="/media/browsers/old_google_phantom.png" /&gt;
 &lt;hr /&gt;
-Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="media/browsers/old_google_slimer.png" /&gt;&lt;/p&gt;
+Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media/browsers/old_google_slimer.png" /&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Но при использовании поддельных паспортов, от &lt;code&gt;firefox&lt;/code&gt; результат такой как&amp;nbsp;нужно.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="s"&gt;&amp;#39;Mozilla/5.0 (X11; Linux x86_64) Gecko/20100101 Firefox/36.0&amp;#39;&lt;/span&gt;
@@ -115,13 +115,13 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="media/
 
 
 &lt;blockquote&gt;
-&lt;p&gt;&lt;img alt="google ok" class="shadow" src="media/browsers/google.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="google ok" class="shadow" src="/media/browsers/google.png" /&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h4&gt;Пикселизация &amp;#8212; выколи&amp;nbsp;глаза.&lt;/h4&gt;
 &lt;p&gt;&lt;code&gt;Ghost.py&lt;/code&gt; не очень хорошо умеет захватывать картинки, логотип google выглядит
 похожим на&amp;nbsp;забор.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;img alt="ghost" class="shadow" src="media/browsers/ghost.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ghost" class="shadow" src="/media/browsers/ghost.png" /&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Хоть это и недопустимо, однако, ограничимся предупреждением, и пропустим
 &lt;code&gt;Ghost.py&lt;/code&gt; в следующий&amp;nbsp;тур.&lt;/p&gt;
@@ -139,7 +139,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="media/
 &lt;li&gt;:x:&amp;nbsp;Zombie.js&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;Заезд второй &amp;#8212;&amp;nbsp;&amp;#8220;Скорость&amp;#8221;&lt;/h2&gt;
-&lt;p&gt;&lt;img alt="speed" src="media/browsers/speed.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="speed" src="/media/browsers/speed.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;На данном этапе измерялось время, необходимое для создания браузера,
 открытия нужной страницы, изменения ширины окна до заданной, сохранения страницы
 как изображения &lt;code&gt;PNG&lt;/code&gt;, закрытия страницы и уничтожения объекта&amp;nbsp;браузера.&lt;/p&gt;
@@ -178,7 +178,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="media/
 &lt;p&gt;В результате, ни один из участников не оказался значительно хуже чем &lt;code&gt;firefox&lt;/code&gt;,
 поэтому выбывших нет, все переходят к следующему&amp;nbsp;этапу.&lt;/p&gt;
 &lt;h2&gt;Заезд третий &amp;#8212;&amp;nbsp;&amp;#8220;Ресурсы&amp;#8221;&lt;/h2&gt;
-&lt;p&gt;&lt;img alt="fuel" src="media/browsers/fuel.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="fuel" src="/media/browsers/fuel.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;Учитывалась память, которую тратит главный процесс, и все его дочерние процессы.
 Память измерялась при помощи функции &lt;code&gt;memory_usage&lt;/code&gt; библиотеки &lt;code&gt;memory_profiler&lt;/code&gt;
 с указанием параметра &lt;code&gt;include_children&lt;/code&gt;.&lt;/p&gt;
@@ -201,7 +201,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="media/
 &lt;blockquote&gt;
 &lt;p&gt;I ain&amp;#8217;t afraid of no&amp;nbsp;ghosts&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;img alt="ghostbusters" src="media/browsers/ghostbusters.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ghostbusters" src="/media/browsers/ghostbusters.png" /&gt;&lt;/p&gt;
 &lt;h4&gt;Двуличный&amp;nbsp;хитрец&lt;/h4&gt;
 &lt;p&gt;Оказалось, что &lt;code&gt;Slimer.js&lt;/code&gt; притворяется: запускается дочерний процесс &lt;code&gt;slimerjs&lt;/code&gt;,
 который потребляет не более 3&amp;nbsp;Mb памяти, но при этом запускает ещё один
@@ -240,7 +240,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="media/
 &lt;li&gt;:x:&amp;nbsp;Ghost.py&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;Заезд четвертый &amp;#8212;&amp;nbsp;&amp;#8220;Управляемость&amp;#8221;&lt;/h2&gt;
-&lt;p&gt;&lt;img alt="wet road" src="media/browsers/wet_road.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="wet road" src="/media/browsers/wet_road.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Несмотря на то, что определилась тройка лидеров и уже можно подвести итоги,
 рассмотрим как управлять безголовыми&amp;nbsp;браузерами.&lt;/p&gt;
 &lt;h4&gt;Firefox&lt;/h4&gt;
@@ -312,7 +312,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="media/
 
 
 &lt;h2&gt;Финиш&lt;/h2&gt;
-&lt;p&gt;&lt;img alt="chess flag" src="media/browsers/chess_flag.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="chess flag" src="/media/browsers/chess_flag.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Гонка завершилась, пришло время подвести итоги и определить&amp;nbsp;победителей.&lt;/p&gt;
 &lt;p&gt;До финиша доехали всего три команды, так что тройка лидеров очевидна. Учитывая
 затраты ресурсов и времени, участники занимают следующие&amp;nbsp;места:&lt;/p&gt;
@@ -327,7 +327,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="media/
 &lt;/ol&gt;
 &lt;p&gt;Безоговорочным лидером гонки стал &lt;code&gt;phantom.js&lt;/code&gt;, в качестве награды ему будет
 предложено занять пост &lt;code&gt;firefox&lt;/code&gt;-а на сервисе &lt;a href="http://coment.me/"&gt;coment.me&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="pedestal" src="media/browsers/pedestal.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="pedestal" src="/media/browsers/pedestal.png" /&gt;&lt;/p&gt;
 &lt;script type="text/javascript" src="extra/browsers/chart.min.js"&gt;&lt;/script&gt;
 
 &lt;script type="text/javascript" src="extra/browsers/data.js"&gt;&lt;/script&gt;</summary><category term="browsers"></category><category term="wb-tech"></category></entry></feed>

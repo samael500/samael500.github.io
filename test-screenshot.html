@@ -19,6 +19,8 @@
 
     <link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
 
     <script type="text/javascript" src="/theme/js/jquery.min.js"></script>
     <script type="text/javascript" src="/theme/js/move-top.js"></script>
@@ -72,27 +74,30 @@
         <div class="logo">
             <a href="/"><img src="/theme/images/logo.jpg" title="Samael500 blog" alt="Samael500 blog" /></a>
         </div>
-        <!-- start-top-nav -->
-            <div class="top-menu">
 
-                <span class="menu"> </span> 
-                    <ul>
-                                <li class="active"><a href="/category/python.html">Python</a></li>
+        <div class="top-menu">
 
+            <div class="search">
+            </div>
 
+            <span class="menu"> </span>
+                <ul>
+                            <li class="active"><a href="/category/python.html">Python</a></li>
 
-                        <div class="clearfix"></div>
-                    </ul>
+                    <div class="clearfix"></div>
+                </ul>
             </div>
 
             <div class="clearfix"></div>
+
             <script>
                 $("span.menu").click(function(){
                     $(".top-menu ul").slideToggle("slow" , function(){
                     });
                 });
             </script>
-     </div>
+        </div>
+    </div>
 </div>
     <div class="content">
         <div class="container">
@@ -107,23 +112,23 @@
              title="Permalink to Ралли на браузерах">Ралли на&nbsp;браузерах</a></h1>
       </header>
       <div class="entry-content">
-<footer class="post-info">
-    <address class="vcard author">
-        by <a class="url fn" href="/author/maks.html">Maks</a>
-    </address>
+<h4>
+    <a href="/test-screenshot.html" title="Ралли на браузерах">Ралли на&nbsp;браузерах</a>
+    Апр. 01, 2015
+</h4>
 
-    in <a href="/category/python.html">Python</a>
+<div class="footer art-info">
+        Автор: <a class="url fn" href="/author/maks.html">Maks</a>
 
-    on 2015-04-01
+    Категория: <a href="/category/python.html">Python</a>
 
         |
-        tags:         <a href="/tag/browsers.html">browsers</a>
+        теги:         <a href="/tag/browsers.html">browsers</a>
         <a href="/tag/wb-tech.html">wb-tech</a>
 
 
 
-    
-</footer><!-- /.post-info -->
+</div>
 
         <h1></h1>
 <p>Собственный проект <a href="http://wbtech.pro/"><span class="caps">WB</span>&#8212;Tech</a> по комментированию
@@ -170,7 +175,7 @@
 <p>Итак, участники отобраны, и готовы показать себя во всей красе, что ж &#8212;
 приступим к&nbsp;соревнованиям.</p>
 <h2>Трасса</h2>
-<p><img alt="rally" src="media/browsers/rally.jpg" /></p>
+<p><img alt="rally" src="/media/browsers/rally.jpg" /></p>
 <p>Нашим замечательным конкурсантам предстоит пройти трек по пересеченной
 местности с четырьмя крутыми поворотами с 16-ю чекпоинтами, а именно:
 показать свои навыки на следующих&nbsp;ресурсах:</p>
@@ -199,7 +204,7 @@
 Хром драйвер не пролистывает окно браузера при захвате изображения,
 а делает снимок видимой&nbsp;области.</p>
 <blockquote>
-<p><img alt="chrome fail" class="shadow" src="media/browsers/chrome.png" /></p>
+<p><img alt="chrome fail" class="shadow" src="/media/browsers/chrome.png" /></p>
 </blockquote>
 <p>Так что <code>Google Chrome</code> и <code>Chromium</code> не прошли данный&nbsp;этап.</p>
 <h4>Неверный&nbsp;resize</h4>
@@ -215,13 +220,13 @@
 <code>width</code> влияет только на фактическую ширину полученного изображения,
 к тому же сжатого как <code>thumbnail</code>.</p>
 <blockquote>
-<p>240px<br /><img alt="splash" class="shadow" src="media/browsers/splash.png" />
+<p>240px<br /><img alt="splash" class="shadow" src="/media/browsers/splash.png" />
 <hr />
-780px<br /><img alt="splash big" class="shadow" src="media/browsers/splash_big.png" /></p>
+780px<br /><img alt="splash big" class="shadow" src="/media/browsers/splash_big.png" /></p>
 </blockquote>
 <p>Так что <code>splash</code> не прошел данный&nbsp;этап.</p>
 <h4><span class="dquo">&#8220;</span>Что я вообще сдесь делаю&#8221; &copy;&nbsp;Zombie</h4>
-<p><img alt="zombie" src="media/browsers/zombie.jpg" /></p>
+<p><img alt="zombie" src="/media/browsers/zombie.jpg" /></p>
 <p>Как оказалось, Зомби вообще не умеет делать скриншоты, поэтому выбывает из&nbsp;соревнований.</p>
 <h4>Фальшивые паспорта &#8212; старый&nbsp;гугл</h4>
 <p>Некоторые из участников соревнований, а именно <code>Phantom.js</code> и <code>Slimer.js</code>
@@ -231,9 +236,9 @@
 браузера запрашивающего страницу, и если этот агент неизвестный или старый, то
 выдается старая версия google, с черной полоской&nbsp;меню.</p>
 <blockquote>
-<p>Phantom.js 240px<br /><img alt="old google" class="shadow" src="media/browsers/old_google_phantom.png" />
+<p>Phantom.js 240px<br /><img alt="old google" class="shadow" src="/media/browsers/old_google_phantom.png" />
 <hr />
-Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/old_google_slimer.png" /></p>
+Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="/media/browsers/old_google_slimer.png" /></p>
 </blockquote>
 <p>Но при использовании поддельных паспортов, от <code>firefox</code> результат такой как&nbsp;нужно.</p>
 <div class="highlight"><pre><span class="s">&#39;Mozilla/5.0 (X11; Linux x86_64) Gecko/20100101 Firefox/36.0&#39;</span>
@@ -241,13 +246,13 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
 
 
 <blockquote>
-<p><img alt="google ok" class="shadow" src="media/browsers/google.png" /></p>
+<p><img alt="google ok" class="shadow" src="/media/browsers/google.png" /></p>
 </blockquote>
 <h4>Пикселизация &#8212; выколи&nbsp;глаза.</h4>
 <p><code>Ghost.py</code> не очень хорошо умеет захватывать картинки, логотип google выглядит
 похожим на&nbsp;забор.</p>
 <blockquote>
-<p><img alt="ghost" class="shadow" src="media/browsers/ghost.png" /></p>
+<p><img alt="ghost" class="shadow" src="/media/browsers/ghost.png" /></p>
 </blockquote>
 <p>Хоть это и недопустимо, однако, ограничимся предупреждением, и пропустим
 <code>Ghost.py</code> в следующий&nbsp;тур.</p>
@@ -265,7 +270,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
 <li>:x:&nbsp;Zombie.js</li>
 </ul>
 <h2>Заезд второй &#8212;&nbsp;&#8220;Скорость&#8221;</h2>
-<p><img alt="speed" src="media/browsers/speed.jpg" /></p>
+<p><img alt="speed" src="/media/browsers/speed.jpg" /></p>
 <p>На данном этапе измерялось время, необходимое для создания браузера,
 открытия нужной страницы, изменения ширины окна до заданной, сохранения страницы
 как изображения <code>PNG</code>, закрытия страницы и уничтожения объекта&nbsp;браузера.</p>
@@ -304,7 +309,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
 <p>В результате, ни один из участников не оказался значительно хуже чем <code>firefox</code>,
 поэтому выбывших нет, все переходят к следующему&nbsp;этапу.</p>
 <h2>Заезд третий &#8212;&nbsp;&#8220;Ресурсы&#8221;</h2>
-<p><img alt="fuel" src="media/browsers/fuel.jpg" /></p>
+<p><img alt="fuel" src="/media/browsers/fuel.jpg" /></p>
 <p>Учитывалась память, которую тратит главный процесс, и все его дочерние процессы.
 Память измерялась при помощи функции <code>memory_usage</code> библиотеки <code>memory_profiler</code>
 с указанием параметра <code>include_children</code>.</p>
@@ -327,7 +332,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
 <blockquote>
 <p>I ain&#8217;t afraid of no&nbsp;ghosts</p>
 </blockquote>
-<p><img alt="ghostbusters" src="media/browsers/ghostbusters.png" /></p>
+<p><img alt="ghostbusters" src="/media/browsers/ghostbusters.png" /></p>
 <h4>Двуличный&nbsp;хитрец</h4>
 <p>Оказалось, что <code>Slimer.js</code> притворяется: запускается дочерний процесс <code>slimerjs</code>,
 который потребляет не более 3&nbsp;Mb памяти, но при этом запускает ещё один
@@ -366,7 +371,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
 <li>:x:&nbsp;Ghost.py</li>
 </ul>
 <h2>Заезд четвертый &#8212;&nbsp;&#8220;Управляемость&#8221;</h2>
-<p><img alt="wet road" src="media/browsers/wet_road.png" /></p>
+<p><img alt="wet road" src="/media/browsers/wet_road.png" /></p>
 <p>Несмотря на то, что определилась тройка лидеров и уже можно подвести итоги,
 рассмотрим как управлять безголовыми&nbsp;браузерами.</p>
 <h4>Firefox</h4>
@@ -438,7 +443,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
 
 
 <h2>Финиш</h2>
-<p><img alt="chess flag" src="media/browsers/chess_flag.png" /></p>
+<p><img alt="chess flag" src="/media/browsers/chess_flag.png" /></p>
 <p>Гонка завершилась, пришло время подвести итоги и определить&nbsp;победителей.</p>
 <p>До финиша доехали всего три команды, так что тройка лидеров очевидна. Учитывая
 затраты ресурсов и времени, участники занимают следующие&nbsp;места:</p>
@@ -453,7 +458,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="media/browsers/
 </ol>
 <p>Безоговорочным лидером гонки стал <code>phantom.js</code>, в качестве награды ему будет
 предложено занять пост <code>firefox</code>-а на сервисе <a href="http://coment.me/">coment.me</a>.</p>
-<p><img alt="pedestal" src="media/browsers/pedestal.png" /></p>
+<p><img alt="pedestal" src="/media/browsers/pedestal.png" /></p>
 <script type="text/javascript" src="extra/browsers/chart.min.js"></script>
 
 <script type="text/javascript" src="extra/browsers/data.js"></script>
