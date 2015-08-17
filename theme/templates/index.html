@@ -9,27 +9,24 @@
     {% if articles %}
         {% for article in articles_page.object_list %}
             {% if loop.length > 0 %}
+
                 {% if loop.first %}
-                <section>
-                    <ol id="posts-list" class="hfeed" start="{{ articles_paginator.per_page -1 }}">
+                    {# <ol id="posts-list" class="hfeed" start="{{ articles_paginator.per_page - 1 }}"> #}
                 {% endif %}
+
                     <div class="content-grid-info">
-                        <img src="images/post1.jpg" alt=""/>
+                        <img src="{{ article.image|default('/theme/images/post1.jpg') }}" alt="{{ article.title|striptags }}"/>
                         <div class="post-info">
-                        <h4><a href="{{ SITEURL }}/{{ article.url }}" title="{{ article.title|striptags }}">{{ article.title }}</a></h4>
-                        <p>{% include 'article_infos.html' %}</p>
-                        <p>{{ article.summary }}</p>
-                        <a href="{{ SITEURL }}/{{ article.url }}"><span></span>далее...</a>
+                            {% include 'article_infos.html' %}
+                            <p>{{ article.summary }}</p>
+                            <a href="{{ SITEURL }}/{{ article.url }}"><span></span>далее...</a>
                         </div>
                     </div>
-                {% if loop.last %}
-                    </ol><!-- /#posts-list -->
-                    {% if loop.last and (articles_page.has_previous()
-                    or not articles_page.has_previous() and loop.length > 1) %}
-                        {% include 'pagination.html' %}
-                    {% endif %}
-                </section><!-- /#content -->
+
+                {% if loop.last and (articles_page.has_previous() or not articles_page.has_previous() and loop.length > 1) %}
+                    {% include 'pagination.html' %}
                 {% endif %}
+
             {% endif %}
         {% endfor %}
     {% else %}
@@ -44,60 +41,61 @@
 {% endblock content %}
 
 {% block sidebar %}
-<div class="span3">
-    <section id="sidebar">
-            <div>
-                <h2>Browse content by</h2>
-                <ul class="fa-ul">
-                <li><a href="{{ SITEURL }}/{{ CATEGORIES_SAVE_AS|default('categories.html') }}"><i class="fa-li fa fa-tags"></i> Categories</a></li>
-                <li><a href="{{ SITEURL }}/{{ ARCHIVES_SAVE_AS|default('archives.html') }}"><i class="fa-li fa fa-calendar"></i> Dates</a></li>
-                <li><a href="{{ SITEURL }}/{{ TAGS_SAVE_AS|default('tags.html') }}"><i class="fa-li fa fa-tag"></i> Tags</a></li>
 
-              {% if TAG_FEED_ATOM and tag is defined %}
+    <div class="recent">
+        <h3>Содержимое</h3>
+        <ul class="fa-ul">
+            <li><a href="{{ SITEURL }}/{{ CATEGORIES_SAVE_AS|default('categories.html') }}"><i class="fa-li fa fa-tags"></i> Категории</a></li>
+            <li><a href="{{ SITEURL }}/{{ ARCHIVES_SAVE_AS|default('archives.html') }}"><i class="fa-li fa fa-calendar"></i> Архив</a></li>
+            <li><a href="{{ SITEURL }}/{{ TAGS_SAVE_AS|default('tags.html') }}"><i class="fa-li fa fa-tag"></i> Теги</a></li>
+
+            {% if TAG_FEED_ATOM and tag is defined %}
                 <li><a href="{{ FEED_DOMAIN }}/{{ TAG_FEED_ATOM|format(tag.slug) }}"><i class="fa-li fa fa-rss"></i> Feed</a></li>
-              {% elif TAG_FEED_RSS and tag is defined %}
+            {% elif TAG_FEED_RSS and tag is defined %}
                 <li><a href="{{ FEED_DOMAIN }}/{{ TAG_FEED_RSS|format(tag.slug) }}"><i class="fa-li fa fa-rss"></i> Feed</a></li>
-              {% elif CATEGORY_FEED_ATOM and category is defined %}
+            {% elif CATEGORY_FEED_ATOM and category is defined %}
                 <li><a href="{{ FEED_DOMAIN }}/{{ CATEGORY_FEED_ATOM|format(category.slug) }}"><i class="fa-li fa fa-rss"></i> Feed</a></li>
-              {% elif CATEGORY_FEED_RSS and category is defined %}
+            {% elif CATEGORY_FEED_RSS and category is defined %}
                 <li><a href="{{ FEED_DOMAIN }}/{{ CATEGORY_FEED_RSS|format(category.slug) }}"><i class="fa-li fa fa-rss"></i> Feed</a></li>
-              {% elif FEED_ALL_ATOM %}
+            {% elif FEED_ALL_ATOM %}
                 <li><a href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}"><i class="fa-li fa fa-rss"></i> Feed</a></li>
-              {% elif FEED_ALL_RSS %}
+            {% elif FEED_ALL_RSS %}
                 <li><a href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}"><i class="fa-li fa fa-rss"></i> Feed</a></li>
-              {% endif %}
-                </ul>
-            </div><!-- /.browse -->
+            {% endif %}
+        </ul>
+    </div>
+
     {% if LINKS %}
-            <div>
-                <h2>Links</h2>
-                <ul>
+        <div class="side-links">
+            <h3>Links</h3>
+            <ul class="fa-ul">
                 {% for name, link in LINKS %}
-                    <li><a href="{{ link }}">{{ name }}</a></li>
+                    <li><a href="{{ link }}"><i class="fa-li fa fa-external-link"></i> {{ name }}</a></li>
                 {% endfor %}
-                </ul>
-            </div><!-- /.Links -->
+            </ul>
+        </div>
     {% endif %}
+
     {% if SOCIAL %}
-            <div>
-                <h2>Social</h2>
-                <ul>
+        <div class="side-links">
+            <h3>Social links</h3>
+            <ul class="fa-ul">
                 {% for name, link in SOCIAL %}
                     <li><a href="{{ link }}">{{ name }}</a></li>
                 {% endfor %}
-                </ul>
-            </div><!-- /.social -->
+            </ul>
+        </div>
     {% endif %}
+
     {% if TAG_CLOUD_STEPS %}
-            <div>
-                <h2>Tags</h2>
-                <ul id="cloud">
-                     {% for tag in tag_cloud %}
-                     <li class="tag-{{ tag.1 }}"><a href="{{ SITEURL }}/{{ tag.0.url }}">{{ tag.0 }}</a></li>
-                     {% endfor %}
-                </ul>
-             </div>
-    {% endif %}<!-- /.Tags -->
-    </section><!-- /#sidebar -->
-</div>
+        <div class="categories">
+            <h3>Теги</h3>
+            <ul id="cloud">
+                {% for tag in tag_cloud %}
+                    <li class="tag-{{ tag.1 }}"><a href="{{ SITEURL }}/{{ tag.0.url }}">{{ tag.0 }}</a></li>
+                {% endfor %}
+            </ul>
+         </div>
+    {% endif %}
+
 {% endblock %}

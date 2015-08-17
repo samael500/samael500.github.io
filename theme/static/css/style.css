@@ -225,6 +225,9 @@ color:#00aeff;
 .footer{
 padding:3em 0;
 }
+.footer.art-info{
+  padding:0em 3em 0em 3em;
+}
 .footer p{
 color:#989898;
 font-size:1em;
@@ -937,3 +940,19 @@ li.tag-2 {
 li.tag-1 {
   font-size: 1.4em;
   font-weight: 400; }
+
+img.right, figure.right {
+  float: right;
+  margin: 0 0 2em 2em; }
+
+img.left, figure.left {
+  float: left;
+  margin: 0 2em 2em 0; }
+
+img.shadow {
+  box-shadow: 5px 5px 10px 5px lightgrey;
+}
+
+.content-grids img {
+  max-width: 100%;
+}
