@@ -4,8 +4,10 @@ from __future__ import unicode_literals
 
 AUTHOR = u'Maks'
 SITENAME = u'Samael500 blog'
-SITEURL = 'http://samael500.github.io/'
+SITEURL = 'http://samael500.github.io'
 KEYWORDS = u'Samael500 personal blog'
+
+AUTHORS_SAVE_AS = 'authors.html'
 
 PATH = 'content'
 
@@ -14,6 +16,7 @@ TIMEZONE = 'Europe/Moscow'
 DEFAULT_LANG = u'ru'
 
 # Feed generation is usually not desired when developing
+FEED_DOMAIN = SITEURL
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
