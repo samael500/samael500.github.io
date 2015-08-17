@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Samael500 blog</title><link href="/" rel="alternate"></link><link href="/feeds/python.atom.xml" rel="self"></link><id>/</id><updated>2015-04-05T19:30:00+03:00</updated><entry><title>Ралли на браузерах</title><link href="/test-screenshot.html" rel="alternate"></link><updated>2015-04-05T19:30:00+03:00</updated><author><name>Maks</name></author><id>tag:,2015-04-01:test-screenshot.html</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Samael500 blog</title><link href="/" rel="alternate"></link><link href="http://samael500.github.io//feeds/python.atom.xml" rel="self"></link><id>/</id><updated>2015-04-05T19:30:00+03:00</updated><entry><title>Ралли на браузерах</title><link href="/test-screenshot.html" rel="alternate"></link><updated>2015-04-05T19:30:00+03:00</updated><author><name>Maks</name></author><id>tag:,2015-04-01:test-screenshot.html</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
 &lt;p&gt;Собственный проект &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; по комментированию
 скриншотов &lt;a href="http://coment.me/"&gt;coment.me&lt;/a&gt; на сегодняшний день, для получения
 снимка сайта использует связку &lt;code&gt;selenium + firefox&lt;/code&gt;. Данный подход решает
