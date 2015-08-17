@@ -190,18 +190,18 @@ color:#00aeff;
 .content-right {
 padding-left: 1em;
 }
-.recent,.comments,.archives{
+.recent,.side-links,.archives{
 margin-bottom:3em;
 }
-.recent h3,.comments h3,.archives h3,.categories h3{
+.recent h3,.side-links h3,.archives h3,.categories h3{
 color:#4a5054;
 font-size:1.1em;
 margin-bottom:0.5em;
 }
-.recent ul li,.comments ul li,.archives ul li,.categories ul li{
+.recent ul li,.side-links ul li,.archives ul li,.categories ul li{
 display:block;
 }
-.recent li a,.comments ul li a,.archives ul li a,.categories ul li a{
+.recent li a,.side-links ul li a,.archives ul li a,.categories ul li a{
 color:#7C7C7C;
 border-bottom:1px solid #a6aaae;
 font-family: 'Roboto', sans-serif;
@@ -211,14 +211,14 @@ padding: 6px 0 0 0;
 display:inline-block;
 font-weight: 400;
 }
-.comments ul li{
+.side-links ul li{
 color:#7C7C7C;
 font-size: 0.9em;
 border-bottom:none;
 margin:0 5px;
 font-family: 'Roboto', sans-serif;
 }
-.recent li a:hover,.comments ul li a:hover,.archives ul li a:hover,.categories ul li a:hover{
+.recent li a:hover,.side-links ul li a:hover,.archives ul li a:hover,.categories ul li a:hover{
 color:#00aeff;
 }
 /*----*/
@@ -522,7 +522,7 @@ width: 100%;
 margin-top:2em;
 padding:0;
 }
-.recent, .comments, .archives,.categories {
+.recent, .side-links, .archives,.categories {
 margin-bottom:2em;
 width: 50%;
 float: left;
@@ -609,13 +609,13 @@ font-size: 0.85em;
 .post-info a span {
 vertical-align: top;
 }
-.recent h3, .comments h3, .archives h3, .categories h3 {
+.recent h3, .side-links h3, .archives h3, .categories h3 {
 font-size: 1em;
 }
-.recent li a, .comments ul li a, .archives ul li a{
+.recent li a, .side-links ul li a, .archives ul li a{
 font-size: 0.85em;
 }
-.comments ul li a{
+.side-links ul li a{
 font-size: 0.9em;
 }
 .about-content h2 {
@@ -719,13 +719,13 @@ width: 12px;
 background-size: 100%;
 vertical-align: text-bottom;
 }
-.recent h3, .comments h3, .archives h3, .categories h3 {
+.recent h3, .side-links h3, .archives h3, .categories h3 {
 font-size: 0.95em;
 }
 .recent li a, .archives ul li a {
 font-size: 0.79em;
 }
-.comments ul li a{
+.side-links ul li a{
 font-size: 0.88em;
 }
 .about-content h2 {
@@ -808,7 +808,7 @@ margin-bottom: 0.5em;
 margin-bottom: 1.5em;
 width: 100%;
 }
-.comments,.archives{
+.side-links,.archives{
 display:none;
 }
 .footer {
@@ -909,3 +909,31 @@ height: 135px;
 font-size: 1.1em;
 }
 }
+
+#cloud {
+  padding: 2px;
+  line-height: 2em;
+  text-align: center;
+  margin: 0; }
+
+#cloud a {
+  padding: 0px; }
+
+#cloud li {
+  display: inline; }
+
+li.tag-4 {
+  font-size: 0.8em;
+  font-weight: 100; }
+
+li.tag-3 {
+  font-size: 1.0em;
+  font-weight: 200; }
+
+li.tag-2 {
+  font-size: 1.2em;
+  font-weight: 300; }
+
+li.tag-1 {
+  font-size: 1.4em;
+  font-weight: 400; }
