@@ -28,29 +28,8 @@
 
 
     <script type="text/javascript">var switchTo5x=true;</script>
-    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
-    <script type="text/javascript">
-        stLight.options({
-            publisher: "",
-            doNotHash: false,
-            doNotCopy: false,
-            hashAddressBar: false
-        });
-     </script>
 
-    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 
-    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,900,300italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $(".scroll").click(function(event){     
-                event.preventDefault();
-                $('html,body').animate({scrollTop:$(this.hash).offset().top},900);
-            });
-        });
-    </script>
 
     <script type="text/javascript" src="/emojify/js/emojify.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/emojify/css/emojify.min.css" />
@@ -66,9 +45,9 @@
 
 </head>
 <body id="index">
-<a class="hidden-phone" href="https://github.com/Samael500">
-<img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub" />
-</a>
+    <a class="hidden-phone" href="https://github.com/Samael500">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png">
+    </a>
 <div class="header">  
     <div class="container">
         <div class="logo">
@@ -102,35 +81,33 @@
     <div class="content">
         <div class="container">
             <div class="content-grids">
-                <div class="col-md-8 content-main">
-<div class="span10 offset1">
-  <section>
-    <article>
-      <header>
-        <h1 class="entry-title">
-          <a href="/test-screenshot.html" rel="bookmark"
-             title="Permalink to Ралли на браузерах">Ралли на&nbsp;браузерах</a></h1>
-      </header>
-      <div class="entry-content">
+<div class="single-main">
+
+    <div class="col-md-12 single-grid">
+
+        <header>
 <h4>
     <a href="/test-screenshot.html" title="Ралли на браузерах">Ралли на&nbsp;браузерах</a>
     Апр. 01, 2015
 </h4>
 
 <div class="footer art-info">
-        Автор: <a class="url fn" href="/author/maks.html">Maks</a>
+
+        Автор: <a class="url fn" href="/author/maks.html">Maks</a> |
 
     Категория: <a href="/category/python.html">Python</a>
 
-        |
-        теги:         <a href="/tag/browsers.html">browsers</a>
+        | Теги:         <a href="/tag/browsers.html">browsers</a>
         <a href="/tag/wb-tech.html">wb-tech</a>
 
 
 
-</div>
+</div>        </header>
 
-        <h1></h1>
+        <div class="entry-content">
+
+
+            <h1></h1>
 <p>Собственный проект <a href="http://wbtech.pro/"><span class="caps">WB</span>&#8212;Tech</a> по комментированию
 скриншотов <a href="http://coment.me/">coment.me</a> на сегодняшний день, для получения
 снимка сайта использует связку <code>selenium + firefox</code>. Данный подход решает
@@ -418,7 +395,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="/media/browsers
 <p><code>Slimer.js</code> работает точно так же, как и <code>phantom.js</code> без <code>selenium</code>-а,
 но является не совсем безголовым, он запускает графическую оболочку, поэтому
 требует виртуальный&nbsp;дисплей.</p>
-<p>А так же, в ходе тестирования было <a href="выявлено">http://stackoverflow.com/questions/29280104/slimerjs-takes-a-snapshot-of-only-the-visible-area/</a>,
+<p>А так же, в ходе тестирования было <a href="http://stackoverflow.com/questions/29280104/slimerjs-takes-a-snapshot-of-only-the-visible-area/">выявлено</a>,
 что для корректного скриншота нужно всегда, перед открытием страницы,
 указывать базовую ширину окна&nbsp;браузера.</p>
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">page</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;webpage&#39;</span><span class="p">).</span><span class="nx">create</span><span class="p">();</span>
@@ -463,17 +440,12 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="/media/browsers
 
 <script type="text/javascript" src="extra/browsers/data.js"></script>
 
-      </div><!-- /.entry-content -->
 
-    </article>
-  </section>
+        </div>
+
+
+    </div>
 </div>
-                </div>
-
-                <div class="col-md-4 content-right">
-                    <div class="clearfix"></div>
-                </div>
-                <div class="clearfix"></div>
             </div>
         </div>
     </div>

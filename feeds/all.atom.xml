@@ -287,7 +287,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;p&gt;&lt;code&gt;Slimer.js&lt;/code&gt; работает точно так же, как и &lt;code&gt;phantom.js&lt;/code&gt; без &lt;code&gt;selenium&lt;/code&gt;-а,
 но является не совсем безголовым, он запускает графическую оболочку, поэтому
 требует виртуальный&amp;nbsp;дисплей.&lt;/p&gt;
-&lt;p&gt;А так же, в ходе тестирования было &lt;a href="выявлено"&gt;http://stackoverflow.com/questions/29280104/slimerjs-takes-a-snapshot-of-only-the-visible-area/&lt;/a&gt;,
+&lt;p&gt;А так же, в ходе тестирования было &lt;a href="http://stackoverflow.com/questions/29280104/slimerjs-takes-a-snapshot-of-only-the-visible-area/"&gt;выявлено&lt;/a&gt;,
 что для корректного скриншота нужно всегда, перед открытием страницы,
 указывать базовую ширину окна&amp;nbsp;браузера.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;page&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;webpage&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;create&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
