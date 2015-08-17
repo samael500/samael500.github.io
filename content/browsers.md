@@ -4,6 +4,7 @@ Modified: 2015-04-05 19:30
 Category: Python
 Tags: browsers, wb-tech
 Slug: test-screenshot
+Image: /media/browsers/pedestal.png
 Summary:
     Собственный проект [WB--Tech](http://wbtech.pro/) по комментированию
     скриншотов [coment.me](http://coment.me/) на сегодняшний день, для получения
@@ -64,7 +65,7 @@ Summary:
 
 
 ##Трасса
-![rally](media/browsers/rally.jpg)
+![rally](/media/browsers/rally.jpg)
 
 Нашим замечательным конкурсантам предстоит пройти трек по пересеченной
 местности с четырьмя крутыми поворотами с 16-ю чекпоинтами, а именно:
@@ -95,7 +96,7 @@ Summary:
 [issue](https://code.google.com/p/chromedriver/issues/detail?id=294).
 Хром драйвер не пролистывает окно браузера при захвате изображения,
 а делает снимок видимой области.
->![chrome fail](media/browsers/chrome.png){.shadow}
+>![chrome fail](/media/browsers/chrome.png){.shadow}
 
 Так что `Google Chrome` и `Chromium` не прошли данный этап.
 
@@ -111,14 +112,14 @@ res = subprocess.check_call(['curl', request, '-o', save_as])
 `width` влияет только на фактическую ширину полученного изображения,
 к тому же сжатого как `thumbnail`.
 
->240px<br />![splash](media/browsers/splash.png){.shadow}
+>240px<br />![splash](/media/browsers/splash.png){.shadow}
 ><hr />
->780px<br />![splash big](media/browsers/splash_big.png){.shadow}
+>780px<br />![splash big](/media/browsers/splash_big.png){.shadow}
 
 Так что `splash` не прошел данный этап.
 
 ####"Что я вообще сдесь делаю" &copy; Zombie
-![zombie](media/browsers/zombie.jpg)
+![zombie](/media/browsers/zombie.jpg)
 
 Как оказалось, Зомби вообще не умеет делать скриншоты, поэтому выбывает из
 соревнований.
@@ -131,22 +132,22 @@ res = subprocess.check_call(['curl', request, '-o', save_as])
 Google выдает различные версии сайта, в зависимости от того: какой `user agent` у
 браузера запрашивающего страницу, и если этот агент неизвестный или старый, то
 выдается старая версия google, с черной полоской меню.
->Phantom.js 240px<br />![old google](media/browsers/old_google_phantom.png){.shadow}
+>Phantom.js 240px<br />![old google](/media/browsers/old_google_phantom.png){.shadow}
 ><hr />
->Slimer.js 240px<br />![old google 2](media/browsers/old_google_slimer.png){.shadow}
+>Slimer.js 240px<br />![old google 2](/media/browsers/old_google_slimer.png){.shadow}
 
 Но при использовании поддельных паспортов, от `firefox` результат такой как
 нужно.
 ```python
 'Mozilla/5.0 (X11; Linux x86_64) Gecko/20100101 Firefox/36.0'
 ```
->![google ok](media/browsers/google.png){.shadow}
+>![google ok](/media/browsers/google.png){.shadow}
 
 
 ####Пикселизация -- выколи глаза.
 `Ghost.py` не очень хорошо умеет захватывать картинки, логотип google выглядит
 похожим на забор.
->![ghost](media/browsers/ghost.png){.shadow}
+>![ghost](/media/browsers/ghost.png){.shadow}
 
 Хоть это и недопустимо, однако, ограничимся предупреждением, и пропустим
 `Ghost.py` в следующий тур.
@@ -166,7 +167,7 @@ Google выдает различные версии сайта, в зависи�
 
 ##Заезд второй -- "Скорость"
 
-![speed](media/browsers/speed.jpg)
+![speed](/media/browsers/speed.jpg)
 
 На данном этапе измерялось время, необходимое для создания браузера,
 открытия нужной страницы, изменения ширины окна до заданной, сохранения страницы
@@ -209,7 +210,7 @@ import time
 
 ##Заезд третий -- "Ресурсы"
 
-![fuel](media/browsers/fuel.jpg)
+![fuel](/media/browsers/fuel.jpg)
 
 Учитывалась память, которую тратит главный процесс, и все его дочерние процессы.
 Память измерялась при помощи функции `memory_usage` библиотеки `memory_profiler`
@@ -235,7 +236,7 @@ from memory_profiler import memory_usage
 Учитывая вынесенное ранее предупреждение, призрак вылетает из конкурса!
 >I ain't afraid of no ghosts
 
-![ghostbusters](media/browsers/ghostbusters.png)
+![ghostbusters](/media/browsers/ghostbusters.png)
 
 ####Двуличный хитрец
 Оказалось, что `Slimer.js` притворяется: запускается дочерний процесс `slimerjs`,
@@ -275,7 +276,7 @@ from memory_profiler import memory_usage
 - :x: Ghost.py
 
 ##Заезд четвертый -- "Управляемость"
-![wet road](media/browsers/wet_road.png)
+![wet road](/media/browsers/wet_road.png)
 
 Несмотря на то, что определилась тройка лидеров и уже можно подвести итоги,
 рассмотрим как управлять безголовыми браузерами.
@@ -354,7 +355,7 @@ with Display(visible=0, size=(1024, 768), backend='xvfb'):
 ```
 
 ##Финиш
-![chess flag](media/browsers/chess_flag.png)
+![chess flag](/media/browsers/chess_flag.png)
 
 Гонка завершилась, пришло время подвести итоги и определить победителей.
 
@@ -372,7 +373,7 @@ with Display(visible=0, size=(1024, 768), backend='xvfb'):
 Безоговорочным лидером гонки стал `phantom.js`, в качестве награды ему будет
 предложено занять пост `firefox`-а на сервисе [coment.me](http://coment.me/).
 
-![pedestal](media/browsers/pedestal.png)
+![pedestal](/media/browsers/pedestal.png)
 
 <script type="text/javascript" src="extra/browsers/chart.min.js"></script>
 <script type="text/javascript" src="extra/browsers/data.js"></script>
