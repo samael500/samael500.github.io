@@ -35,6 +35,8 @@ SOCIAL = (
     ('<i class="fa-li fa fa-twitter"></i> Twitter', 'https://twitter.com/samael500'),
 )
 
+# TWITTER_USERNAME = 'samael500'
+
 DEFAULT_PAGINATION = 15
 
 # Uncomment following line if you want document-relative URLs when developing

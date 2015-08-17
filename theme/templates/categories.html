@@ -1,19 +1,19 @@
 {% extends "index.html" %}
-{% block title %}Categories for {{ SITENAME }}{% endblock %}
-{% block ogtitle %}Categories for {{ SITENAME }}{% endblock %}
+{% block title %}Категории {{ SITENAME }}{% endblock %}
+{% block ogtitle %}Категории {{ SITENAME }}{% endblock %}
 {% block ogurl %}{{ SITEURL }}/categories.html{%endblock%}
 {% block canonicalurl %}{{ SITEURL }}/categories.html{%endblock%}
 
 {% block content %}
-<div class="span9">
-    <section>
-    <h1>{% block content_title %}Categories for {{ SITENAME }}{% endblock %}</h1>
 
-    <dl>
+<div class="archives-list">
+
+    <h2>{% block content_title %}Категории {{ SITENAME }}{% endblock %}</h2>
+
     {% for category, articles in categories %}
         <dd><a href="{{ SITEURL }}/{{ category.url }}">{{ category }} ({{ articles|count }})</a></dd>
     {% endfor %}
-    </dl>
-    </section>
+
 </div>
+
 {% endblock %}

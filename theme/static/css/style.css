@@ -76,7 +76,7 @@ margin:1em 1.7em 1em 0em;
 display: block;
 color: #4a5054;
 font-weight: 400;
-font-size: 0.9em;
+font-size: 1.1em;
 text-decoration: none;
 transition: 0.5s all;
 -webkit-transition: 0.5s all;
@@ -909,14 +909,14 @@ font-size: 0.8em;
 height: 135px;
 }
 .content-form h3 {
-font-size: 1.1em;
-}
+    font-size: 1.1em;
+  }
 }
 
 #cloud {
   padding: 2px;
   line-height: 2em;
-  text-align: center;
+  /*text-align: center;*/
   margin: 0; }
 
 #cloud a {
@@ -955,4 +955,37 @@ img.shadow {
 
 .content-grids img {
   max-width: 100%;
+}
+
+.archive_row, .archive_year {
+  padding-left: 1em;
+}
+
+.archive_row .archive_month {
+  padding-left: 3em;
+}
+
+.archive_row .archive_day {
+  padding-left: 5em;
+}
+
+.archive_row .archive_art {
+  padding-left: 7em;
+}
+
+.archives-list h2{
+  color:#00aeff;
+  font-size:2em;
+  padding-bottom: 1em;
+}
+
+.archives-list a{
+  color:#7C7C7C;
+  border-bottom:1px solid #a6aaae;
+  text-decoration: none;
+  display:inline-block;
+}
+
+.archives-list a:hover{
+  color:#00aeff;
 }
