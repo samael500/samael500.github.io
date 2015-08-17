@@ -29,10 +29,11 @@ LINKS = (
 )
 
 # Social widget
-# SOCIAL = (
-#     ('You can add links in your config file', '#'),
-#     ('Another social link', '#'),
-# )
+SOCIAL = (
+    ('<i class="fa-li fa fa-vk"></i> ВКонтакте', 'https://vk.com/id44829586'),
+    ('<i class="fa-li fa fa-facebook"></i> Facebook', 'https://www.facebook.com/100009559792869'),
+    ('<i class="fa-li fa fa-twitter"></i> Twitter', 'https://twitter.com/samael500'),
+)
 
 DEFAULT_PAGINATION = 15
 
