@@ -329,7 +329,7 @@ subprocess.check_call([phantom_path, script_path, '--ssl-protocol=any'])
 но является не совсем безголовым, он запускает графическую оболочку, поэтому
 требует виртуальный дисплей.
 
-А так же, в ходе тестирования было [http://stackoverflow.com/questions/29280104/slimerjs-takes-a-snapshot-of-only-the-visible-area/](выявлено),
+А так же, в ходе тестирования было [выявлено](http://stackoverflow.com/questions/29280104/slimerjs-takes-a-snapshot-of-only-the-visible-area/),
 что для корректного скриншота нужно всегда, перед открытием страницы,
 указывать базовую ширину окна браузера.
 
