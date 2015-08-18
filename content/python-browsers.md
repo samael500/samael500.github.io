@@ -3,7 +3,7 @@ Date: 2015-04-01 10:20
 Modified: 2015-04-05 19:30
 Category: Python
 Tags: browsers, wb-tech
-Slug: test-screenshot
+Slug: browsers
 Image: /media/browsers/pedestal.png
 Summary:
     Собственный проект [WB--Tech](http://wbtech.pro/) по комментированию
@@ -375,5 +375,5 @@ with Display(visible=0, size=(1024, 768), backend='xvfb'):
 
 ![pedestal](/media/browsers/pedestal.png)
 
-<script type="text/javascript" src="extra/browsers/chart.min.js"></script>
-<script type="text/javascript" src="extra/browsers/data.js"></script>
+<script type="text/javascript" src="/extra/browsers/chart.min.js"></script>
+<script type="text/javascript" src="/extra/browsers/data.js"></script>
