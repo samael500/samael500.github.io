@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="http://samael500.github.io/" rel="alternate"></link><link href="http://samael500.github.io/feeds/all.atom.xml" rel="self"></link><id>http://samael500.github.io/</id><updated>2015-04-05T19:30:00+03:00</updated><entry><title>Ралли на браузерах</title><link href="http://samael500.github.io/python/test-screenshot/" rel="alternate"></link><updated>2015-04-05T19:30:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-01:python/test-screenshot/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="http://samael500.github.io/" rel="alternate"></link><link href="http://samael500.github.io/feeds/all.atom.xml" rel="self"></link><id>http://samael500.github.io/</id><updated>2015-04-05T19:30:00+03:00</updated><entry><title>Ралли на браузерах</title><link href="http://samael500.github.io/python/browsers/" rel="alternate"></link><updated>2015-04-05T19:30:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-01:python/browsers/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
 &lt;p&gt;Собственный проект &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; по комментированию
 скриншотов &lt;a href="http://coment.me/"&gt;coment.me&lt;/a&gt; на сегодняшний день, для получения
 снимка сайта использует связку &lt;code&gt;selenium + firefox&lt;/code&gt;. Данный подход решает
@@ -328,6 +328,6 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;p&gt;Безоговорочным лидером гонки стал &lt;code&gt;phantom.js&lt;/code&gt;, в качестве награды ему будет
 предложено занять пост &lt;code&gt;firefox&lt;/code&gt;-а на сервисе &lt;a href="http://coment.me/"&gt;coment.me&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="pedestal" src="/media/browsers/pedestal.png" /&gt;&lt;/p&gt;
-&lt;script type="text/javascript" src="extra/browsers/chart.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="/extra/browsers/chart.min.js"&gt;&lt;/script&gt;
 
-&lt;script type="text/javascript" src="extra/browsers/data.js"&gt;&lt;/script&gt;</summary><category term="browsers"></category><category term="wb-tech"></category></entry></feed>
+&lt;script type="text/javascript" src="/extra/browsers/data.js"&gt;&lt;/script&gt;</summary><category term="browsers"></category><category term="wb-tech"></category></entry></feed>

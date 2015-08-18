@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Maks blog</title><link>http://samael500.github.io/</link><description></description><atom:link href="http://samael500.github.io/feeds/maks.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 05 Apr 2015 19:30:00 +0300</lastBuildDate><item><title>Ралли на браузерах</title><link>http://samael500.github.io/python/test-screenshot/</link><description>&lt;h1&gt;&lt;/h1&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Maks blog</title><link>http://samael500.github.io/</link><description></description><atom:link href="http://samael500.github.io/feeds/maks.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 05 Apr 2015 19:30:00 +0300</lastBuildDate><item><title>Ралли на браузерах</title><link>http://samael500.github.io/python/browsers/</link><description>&lt;h1&gt;&lt;/h1&gt;
 &lt;p&gt;Собственный проект &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; по комментированию
 скриншотов &lt;a href="http://coment.me/"&gt;coment.me&lt;/a&gt; на сегодняшний день, для получения
 снимка сайта использует связку &lt;code&gt;selenium + firefox&lt;/code&gt;. Данный подход решает
@@ -328,6 +328,6 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;p&gt;Безоговорочным лидером гонки стал &lt;code&gt;phantom.js&lt;/code&gt;, в качестве награды ему будет
 предложено занять пост &lt;code&gt;firefox&lt;/code&gt;-а на сервисе &lt;a href="http://coment.me/"&gt;coment.me&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="pedestal" src="/media/browsers/pedestal.png" /&gt;&lt;/p&gt;
-&lt;script type="text/javascript" src="extra/browsers/chart.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="/extra/browsers/chart.min.js"&gt;&lt;/script&gt;
 
-&lt;script type="text/javascript" src="extra/browsers/data.js"&gt;&lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Sun, 05 Apr 2015 19:30:00 +0300</pubDate><guid>tag:samael500.github.io,2015-04-01:python/test-screenshot/</guid><category>browsers</category><category>wb-tech</category></item></channel></rss>
+&lt;script type="text/javascript" src="/extra/browsers/data.js"&gt;&lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Sun, 05 Apr 2015 19:30:00 +0300</pubDate><guid>tag:samael500.github.io,2015-04-01:python/browsers/</guid><category>browsers</category><category>wb-tech</category></item></channel></rss>
