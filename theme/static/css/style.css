@@ -880,7 +880,7 @@ margin-bottom: 1em;
 .single-grid p {
 font-size: 0.85em;
 overflow: hidden;
-height: 165px;
+/*height: 165px;*/
 }
 .content-grid-info{
   margin-bottom: 1.5em;
@@ -1000,7 +1000,7 @@ font-size: 0.85em;
 }
 .single-grid p {
 font-size: 0.77em;
-height: 153px;
+/*height: 153px;*/
 }
 ul.comment-list {
 padding: 1em;
