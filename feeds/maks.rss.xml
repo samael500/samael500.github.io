@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="http://samael500.github.io/" rel="alternate"></link><link href="http://samael500.github.io/feeds/python.atom.xml" rel="self"></link><id>http://samael500.github.io/</id><updated>2015-04-05T19:30:00+03:00</updated><entry><title>Ралли на браузерах</title><link href="http://samael500.github.io/python/test-screenshot/" rel="alternate"></link><updated>2015-04-05T19:30:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-01:python/test-screenshot/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Maks blog</title><link>http://samael500.github.io/</link><description></description><atom:link href="http://samael500.github.io/feeds/maks.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 05 Apr 2015 19:30:00 +0300</lastBuildDate><item><title>Ралли на браузерах</title><link>http://samael500.github.io/python/test-screenshot/</link><description>&lt;h1&gt;&lt;/h1&gt;
 &lt;p&gt;Собственный проект &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; по комментированию
 скриншотов &lt;a href="http://coment.me/"&gt;coment.me&lt;/a&gt; на сегодняшний день, для получения
 снимка сайта использует связку &lt;code&gt;selenium + firefox&lt;/code&gt;. Данный подход решает
@@ -330,4 +330,4 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;p&gt;&lt;img alt="pedestal" src="/media/browsers/pedestal.png" /&gt;&lt;/p&gt;
 &lt;script type="text/javascript" src="extra/browsers/chart.min.js"&gt;&lt;/script&gt;
 
-&lt;script type="text/javascript" src="extra/browsers/data.js"&gt;&lt;/script&gt;</summary><category term="browsers"></category><category term="wb-tech"></category></entry></feed>
+&lt;script type="text/javascript" src="extra/browsers/data.js"&gt;&lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Sun, 05 Apr 2015 19:30:00 +0300</pubDate><guid>tag:samael500.github.io,2015-04-01:python/test-screenshot/</guid><category>browsers</category><category>wb-tech</category></item></channel></rss>
