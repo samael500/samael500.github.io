@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="http://samael500.github.io/" rel="alternate"></link><link href="http://samael500.github.io/feeds/github.atom.xml" rel="self"></link><id>http://samael500.github.io/</id><updated>2015-08-08T18:00:00+03:00</updated><entry><title>200 дней кряду…</title><link href="http://samael500.github.io/github/streak-200/" rel="alternate"></link><updated>2015-08-08T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-08:github/streak-200/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;img alt="streak-200" src="/media/streak-200/streak.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Продолжаю ежедневно коммитить, вот уже 200 дней.
+До конца года осталось меньше половины, а сначала казалось что это невозможно&amp;nbsp;долго.&lt;/p&gt;</summary><category term="github"></category><category term="streak"></category></entry><entry><title>Первый стодневный стреак</title><link href="http://samael500.github.io/github/streak-100/" rel="alternate"></link><updated>2015-04-30T21:50:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-30:github/streak-100/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;img alt="streak-100" src="/media/streak-100/streak.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;Начиная с января месяца, удавалось комитить ежедневно, вот уже набежало 100 дней.
+Думаю и дальше продолжать набивать последовательность и выполнить год&amp;nbsp;коммитов.&lt;/p&gt;</summary><category term="github"></category><category term="streak"></category></entry></feed>
