@@ -1,7 +1,10 @@
 <div class="header">  
     <div class="container">
         <div class="logo">
-            <a href="{{ SITEURL }}/"><img src="{{ SITEURL }}/theme/images/logo.jpg" title="{{ SITENAME }}{% if SITESUBTITLE %} {{ SITESUBTITLE }}{% endif %}" alt="{{ SITENAME }}{% if SITESUBTITLE %} {{ SITESUBTITLE }}{% endif %}" /></a>
+            <a href="{{ SITEURL }}/">
+                {{ SITENAME|upper }}{% if SITESUBTITLE %}<br />{{ SITESUBTITLE }}{% endif %}
+                {# <img src="{{ SITEURL }}/theme/images/logo.jpg" title="{{ SITENAME }}{% if SITESUBTITLE %} {{ SITESUBTITLE }}{% endif %}" alt="{{ SITENAME }}{% if SITESUBTITLE %} {{ SITESUBTITLE }}{% endif %}" /> #}
+            </a>
         </div>
 
         <div class="top-menu">

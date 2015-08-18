@@ -3,11 +3,10 @@
 from __future__ import unicode_literals
 
 AUTHOR = u'Maks'
-SITENAME = u'Samael500 blog'
+SITENAME = u'Maks blog'
+# SITESUBTITLE = u'Samael500'
 SITEURL = 'http://samael500.github.io'
 KEYWORDS = u'Samael500 personal blog'
-
-AUTHORS_SAVE_AS = 'authors.html'
 
 PATH = 'content'
 
@@ -17,11 +16,6 @@ DEFAULT_LANG = u'ru'
 
 # Feed generation is usually not desired when developing
 FEED_DOMAIN = SITEURL
-FEED_ALL_ATOM = None
-CATEGORY_FEED_ATOM = None
-TRANSLATION_FEED_ATOM = None
-AUTHOR_FEED_ATOM = None
-AUTHOR_FEED_RSS = None
 
 # Blogroll
 LINKS = (
@@ -55,3 +49,22 @@ TYPOGRIFY = True
 DISPLAY_PAGES_ON_MENU = True
 
 GOOGLE_CUSTOM_SEARCH = None  # '006263355362628034990:cuxoisonrno'
+
+
+ARTICLE_URL = u'{category}/{slug}/'
+ARTICLE_SAVE_AS = u'{category}/{slug}/index.html'
+
+PAGE_URL = u'{slug}/'
+PAGE_SAVE_AS = u'{slug}/index.html'
+
+AUTHOR_URL = u'author/{slug}/'
+AUTHOR_SAVE_AS = u'author/{slug}/index.html'
+
+AUTHORS_URL = u'authors/{slug}/'
+AUTHORS_SAVE_AS = u'authors/{slug}/index.html'
+
+CATEGORY_URL = u'category/{slug}.html'
+CATEGORY_SAVE_AS = u'category/{slug}.html'
+
+TAG_URL = u'tag/{slug}/'
+TAG_SAVE_AS = u'tag/{slug}/index.html'
