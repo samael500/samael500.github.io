@@ -2,7 +2,7 @@ Title: Ралли на браузерах
 Date: 2015-04-01 10:20
 Modified: 2015-04-05 19:30
 Category: Python
-Tags: browsers, wb-tech
+Tags: python, browsers, wb-tech
 Slug: browsers
 Image: /media/browsers/pedestal.png
 Summary:
