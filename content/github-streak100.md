@@ -3,7 +3,6 @@ Date: 2015-04-30 21:50
 Modified: 2015-04-30 21:50
 Category: Github
 Tags: github, streak
-Slug: streak-100
 Image: /media/streak-100/streak.jpg
 Summary:
     Начиная с января месяца, удавалось комитить ежедневно, вот уже набежало 100 дней.

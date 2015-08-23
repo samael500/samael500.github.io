@@ -52,8 +52,8 @@ DISPLAY_PAGES_ON_MENU = True
 GOOGLE_CUSTOM_SEARCH = None  # '006263355362628034990:cuxoisonrno'
 
 
-ARTICLE_URL = u'{category}/{slug}/'
-ARTICLE_SAVE_AS = u'{category}/{slug}/index.html'
+ARTICLE_URL = u'articles/{category}/{slug}/'
+ARTICLE_SAVE_AS = u'articles/{category}/{slug}/index.html'
 
 PAGE_URL = u'{slug}/'
 PAGE_SAVE_AS = u'{slug}/index.html'
@@ -61,8 +61,8 @@ PAGE_SAVE_AS = u'{slug}/index.html'
 AUTHOR_URL = u'author/{slug}/'
 AUTHOR_SAVE_AS = u'author/{slug}/index.html'
 
-AUTHORS_URL = u'authors/{slug}/'
-AUTHORS_SAVE_AS = u'authors/{slug}/index.html'
+AUTHORS_URL = u'authors/'
+AUTHORS_SAVE_AS = u'authors/index.html'
 
 CATEGORY_URL = u'category/{slug}.html'
 CATEGORY_SAVE_AS = u'category/{slug}.html'

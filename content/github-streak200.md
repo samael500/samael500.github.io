@@ -3,7 +3,6 @@ Date: 2015-08-08 18:00
 Modified: 2015-08-08 18:00
 Category: Github
 Tags: github, streak
-Slug: streak-200
 Image: /media/streak-200/streak.png
 Summary:
     Продолжаю ежедневно коммитить, вот уже 200 дней.
