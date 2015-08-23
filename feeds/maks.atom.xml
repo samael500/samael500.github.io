@@ -1,11 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="http://samael500.github.io/" rel="alternate"></link><link href="http://samael500.github.io/feeds/maks.atom.xml" rel="self"></link><id>http://samael500.github.io/</id><updated>2015-08-08T18:00:00+03:00</updated><entry><title>200 дней кряду…</title><link href="http://samael500.github.io/github/streak-200/" rel="alternate"></link><updated>2015-08-08T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-08:github/streak-200/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="http://samael500.github.io/" rel="alternate"></link><link href="http://samael500.github.io/feeds/maks.atom.xml" rel="self"></link><id>http://samael500.github.io/</id><updated>2015-08-22T18:00:00+03:00</updated><entry><title>Загрузка видео на youtube</title><link href="http://samael500.github.io/articles/python/zagruzka-video-na-youtube/" rel="alternate"></link><updated>2015-08-22T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-22:articles/python/zagruzka-video-na-youtube/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+&lt;p&gt;В одном из моих собственных проектов, возникла задача - автоматической
+загрузки видео на канал на &lt;code&gt;youtube&lt;/code&gt;. Делается это достаточно просто, при
+помощи гугловского &lt;code&gt;api&lt;/code&gt; клиента для &lt;code&gt;python&lt;/code&gt;. Единственное затруднение
+вызвало полумагическое получение ключей доступа к &lt;code&gt;api&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;Авторизация&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Все коды доступа и ключи авторизации, использованные в статье, вымышленные.
+Любое совпадение с реально существующими или когда-либо существовавшими
+ключами&amp;nbsp;случайно.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Для авторизации в сервисах google с помощью протокола
+&lt;a href="http://oauth.net/2/"&gt;oauth2&lt;/a&gt; необходимо зарегистрировать приложение и дать
+ему соответсвующие права. Для этого нужно перейти в
+&lt;a href="https://console.developers.google.com/project"&gt;консоль&amp;nbsp;разработчика&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Нажимаем на кнопку &lt;code&gt;Create Project&lt;/code&gt;, выбираем имя и создаем новое приложение.
+После того как приложение будет создано, нужно добавить ему необходимые
+доступы к google &lt;span class="caps"&gt;API&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Create Project" class="shadow center" src="/media/youtube-upload/create_proj.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Для загрузки видео на &lt;code&gt;youtube&lt;/code&gt; нужно добавить &lt;code&gt;YouTube Data API&lt;/code&gt;.
+Для этого переходим во вкладку &lt;code&gt;APIs &amp;amp; auth&lt;/code&gt; &amp;rarr; &lt;code&gt;APIs&lt;/code&gt;.
+Также во вкладке &lt;code&gt;APIs &amp;amp; auth&lt;/code&gt; &amp;rarr; &lt;code&gt;Credentials&lt;/code&gt; нужно добавить доступы
+для &lt;code&gt;oauth2&lt;/code&gt; авторизации.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Add Oauth2" class="shadow center" src="/media/youtube-upload/oauth_cred.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Указываем тип приложения &lt;code&gt;Other&lt;/code&gt;.
+Получаем доступы для авторизации: идентефикатор и&amp;nbsp;пароль.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Client &lt;span class="caps"&gt;ID&lt;/span&gt; &lt;code&gt;230452130504-3uca1rp4ntlh06hdnsdbj50sqagaqfkt.apps.googleusercontent.com&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Client secret &lt;code&gt;qawsWCd3J6HTRvnqsjYUpgH9&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Получив данные для авторизации, нужно перейти по следующей ссылке, заменив в ней
+параметр &lt;code&gt;client_id&lt;/code&gt; на тот что Вы получили в предыдущем&amp;nbsp;шаге.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    https://accounts.google.com/o/oauth2/auth?
+        client_id=230452130504-3uca1rp4ntlh06hdnsdbj50sqagaqfkt.apps.googleusercontent.com&amp;amp;
+        redirect_uri=urn:ietf:wg:oauth:2.0:oob&amp;amp;
+        scope=https://www.googleapis.com/auth/youtube&amp;amp;
+        response_type=code&amp;amp;
+        access_type=offline
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Далее выбираем к какому аккаунту гугл будет иметь доступ приложение,
+и соответсвенно к какому каналу на&amp;nbsp;ютубе.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="account choice" class="shadow center" src="/media/youtube-upload/account_choice.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ch choice" class="shadow center" src="/media/youtube-upload/ch_choice.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Соглашаемся с доступом к управлению&amp;nbsp;каналом.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="access" class="shadow center" src="/media/youtube-upload/access.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Получаем токен авторизации следующего вида
+&lt;code&gt;4/Rw6A9raJQ3PrPWL0Q9z49guYu89FZoz322RySVFtzNc&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="code" class="shadow center" src="/media/youtube-upload/code.png" /&gt;&lt;/p&gt;
+&lt;p&gt;После этого необходимо получить, так называемый, refresh_token, для этого нужно
+отправить &lt;span class="caps"&gt;POST&lt;/span&gt; запрос c токеном авторизации по адресу
+&lt;code&gt;https://accounts.google.com/o/oauth2/token&lt;/code&gt;. Cделать это легко, при помощи
+консольной утилиты&amp;nbsp;curl.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;code=4/Rw6A9raJQ3PrPWL0Q9z49guYu89FZoz322RySVFtzNc&amp;amp;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;client_id=230452130504-3uca1rp4ntlh06hdnsdbj50sqagaqfkt.apps.googleusercontent.com&amp;amp;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;client_secret=qawsWCd3J6HTRvnqsjYUpgH9&amp;amp;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;redirect_uri=urn:ietf:wg:oauth:2.0:oob&amp;amp;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;grant_type=authorization_code&amp;quot;&lt;/span&gt;
+
+curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;https://accounts.google.com/o/oauth2/token&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Токен авторизации сработает только один раз, при повторной попытке отправить
+его будет получено &lt;code&gt;Code was already redeemed.&lt;/code&gt;.
+В ответ на корректный запрос, гугл возвращает json с временным токеном доступа
+и постоянным обновляемым токеном (собственно он нам и&amp;nbsp;нужен).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;access_token&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ya29.1wGYJU7NP7Ul69c13aE1Vuvbx0LfxrsgMiBjXdNY3sU3tuE9LmuJ3nOGHeb3e_824LH0&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;token_type&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Bearer&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;expires_in&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;3600&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;refresh_token&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;1/g1ixyts83iMrtR71oFqwGp3LSGbHz6ByxsBThrHRWCNIgOrJDtdun6zK6XiATCKT&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Получив обновляемый токен, можем с его помощью каждый раз получать рабочий
+токен доступа, который предоставляется временем на 3600&amp;nbsp;секунд.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;refresh_token=1/g1ixyts83iMrtR71oFqwGp3LSGbHz6ByxsBThrHRWCNIgOrJDtdun6zK6XiATCKT&amp;amp;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;client_id=230452130504-3uca1rp4ntlh06hdnsdbj50sqagaqfkt.apps.googleusercontent.com&amp;amp;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;client_secret=qawsWCd3J6HTRvnqsjYUpgH9&amp;amp;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;grant_type=refresh_token&amp;quot;&lt;/span&gt;
+
+curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;https://accounts.google.com/o/oauth2/token&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;В ответ гугл возвращает json с временным токеном&amp;nbsp;доступа.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;access_token&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ya29.2AHpPjacO0prQkip0svapohuZtoK0wqdh7u0ohH49l0WWwrSyss7CWiwzMy5wX967tWsjQ&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;token_type&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Bearer&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;expires_in&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;3600&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Получать этот токен доступа нужно будет каждые раз, при подключении к &lt;code&gt;api&lt;/code&gt;.
+Для этого напишем простую функицю на &lt;code&gt;python 3&lt;/code&gt; с использованием стандартной
+библиотеки &lt;code&gt;urllib.request&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;urllib&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;urllib.request&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_auth_code&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; Get access token for connect to youtube api &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;oauth_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;https://accounts.google.com/o/oauth2/token&amp;#39;&lt;/span&gt;
+    &lt;span class="c"&gt;# create post data&lt;/span&gt;
+    &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;refresh_token&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;YOUTUBE_REFRESH_TOKEN&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;client_id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;YOUTUBE_CLIENT_ID&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;client_secret&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;YOUTUBE_CLIENT_SECRET&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;grant_type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;refresh_token&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;headers&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;application/x-www-form-urlencoded&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;Accept&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;application/json&amp;#39;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;urllib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parse&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;urlencode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c"&gt;# make request and take response&lt;/span&gt;
+    &lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;urllib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;oauth_url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;urllib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;urlopen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c"&gt;# get access_token from response&lt;/span&gt;
+    &lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loads&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;access_token&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Вот теперь, мы наконец подошли к самой &lt;code&gt;oauth2&lt;/code&gt; авторизации в сервисах гугл.
+Для этого необходимо использовать следующие дополнительные&amp;nbsp;библиотеки:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://pypi.python.org/pypi/httplib2"&gt;httplib2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://pypi.python.org/pypi/oauth2client"&gt;oauth2client&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://pypi.python.org/pypi/google-api-python-client"&gt;google-api-python-client&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Далее, используя выше описанную функцию получения временного токена, создаем
+подключение к &lt;code&gt;youtube api&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;httplib2&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;oauth2client.client&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;AccessTokenCredentials&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;apiclient.discovery&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;build&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_authenticated_service&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; Create youtube oauth2 connection &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="c"&gt;# make credentials with refresh_token auth&lt;/span&gt;
+    &lt;span class="n"&gt;credentials&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;AccessTokenCredentials&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;access_token&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;get_auth_code&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;user_agent&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;my-awesome-project/1.0&amp;#39;&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c"&gt;# create connection to youtube api&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;youtube&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;v3&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;credentials&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;authorize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;httplib2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Http&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь мы имеем созданное подключение, которое можно использовать для работы с &lt;code&gt;api&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;Загрузка&amp;nbsp;видео&lt;/h2&gt;
+&lt;p&gt;&amp;#8230;продолжение&amp;nbsp;следует&amp;#8230;&lt;/p&gt;</summary><category term="python"></category><category term="youtube"></category><category term="oauth2"></category><category term="video upload"></category></entry><entry><title>200 дней кряду…</title><link href="http://samael500.github.io/articles/github/200-dnei-kriadu/" rel="alternate"></link><updated>2015-08-08T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-08:articles/github/200-dnei-kriadu/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
 &lt;p&gt;&lt;img alt="streak-200" src="/media/streak-200/streak.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Продолжаю ежедневно коммитить, вот уже 200 дней.
-До конца года осталось меньше половины, а сначала казалось что это невозможно&amp;nbsp;долго.&lt;/p&gt;</summary><category term="github"></category><category term="streak"></category></entry><entry><title>Первый стодневный стреак</title><link href="http://samael500.github.io/github/streak-100/" rel="alternate"></link><updated>2015-04-30T21:50:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-30:github/streak-100/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+До конца года осталось меньше половины, а сначала казалось что это невозможно&amp;nbsp;долго.&lt;/p&gt;</summary><category term="github"></category><category term="streak"></category></entry><entry><title>Первый стодневный стреак</title><link href="http://samael500.github.io/articles/github/pervyi-stodnevnyi-streak/" rel="alternate"></link><updated>2015-04-30T21:50:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-30:articles/github/pervyi-stodnevnyi-streak/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
 &lt;p&gt;&lt;img alt="streak-100" src="/media/streak-100/streak.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;Начиная с января месяца, удавалось комитить ежедневно, вот уже набежало 100 дней.
-Думаю и дальше продолжать набивать последовательность и выполнить год&amp;nbsp;коммитов.&lt;/p&gt;</summary><category term="github"></category><category term="streak"></category></entry><entry><title>Ралли на браузерах</title><link href="http://samael500.github.io/python/browsers/" rel="alternate"></link><updated>2015-04-05T19:30:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-01:python/browsers/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+Думаю и дальше продолжать набивать последовательность и выполнить год&amp;nbsp;коммитов.&lt;/p&gt;</summary><category term="github"></category><category term="streak"></category></entry><entry><title>Ралли на браузерах</title><link href="http://samael500.github.io/articles/python/ralli-na-brauzerakh/" rel="alternate"></link><updated>2015-04-05T19:30:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-01:articles/python/ralli-na-brauzerakh/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
 &lt;p&gt;Собственный проект &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; по комментированию
 скриншотов &lt;a href="http://coment.me/"&gt;coment.me&lt;/a&gt; на сегодняшний день, для получения
 снимка сайта использует связку &lt;code&gt;selenium + firefox&lt;/code&gt;. Данный подход решает
@@ -336,4 +500,4 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;p&gt;&lt;img alt="pedestal" src="/media/browsers/pedestal.png" /&gt;&lt;/p&gt;
 &lt;script type="text/javascript" src="/extra/browsers/chart.min.js"&gt;&lt;/script&gt;
 
-&lt;script type="text/javascript" src="/extra/browsers/data.js"&gt;&lt;/script&gt;</summary><category term="browsers"></category><category term="wb-tech"></category></entry></feed>
+&lt;script type="text/javascript" src="/extra/browsers/data.js"&gt;&lt;/script&gt;</summary><category term="python"></category><category term="browsers"></category><category term="wb-tech"></category></entry></feed>
