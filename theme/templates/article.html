@@ -41,8 +41,10 @@
         </div>
 
         {% if DISQUS_SITENAME %}
-            <div class="comments">
-                <h2>Comments</h2>
+            <div class="clearfix"></div>
+
+            <div class="content-form">
+                <h3>Обсуждения</h3>
                 <div id="disqus_thread"></div>
                 <script type="text/javascript">
                     var disqus_identifier = "{{ article.url }}";
