@@ -6,7 +6,7 @@
 
     <meta name="author" content="{{ AUTHOR }}" />
     <meta name="robots" content="index, follow"/>
-    <meta name="keywords" content="{{ KEYWORDS }}" />
+    <meta name="keywords" content="{% block keywords %}{{ KEYWORDS }}{%endblock%}" />
 
     <meta property="og:title" content="{% block ogtitle %}{{ SITENAME }}{%endblock%}"/>
     <meta property="og:url" content="{% block ogurl %}{{ SITEURL }}{%endblock%}"/>
