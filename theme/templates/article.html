@@ -16,7 +16,7 @@
             {% include 'twitter.html' %}
         </header>
 
-        <div class="entry-content">
+        <div class="content">
 
             {% if SHARETHIS_PUB_KEY %}
             <div class="sharethis-top">
@@ -41,10 +41,7 @@
         </div>
 
         {% if DISQUS_SITENAME %}
-            <div class="clearfix"></div>
-
-            <div class="content-form">
-                <h3>Обсуждения</h3>
+            <div class="comments">
                 <div id="disqus_thread"></div>
                 <script type="text/javascript">
                     var disqus_identifier = "{{ article.url }}";

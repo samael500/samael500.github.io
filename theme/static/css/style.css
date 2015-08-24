@@ -1073,8 +1073,8 @@ img.shadow {
   box-shadow: 5px 5px 10px 5px lightgrey;
 }
 
-.content-grids img {
-  max-width: 100%;
+.content-grid-info img {
+  width: 100%;
 }
 
 .archive_row, .archive_year {
