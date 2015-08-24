@@ -43,7 +43,15 @@ RELATIVE_URLS = True
 THEME = './theme'
 GITHUB_URL = 'https://github.com/Samael500'
 
-STATIC_PATHS = ['icons', 'media', 'extra', 'emojify', ]
+STATIC_PATHS = ['icons', 'media', 'extra', 'emojify', 'stuff', ]
+
+EXTRA_PATH_METADATA = {
+    'stuff/robots.txt': {'path': 'robots.txt'},
+    'stuff/CNAME': {'path': 'CNAME'},
+    'stuff/google57a1afa03280f644.html': {'path': 'google57a1afa03280f644.html'},
+}
+
+READERS = {'html': None}
 
 TYPOGRIFY = True
 
