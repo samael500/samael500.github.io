@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="http://samael500.github.io/" rel="alternate"></link><link href="http://samael500.github.io/feeds/python.atom.xml" rel="self"></link><id>http://samael500.github.io/</id><updated>2015-08-22T18:00:00+03:00</updated><entry><title>Загрузка видео на youtube</title><link href="http://samael500.github.io/articles/python/zagruzka-video-na-youtube/" rel="alternate"></link><updated>2015-08-22T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-22:articles/python/zagruzka-video-na-youtube/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
-&lt;p&gt;В одном из моих собственных проектов, возникла задача - автоматической
+&lt;p&gt;В одном из моих собственных проектов, возникла задача автоматической
 загрузки видео на канал на &lt;code&gt;youtube&lt;/code&gt;. Делается это достаточно просто, при
 помощи гугловского &lt;code&gt;api&lt;/code&gt; клиента для &lt;code&gt;python&lt;/code&gt;. Единственное затруднение
 вызвало полумагическое получение ключей доступа к &lt;code&gt;api&lt;/code&gt;.&lt;/p&gt;
@@ -24,13 +24,13 @@
 для &lt;code&gt;oauth2&lt;/code&gt; авторизации.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Add Oauth2" class="shadow center" src="/media/youtube-upload/oauth_cred.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Указываем тип приложения &lt;code&gt;Other&lt;/code&gt;.
-Получаем доступы для авторизации: идентефикатор и&amp;nbsp;пароль.&lt;/p&gt;
+Получаем доступы для авторизации: идентификатор и&amp;nbsp;пароль.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Client &lt;span class="caps"&gt;ID&lt;/span&gt; &lt;code&gt;230452130504-3uca1rp4ntlh06hdnsdbj50sqagaqfkt.apps.googleusercontent.com&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Client secret &lt;code&gt;qawsWCd3J6HTRvnqsjYUpgH9&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Получив данные для авторизации, нужно перейти по следующей ссылке, заменив в ней
-параметр &lt;code&gt;client_id&lt;/code&gt; на тот что Вы получили в предыдущем&amp;nbsp;шаге.&lt;/p&gt;
+параметр &lt;code&gt;client_id&lt;/code&gt; на тот, что Вы получили в предыдущем&amp;nbsp;шаге.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;    https://accounts.google.com/o/oauth2/auth?
         client_id=230452130504-3uca1rp4ntlh06hdnsdbj50sqagaqfkt.apps.googleusercontent.com&amp;amp;
         redirect_uri=urn:ietf:wg:oauth:2.0:oob&amp;amp;

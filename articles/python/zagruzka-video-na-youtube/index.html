@@ -109,11 +109,11 @@
 
 </div>        </header>
 
-        <div class="entry-content">
+        <div class="content">
 
 
             <h1></h1>
-<p>В одном из моих собственных проектов, возникла задача - автоматической
+<p>В одном из моих собственных проектов, возникла задача автоматической
 загрузки видео на канал на <code>youtube</code>. Делается это достаточно просто, при
 помощи гугловского <code>api</code> клиента для <code>python</code>. Единственное затруднение
 вызвало полумагическое получение ключей доступа к <code>api</code>.</p>
@@ -137,13 +137,13 @@
 для <code>oauth2</code> авторизации.</p>
 <p><img alt="Add Oauth2" class="shadow center" src="/media/youtube-upload/oauth_cred.png" /></p>
 <p>Указываем тип приложения <code>Other</code>.
-Получаем доступы для авторизации: идентефикатор и&nbsp;пароль.</p>
+Получаем доступы для авторизации: идентификатор и&nbsp;пароль.</p>
 <ul>
 <li>Client <span class="caps">ID</span> <code>230452130504-3uca1rp4ntlh06hdnsdbj50sqagaqfkt.apps.googleusercontent.com</code></li>
 <li>Client secret <code>qawsWCd3J6HTRvnqsjYUpgH9</code></li>
 </ul>
 <p>Получив данные для авторизации, нужно перейти по следующей ссылке, заменив в ней
-параметр <code>client_id</code> на тот что Вы получили в предыдущем&nbsp;шаге.</p>
+параметр <code>client_id</code> на тот, что Вы получили в предыдущем&nbsp;шаге.</p>
 <div class="highlight"><pre>    https://accounts.google.com/o/oauth2/auth?
         client_id=230452130504-3uca1rp4ntlh06hdnsdbj50sqagaqfkt.apps.googleusercontent.com&amp;
         redirect_uri=urn:ietf:wg:oauth:2.0:oob&amp;
@@ -281,10 +281,7 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 
         </div>
 
-            <div class="clearfix"></div>
-
-            <div class="content-form">
-                <h3>Обсуждения</h3>
+            <div class="comments">
                 <div id="disqus_thread"></div>
                 <script type="text/javascript">
                     var disqus_identifier = "articles/python/zagruzka-video-na-youtube/";
