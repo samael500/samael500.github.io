@@ -6,11 +6,11 @@
 вызвало полумагическое получение ключей доступа к &lt;code&gt;api&lt;/code&gt;.&lt;/p&gt;
 &lt;h2&gt;Авторизация&lt;/h2&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Все коды доступа и ключи авторизации, использованные в статье, вымышленные.
+&lt;p&gt;Все коды доступа и ключи авторизации, использованные в статье, вымышленные.&lt;br /&gt;
 Любое совпадение с реально существующими или когда-либо существовавшими
 ключами&amp;nbsp;случайно.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Для авторизации в сервисах google с помощью протокола
+&lt;p&gt;Для авторизации в сервисах &lt;code&gt;google&lt;/code&gt; с помощью протокола
 &lt;a href="http://oauth.net/2/"&gt;oauth2&lt;/a&gt; необходимо зарегистрировать приложение и дать
 ему соответсвующие права. Для этого нужно перейти в
 &lt;a href="https://console.developers.google.com/project"&gt;консоль&amp;nbsp;разработчика&lt;/a&gt;&lt;/p&gt;
@@ -49,10 +49,10 @@
 &lt;p&gt;Получаем токен авторизации следующего вида
 &lt;code&gt;4/Rw6A9raJQ3PrPWL0Q9z49guYu89FZoz322RySVFtzNc&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="code" class="shadow center" src="/media/youtube-upload/code.png" /&gt;&lt;/p&gt;
-&lt;p&gt;После этого необходимо получить, так называемый, refresh_token, для этого нужно
-отправить &lt;span class="caps"&gt;POST&lt;/span&gt; запрос c токеном авторизации по адресу
-&lt;code&gt;https://accounts.google.com/o/oauth2/token&lt;/code&gt;. Cделать это легко, при помощи
-консольной утилиты&amp;nbsp;curl.&lt;/p&gt;
+&lt;p&gt;После этого необходимо получить, так называемый, &lt;code&gt;refresh_token&lt;/code&gt;, для этого нужно
+отправить &lt;code&gt;POST&lt;/code&gt; запрос с токеном авторизации по адресу
+&lt;code&gt;https://accounts.google.com/o/oauth2/token&lt;/code&gt;. Сделать это легко, при помощи
+консольной утилиты &lt;a href="http://curl.haxx.se/"&gt;curl&lt;/a&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
 &lt;span class="s2"&gt;&amp;quot;code=4/Rw6A9raJQ3PrPWL0Q9z49guYu89FZoz322RySVFtzNc&amp;amp;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
 &lt;span class="s2"&gt;&amp;quot;client_id=230452130504-3uca1rp4ntlh06hdnsdbj50sqagaqfkt.apps.googleusercontent.com&amp;amp;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
@@ -66,7 +66,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 
 &lt;p&gt;Токен авторизации сработает только один раз, при повторной попытке отправить
 его будет получено &lt;code&gt;Code was already redeemed.&lt;/code&gt;.
-В ответ на корректный запрос, гугл возвращает json с временным токеном доступа
+В ответ на корректный запрос, гугл возвращает &lt;code&gt;json&lt;/code&gt; с временным токеном доступа
 и постоянным обновляемым токеном (собственно он нам и&amp;nbsp;нужен).&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="nt"&gt;&amp;quot;access_token&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ya29.1wGYJU7NP7Ul69c13aE1Vuvbx0LfxrsgMiBjXdNY3sU3tuE9LmuJ3nOGHeb3e_824LH0&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -89,7 +89,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;В ответ гугл возвращает json с временным токеном&amp;nbsp;доступа.&lt;/p&gt;
+&lt;p&gt;В ответ гугл возвращает &lt;code&gt;json&lt;/code&gt; с временным токеном&amp;nbsp;доступа.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="nt"&gt;&amp;quot;access_token&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ya29.2AHpPjacO0prQkip0svapohuZtoK0wqdh7u0ohH49l0WWwrSyss7CWiwzMy5wX967tWsjQ&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
   &lt;span class="nt"&gt;&amp;quot;token_type&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Bearer&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -99,7 +99,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 
 
 &lt;p&gt;Получать этот токен доступа нужно будет каждые раз, при подключении к &lt;code&gt;api&lt;/code&gt;.
-Для этого напишем простую функицю на &lt;code&gt;python 3&lt;/code&gt; с использованием стандартной
+Для этого напишем простую функцию на &lt;code&gt;python 3&lt;/code&gt; с использованием стандартной
 библиотеки &lt;code&gt;urllib.request&lt;/code&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;urllib&lt;/span&gt;
@@ -142,6 +142,30 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;/ul&gt;
 &lt;p&gt;Далее, используя выше описанную функцию получения временного токена, создаем
 подключение к &lt;code&gt;youtube api&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Вообще в руководстве по работе с &lt;code&gt;youtube api&lt;/code&gt; рекомендуют использовать построение
+&lt;code&gt;oauth2&lt;/code&gt; подключения с использованием объекта &lt;code&gt;flow_from_clientsecrets&lt;/code&gt;,
+&lt;a href="https://developers.google.com/youtube/v3/guides/uploading_a_video"&gt;примерно так&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_authenticated_service&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;flow&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;flow_from_clientsecrets&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;CLIENT_SECRETS_FILE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;scope&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;YOUTUBE_UPLOAD_SCOPE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;MISSING_CLIENT_SECRETS_MESSAGE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;storage&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Storage&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;-oauth2.json&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="n"&gt;credentials&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;storage&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;credentials&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="n"&gt;credentials&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;invalid&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;credentials&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;run_flow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;flow&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;storage&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;YOUTUBE_API_SERVICE_NAME&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;YOUTUBE_API_VERSION&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;credentials&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;authorize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;httplib2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Http&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Но, как выяснилось на практике, такой подход, требует при каждой загрузки,
+давать разрешение на подключение к аккаунту &lt;code&gt;youtube&lt;/code&gt; вручную,
+это не очень удобно. Учитывая, что можно замечательным образом получать
+токен авторизации, из обновляемого токена, мы будем использовать для создания
+&lt;code&gt;oauth2&lt;/code&gt; подключения - объект &lt;code&gt;AccessTokenCredentials&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;httplib2&lt;/span&gt;
 
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;oauth2client.client&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;AccessTokenCredentials&lt;/span&gt;
@@ -161,13 +185,131 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Теперь мы имеем созданное подключение, которое можно использовать для работы с &lt;code&gt;api&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Теперь мы имеем созданное подключение,
+которое можно использовать для работы с &lt;code&gt;api&lt;/code&gt;.&lt;/p&gt;
 &lt;h2&gt;Загрузка&amp;nbsp;видео&lt;/h2&gt;
-&lt;p&gt;&amp;#8230;продолжение&amp;nbsp;следует&amp;#8230;&lt;/p&gt;</summary><category term="python"></category><category term="youtube"></category><category term="oauth2"></category><category term="video upload"></category></entry><entry><title>200 дней кряду…</title><link href="http://samael500.github.io/articles/github/200-dnei-kriadu/" rel="alternate"></link><updated>2015-08-08T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-08:articles/github/200-dnei-kriadu/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
-&lt;p&gt;&lt;img alt="streak-200" src="/media/streak-200/streak.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Имея готовое подключение к &lt;code&gt;api&lt;/code&gt; загрузка видео происходит&amp;nbsp;элементарно.&lt;/p&gt;
+&lt;p&gt;Определим функцию инициализации загрузки, которая принимает в качестве
+аргументов подключение к &lt;code&gt;youtube api&lt;/code&gt; и объект с информацией о&amp;nbsp;видео.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;apiclient.http&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MediaFileUpload&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;initialize_upload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;youtube&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;card&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; Create youtube upload data &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="c"&gt;# create video meta data&lt;/span&gt;
+    &lt;span class="n"&gt;body&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;card&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;youtube_meta_data&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="c"&gt;# Call the API&amp;#39;s videos.insert method to create and upload the video&lt;/span&gt;
+    &lt;span class="n"&gt;insert_request&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;youtube&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;videos&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;part&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;,&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;()),&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;media_body&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;MediaFileUpload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;card&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;video&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;chunksize&lt;/span&gt;&lt;span class="o"&gt;=-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;resumable&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="c"&gt;# wait for file uploading&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;resumable_upload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;insert_request&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Метод &lt;code&gt;youtube_meta_data&lt;/code&gt; должен возвращать словарь описания видео согласно
+&lt;a href="https://developers.google.com/youtube/v3/docs/videos"&gt;формату&lt;/a&gt;,&amp;nbsp;например:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;quot;snippet&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Summer vacation in California&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;quot;description&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Had fun surfing in Santa Cruz&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;quot;tags&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;surfing&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Santa Cruz&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;quot;categoryId&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;22&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;quot;status&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;quot;privacyStatus&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;private&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;В моем случае данный метод имел следующий&amp;nbsp;вид:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;youtube_meta_data&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; Create metadata dict for youtube video upload &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="n"&gt;snippet&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;YOUTUBE_TITLE&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;coord&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;position&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                &lt;span class="n"&gt;tags&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;YOUTUBE_TAGS&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="n"&gt;categoryId&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;YOUTUBE_CATEGORY_ID&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;{desc}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;{site_url}/{card_id}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                    &lt;span class="n"&gt;desc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;site_url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SITE_URL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;card_id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_absolute_url&lt;/span&gt;&lt;span class="p"&gt;()),&lt;/span&gt;
+            &lt;span class="p"&gt;),&lt;/span&gt;
+            &lt;span class="n"&gt;status&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                &lt;span class="n"&gt;privacyStatus&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;YOUTUBE_PRIVACY_STATUS&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="p"&gt;),&lt;/span&gt;
+            &lt;span class="n"&gt;recordingDetails&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                &lt;span class="n"&gt;location&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                    &lt;span class="n"&gt;latitude&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;position&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;latitude&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                    &lt;span class="n"&gt;longitude&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;position&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;longitude&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                &lt;span class="p"&gt;),&lt;/span&gt;
+            &lt;span class="p"&gt;),&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;После инициализации загрузки, необходимо поддерживать соединение и дождаться
+ответа от ютуба с идентификатором видео. Для этого будем использовать
+следующую&amp;nbsp;функцию.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;random&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;http&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;httplib2&lt;/span&gt;
+
+&lt;span class="c"&gt;# Explicitly tell the underlying HTTP transport library not to retry, since we are handling retry logic ourselves.&lt;/span&gt;
+&lt;span class="n"&gt;httplib2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;RETRIES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+
+&lt;span class="c"&gt;# Maximum number of times to retry before giving up.&lt;/span&gt;
+&lt;span class="n"&gt;MAX_RETRIES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+
+&lt;span class="c"&gt;# Always retry when these exceptions are raised.&lt;/span&gt;
+&lt;span class="n"&gt;RETRIABLE_EXCEPTIONS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;httplib2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HttpLib2Error&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ne"&gt;IOError&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;NotConnected&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;IncompleteRead&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ImproperConnectionState&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CannotSendRequest&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CannotSendHeader&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ResponseNotReady&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;BadStatusLine&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# Always retry when an apiclient.errors.HttpError with one of these status codes is raised.&lt;/span&gt;
+&lt;span class="n"&gt;RETRIABLE_STATUS_CODES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;502&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;503&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;504&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;resumable_upload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;insert_request&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+    &lt;span class="n"&gt;error&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+    &lt;span class="n"&gt;retry&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+    &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;status&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;insert_request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;next_chunk&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;id&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="n"&gt;HttpError&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;err&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;err&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;resp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;RETRIABLE_STATUS_CODES&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;error&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+            &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;raise&lt;/span&gt;
+        &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="n"&gt;RETRIABLE_EXCEPTIONS&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;error&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;error&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;retry&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;retry&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;MAX_RETRIES&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Maximum retry are fail&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+            &lt;span class="n"&gt;sleep_seconds&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="n"&gt;retry&lt;/span&gt;
+            &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sleep_seconds&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Таким образом, загрузка видео запускается функцией &lt;code&gt;initialize_upload&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;video_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;initialize_upload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;get_authenticated_service&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;card&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Полный код загрузки видео можно посмотреть в
+&lt;a href="https://gist.github.com/Samael500/ac6eb61b11a7c3751753"&gt;gist&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Санкции&lt;/h2&gt;</summary><category term="python"></category><category term="youtube"></category><category term="oauth2"></category><category term="video upload"></category></entry><entry><title>200 дней кряду…</title><link href="http://samael500.github.io/articles/github/200-dnei-kriadu/" rel="alternate"></link><updated>2015-08-08T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-08:articles/github/200-dnei-kriadu/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;img alt="streak-200" class="center" src="/media/streak-200/streak.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Продолжаю ежедневно коммитить, вот уже 200 дней.
 До конца года осталось меньше половины, а сначала казалось что это невозможно&amp;nbsp;долго.&lt;/p&gt;</summary><category term="github"></category><category term="streak"></category></entry><entry><title>Первый стодневный стреак</title><link href="http://samael500.github.io/articles/github/pervyi-stodnevnyi-streak/" rel="alternate"></link><updated>2015-04-30T21:50:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-30:articles/github/pervyi-stodnevnyi-streak/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
-&lt;p&gt;&lt;img alt="streak-100" src="/media/streak-100/streak.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="streak-100" class="center" src="/media/streak-100/streak.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;Начиная с января месяца, удавалось комитить ежедневно, вот уже набежало 100 дней.
 Думаю и дальше продолжать набивать последовательность и выполнить год&amp;nbsp;коммитов.&lt;/p&gt;</summary><category term="github"></category><category term="streak"></category></entry><entry><title>Ралли на браузерах</title><link href="http://samael500.github.io/articles/python/ralli-na-brauzerakh/" rel="alternate"></link><updated>2015-04-05T19:30:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-01:articles/python/ralli-na-brauzerakh/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
 &lt;p&gt;Собственный проект &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; по комментированию
