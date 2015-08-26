@@ -77,3 +77,20 @@ CATEGORY_SAVE_AS = u'category/{slug}.html'
 
 TAG_URL = u'tag/{slug}/'
 TAG_SAVE_AS = u'tag/{slug}/index.html'
+
+
+PLUGINS=['plugins.sitemap', ]
+
+SITEMAP = {
+    'format': 'xml',
+    'priorities': {
+        'articles': 0.5,
+        'indexes': 0.5,
+        'pages': 0.5
+    },
+    'changefreqs': {
+        'articles': 'weekly',
+        'indexes': 'daily',
+        'pages': 'monthly'
+    }
+}
