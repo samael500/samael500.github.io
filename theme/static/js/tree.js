@@ -21,11 +21,12 @@ $.fn.extend({
             var branch = $(this); //li with children ul
             branch.prepend("<i class='indicator glyphicon " + openedClass + "'></i> ");
             branch.addClass('branch');
-            branch.on('click', function (e) {
+            branch.find('i.indicator.glyphicon').on('click', function (e) {
+                var $li_branch = $(this).parent();
                 if (this == e.target) {
-                    var icon = $(this).children('i:first');
+                    var icon = $li_branch.children('i:first');
                     icon.toggleClass(openedClass + " " + closedClass);
-                    $(this).children().children().toggle();
+                    $li_branch.children().children().toggle();
                 }
             })
             // branch.children().children().toggle();

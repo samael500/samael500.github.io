@@ -18,6 +18,7 @@
     <h2>{% block content_title %}Архив {{ SITENAME }}{% endblock %}</h2>
 
     <ul id="tree">
+        <li>Архив<ul>
     {% for year, year_group in dates|groupby('date.year')|reverse %}
         <li>{{ year }}
             <ul>
@@ -39,44 +40,11 @@
             </li>
         </ul>
     {% endfor %}
+        </li></ul>
     </ul>
 
-    {#}
-    {% for article in dates %}
-        {% set this_year = article.date.strftime('%Y') %}
-        {% set this_month = article.date.strftime('%B') %}
-        {% set this_day = article.date.strftime('%d') %}
-
-        {% if this_year != prev_year %}
-        <div class="row-fluid archive_row">
-            <div class="archive_year">{{ this_year }}</div>
-        </div>
-        {% endif %}
-
-        {% if this_year != prev_year or this_month != prev_month %}
-        <div class="row-fluid archive_row">
-            <div class="archive_month">{{ this_month }}</div>
-        </div>
-        {% endif %}
-
-
-        {% if this_month != prev_month or this_day != prev_day %}
-        <div class="row-fluid archive_row">
-            <div class="archive_day">{{ this_day }}</div>
-        </div>
-        {% endif %}
-
-        <div class="row-fluid archive_row">
-            <div class="archive_art">
-                <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
-            </div>
-        </div>
-
-        {% set prev_year = this_year %}
-        {% set prev_month = this_month %}
-        {% set prev_day = this_day %}
-    {% endfor %}
-    {#}
+<br />
+<div class="clearfix"></div>
 
 </div>
 
