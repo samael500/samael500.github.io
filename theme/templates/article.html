@@ -2,10 +2,13 @@
 
 {% block title %}{{ article.title|striptags }} | {{ SITENAME }}{% endblock %}
 {% block keywords %}article{% for tag in article.tags %}, {{ tag }}{% endfor %}{%endblock%}
+
 {% block ogtitle %}{{ article.title|striptags }}{% endblock %}
 {% block ogurl %}{{ SITEURL }}/{{ article.url }}{%endblock%}
 {% block ogtype %}article{%endblock%}
 {% block canonicalurl %}{{ SITEURL }}/{{ article.url }}{%endblock%}
+{% block ogimage %}{{ article.image|default('/theme/images/post.jpg') }}{% endblock %}
+{% block ogdescription %}{{ article.summary|striptags }}{% endblock %}
 
 {% block content_container %}
 <div class="single-main">
