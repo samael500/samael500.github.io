@@ -7,7 +7,7 @@
 {% block ogurl %}{{ SITEURL }}/{{ article.url }}{%endblock%}
 {% block ogtype %}article{%endblock%}
 {% block canonicalurl %}{{ SITEURL }}/{{ article.url }}{%endblock%}
-{% block ogimage %}{{ article.image|default('/theme/images/post.jpg') }}{% endblock %}
+{% block ogimage %}{{ SITEURL }}{{ article.image|default('/theme/images/post.jpg') }}{% endblock %}
 {% block ogdescription %}{{ article.summary|striptags }}{% endblock %}
 
 {% block content_container %}
