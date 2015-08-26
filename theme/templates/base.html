@@ -44,8 +44,6 @@
     </script>
     {% endif %}
 
-    {# <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script> #}
-
     {# emojify #}
     <script type="text/javascript" src="/emojify/js/emojify.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/emojify/css/emojify.min.css" />
@@ -60,6 +58,7 @@
     </script>
     {# /emojify #}
 
+    {% block extra_head %}{% endblock %}
 </head>
 <body id="index">
     {% include 'github.html' %}

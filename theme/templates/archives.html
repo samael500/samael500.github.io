@@ -4,12 +4,44 @@
 {% block ogurl %}{{ SITEURL }}/archives.html{%endblock%}
 {% block canonicalurl %}{{ SITEURL }}/archives.html{%endblock%}
 
+
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/theme/css/tree.css" />
+    <script type="text/javascript" src="{{ SITEURL }}/theme/js/tree.js"></script>
+{% endblock %}
+
+
 {% block content %}
 
 <div class="archives-list">
 
     <h2>{% block content_title %}Архив {{ SITENAME }}{% endblock %}</h2>
 
+    <ul id="tree">
+    {% for year, year_group in dates|groupby('date.year')|reverse %}
+        <li>{{ year }}
+            <ul>
+                {% for month, mounts_group in year_group|groupby('date.month')|reverse %}
+                    <li>{{ month }}
+                        <ul>
+                            {% for day, days_group in mounts_group|groupby('date.day')|reverse %}
+                                <li>{{ day }}
+                                    <ul>
+                                        {% for article in days_group %}
+                                            <li><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </li>
+        </ul>
+    {% endfor %}
+    </ul>
+
+    {#}
     {% for article in dates %}
         {% set this_year = article.date.strftime('%Y') %}
         {% set this_month = article.date.strftime('%B') %}
@@ -44,6 +76,7 @@
         {% set prev_month = this_month %}
         {% set prev_day = this_day %}
     {% endfor %}
+    {#}
 
 </div>
 
