@@ -27,12 +27,14 @@
         </div>
         {% endif %}
 
+
+        {% if this_month != prev_month or this_day != prev_day %}
         <div class="row-fluid archive_row">
+            <div class="archive_day">{{ this_day }}</div>
+        </div>
+        {% endif %}
 
-            {% if this_month != prev_month or this_day != prev_day %}
-                <div class="archive_day">{{ this_day }}</div>
-            {% endif %}
-
+        <div class="row-fluid archive_row">
             <div class="archive_art">
                 <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
             </div>
