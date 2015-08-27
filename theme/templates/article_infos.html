@@ -19,8 +19,8 @@
         | <a href="{{ SITEURL }}/{{ article.url }}#disqus_thread">Комментарии</a>
     {% endif %}
 
-    {# {% import 'translations.html' as translations with context %} #}
-    {# {{ translations.translations_for(article) }} #}
+    {% import 'translations.html' as translations with context %}
+    {{ translations.translations_for(article) }}
 
     {% if article.tags %}
         <br />
