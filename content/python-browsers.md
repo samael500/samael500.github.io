@@ -70,10 +70,10 @@ Summary:
 местности с четырьмя крутыми поворотами с 16-ю чекпоинтами, а именно:
 показать свои навыки на следующих ресурсах:
 
-- [https://google.com/]()
-- [https://www.facebook.com/]()
-- [http://habrahabr.ru/]()
-- [http://wbtech.pro/]()
+- [https://google.com/](https://google.com/)
+- [https://www.facebook.com/](https://www.facebook.com/)
+- [http://habrahabr.ru/](http://habrahabr.ru/)
+- [http://wbtech.pro/](http://wbtech.pro/)
 
 при следующих разрешениях экранов по ширине: `240`, `780`, `1320`, `1920`
 пикселей.
