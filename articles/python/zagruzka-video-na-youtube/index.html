@@ -153,7 +153,7 @@
 <p>Для авторизации в сервисах <code>google</code> с помощью протокола
 <a href="http://oauth.net/2/">oauth2</a> необходимо зарегистрировать приложение и дать
 ему соответсвующие права. Для этого нужно перейти в
-<a href="https://console.developers.google.com/project">консоль&nbsp;разработчика</a></p>
+<a href="https://console.developers.google.com/project">консоль разработчика</a>.</p>
 <p>Нажимаем на кнопку <code>Create Project</code>, выбираем имя и создаем новое приложение.
 После того как приложение будет создано, нужно добавить ему необходимые
 доступы к google <span class="caps">API</span>.</p>
@@ -444,8 +444,52 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 
 
 <p>Полный код загрузки видео можно посмотреть в
-<a href="https://gist.github.com/Samael500/ac6eb61b11a7c3751753">gist</a>.</p>
+<a href="https://gist.github.com/Samael500/278dcea3bbb7c167dc5e">gist</a>.</p>
 <h2>Санкции</h2>
+<p>Поскольку капиталистический запад, в лице корпорации зла, наложил на меня
+свои, безосновательные, <a href="http://samael500.github.io/articles/drugoe/ura-menia-v-gugle-zabanili/">санкции</a>.
+Ограничив тем самым мое право доступа к свободной информации.
+Для работы с <code>youtube api</code> мне необходимо использовать <code>vpn</code> подключение.</p>
+<p>В качестве <code>vpn</code> соединения я использую <code>ssh</code> туннель и локальное <code>socks5</code>
+прокси на 1080 порту. Включаю/отключаю <code>ssh</code> тунель при помощи библиотеки
+<code>subprocess</code>.</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">subprocess</span>
+
+<span class="c"># init ssh connection</span>
+<span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s">&#39;ssh&#39;</span><span class="p">,</span> <span class="s">&#39;-fN&#39;</span><span class="p">,</span> <span class="s">&#39;-D&#39;</span><span class="p">,</span> <span class="s">&#39;1080&#39;</span><span class="p">,</span> <span class="s">&#39;forward@vpn_connection&#39;</span><span class="p">])</span>
+
+<span class="c"># desctroy ssh connection</span>
+<span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s">&#39;pkill&#39;</span><span class="p">,</span> <span class="s">&#39;-f&#39;</span><span class="p">,</span> <span class="s">&#39;forward@vpn_connection&#39;</span><span class="p">])</span>
+</pre></div>
+
+
+<p>Что бы подключиться к локальному <code>socks5</code> прокси, необходимо использовать
+библиотеку <a href="http://socksipy.sourceforge.net/">socksipy</a>, как показано
+в <a href="https://code.google.com/p/httplib2/wiki/Examples#Proxies">примере</a>
+работы с <code>httplib2</code>:</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">httplib2</span>
+<span class="kn">import</span> <span class="nn">socks</span>
+
+<span class="n">h</span> <span class="o">=</span> <span class="n">httplib2</span><span class="o">.</span><span class="n">Http</span><span class="p">(</span><span class="n">proxy_info</span> <span class="o">=</span> <span class="n">httplib2</span><span class="o">.</span><span class="n">ProxyInfo</span><span class="p">(</span><span class="n">socks</span><span class="o">.</span><span class="n">PROXY_TYPE_SOCKS5</span><span class="p">,</span> <span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
+<span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">&#39;https://l2.io/ip&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Но, этот способ не работает. Библиотека <code>socksipy</code> не поддерживает <code>python 3</code>,
+поэтому необходимо делать
+<a href="https://code.google.com/p/httplib2/issues/detail?id=205">по другому</a>.
+Использовать библиотеку
+<a href="https://code.google.com/p/socksipy-branch/">socksipy-branch</a>
+(<a href="https://gist.github.com/Samael500/5a53b01db96f812ac530">gist зеркало</a>).
+И оборачивать <code>httplib2</code> с помощью метода <code>wrapmodule</code>:</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">httplib2</span>
+<span class="kn">import</span> <span class="nn">socks</span>
+
+<span class="n">socks</span><span class="o">.</span><span class="n">setdefaultproxy</span><span class="p">(</span><span class="n">socks</span><span class="o">.</span><span class="n">PROXY_TYPE_SOCKS5</span><span class="p">,</span> <span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">1080</span><span class="p">)</span>
+<span class="n">socks</span><span class="o">.</span><span class="n">wrapmodule</span><span class="p">(</span><span class="n">httplib2</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">httplib2</span><span class="o">.</span><span class="n">Http</span><span class="p">()</span>
+<span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">&#39;https://l2.io/ip&#39;</span><span class="p">)</span>
+</pre></div>
 
 
         </div>
@@ -484,7 +528,6 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 </script>
-    <script src="//code.jquery.com/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
 </body>
 </html>

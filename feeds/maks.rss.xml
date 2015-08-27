@@ -13,7 +13,7 @@
 &lt;p&gt;Для авторизации в сервисах &lt;code&gt;google&lt;/code&gt; с помощью протокола
 &lt;a href="http://oauth.net/2/"&gt;oauth2&lt;/a&gt; необходимо зарегистрировать приложение и дать
 ему соответсвующие права. Для этого нужно перейти в
-&lt;a href="https://console.developers.google.com/project"&gt;консоль&amp;nbsp;разработчика&lt;/a&gt;&lt;/p&gt;
+&lt;a href="https://console.developers.google.com/project"&gt;консоль разработчика&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Нажимаем на кнопку &lt;code&gt;Create Project&lt;/code&gt;, выбираем имя и создаем новое приложение.
 После того как приложение будет создано, нужно добавить ему необходимые
 доступы к google &lt;span class="caps"&gt;API&lt;/span&gt;.&lt;/p&gt;
@@ -304,8 +304,52 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 
 
 &lt;p&gt;Полный код загрузки видео можно посмотреть в
-&lt;a href="https://gist.github.com/Samael500/ac6eb61b11a7c3751753"&gt;gist&lt;/a&gt;.&lt;/p&gt;
-&lt;h2&gt;Санкции&lt;/h2&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Wed, 26 Aug 2015 18:00:00 +0300</pubDate><guid>tag:samael500.github.io,2015-08-22:articles/python/zagruzka-video-na-youtube/</guid><category>python</category><category>youtube</category><category>oauth2</category><category>video upload</category></item><item><title>200 дней кряду…</title><link>http://samael500.github.io/articles/github/200-dnei-kriadu/</link><description>&lt;h1&gt;&lt;/h1&gt;
+&lt;a href="https://gist.github.com/Samael500/278dcea3bbb7c167dc5e"&gt;gist&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Санкции&lt;/h2&gt;
+&lt;p&gt;Поскольку капиталистический запад, в лице корпорации зла, наложил на меня
+свои, безосновательные, &lt;a href="http://samael500.github.io/articles/drugoe/ura-menia-v-gugle-zabanili/"&gt;санкции&lt;/a&gt;.
+Ограничив тем самым мое право доступа к свободной информации.
+Для работы с &lt;code&gt;youtube api&lt;/code&gt; мне необходимо использовать &lt;code&gt;vpn&lt;/code&gt; подключение.&lt;/p&gt;
+&lt;p&gt;В качестве &lt;code&gt;vpn&lt;/code&gt; соединения я использую &lt;code&gt;ssh&lt;/code&gt; туннель и локальное &lt;code&gt;socks5&lt;/code&gt;
+прокси на 1080 порту. Включаю/отключаю &lt;code&gt;ssh&lt;/code&gt; тунель при помощи библиотеки
+&lt;code&gt;subprocess&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;subprocess&lt;/span&gt;
+
+&lt;span class="c"&gt;# init ssh connection&lt;/span&gt;
+&lt;span class="n"&gt;subprocess&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;ssh&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;-fN&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;-D&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;1080&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;forward@vpn_connection&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+
+&lt;span class="c"&gt;# desctroy ssh connection&lt;/span&gt;
+&lt;span class="n"&gt;subprocess&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;pkill&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;-f&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;forward@vpn_connection&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Что бы подключиться к локальному &lt;code&gt;socks5&lt;/code&gt; прокси, необходимо использовать
+библиотеку &lt;a href="http://socksipy.sourceforge.net/"&gt;socksipy&lt;/a&gt;, как показано
+в &lt;a href="https://code.google.com/p/httplib2/wiki/Examples#Proxies"&gt;примере&lt;/a&gt;
+работы с &lt;code&gt;httplib2&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;httplib2&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;socks&lt;/span&gt;
+
+&lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;httplib2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Http&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;proxy_info&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;httplib2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ProxyInfo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;socks&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;PROXY_TYPE_SOCKS5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1080&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;https://l2.io/ip&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Но, этот способ не работает. Библиотека &lt;code&gt;socksipy&lt;/code&gt; не поддерживает &lt;code&gt;python 3&lt;/code&gt;,
+поэтому необходимо делать
+&lt;a href="https://code.google.com/p/httplib2/issues/detail?id=205"&gt;по другому&lt;/a&gt;.
+Использовать библиотеку
+&lt;a href="https://code.google.com/p/socksipy-branch/"&gt;socksipy-branch&lt;/a&gt;
+(&lt;a href="https://gist.github.com/Samael500/5a53b01db96f812ac530"&gt;gist зеркало&lt;/a&gt;).
+И оборачивать &lt;code&gt;httplib2&lt;/code&gt; с помощью метода &lt;code&gt;wrapmodule&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;httplib2&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;socks&lt;/span&gt;
+
+&lt;span class="n"&gt;socks&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setdefaultproxy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;socks&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;PROXY_TYPE_SOCKS5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1080&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;socks&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;wrapmodule&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;httplib2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;httplib2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Http&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;https://l2.io/ip&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Wed, 26 Aug 2015 18:00:00 +0300</pubDate><guid>tag:samael500.github.io,2015-08-22:articles/python/zagruzka-video-na-youtube/</guid><category>python</category><category>youtube</category><category>oauth2</category><category>video upload</category></item><item><title>200 дней кряду…</title><link>http://samael500.github.io/articles/github/200-dnei-kriadu/</link><description>&lt;h1&gt;&lt;/h1&gt;
 &lt;p&gt;&lt;img alt="streak-200" class="center" src="/media/streak-200/streak.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Продолжаю ежедневно коммитить, вот уже 200 дней.
 До конца года осталось меньше половины, а сначала казалось что это невозможно&amp;nbsp;долго.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Sat, 08 Aug 2015 18:00:00 +0300</pubDate><guid>tag:samael500.github.io,2015-08-08:articles/github/200-dnei-kriadu/</guid><category>github</category><category>streak</category></item><item><title>Первый стодневный стреак</title><link>http://samael500.github.io/articles/github/pervyi-stodnevnyi-streak/</link><description>&lt;h1&gt;&lt;/h1&gt;
