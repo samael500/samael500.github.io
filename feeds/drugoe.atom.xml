@@ -3,4 +3,20 @@
 &lt;p&gt;&lt;img alt="google-ban" class="center" src="/media/google-ban/google_ban.png" /&gt;&lt;/p&gt;
 &lt;p&gt;В связи с наложенными западными компаниями санкциями на Крым,
 у меня перестала работать часть сервисов&amp;nbsp;гугла.&lt;/p&gt;
-&lt;p&gt;Старый анекдот про &amp;#8220;в гугле забанили&amp;#8221; начинает быть похожим на&amp;nbsp;действительность.&lt;/p&gt;</summary></entry></feed>
+&lt;p&gt;Старый анекдот про &amp;#8220;в гугле забанили&amp;#8221; начинает быть похожим на&amp;nbsp;действительность.&lt;/p&gt;
+&lt;p&gt;При попытке перейти получаем 403. Некоторые из заблокированных&amp;nbsp;ресурсов:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://code.google.com/"&gt;https://code.google.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://developers.google.com/"&gt;https://developers.google.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://console.developers.google.com/"&gt;https://console.developers.google.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://developer.android.com/"&gt;https://developer.android.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://cloud.google.com/"&gt;https://cloud.google.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://appengine.google.com/"&gt;https://appengine.google.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://golang.org/"&gt;https://golang.org/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://angularjs.org/"&gt;https://angularjs.org/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Так же не работают в целом сайты размещенные на &lt;code&gt;gae&lt;/code&gt;,
+например &lt;a href="https://www.udacity.com/"&gt;https://www.udacity.com/&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Не работает обновление &lt;code&gt;google chrome&lt;/code&gt; и приложений из плей&amp;nbsp;маркета.&lt;/p&gt;
+&lt;p&gt;Ну что ж, прокси и впн-ы никто не отменял,
+при необходимости доступ к ресурсам получить будет&amp;nbsp;можно.&lt;/p&gt;</summary></entry></feed>
