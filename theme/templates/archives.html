@@ -17,16 +17,16 @@
 
     <h2>{% block content_title %}Архив {{ SITENAME }}{% endblock %}</h2>
 
-    <ul id="tree">
-        <li>Архив<ul>
+    <ul id="tree" class="tree">
+        <li>{% block tree_root %}Архив{% endblock %}<ul>
     {% for year, year_group in dates|groupby('date.year')|reverse %}
-        <li>{{ year }}
+        <li>{{ (year_group|first()).date.strftime('%Y') }}
             <ul>
                 {% for month, mounts_group in year_group|groupby('date.month')|reverse %}
-                    <li>{{ month }}
+                    <li>{{ (mounts_group|first()).date.strftime('%B') }}
                         <ul>
                             {% for day, days_group in mounts_group|groupby('date.day')|reverse %}
-                                <li>{{ day }}
+                                <li>{{ (days_group|first()).date.strftime('%d') }}
                                     <ul>
                                         {% for article in days_group %}
                                             <li><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></li>
