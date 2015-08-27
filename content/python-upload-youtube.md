@@ -25,7 +25,7 @@ Summary:
 Для авторизации в сервисах `google` с помощью протокола
 [oauth2](http://oauth.net/2/) необходимо зарегистрировать приложение и дать
 ему соответсвующие права. Для этого нужно перейти в
-[консоль разработчика](https://console.developers.google.com/project)
+[консоль разработчика](https://console.developers.google.com/project).
 
 Нажимаем на кнопку `Create Project`, выбираем имя и создаем новое приложение.
 После того как приложение будет создано, нужно добавить ему необходимые
@@ -349,7 +349,56 @@ video_id = initialize_upload(get_authenticated_service(), card)
 ```
 
 Полный код загрузки видео можно посмотреть в
-[gist](https://gist.github.com/Samael500/ac6eb61b11a7c3751753).
+[gist](https://gist.github.com/Samael500/278dcea3bbb7c167dc5e).
 
 ##Санкции
 
+Поскольку капиталистический запад, в лице корпорации зла, наложил на меня
+свои, безосновательные, [санкции](|filename|/other-google-ban.md).
+Ограничив тем самым мое право доступа к свободной информации.
+Для работы с `youtube api` мне необходимо использовать `vpn` подключение.
+
+В качестве `vpn` соединения я использую `ssh` туннель и локальное `socks5`
+прокси на 1080 порту. Включаю/отключаю `ssh` тунель при помощи библиотеки
+`subprocess`.
+
+```python
+import subprocess
+
+# init ssh connection
+subprocess.Popen(['ssh', '-fN', '-D', '1080', 'forward@vpn_connection'])
+
+# desctroy ssh connection
+subprocess.Popen(['pkill', '-f', 'forward@vpn_connection'])
+```
+
+Что бы подключиться к локальному `socks5` прокси, необходимо использовать
+библиотеку [socksipy](http://socksipy.sourceforge.net/), как показано
+в [примере](https://code.google.com/p/httplib2/wiki/Examples#Proxies)
+работы с `httplib2`:
+
+```python
+import httplib2
+import socks
+
+h = httplib2.Http(proxy_info = httplib2.ProxyInfo(socks.PROXY_TYPE_SOCKS5, 'localhost', 1080))
+r, c = h.request('https://l2.io/ip')
+```
+
+Но, этот способ не работает. Библиотека `socksipy` не поддерживает `python 3`,
+поэтому необходимо делать
+[по другому](https://code.google.com/p/httplib2/issues/detail?id=205).
+Использовать библиотеку
+[socksipy-branch](https://code.google.com/p/socksipy-branch/)
+([gist зеркало](https://gist.github.com/Samael500/5a53b01db96f812ac530)).
+И оборачивать `httplib2` с помощью метода `wrapmodule`:
+
+```python
+import httplib2
+import socks
+
+socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, 'localhost', 1080)
+socks.wrapmodule(httplib2)
+h = httplib2.Http()
+r, c = h.request('https://l2.io/ip')
+```
