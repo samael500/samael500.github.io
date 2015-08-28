@@ -36,6 +36,7 @@ SOCIAL = (
 # TWITTER_USERNAME = 'samael500'
 
 DEFAULT_PAGINATION = 10
+HTTPS_REDIRECT = True
 
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = True
