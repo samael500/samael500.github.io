@@ -41,6 +41,7 @@ DEFAULT_PAGINATION = 10
 RELATIVE_URLS = True
 
 THEME = './theme'
+THEME = '../w3-personal-blog'
 GITHUB_URL = 'https://github.com/Samael500'
 
 STATIC_PATHS = ['icons', 'media', 'extra', 'emojify', 'stuff', ]
