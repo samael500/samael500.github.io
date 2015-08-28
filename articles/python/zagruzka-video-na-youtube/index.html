@@ -45,6 +45,14 @@
         });
     </script>
 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            if (window.location.protocol != "https:") {
+                window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+            }
+        });
+    </script>
+
 </head>
 <body id="index">
     <a class="forkmegithub" href="https://github.com/Samael500">
