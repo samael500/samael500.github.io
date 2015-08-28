@@ -4,147 +4,147 @@ xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitem
 xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-<loc>http://samael500.github.io/</loc>
-<lastmod>2015-08-28T16:21:19-00:00</lastmod>
+<loc>https://samael500.github.io/</loc>
+<lastmod>2015-08-28T19:44:37-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/archives.html</loc>
-<lastmod>2015-08-28T16:21:19-00:00</lastmod>
+<loc>https://samael500.github.io/archives.html</loc>
+<lastmod>2015-08-28T19:44:37-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/tags.html</loc>
-<lastmod>2015-08-28T16:21:19-00:00</lastmod>
+<loc>https://samael500.github.io/tags.html</loc>
+<lastmod>2015-08-28T19:44:37-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/categories.html</loc>
-<lastmod>2015-08-28T16:21:19-00:00</lastmod>
+<loc>https://samael500.github.io/categories.html</loc>
+<lastmod>2015-08-28T19:44:37-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/articles/python/zagruzka-video-na-youtube/</loc>
+<loc>https://samael500.github.io/articles/python/zagruzka-video-na-youtube/</loc>
 <lastmod>2015-08-26T18:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/articles/github/200-dnei-kriadu/</loc>
+<loc>https://samael500.github.io/articles/github/200-dnei-kriadu/</loc>
 <lastmod>2015-08-08T18:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/articles/github/pervyi-stodnevnyi-streak/</loc>
+<loc>https://samael500.github.io/articles/github/pervyi-stodnevnyi-streak/</loc>
 <lastmod>2015-04-30T21:50:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/articles/python/ralli-na-brauzerakh/</loc>
+<loc>https://samael500.github.io/articles/python/ralli-na-brauzerakh/</loc>
 <lastmod>2015-04-05T19:30:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/articles/drugoe/ura-menia-v-gugle-zabanili/</loc>
+<loc>https://samael500.github.io/articles/drugoe/ura-menia-v-gugle-zabanili/</loc>
 <lastmod>2015-01-30T15:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/category/drugoe.html</loc>
+<loc>https://samael500.github.io/category/drugoe.html</loc>
 <lastmod>2015-01-30T15:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/category/github.html</loc>
+<loc>https://samael500.github.io/category/github.html</loc>
 <lastmod>2015-08-08T18:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/category/python.html</loc>
+<loc>https://samael500.github.io/category/python.html</loc>
 <lastmod>2015-08-26T18:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/tag/streak/</loc>
+<loc>https://samael500.github.io/tag/streak/</loc>
 <lastmod>2015-08-08T18:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/tag/github/</loc>
+<loc>https://samael500.github.io/tag/github/</loc>
 <lastmod>2015-08-08T18:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/tag/python/</loc>
+<loc>https://samael500.github.io/tag/python/</loc>
 <lastmod>2015-08-26T18:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/tag/youtube/</loc>
+<loc>https://samael500.github.io/tag/youtube/</loc>
 <lastmod>2015-08-26T18:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/tag/browsers/</loc>
+<loc>https://samael500.github.io/tag/browsers/</loc>
 <lastmod>2015-04-05T19:30:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/tag/video-upload/</loc>
+<loc>https://samael500.github.io/tag/video-upload/</loc>
 <lastmod>2015-08-26T18:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/tag/oauth2/</loc>
+<loc>https://samael500.github.io/tag/oauth2/</loc>
 <lastmod>2015-08-26T18:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/tag/wb-tech/</loc>
+<loc>https://samael500.github.io/tag/wb-tech/</loc>
 <lastmod>2015-04-05T19:30:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://samael500.github.io/author/maks/</loc>
+<loc>https://samael500.github.io/author/maks/</loc>
 <lastmod>2015-08-26T18:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>

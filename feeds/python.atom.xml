@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="http://samael500.github.io/" rel="alternate"></link><link href="http://samael500.github.io/feeds/python.atom.xml" rel="self"></link><id>http://samael500.github.io/</id><updated>2015-08-26T18:00:00+03:00</updated><entry><title>Загрузка видео на youtube</title><link href="http://samael500.github.io/articles/python/zagruzka-video-na-youtube/" rel="alternate"></link><updated>2015-08-26T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-22:articles/python/zagruzka-video-na-youtube/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/python.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2015-08-26T18:00:00+03:00</updated><entry><title>Загрузка видео на youtube</title><link href="https://samael500.github.io/articles/python/zagruzka-video-na-youtube/" rel="alternate"></link><updated>2015-08-26T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-22:articles/python/zagruzka-video-na-youtube/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
 &lt;p&gt;В одном из моих собственных проектов, возникла задача автоматической
 загрузки видео на канал на &lt;code&gt;youtube&lt;/code&gt;. Делается это достаточно просто, при
 помощи гугловского &lt;code&gt;api&lt;/code&gt; клиента для &lt;code&gt;python&lt;/code&gt;. Единственное затруднение
@@ -307,7 +307,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;a href="https://gist.github.com/Samael500/278dcea3bbb7c167dc5e"&gt;gist&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;Санкции&lt;/h2&gt;
 &lt;p&gt;Поскольку капиталистический запад, в лице корпорации зла, наложил на меня
-свои, безосновательные, &lt;a href="http://samael500.github.io/articles/drugoe/ura-menia-v-gugle-zabanili/"&gt;санкции&lt;/a&gt;.
+свои, безосновательные, &lt;a href="https://samael500.github.io/articles/drugoe/ura-menia-v-gugle-zabanili/"&gt;санкции&lt;/a&gt;.
 Ограничив тем самым мое право доступа к свободной информации.
 Для работы с &lt;code&gt;youtube api&lt;/code&gt; мне необходимо использовать &lt;code&gt;vpn&lt;/code&gt; подключение.&lt;/p&gt;
 &lt;p&gt;В качестве &lt;code&gt;vpn&lt;/code&gt; соединения я использую &lt;code&gt;ssh&lt;/code&gt; туннель и локальное &lt;code&gt;socks5&lt;/code&gt;
@@ -349,7 +349,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;span class="n"&gt;socks&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;wrapmodule&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;httplib2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;httplib2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Http&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;https://l2.io/ip&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="youtube"></category><category term="oauth2"></category><category term="video upload"></category></entry><entry><title>Ралли на браузерах</title><link href="http://samael500.github.io/articles/python/ralli-na-brauzerakh/" rel="alternate"></link><updated>2015-04-05T19:30:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-01:articles/python/ralli-na-brauzerakh/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="youtube"></category><category term="oauth2"></category><category term="video upload"></category></entry><entry><title>Ралли на браузерах</title><link href="https://samael500.github.io/articles/python/ralli-na-brauzerakh/" rel="alternate"></link><updated>2015-04-05T19:30:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-01:articles/python/ralli-na-brauzerakh/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
 &lt;p&gt;Собственный проект &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; по комментированию
 скриншотов &lt;a href="http://coment.me/"&gt;coment.me&lt;/a&gt; на сегодняшний день, для получения
 снимка сайта использует связку &lt;code&gt;selenium + firefox&lt;/code&gt;. Данный подход решает
