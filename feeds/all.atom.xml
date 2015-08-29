@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/all.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2015-08-26T18:00:00+03:00</updated><entry><title>Загрузка видео на youtube</title><link href="https://samael500.github.io/articles/python/zagruzka-video-na-youtube/" rel="alternate"></link><updated>2015-08-26T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-22:articles/python/zagruzka-video-na-youtube/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/all.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2015-08-26T18:00:00+03:00</updated><entry><title>Загрузка видео на youtube</title><link href="https://samael500.github.io/articles/python/zagruzka-video-na-youtube/" rel="alternate"></link><updated>2015-08-26T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-22:articles/python/zagruzka-video-na-youtube/</id><summary type="html">&lt;h1 id="_1"&gt;&lt;a class="toclink" href="#_1"&gt;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;В одном из моих собственных проектов, возникла задача автоматической
 загрузки видео на канал на &lt;code&gt;youtube&lt;/code&gt;. Делается это достаточно просто, при
 помощи гугловского &lt;code&gt;api&lt;/code&gt; клиента для &lt;code&gt;python&lt;/code&gt;. Единственное затруднение
 вызвало полумагическое получение ключей доступа к &lt;code&gt;api&lt;/code&gt;.&lt;/p&gt;
-&lt;h2&gt;Авторизация&lt;/h2&gt;
+&lt;h2 id="avtorizatsiia"&gt;&lt;a class="toclink" href="#avtorizatsiia"&gt;Авторизация&lt;/a&gt;&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Все коды доступа и ключи авторизации, использованные в статье, вымышленные.&lt;br /&gt;
 Любое совпадение с реально существующими или когда-либо существовавшими
@@ -187,7 +187,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 
 &lt;p&gt;Теперь мы имеем созданное подключение,
 которое можно использовать для работы с &lt;code&gt;api&lt;/code&gt;.&lt;/p&gt;
-&lt;h2&gt;Загрузка&amp;nbsp;видео&lt;/h2&gt;
+&lt;h2 id="zagruzka-video"&gt;&lt;a class="toclink" href="#zagruzka-video"&gt;Загрузка&amp;nbsp;видео&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Имея готовое подключение к &lt;code&gt;api&lt;/code&gt; загрузка видео происходит&amp;nbsp;элементарно.&lt;/p&gt;
 &lt;p&gt;Определим функцию инициализации загрузки, которая принимает в качестве
 аргументов подключение к &lt;code&gt;youtube api&lt;/code&gt; и объект с информацией о&amp;nbsp;видео.&lt;/p&gt;
@@ -305,7 +305,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 
 &lt;p&gt;Полный код загрузки видео можно посмотреть в
 &lt;a href="https://gist.github.com/Samael500/278dcea3bbb7c167dc5e"&gt;gist&lt;/a&gt;.&lt;/p&gt;
-&lt;h2&gt;Санкции&lt;/h2&gt;
+&lt;h2 id="sanktsii"&gt;&lt;a class="toclink" href="#sanktsii"&gt;Санкции&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Поскольку капиталистический запад, в лице корпорации зла, наложил на меня
 свои, безосновательные, &lt;a href="https://samael500.github.io/articles/drugoe/ura-menia-v-gugle-zabanili/"&gt;санкции&lt;/a&gt;.
 Ограничив тем самым мое право доступа к свободной информации.
@@ -349,13 +349,13 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;span class="n"&gt;socks&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;wrapmodule&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;httplib2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;httplib2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Http&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;https://l2.io/ip&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="youtube"></category><category term="oauth2"></category><category term="video upload"></category></entry><entry><title>200 дней кряду…</title><link href="https://samael500.github.io/articles/github/200-dnei-kriadu/" rel="alternate"></link><updated>2015-08-08T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-08:articles/github/200-dnei-kriadu/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="youtube"></category><category term="oauth2"></category><category term="video upload"></category></entry><entry><title>200 дней кряду…</title><link href="https://samael500.github.io/articles/github/200-dnei-kriadu/" rel="alternate"></link><updated>2015-08-08T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-08:articles/github/200-dnei-kriadu/</id><summary type="html">&lt;h1 id="_1"&gt;&lt;a class="toclink" href="#_1"&gt;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;&lt;img alt="streak-200" class="center" src="/media/streak-200/streak.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Продолжаю ежедневно коммитить, вот уже 200 дней.
-До конца года осталось меньше половины, а сначала казалось что это невозможно&amp;nbsp;долго.&lt;/p&gt;</summary><category term="github"></category><category term="streak"></category></entry><entry><title>Первый стодневный стреак</title><link href="https://samael500.github.io/articles/github/pervyi-stodnevnyi-streak/" rel="alternate"></link><updated>2015-04-30T21:50:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-30:articles/github/pervyi-stodnevnyi-streak/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+До конца года осталось меньше половины, а сначала казалось что это невозможно&amp;nbsp;долго.&lt;/p&gt;</summary><category term="github"></category><category term="streak"></category></entry><entry><title>Первый стодневный стреак</title><link href="https://samael500.github.io/articles/github/pervyi-stodnevnyi-streak/" rel="alternate"></link><updated>2015-04-30T21:50:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-30:articles/github/pervyi-stodnevnyi-streak/</id><summary type="html">&lt;h1 id="_1"&gt;&lt;a class="toclink" href="#_1"&gt;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;&lt;img alt="streak-100" class="center" src="/media/streak-100/streak.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;Начиная с января месяца, удавалось комитить ежедневно, вот уже набежало 100 дней.
-Думаю и дальше продолжать набивать последовательность и выполнить год&amp;nbsp;коммитов.&lt;/p&gt;</summary><category term="github"></category><category term="streak"></category></entry><entry><title>Ралли на браузерах</title><link href="https://samael500.github.io/articles/python/ralli-na-brauzerakh/" rel="alternate"></link><updated>2015-04-05T19:30:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-01:articles/python/ralli-na-brauzerakh/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+Думаю и дальше продолжать набивать последовательность и выполнить год&amp;nbsp;коммитов.&lt;/p&gt;</summary><category term="github"></category><category term="streak"></category></entry><entry><title>Ралли на браузерах</title><link href="https://samael500.github.io/articles/python/ralli-na-brauzerakh/" rel="alternate"></link><updated>2015-04-05T19:30:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-01:articles/python/ralli-na-brauzerakh/</id><summary type="html">&lt;h1 id="_1"&gt;&lt;a class="toclink" href="#_1"&gt;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Собственный проект &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; по комментированию
 скриншотов &lt;a href="http://coment.me/"&gt;coment.me&lt;/a&gt; на сегодняшний день, для получения
 снимка сайта использует связку &lt;code&gt;selenium + firefox&lt;/code&gt;. Данный подход решает
@@ -370,7 +370,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;li&gt;Скорость&amp;nbsp;работы&lt;/li&gt;
 &lt;li&gt;Затрачиваемые&amp;nbsp;ресурсы&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Участники&amp;nbsp;соревнований&lt;/h2&gt;
+&lt;h2 id="uchastniki-sorevnovanii"&gt;&lt;a class="toclink" href="#uchastniki-sorevnovanii"&gt;Участники&amp;nbsp;соревнований&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;На участие в ралли были отобранны следующие&amp;nbsp;кандидаты:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Firefox &lt;code&gt;36.0.1&lt;/code&gt;&lt;/li&gt;
@@ -399,7 +399,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;/ul&gt;
 &lt;p&gt;Итак, участники отобраны, и готовы показать себя во всей красе, что ж &amp;#8212;
 приступим к&amp;nbsp;соревнованиям.&lt;/p&gt;
-&lt;h2&gt;Трасса&lt;/h2&gt;
+&lt;h2 id="trassa"&gt;&lt;a class="toclink" href="#trassa"&gt;Трасса&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;img alt="rally" src="/media/browsers/rally.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;Нашим замечательным конкурсантам предстоит пройти трек по пересеченной
 местности с четырьмя крутыми поворотами с 16-ю чекпоинтами, а именно:
@@ -412,7 +412,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;/ul&gt;
 &lt;p&gt;при следующих разрешениях экранов по ширине: &lt;code&gt;240&lt;/code&gt;, &lt;code&gt;780&lt;/code&gt;, &lt;code&gt;1320&lt;/code&gt;, &lt;code&gt;1920&lt;/code&gt;
 пикселей.&lt;/p&gt;
-&lt;h2&gt;Заезд первый &amp;#8212;&amp;nbsp;&amp;#8220;Качество&amp;#8221;&lt;/h2&gt;
+&lt;h2 id="zaezd-pervyi-kachestvo"&gt;&lt;a class="toclink" href="#zaezd-pervyi-kachestvo"&gt;Заезд первый &amp;#8212;&amp;nbsp;&amp;#8220;Качество&amp;#8221;&lt;/a&gt;&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Качество &amp;#8212; это делать что-либо правильно, даже когда никто не&amp;nbsp;смотрит.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -421,7 +421,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;p&gt;На данном этапе сошли с дистанции сразу 4 участника. Причем, если бы я делал
 ставки, то проиграл бы, ведь хром, которого я считал фаворитом
 соревнований, оказался абсолютно некомпетентным&amp;nbsp;участником.&lt;/p&gt;
-&lt;h4&gt;Только видимая&amp;nbsp;область&lt;/h4&gt;
+&lt;h4 id="tolko-vidimaia-oblast"&gt;&lt;a class="toclink" href="#tolko-vidimaia-oblast"&gt;Только видимая&amp;nbsp;область&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Для связки &lt;code&gt;selenium&lt;/code&gt;-а и &lt;code&gt;google chrome&lt;/code&gt;
 необходимо использовать &lt;code&gt;chromedriver&lt;/code&gt; текущая стабильная версия &lt;code&gt;2.14&lt;/code&gt;.
 И, как оказалось, в нем содержится баг, который тянется с 2013 года, известным
@@ -432,7 +432,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;p&gt;&lt;img alt="chrome fail" class="shadow" src="/media/browsers/chrome.png" /&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Так что &lt;code&gt;Google Chrome&lt;/code&gt; и &lt;code&gt;Chromium&lt;/code&gt; не прошли данный&amp;nbsp;этап.&lt;/p&gt;
-&lt;h4&gt;Неверный&amp;nbsp;resize&lt;/h4&gt;
+&lt;h4 id="nevernyi-resize"&gt;&lt;a class="toclink" href="#nevernyi-resize"&gt;Неверный&amp;nbsp;resize&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Безголовый браузер &lt;code&gt;Splash&lt;/code&gt;, запускается демоном и слушает &lt;code&gt;localhost:8050&lt;/code&gt;, по
 которому предоставляет &lt;code&gt;http api&lt;/code&gt; управления браузером. Для сохранения скриншота
 необходимо указать адрес сайта и ширину окна&amp;nbsp;браузера.&lt;/p&gt;
@@ -450,10 +450,10 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 780px&lt;br /&gt;&lt;img alt="splash big" class="shadow" src="/media/browsers/splash_big.png" /&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Так что &lt;code&gt;splash&lt;/code&gt; не прошел данный&amp;nbsp;этап.&lt;/p&gt;
-&lt;h4&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;Что я вообще сдесь делаю&amp;#8221; &amp;copy;&amp;nbsp;Zombie&lt;/h4&gt;
+&lt;h4 id="chto-ia-voobshche-sdes-delaiu-zombie"&gt;&lt;a class="toclink" href="#chto-ia-voobshche-sdes-delaiu-zombie"&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;Что я вообще сдесь делаю&amp;#8221; &amp;copy;&amp;nbsp;Zombie&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;&lt;img alt="zombie" src="/media/browsers/zombie.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;Как оказалось, Зомби вообще не умеет делать скриншоты, поэтому выбывает из&amp;nbsp;соревнований.&lt;/p&gt;
-&lt;h4&gt;Фальшивые паспорта &amp;#8212; старый&amp;nbsp;гугл&lt;/h4&gt;
+&lt;h4 id="falshivye-pasporta-staryi-gugl"&gt;&lt;a class="toclink" href="#falshivye-pasporta-staryi-gugl"&gt;Фальшивые паспорта &amp;#8212; старый&amp;nbsp;гугл&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Некоторые из участников соревнований, а именно &lt;code&gt;Phantom.js&lt;/code&gt; и &lt;code&gt;Slimer.js&lt;/code&gt;
 не смогли бы пройти все этапы ралли, под своими именами, поэтому пришлось
 выдать им фальшивые&amp;nbsp;паспорта.&lt;/p&gt;
@@ -473,7 +473,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;blockquote&gt;
 &lt;p&gt;&lt;img alt="google ok" class="shadow" src="/media/browsers/google.png" /&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4&gt;Пикселизация &amp;#8212; выколи&amp;nbsp;глаза.&lt;/h4&gt;
+&lt;h4 id="pikselizatsiia-vykoli-glaza"&gt;&lt;a class="toclink" href="#pikselizatsiia-vykoli-glaza"&gt;Пикселизация &amp;#8212; выколи&amp;nbsp;глаза.&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;&lt;code&gt;Ghost.py&lt;/code&gt; не очень хорошо умеет захватывать картинки, логотип google выглядит
 похожим на&amp;nbsp;забор.&lt;/p&gt;
 &lt;blockquote&gt;
@@ -481,7 +481,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;/blockquote&gt;
 &lt;p&gt;Хоть это и недопустимо, однако, ограничимся предупреждением, и пропустим
 &lt;code&gt;Ghost.py&lt;/code&gt; в следующий&amp;nbsp;тур.&lt;/p&gt;
-&lt;h3&gt;Результаты первого&amp;nbsp;заезда&lt;/h3&gt;
+&lt;h3 id="rezultaty-pervogo-zaezda"&gt;&lt;a class="toclink" href="#rezultaty-pervogo-zaezda"&gt;Результаты первого&amp;nbsp;заезда&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Во второй тур прошли 4 участника и 4 участника покинули соревнования.
 Турнирная таблица по окончанию первого&amp;nbsp;этапа.&lt;/p&gt;
 &lt;ul&gt;
@@ -494,7 +494,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;li&gt;:x:&amp;nbsp;Splash&lt;/li&gt;
 &lt;li&gt;:x:&amp;nbsp;Zombie.js&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Заезд второй &amp;#8212;&amp;nbsp;&amp;#8220;Скорость&amp;#8221;&lt;/h2&gt;
+&lt;h2 id="zaezd-vtoroi-skorost"&gt;&lt;a class="toclink" href="#zaezd-vtoroi-skorost"&gt;Заезд второй &amp;#8212;&amp;nbsp;&amp;#8220;Скорость&amp;#8221;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;img alt="speed" src="/media/browsers/speed.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;На данном этапе измерялось время, необходимое для создания браузера,
 открытия нужной страницы, изменения ширины окна до заданной, сохранения страницы
@@ -519,7 +519,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 
 &lt;div&gt;&lt;canvas id="canvas-time"&gt;&lt;/canvas&gt;&lt;/div&gt;
 
-&lt;h3&gt;Результаты второго&amp;nbsp;заезда&lt;/h3&gt;
+&lt;h3 id="rezultaty-vtorogo-zaezda"&gt;&lt;a class="toclink" href="#rezultaty-vtorogo-zaezda"&gt;Результаты второго&amp;nbsp;заезда&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;В ходе данного этапа участники заняли следующие&amp;nbsp;места:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Phantom.js &lt;code&gt;2.x&lt;/code&gt;&lt;/li&gt;
@@ -533,7 +533,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;/ol&gt;
 &lt;p&gt;В результате, ни один из участников не оказался значительно хуже чем &lt;code&gt;firefox&lt;/code&gt;,
 поэтому выбывших нет, все переходят к следующему&amp;nbsp;этапу.&lt;/p&gt;
-&lt;h2&gt;Заезд третий &amp;#8212;&amp;nbsp;&amp;#8220;Ресурсы&amp;#8221;&lt;/h2&gt;
+&lt;h2 id="zaezd-tretii-resursy"&gt;&lt;a class="toclink" href="#zaezd-tretii-resursy"&gt;Заезд третий &amp;#8212;&amp;nbsp;&amp;#8220;Ресурсы&amp;#8221;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;img alt="fuel" src="/media/browsers/fuel.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;Учитывалась память, которую тратит главный процесс, и все его дочерние процессы.
 Память измерялась при помощи функции &lt;code&gt;memory_usage&lt;/code&gt; библиотеки &lt;code&gt;memory_profiler&lt;/code&gt;
@@ -549,7 +549,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h4&gt;Ненасытное&amp;nbsp;привидение&lt;/h4&gt;
+&lt;h4 id="nenasytnoe-prividenie"&gt;&lt;a class="toclink" href="#nenasytnoe-prividenie"&gt;Ненасытное&amp;nbsp;привидение&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;&lt;code&gt;Ghost.py&lt;/code&gt; оказался чрезвычайно прожорливым, занимая всю доступную
 память, доходил до максимума и вылетал. Единственный из участников, кто не
 сумел пройти все 16 чекпоинтов за один&amp;nbsp;подход.&lt;/p&gt;
@@ -558,11 +558,11 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;p&gt;I ain&amp;#8217;t afraid of no&amp;nbsp;ghosts&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;img alt="ghostbusters" src="/media/browsers/ghostbusters.png" /&gt;&lt;/p&gt;
-&lt;h4&gt;Двуличный&amp;nbsp;хитрец&lt;/h4&gt;
+&lt;h4 id="dvulichnyi-khitrets"&gt;&lt;a class="toclink" href="#dvulichnyi-khitrets"&gt;Двуличный&amp;nbsp;хитрец&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Оказалось, что &lt;code&gt;Slimer.js&lt;/code&gt; притворяется: запускается дочерний процесс &lt;code&gt;slimerjs&lt;/code&gt;,
 который потребляет не более 3&amp;nbsp;Mb памяти, но при этом запускает ещё один
 дочерний процесс с именем &lt;code&gt;firefox&lt;/code&gt;, который уже добирает память до&amp;nbsp;300&amp;nbsp;Mb.&lt;/p&gt;
-&lt;h4&gt;Общие затраты&amp;nbsp;памяти&lt;/h4&gt;
+&lt;h4 id="obshchie-zatraty-pamiati"&gt;&lt;a class="toclink" href="#obshchie-zatraty-pamiati"&gt;Общие затраты&amp;nbsp;памяти&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Поскольку &lt;code&gt;Ghost.py&lt;/code&gt; потребляет уж слишком много ресурсов, на графиках не&amp;nbsp;указывается.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Легенда:&lt;/strong&gt;
     &lt;ul class="browsers2"&gt;&lt;/ul&gt;
@@ -576,7 +576,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 
 &lt;div&gt;&lt;canvas id="canvas-memory_avg"&gt;&lt;/canvas&gt;&lt;/div&gt;
 
-&lt;h3&gt;Результаты третьего&amp;nbsp;заезда&lt;/h3&gt;
+&lt;h3 id="rezultaty-tretego-zaezda"&gt;&lt;a class="toclink" href="#rezultaty-tretego-zaezda"&gt;Результаты третьего&amp;nbsp;заезда&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;В ходе данного этапа участники заняли следующие&amp;nbsp;места:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Phantom.js &lt;code&gt;1.x&lt;/code&gt;&lt;/li&gt;
@@ -595,11 +595,11 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;li&gt;:white_check_mark:&amp;nbsp;Firefox&lt;/li&gt;
 &lt;li&gt;:x:&amp;nbsp;Ghost.py&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Заезд четвертый &amp;#8212;&amp;nbsp;&amp;#8220;Управляемость&amp;#8221;&lt;/h2&gt;
+&lt;h2 id="zaezd-chetvertyi-upravliaemost"&gt;&lt;a class="toclink" href="#zaezd-chetvertyi-upravliaemost"&gt;Заезд четвертый &amp;#8212;&amp;nbsp;&amp;#8220;Управляемость&amp;#8221;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;img alt="wet road" src="/media/browsers/wet_road.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Несмотря на то, что определилась тройка лидеров и уже можно подвести итоги,
 рассмотрим как управлять безголовыми&amp;nbsp;браузерами.&lt;/p&gt;
-&lt;h4&gt;Firefox&lt;/h4&gt;
+&lt;h4 id="firefox"&gt;&lt;a class="toclink" href="#firefox"&gt;Firefox&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;&lt;code&gt;Firefox&lt;/code&gt; работает в связке с &lt;code&gt;selenium&lt;/code&gt;-ом и управляется достаточно просто,
 единственная особенность &amp;#8212; это то, что браузер запускает графическую
 оболочку, поэтому нужно использовать виртуальный&amp;nbsp;дисплей.&lt;/p&gt;
@@ -615,7 +615,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h4&gt;Phantom&lt;/h4&gt;
+&lt;h4 id="phantom"&gt;&lt;a class="toclink" href="#phantom"&gt;Phantom&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;&lt;code&gt;Phantom.js&lt;/code&gt; можно использовать, как самостоятельный безголовый браузер, так и
 в связке с &lt;code&gt;selenium&lt;/code&gt;-ом.
 Работа с &lt;code&gt;selenium&lt;/code&gt;-ом аналогична &lt;code&gt;firefox&lt;/code&gt;, за тем лишь исключением, что нет
@@ -639,7 +639,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h4&gt;Slimer&lt;/h4&gt;
+&lt;h4 id="slimer"&gt;&lt;a class="toclink" href="#slimer"&gt;Slimer&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;&lt;code&gt;Slimer.js&lt;/code&gt; работает точно так же, как и &lt;code&gt;phantom.js&lt;/code&gt; без &lt;code&gt;selenium&lt;/code&gt;-а,
 но является не совсем безголовым, он запускает графическую оболочку, поэтому
 требует виртуальный&amp;nbsp;дисплей.&lt;/p&gt;
@@ -667,7 +667,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h2&gt;Финиш&lt;/h2&gt;
+&lt;h2 id="finish"&gt;&lt;a class="toclink" href="#finish"&gt;Финиш&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;img alt="chess flag" src="/media/browsers/chess_flag.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Гонка завершилась, пришло время подвести итоги и определить&amp;nbsp;победителей.&lt;/p&gt;
 &lt;p&gt;До финиша доехали всего три команды, так что тройка лидеров очевидна. Учитывая
@@ -686,7 +686,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;p&gt;&lt;img alt="pedestal" src="/media/browsers/pedestal.png" /&gt;&lt;/p&gt;
 &lt;script type="text/javascript" src="/extra/browsers/chart.min.js"&gt;&lt;/script&gt;
 
-&lt;script type="text/javascript" src="/extra/browsers/data.js"&gt;&lt;/script&gt;</summary><category term="python"></category><category term="browsers"></category><category term="wb-tech"></category></entry><entry><title>Ура, меня в гугле забанили…</title><link href="https://samael500.github.io/articles/drugoe/ura-menia-v-gugle-zabanili/" rel="alternate"></link><updated>2015-01-30T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-01-30:articles/drugoe/ura-menia-v-gugle-zabanili/</id><summary type="html">&lt;h1&gt;&lt;/h1&gt;
+&lt;script type="text/javascript" src="/extra/browsers/data.js"&gt;&lt;/script&gt;</summary><category term="python"></category><category term="browsers"></category><category term="wb-tech"></category></entry><entry><title>Ура, меня в гугле забанили…</title><link href="https://samael500.github.io/articles/drugoe/ura-menia-v-gugle-zabanili/" rel="alternate"></link><updated>2015-01-30T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-01-30:articles/drugoe/ura-menia-v-gugle-zabanili/</id><summary type="html">&lt;h1 id="_1"&gt;&lt;a class="toclink" href="#_1"&gt;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;&lt;img alt="google-ban" class="center" src="/media/google-ban/google_ban.png" /&gt;&lt;/p&gt;
 &lt;p&gt;В связи с наложенными западными компаниями санкциями на Крым,
 у меня перестала работать часть сервисов&amp;nbsp;гугла.&lt;/p&gt;
