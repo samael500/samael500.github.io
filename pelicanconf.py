@@ -44,6 +44,7 @@ DISPLAY_PAGES_ON_MENU = True
 DEFAULT_PAGINATION = 10
 # url and path settings
 RELATIVE_URLS = True
+CACHE_CONTENT = False
 STATIC_PATHS = ['icons', 'media', 'extra', 'emojify', 'stuff', ]
 EXTRA_PATH_METADATA = {
     'stuff/robots.txt': {'path': 'robots.txt'},
@@ -93,4 +94,6 @@ SITEMAP = {
 # markdown settings
 from markdown.extensions.toc import TocExtension
 from slugify import slugify
-MD_EXTENSIONS = ['codehilite(css_class=highlight)', 'extra', TocExtension(anchorlink=True, slugify=slugify), ]
+MD_EXTENSIONS = [
+    'codehilite(css_class=highlight)', 'extra',
+    TocExtension(anchorlink=True, slugify=slugify), ]
