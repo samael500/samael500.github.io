@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script type="text/javascript">
+        if (window.location.protocol != "https:") {
+            window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+        }
+    </script>
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -42,14 +48,6 @@
         });
         $(document).ready(function() {
             emojify.run(document.getElementsByTagName('article')[0]);
-        });
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            if (window.location.protocol != "https:") {
-                window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
-            }
         });
     </script>
 
@@ -324,14 +322,14 @@
         <div class="categories">
             <h3>Tags</h3>
             <ul id="cloud">
-                    <li class="tag-1"><a href="https://samael500.github.io/tag/streak/">streak</a></li>
-                    <li class="tag-4"><a href="https://samael500.github.io/tag/wb-tech/">wb-tech</a></li>
-                    <li class="tag-1"><a href="https://samael500.github.io/tag/github/">github</a></li>
-                    <li class="tag-1"><a href="https://samael500.github.io/tag/python/">python</a></li>
-                    <li class="tag-4"><a href="https://samael500.github.io/tag/browsers/">browsers</a></li>
                     <li class="tag-4"><a href="https://samael500.github.io/tag/youtube/">youtube</a></li>
+                    <li class="tag-4"><a href="https://samael500.github.io/tag/wb-tech/">wb-tech</a></li>
+                    <li class="tag-4"><a href="https://samael500.github.io/tag/browsers/">browsers</a></li>
+                    <li class="tag-1"><a href="https://samael500.github.io/tag/streak/">streak</a></li>
                     <li class="tag-4"><a href="https://samael500.github.io/tag/video-upload/">video upload</a></li>
+                    <li class="tag-1"><a href="https://samael500.github.io/tag/python/">python</a></li>
                     <li class="tag-4"><a href="https://samael500.github.io/tag/oauth2/">oauth2</a></li>
+                    <li class="tag-1"><a href="https://samael500.github.io/tag/github/">github</a></li>
             </ul>
          </div>
 

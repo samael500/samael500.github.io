@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script type="text/javascript">
+        if (window.location.protocol != "https:") {
+            window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+        }
+    </script>
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -42,14 +48,6 @@
         });
         $(document).ready(function() {
             emojify.run(document.getElementsByTagName('article')[0]);
-        });
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            if (window.location.protocol != "https:") {
-                window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
-            }
         });
     </script>
 
