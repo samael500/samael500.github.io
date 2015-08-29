@@ -11,7 +11,6 @@ KEYWORDS = u'Samael500 personal blog'
 PATH = 'content'
 
 TIMEZONE = 'Europe/Moscow'
-
 DEFAULT_LANG = u'ru'
 
 # Feed generation is usually not desired when developing
@@ -32,35 +31,25 @@ SOCIAL = (
     ('<i class="fa-li fa fa-twitter"></i> Twitter', 'https://twitter.com/samael500'),
     ('<i class="fa-li fa fa-github"></i> Github', 'https://github.com/samael500'),
 )
-
+# links and usernames
 # TWITTER_USERNAME = 'samael500'
-
-DEFAULT_PAGINATION = 10
-
-# Uncomment following line if you want document-relative URLs when developing
-RELATIVE_URLS = True
+GITHUB_URL = 'https://github.com/Samael500'
+GOOGLE_CUSTOM_SEARCH = '006263355362628034990:cuxoisonrno'
 
 THEME = './theme'
 THEME = '../w3-personal-blog'
-GITHUB_URL = 'https://github.com/Samael500'
 
+DISPLAY_PAGES_ON_MENU = True
+
+DEFAULT_PAGINATION = 10
+# url and path settings
+RELATIVE_URLS = True
 STATIC_PATHS = ['icons', 'media', 'extra', 'emojify', 'stuff', ]
-
 EXTRA_PATH_METADATA = {
     'stuff/robots.txt': {'path': 'robots.txt'},
     'stuff/CNAME': {'path': 'CNAME'},
     'stuff/google57a1afa03280f644.html': {'path': 'google57a1afa03280f644.html'},
 }
-
-READERS = {'html': None}
-
-TYPOGRIFY = True
-
-DISPLAY_PAGES_ON_MENU = True
-
-GOOGLE_CUSTOM_SEARCH = '006263355362628034990:cuxoisonrno'
-
-# url settings
 # article
 ARTICLE_URL = u'articles/{category}/{slug}/'
 ARTICLE_SAVE_AS = u'articles/{category}/{slug}/index.html'
@@ -82,6 +71,8 @@ TAG_SAVE_AS = u'tag/{slug}/index.html'
 
 # plugins and extensions
 PLUGINS = ['plugins.sitemap', ]
+READERS = {'html': None}
+TYPOGRIFY = True
 
 # sitemap settings
 SITEMAP = {
