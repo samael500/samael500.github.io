@@ -60,28 +60,30 @@ DISPLAY_PAGES_ON_MENU = True
 
 GOOGLE_CUSTOM_SEARCH = '006263355362628034990:cuxoisonrno'
 
-
+# url settings
+# article
 ARTICLE_URL = u'articles/{category}/{slug}/'
 ARTICLE_SAVE_AS = u'articles/{category}/{slug}/index.html'
-
+# page
 PAGE_URL = u'{slug}/'
 PAGE_SAVE_AS = u'{slug}/index.html'
-
+# author
 AUTHOR_URL = u'author/{slug}/'
 AUTHOR_SAVE_AS = u'author/{slug}/index.html'
-
+# authors
 AUTHORS_URL = u'authors/'
 AUTHORS_SAVE_AS = u'authors/index.html'
-
+# category
 CATEGORY_URL = u'category/{slug}.html'
 CATEGORY_SAVE_AS = u'category/{slug}.html'
-
+# tag
 TAG_URL = u'tag/{slug}/'
 TAG_SAVE_AS = u'tag/{slug}/index.html'
 
+# plugins and extensions
+PLUGINS = ['plugins.sitemap', ]
 
-PLUGINS=['plugins.sitemap', ]
-
+# sitemap settings
 SITEMAP = {
     'format': 'xml',
     'priorities': {
@@ -95,3 +97,9 @@ SITEMAP = {
         'pages': 'monthly'
     }
 }
+
+
+# markdown settings
+from markdown.extensions.toc import TocExtension
+from slugify import slugify
+MD_EXTENSIONS = ['codehilite(css_class=highlight)', 'extra', TocExtension(anchorlink=True, slugify=slugify), ]
