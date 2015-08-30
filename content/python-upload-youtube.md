@@ -21,6 +21,8 @@ Summary:
 > Любое совпадение с реально существующими или когда-либо существовавшими
 > ключами случайно.
 
+####Создание нового проекта
+
 Для авторизации в сервисах `google` с помощью протокола
 [oauth2](http://oauth.net/2/) необходимо зарегистрировать приложение и дать
 ему соответсвующие права. Для этого нужно перейти в
@@ -44,6 +46,8 @@ Summary:
 
 * Client ID `230452130504-3uca1rp4ntlh06hdnsdbj50sqagaqfkt.apps.googleusercontent.com`
 * Client secret `qawsWCd3J6HTRvnqsjYUpgH9`
+
+####Права доступа к аккаунту
 
 Получив данные для авторизации, нужно перейти по следующей ссылке, заменив в ней
 параметр `client_id` на тот, что Вы получили в предыдущем шаге.
@@ -72,6 +76,8 @@ Summary:
 `4/Rw6A9raJQ3PrPWL0Q9z49guYu89FZoz322RySVFtzNc`.
 
 ![code](/media/youtube-upload/code.png){.shadow .center}
+
+####Обновляемый токен
 
 После этого необходимо получить, так называемый, `refresh_token`, для этого нужно
 отправить `POST` запрос с токеном авторизации по адресу
@@ -103,6 +109,8 @@ curl --data $data "https://accounts.google.com/o/oauth2/token"
 }
 ```
 
+####Токен доступа
+
 Получив обновляемый токен, можем с его помощью каждый раз получать рабочий
 токен доступа, который предоставляется временем на 3600 секунд.
 
@@ -125,6 +133,8 @@ curl --data $data "https://accounts.google.com/o/oauth2/token"
   "expires_in" : 3600
 }
 ```
+
+#####Автоматическое получение токена доступа
 
 Получать этот токен доступа нужно будет каждые раз, при подключении к `api`.
 Для этого напишем простую функцию на `python 3` с использованием стандартной
@@ -163,6 +173,8 @@ def get_auth_code():
     return response['access_token']
 
 ```
+
+####Oauth2 авторизация
 
 Вот теперь, мы наконец подошли к самой `oauth2` авторизации в сервисах гугл.
 Для этого необходимо использовать следующие дополнительные библиотеки:
@@ -357,6 +369,8 @@ video_id = initialize_upload(get_authenticated_service(), card)
 Ограничив тем самым мое право доступа к свободной информации.
 Для работы с `youtube api` мне необходимо использовать `vpn` подключение.
 
+####VPN соединение
+
 В качестве `vpn` соединения я использую `ssh` туннель и локальное `socks5`
 прокси на 1080 порту. Включаю/отключаю `ssh` тунель при помощи библиотеки
 `subprocess`.
@@ -371,6 +385,8 @@ subprocess.Popen(['ssh', '-fN', '-D', '1080', 'forward@vpn_connection'])
 subprocess.Popen(['pkill', '-f', 'forward@vpn_connection'])
 ```
 
+####Не правильно
+
 Что бы подключиться к локальному `socks5` прокси, необходимо использовать
 библиотеку [socksipy](http://socksipy.sourceforge.net/), как показано
 в [примере](https://code.google.com/p/httplib2/wiki/Examples#Proxies)
@@ -384,9 +400,11 @@ h = httplib2.Http(proxy_info = httplib2.ProxyInfo(socks.PROXY_TYPE_SOCKS5, 'loca
 r, c = h.request('https://l2.io/ip')
 ```
 
-Но, этот способ не работает. Библиотека `socksipy` не поддерживает `python 3`,
-поэтому необходимо делать
-[по другому](https://code.google.com/p/httplib2/issues/detail?id=205).
+####Правильно
+
+Но, вышеуказанный способ не работает.
+Библиотека `socksipy` не поддерживает `python 3`, поэтому необходимо делать
+[по-другому](https://code.google.com/p/httplib2/issues/detail?id=205).
 Использовать библиотеку
 [socksipy-branch](https://code.google.com/p/socksipy-branch/)
 ([gist зеркало](https://gist.github.com/Samael500/5a53b01db96f812ac530)).
