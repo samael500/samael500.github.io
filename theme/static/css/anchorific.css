@@ -1,0 +1,45 @@
+.anchorific {
+    position: fixed;
+    font-size: 0.9em;
+    font-weight: 400;
+    max-width: 150%;
+}
+
+.anchorific .tree {
+    border: 3px solid #ddd;
+}
+
+@media(max-width:1024px){
+    .anchorific{
+        display: none;
+    }
+}
+
+.anchorific li ul {
+    display: none;
+}
+
+.anchorific li.active > a {
+    color: #00aeff;
+}
+
+.anchorific li.active > ul {
+    display: block;
+    /*color: #00aeff;*/
+}
+
+.top {
+    display: none;
+    background: url(../images/add_content_spr.gif) 5px -8px no-repeat #eceff5;
+    font-weight: bold;
+    font-family: tahoma;
+    font-size: 10px;
+    width: 70px;
+    color: #3b5998;
+    font-size: 11px;
+    text-decoration: none;
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
+    padding: 7px 7px 7px 20px;
+}
