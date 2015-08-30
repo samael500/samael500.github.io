@@ -90,7 +90,6 @@ SITEMAP = {
     }
 }
 
-
 # markdown settings
 from markdown.extensions.toc import TocExtension
 from slugify import slugify
