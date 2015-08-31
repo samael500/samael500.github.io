@@ -90,8 +90,6 @@ if ( typeof Object.create !== 'function' ) {
 
             if ( self.opt.top ) 
                 self.back();
-
-            $('ul.tree').append('<li><strong><a href="#" class="top">наверх</a></strong></li>');
         },
         
         navigations: function( obj ) {
