@@ -217,3 +217,17 @@ if ( typeof Object.create !== 'function' ) {
     };
 
 })( jQuery, window, document );
+
+$( document ).ready(function() {
+    $('article.content').anchorific({
+        speed: 200, anchorClass: null, anchorText: null, spy: true, position: null, anchor: null,
+    });
+
+    var $window = $(window),
+        $sticky = $('div.anchorific'),
+        sticky_top = $sticky.offset().top;
+
+    $window.scroll(function() {
+        $sticky.toggleClass('sticky', $window.scrollTop() > sticky_top - 33);
+    });
+});

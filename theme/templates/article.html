@@ -15,22 +15,6 @@
     <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/theme/css/tree.css" />
     <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/theme/css/anchorific.css" />
     <script type="text/javascript" src="{{ SITEURL }}/theme/js/anchorific.js"></script>
-    <script type="text/javascript">
-    $( document ).ready(function() {
-        $('article.content').anchorific({
-            speed: 200, anchorClass: null, anchorText: null, spy: true, position: null, anchor: null,
-            top: '.top',
-        });
-
-        var $window = $(window),
-            $sticky = $('div.anchorific'),
-            sticky_top = $sticky.offset().top;
-
-        $window.scroll(function() {
-            $sticky.toggleClass('sticky', $window.scrollTop() > sticky_top - 33);
-        });
-    });
-    </script>
 {% endblock %}
 
 
