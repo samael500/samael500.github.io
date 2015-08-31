@@ -9,6 +9,7 @@
 Любое совпадение с реально существующими или когда-либо существовавшими
 ключами&amp;nbsp;случайно.&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;h4 id="sozdanie-novogo-proekta"&gt;&lt;a class="toclink" href="#sozdanie-novogo-proekta"&gt;Создание нового&amp;nbsp;проекта&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Для авторизации в сервисах &lt;code&gt;google&lt;/code&gt; с помощью протокола
 &lt;a href="http://oauth.net/2/"&gt;oauth2&lt;/a&gt; необходимо зарегистрировать приложение и дать
 ему соответсвующие права. Для этого нужно перейти в
@@ -28,6 +29,7 @@
 &lt;li&gt;Client &lt;span class="caps"&gt;ID&lt;/span&gt; &lt;code&gt;230452130504-3uca1rp4ntlh06hdnsdbj50sqagaqfkt.apps.googleusercontent.com&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Client secret &lt;code&gt;qawsWCd3J6HTRvnqsjYUpgH9&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h4 id="prava-dostupa-k-akkauntu"&gt;&lt;a class="toclink" href="#prava-dostupa-k-akkauntu"&gt;Права доступа к&amp;nbsp;аккаунту&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Получив данные для авторизации, нужно перейти по следующей ссылке, заменив в ней
 параметр &lt;code&gt;client_id&lt;/code&gt; на тот, что Вы получили в предыдущем&amp;nbsp;шаге.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;    https://accounts.google.com/o/oauth2/auth?
@@ -48,6 +50,7 @@
 &lt;p&gt;Получаем токен авторизации следующего вида
 &lt;code&gt;4/Rw6A9raJQ3PrPWL0Q9z49guYu89FZoz322RySVFtzNc&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="code" class="shadow center" src="/media/youtube-upload/code.png" /&gt;&lt;/p&gt;
+&lt;h4 id="obnovliaemyi-token"&gt;&lt;a class="toclink" href="#obnovliaemyi-token"&gt;Обновляемый&amp;nbsp;токен&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;После этого необходимо получить, так называемый, &lt;code&gt;refresh_token&lt;/code&gt;, для этого нужно
 отправить &lt;code&gt;POST&lt;/code&gt; запрос с токеном авторизации по адресу
 &lt;code&gt;https://accounts.google.com/o/oauth2/token&lt;/code&gt;. Сделать это легко, при помощи
@@ -76,6 +79,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;h4 id="token-dostupa"&gt;&lt;a class="toclink" href="#token-dostupa"&gt;Токен&amp;nbsp;доступа&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Получив обновляемый токен, можем с его помощью каждый раз получать рабочий
 токен доступа, который предоставляется временем на 3600&amp;nbsp;секунд.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
@@ -97,6 +101,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;h5 id="avtomaticheskoe-poluchenie-tokena-dostupa"&gt;&lt;a class="toclink" href="#avtomaticheskoe-poluchenie-tokena-dostupa"&gt;Автоматическое получение токена&amp;nbsp;доступа&lt;/a&gt;&lt;/h5&gt;
 &lt;p&gt;Получать этот токен доступа нужно будет каждые раз, при подключении к &lt;code&gt;api&lt;/code&gt;.
 Для этого напишем простую функцию на &lt;code&gt;python 3&lt;/code&gt; с использованием стандартной
 библиотеки &lt;code&gt;urllib.request&lt;/code&gt;&lt;/p&gt;
@@ -132,6 +137,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;h4 id="oauth2-avtorizatsiia"&gt;&lt;a class="toclink" href="#oauth2-avtorizatsiia"&gt;Oauth2&amp;nbsp;авторизация&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Вот теперь, мы наконец подошли к самой &lt;code&gt;oauth2&lt;/code&gt; авторизации в сервисах гугл.
 Для этого необходимо использовать следующие дополнительные&amp;nbsp;библиотеки:&lt;/p&gt;
 &lt;ul&gt;
@@ -309,6 +315,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 свои, безосновательные, &lt;a href="https://samael500.github.io/articles/drugoe/ura-menia-v-gugle-zabanili/"&gt;санкции&lt;/a&gt;.
 Ограничив тем самым мое право доступа к свободной информации.
 Для работы с &lt;code&gt;youtube api&lt;/code&gt; мне необходимо использовать &lt;code&gt;vpn&lt;/code&gt; подключение.&lt;/p&gt;
+&lt;h4 id="vpn-soedinenie"&gt;&lt;a class="toclink" href="#vpn-soedinenie"&gt;&lt;span class="caps"&gt;VPN&lt;/span&gt;&amp;nbsp;соединение&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;В качестве &lt;code&gt;vpn&lt;/code&gt; соединения я использую &lt;code&gt;ssh&lt;/code&gt; туннель и локальное &lt;code&gt;socks5&lt;/code&gt;
 прокси на 1080 порту. Включаю/отключаю &lt;code&gt;ssh&lt;/code&gt; тунель при помощи библиотеки
 &lt;code&gt;subprocess&lt;/code&gt;.&lt;/p&gt;
@@ -322,6 +329,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;h4 id="ne-pravilno"&gt;&lt;a class="toclink" href="#ne-pravilno"&gt;Не&amp;nbsp;правильно&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Что бы подключиться к локальному &lt;code&gt;socks5&lt;/code&gt; прокси, необходимо использовать
 библиотеку &lt;a href="http://socksipy.sourceforge.net/"&gt;socksipy&lt;/a&gt;, как показано
 в &lt;a href="https://code.google.com/p/httplib2/wiki/Examples#Proxies"&gt;примере&lt;/a&gt;
@@ -334,9 +342,10 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Но, этот способ не работает. Библиотека &lt;code&gt;socksipy&lt;/code&gt; не поддерживает &lt;code&gt;python 3&lt;/code&gt;,
-поэтому необходимо делать
-&lt;a href="https://code.google.com/p/httplib2/issues/detail?id=205"&gt;по другому&lt;/a&gt;.
+&lt;h4 id="pravilno"&gt;&lt;a class="toclink" href="#pravilno"&gt;Правильно&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Но, вышеуказанный способ не работает.
+Библиотека &lt;code&gt;socksipy&lt;/code&gt; не поддерживает &lt;code&gt;python 3&lt;/code&gt;, поэтому необходимо делать
+&lt;a href="https://code.google.com/p/httplib2/issues/detail?id=205"&gt;по-другому&lt;/a&gt;.
 Использовать библиотеку
 &lt;a href="https://code.google.com/p/socksipy-branch/"&gt;socksipy-branch&lt;/a&gt;
 (&lt;a href="https://gist.github.com/Samael500/5a53b01db96f812ac530"&gt;gist зеркало&lt;/a&gt;).
@@ -409,6 +418,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;p&gt;при следующих разрешениях экранов по ширине: &lt;code&gt;240&lt;/code&gt;, &lt;code&gt;780&lt;/code&gt;, &lt;code&gt;1320&lt;/code&gt;, &lt;code&gt;1920&lt;/code&gt;
 пикселей.&lt;/p&gt;
 &lt;h2 id="zaezd-pervyi-kachestvo"&gt;&lt;a class="toclink" href="#zaezd-pervyi-kachestvo"&gt;Заезд первый &amp;#8212;&amp;nbsp;&amp;#8220;Качество&amp;#8221;&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="proverka-kachestva-skrinshotov"&gt;&lt;a class="toclink" href="#proverka-kachestva-skrinshotov"&gt;Проверка качества&amp;nbsp;скриншотов&lt;/a&gt;&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Качество &amp;#8212; это делать что-либо правильно, даже когда никто не&amp;nbsp;смотрит.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -447,7 +457,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;/blockquote&gt;
 &lt;p&gt;Так что &lt;code&gt;splash&lt;/code&gt; не прошел данный&amp;nbsp;этап.&lt;/p&gt;
 &lt;h4 id="chto-ia-voobshche-sdes-delaiu-zombie"&gt;&lt;a class="toclink" href="#chto-ia-voobshche-sdes-delaiu-zombie"&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;Что я вообще сдесь делаю&amp;#8221; &amp;copy;&amp;nbsp;Zombie&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;img alt="zombie" src="/media/browsers/zombie.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="zombie" class="center" src="/media/browsers/zombie.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;Как оказалось, Зомби вообще не умеет делать скриншоты, поэтому выбывает из&amp;nbsp;соревнований.&lt;/p&gt;
 &lt;h4 id="falshivye-pasporta-staryi-gugl"&gt;&lt;a class="toclink" href="#falshivye-pasporta-staryi-gugl"&gt;Фальшивые паспорта &amp;#8212; старый&amp;nbsp;гугл&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Некоторые из участников соревнований, а именно &lt;code&gt;Phantom.js&lt;/code&gt; и &lt;code&gt;Slimer.js&lt;/code&gt;
@@ -491,6 +501,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;li&gt;:x:&amp;nbsp;Zombie.js&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id="zaezd-vtoroi-skorost"&gt;&lt;a class="toclink" href="#zaezd-vtoroi-skorost"&gt;Заезд второй &amp;#8212;&amp;nbsp;&amp;#8220;Скорость&amp;#8221;&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="proverka-skorosti-raboty-brauzerov"&gt;&lt;a class="toclink" href="#proverka-skorosti-raboty-brauzerov"&gt;Проверка скорости работы&amp;nbsp;браузеров&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;&lt;img alt="speed" src="/media/browsers/speed.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;На данном этапе измерялось время, необходимое для создания браузера,
 открытия нужной страницы, изменения ширины окна до заданной, сохранения страницы
@@ -530,6 +541,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;p&gt;В результате, ни один из участников не оказался значительно хуже чем &lt;code&gt;firefox&lt;/code&gt;,
 поэтому выбывших нет, все переходят к следующему&amp;nbsp;этапу.&lt;/p&gt;
 &lt;h2 id="zaezd-tretii-resursy"&gt;&lt;a class="toclink" href="#zaezd-tretii-resursy"&gt;Заезд третий &amp;#8212;&amp;nbsp;&amp;#8220;Ресурсы&amp;#8221;&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="analiz-zatrat-resursov-na-sozdanie-skrinshota"&gt;&lt;a class="toclink" href="#analiz-zatrat-resursov-na-sozdanie-skrinshota"&gt;Анализ затрат ресурсов на создание&amp;nbsp;скриншота&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;&lt;img alt="fuel" src="/media/browsers/fuel.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;Учитывалась память, которую тратит главный процесс, и все его дочерние процессы.
 Память измерялась при помощи функции &lt;code&gt;memory_usage&lt;/code&gt; библиотеки &lt;code&gt;memory_profiler&lt;/code&gt;
@@ -553,7 +565,7 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;blockquote&gt;
 &lt;p&gt;I ain&amp;#8217;t afraid of no&amp;nbsp;ghosts&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;img alt="ghostbusters" src="/media/browsers/ghostbusters.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ghostbusters" class="center" src="/media/browsers/ghostbusters.png" /&gt;&lt;/p&gt;
 &lt;h4 id="dvulichnyi-khitrets"&gt;&lt;a class="toclink" href="#dvulichnyi-khitrets"&gt;Двуличный&amp;nbsp;хитрец&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Оказалось, что &lt;code&gt;Slimer.js&lt;/code&gt; притворяется: запускается дочерний процесс &lt;code&gt;slimerjs&lt;/code&gt;,
 который потребляет не более 3&amp;nbsp;Mb памяти, но при этом запускает ещё один
@@ -592,7 +604,8 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;li&gt;:x:&amp;nbsp;Ghost.py&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id="zaezd-chetvertyi-upravliaemost"&gt;&lt;a class="toclink" href="#zaezd-chetvertyi-upravliaemost"&gt;Заезд четвертый &amp;#8212;&amp;nbsp;&amp;#8220;Управляемость&amp;#8221;&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;&lt;img alt="wet road" src="/media/browsers/wet_road.png" /&gt;&lt;/p&gt;
+&lt;h3 id="metody-upravlenie-brauzerami"&gt;&lt;a class="toclink" href="#metody-upravlenie-brauzerami"&gt;Методы управление&amp;nbsp;браузерами&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="wet road" class="center" src="/media/browsers/wet_road.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Несмотря на то, что определилась тройка лидеров и уже можно подвести итоги,
 рассмотрим как управлять безголовыми&amp;nbsp;браузерами.&lt;/p&gt;
 &lt;h4 id="firefox"&gt;&lt;a class="toclink" href="#firefox"&gt;Firefox&lt;/a&gt;&lt;/h4&gt;

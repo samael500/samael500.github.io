@@ -51,6 +51,9 @@
         });
     </script>
 
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/tree.css" />
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/anchorific.css" />
+    <script type="text/javascript" src="https://samael500.github.io/theme/js/anchorific.js"></script>
 </head>
 <body id="index">
     <a class="forkmegithub" href="https://github.com/Samael500">
@@ -115,7 +118,7 @@
             <div class="content-grids">
 <div class="single-main">
 
-    <div class="col-md-12 single-grid">
+    <div class="col-md-9 single-grid">
 
         <header>
 <h4>
@@ -142,7 +145,7 @@
 
 </div>        </header>
 
-        <div class="content">
+        <article class="content">
 
 
             <p>В одном из моих собственных проектов, возникла задача автоматической
@@ -155,6 +158,7 @@
 Любое совпадение с реально существующими или когда-либо существовавшими
 ключами&nbsp;случайно.</p>
 </blockquote>
+<h4 id="sozdanie-novogo-proekta"><a class="toclink" href="#sozdanie-novogo-proekta">Создание нового&nbsp;проекта</a></h4>
 <p>Для авторизации в сервисах <code>google</code> с помощью протокола
 <a href="http://oauth.net/2/">oauth2</a> необходимо зарегистрировать приложение и дать
 ему соответсвующие права. Для этого нужно перейти в
@@ -174,6 +178,7 @@
 <li>Client <span class="caps">ID</span> <code>230452130504-3uca1rp4ntlh06hdnsdbj50sqagaqfkt.apps.googleusercontent.com</code></li>
 <li>Client secret <code>qawsWCd3J6HTRvnqsjYUpgH9</code></li>
 </ul>
+<h4 id="prava-dostupa-k-akkauntu"><a class="toclink" href="#prava-dostupa-k-akkauntu">Права доступа к&nbsp;аккаунту</a></h4>
 <p>Получив данные для авторизации, нужно перейти по следующей ссылке, заменив в ней
 параметр <code>client_id</code> на тот, что Вы получили в предыдущем&nbsp;шаге.</p>
 <div class="highlight"><pre>    https://accounts.google.com/o/oauth2/auth?
@@ -194,6 +199,7 @@
 <p>Получаем токен авторизации следующего вида
 <code>4/Rw6A9raJQ3PrPWL0Q9z49guYu89FZoz322RySVFtzNc</code>.</p>
 <p><img alt="code" class="shadow center" src="/media/youtube-upload/code.png" /></p>
+<h4 id="obnovliaemyi-token"><a class="toclink" href="#obnovliaemyi-token">Обновляемый&nbsp;токен</a></h4>
 <p>После этого необходимо получить, так называемый, <code>refresh_token</code>, для этого нужно
 отправить <code>POST</code> запрос с токеном авторизации по адресу
 <code>https://accounts.google.com/o/oauth2/token</code>. Сделать это легко, при помощи
@@ -222,6 +228,7 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 </pre></div>
 
 
+<h4 id="token-dostupa"><a class="toclink" href="#token-dostupa">Токен&nbsp;доступа</a></h4>
 <p>Получив обновляемый токен, можем с его помощью каждый раз получать рабочий
 токен доступа, который предоставляется временем на 3600&nbsp;секунд.</p>
 <div class="highlight"><pre><span class="nv">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="se">\</span>
@@ -243,6 +250,7 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 </pre></div>
 
 
+<h5 id="avtomaticheskoe-poluchenie-tokena-dostupa"><a class="toclink" href="#avtomaticheskoe-poluchenie-tokena-dostupa">Автоматическое получение токена&nbsp;доступа</a></h5>
 <p>Получать этот токен доступа нужно будет каждые раз, при подключении к <code>api</code>.
 Для этого напишем простую функцию на <code>python 3</code> с использованием стандартной
 библиотеки <code>urllib.request</code></p>
@@ -278,6 +286,7 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 </pre></div>
 
 
+<h4 id="oauth2-avtorizatsiia"><a class="toclink" href="#oauth2-avtorizatsiia">Oauth2&nbsp;авторизация</a></h4>
 <p>Вот теперь, мы наконец подошли к самой <code>oauth2</code> авторизации в сервисах гугл.
 Для этого необходимо использовать следующие дополнительные&nbsp;библиотеки:</p>
 <ul>
@@ -455,6 +464,7 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 свои, безосновательные, <a href="https://samael500.github.io/articles/drugoe/ura-menia-v-gugle-zabanili/">санкции</a>.
 Ограничив тем самым мое право доступа к свободной информации.
 Для работы с <code>youtube api</code> мне необходимо использовать <code>vpn</code> подключение.</p>
+<h4 id="vpn-soedinenie"><a class="toclink" href="#vpn-soedinenie"><span class="caps">VPN</span>&nbsp;соединение</a></h4>
 <p>В качестве <code>vpn</code> соединения я использую <code>ssh</code> туннель и локальное <code>socks5</code>
 прокси на 1080 порту. Включаю/отключаю <code>ssh</code> тунель при помощи библиотеки
 <code>subprocess</code>.</p>
@@ -468,6 +478,7 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 </pre></div>
 
 
+<h4 id="ne-pravilno"><a class="toclink" href="#ne-pravilno">Не&nbsp;правильно</a></h4>
 <p>Что бы подключиться к локальному <code>socks5</code> прокси, необходимо использовать
 библиотеку <a href="http://socksipy.sourceforge.net/">socksipy</a>, как показано
 в <a href="https://code.google.com/p/httplib2/wiki/Examples#Proxies">примере</a>
@@ -480,9 +491,10 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 </pre></div>
 
 
-<p>Но, этот способ не работает. Библиотека <code>socksipy</code> не поддерживает <code>python 3</code>,
-поэтому необходимо делать
-<a href="https://code.google.com/p/httplib2/issues/detail?id=205">по другому</a>.
+<h4 id="pravilno"><a class="toclink" href="#pravilno">Правильно</a></h4>
+<p>Но, вышеуказанный способ не работает.
+Библиотека <code>socksipy</code> не поддерживает <code>python 3</code>, поэтому необходимо делать
+<a href="https://code.google.com/p/httplib2/issues/detail?id=205">по-другому</a>.
 Использовать библиотеку
 <a href="https://code.google.com/p/socksipy-branch/">socksipy-branch</a>
 (<a href="https://gist.github.com/Samael500/5a53b01db96f812ac530">gist зеркало</a>).
@@ -497,7 +509,7 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 </pre></div>
 
 
-        </div>
+        </article>
 
             <div class="comments">
                 <div id="disqus_thread"></div>
@@ -510,7 +522,9 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
                     })();
                 </script>
             </div>
-
+    </div>
+    <div class="col-md-3 content-right">
+        <div class='anchorific'></div>
     </div>
 </div>
             </div>

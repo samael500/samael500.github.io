@@ -51,6 +51,9 @@
         });
     </script>
 
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/tree.css" />
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/anchorific.css" />
+    <script type="text/javascript" src="https://samael500.github.io/theme/js/anchorific.js"></script>
 </head>
 <body id="index">
     <a class="forkmegithub" href="https://github.com/Samael500">
@@ -115,7 +118,7 @@
             <div class="content-grids">
 <div class="single-main">
 
-    <div class="col-md-12 single-grid">
+    <div class="col-md-9 single-grid">
 
         <header>
 <h4>
@@ -141,7 +144,7 @@
 
 </div>        </header>
 
-        <div class="content">
+        <article class="content">
 
 
             <p>Собственный проект <a href="http://wbtech.pro/"><span class="caps">WB</span>&#8212;Tech</a> по комментированию
@@ -201,6 +204,7 @@
 <p>при следующих разрешениях экранов по ширине: <code>240</code>, <code>780</code>, <code>1320</code>, <code>1920</code>
 пикселей.</p>
 <h2 id="zaezd-pervyi-kachestvo"><a class="toclink" href="#zaezd-pervyi-kachestvo">Заезд первый &#8212;&nbsp;&#8220;Качество&#8221;</a></h2>
+<h3 id="proverka-kachestva-skrinshotov"><a class="toclink" href="#proverka-kachestva-skrinshotov">Проверка качества&nbsp;скриншотов</a></h3>
 <blockquote>
 <p>Качество &#8212; это делать что-либо правильно, даже когда никто не&nbsp;смотрит.</p>
 </blockquote>
@@ -239,7 +243,7 @@
 </blockquote>
 <p>Так что <code>splash</code> не прошел данный&nbsp;этап.</p>
 <h4 id="chto-ia-voobshche-sdes-delaiu-zombie"><a class="toclink" href="#chto-ia-voobshche-sdes-delaiu-zombie"><span class="dquo">&#8220;</span>Что я вообще сдесь делаю&#8221; &copy;&nbsp;Zombie</a></h4>
-<p><img alt="zombie" src="/media/browsers/zombie.jpg" /></p>
+<p><img alt="zombie" class="center" src="/media/browsers/zombie.jpg" /></p>
 <p>Как оказалось, Зомби вообще не умеет делать скриншоты, поэтому выбывает из&nbsp;соревнований.</p>
 <h4 id="falshivye-pasporta-staryi-gugl"><a class="toclink" href="#falshivye-pasporta-staryi-gugl">Фальшивые паспорта &#8212; старый&nbsp;гугл</a></h4>
 <p>Некоторые из участников соревнований, а именно <code>Phantom.js</code> и <code>Slimer.js</code>
@@ -283,6 +287,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="/media/browsers
 <li>:x:&nbsp;Zombie.js</li>
 </ul>
 <h2 id="zaezd-vtoroi-skorost"><a class="toclink" href="#zaezd-vtoroi-skorost">Заезд второй &#8212;&nbsp;&#8220;Скорость&#8221;</a></h2>
+<h3 id="proverka-skorosti-raboty-brauzerov"><a class="toclink" href="#proverka-skorosti-raboty-brauzerov">Проверка скорости работы&nbsp;браузеров</a></h3>
 <p><img alt="speed" src="/media/browsers/speed.jpg" /></p>
 <p>На данном этапе измерялось время, необходимое для создания браузера,
 открытия нужной страницы, изменения ширины окна до заданной, сохранения страницы
@@ -322,6 +327,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="/media/browsers
 <p>В результате, ни один из участников не оказался значительно хуже чем <code>firefox</code>,
 поэтому выбывших нет, все переходят к следующему&nbsp;этапу.</p>
 <h2 id="zaezd-tretii-resursy"><a class="toclink" href="#zaezd-tretii-resursy">Заезд третий &#8212;&nbsp;&#8220;Ресурсы&#8221;</a></h2>
+<h3 id="analiz-zatrat-resursov-na-sozdanie-skrinshota"><a class="toclink" href="#analiz-zatrat-resursov-na-sozdanie-skrinshota">Анализ затрат ресурсов на создание&nbsp;скриншота</a></h3>
 <p><img alt="fuel" src="/media/browsers/fuel.jpg" /></p>
 <p>Учитывалась память, которую тратит главный процесс, и все его дочерние процессы.
 Память измерялась при помощи функции <code>memory_usage</code> библиотеки <code>memory_profiler</code>
@@ -345,7 +351,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="/media/browsers
 <blockquote>
 <p>I ain&#8217;t afraid of no&nbsp;ghosts</p>
 </blockquote>
-<p><img alt="ghostbusters" src="/media/browsers/ghostbusters.png" /></p>
+<p><img alt="ghostbusters" class="center" src="/media/browsers/ghostbusters.png" /></p>
 <h4 id="dvulichnyi-khitrets"><a class="toclink" href="#dvulichnyi-khitrets">Двуличный&nbsp;хитрец</a></h4>
 <p>Оказалось, что <code>Slimer.js</code> притворяется: запускается дочерний процесс <code>slimerjs</code>,
 который потребляет не более 3&nbsp;Mb памяти, но при этом запускает ещё один
@@ -384,7 +390,8 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="/media/browsers
 <li>:x:&nbsp;Ghost.py</li>
 </ul>
 <h2 id="zaezd-chetvertyi-upravliaemost"><a class="toclink" href="#zaezd-chetvertyi-upravliaemost">Заезд четвертый &#8212;&nbsp;&#8220;Управляемость&#8221;</a></h2>
-<p><img alt="wet road" src="/media/browsers/wet_road.png" /></p>
+<h3 id="metody-upravlenie-brauzerami"><a class="toclink" href="#metody-upravlenie-brauzerami">Методы управление&nbsp;браузерами</a></h3>
+<p><img alt="wet road" class="center" src="/media/browsers/wet_road.png" /></p>
 <p>Несмотря на то, что определилась тройка лидеров и уже можно подвести итоги,
 рассмотрим как управлять безголовыми&nbsp;браузерами.</p>
 <h4 id="firefox"><a class="toclink" href="#firefox">Firefox</a></h4>
@@ -477,7 +484,7 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="/media/browsers
 <script type="text/javascript" src="/extra/browsers/data.js"></script>
 
 
-        </div>
+        </article>
 
             <div class="comments">
                 <div id="disqus_thread"></div>
@@ -490,7 +497,9 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="/media/browsers
                     })();
                 </script>
             </div>
-
+    </div>
+    <div class="col-md-3 content-right">
+        <div class='anchorific'></div>
     </div>
 </div>
             </div>
