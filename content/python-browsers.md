@@ -278,7 +278,7 @@ from memory_profiler import memory_usage
 - :x: Ghost.py
 
 ##Заезд четвертый -- "Управляемость"
-###Оценка удобства использования браузера
+###Методы управление браузерами
 
 ![wet road](/media/browsers/wet_road.png){.center}
 
