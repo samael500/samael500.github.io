@@ -119,7 +119,7 @@ res = subprocess.check_call(['curl', request, '-o', save_as])
 Так что `splash` не прошел данный этап.
 
 ####"Что я вообще сдесь делаю" &copy; Zombie
-![zombie](/media/browsers/zombie.jpg)
+![zombie](/media/browsers/zombie.jpg){.center}
 
 Как оказалось, Зомби вообще не умеет делать скриншоты, поэтому выбывает из
 соревнований.
@@ -238,7 +238,7 @@ from memory_profiler import memory_usage
 Учитывая вынесенное ранее предупреждение, призрак вылетает из конкурса!
 >I ain't afraid of no ghosts
 
-![ghostbusters](/media/browsers/ghostbusters.png)
+![ghostbusters](/media/browsers/ghostbusters.png){.center}
 
 ####Двуличный хитрец
 Оказалось, что `Slimer.js` притворяется: запускается дочерний процесс `slimerjs`,
