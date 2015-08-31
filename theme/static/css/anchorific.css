@@ -1,5 +1,4 @@
 .anchorific {
-    position: fixed;
     font-size: 0.9em;
     font-weight: 400;
     max-width: 150%;
@@ -28,18 +27,14 @@
     /*color: #00aeff;*/
 }
 
+.sticky {
+    position: fixed;
+    top: 33px;
+    z-index: 999;
+}
+
 .top {
     display: none;
-    background: url(../images/add_content_spr.gif) 5px -8px no-repeat #eceff5;
-    font-weight: bold;
-    font-family: tahoma;
-    font-size: 10px;
-    width: 70px;
-    color: #3b5998;
-    font-size: 11px;
-    text-decoration: none;
-    position: fixed;
-    right: 5px;
-    bottom: 5px;
-    padding: 7px 7px 7px 20px;
+    font-size: 1em;
+    font-weight: 600;
 }

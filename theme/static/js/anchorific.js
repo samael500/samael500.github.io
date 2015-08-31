@@ -68,7 +68,11 @@ if ( typeof Object.create !== 'function' ) {
             var self = this, obj, navigations = function() {};
             // when navigation configuration is set
             if ( self.opt.navigation ) {
-                $( self.opt.navigation ).append( '<ul class="tree"><li><strong>Cодержание:</strong></li></ul>' );
+                $( self.opt.navigation ).append( ''
+                    + '<ul class="tree">'
+                    +   '<li><strong>Cодержание:</strong></li>'
+                    + '</ul>'
+                );
                 self.previous = $( self.opt.navigation ).find( 'ul' ).last();
                 navigations = function( obj ) {
                     return self.navigations( obj );
@@ -86,6 +90,8 @@ if ( typeof Object.create !== 'function' ) {
 
             if ( self.opt.top ) 
                 self.back();
+
+            $('ul.tree').append('<li><strong><a href="#" class="top">наверх</a></strong></li>');
         },
         
         navigations: function( obj ) {
