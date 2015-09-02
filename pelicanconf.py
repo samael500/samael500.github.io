@@ -60,7 +60,7 @@ DEFAULT_PAGINATION = 10
 # url and path settings
 RELATIVE_URLS = True
 CACHE_CONTENT = False
-STATIC_PATHS = ['icons', 'media', 'extra', 'emojify', 'stuff', ]
+STATIC_PATHS = ['icons', 'media', 'extra', 'stuff', ]
 EXTRA_PATH_METADATA = {
     'stuff/robots.txt': {'path': 'robots.txt'},
     'stuff/CNAME': {'path': 'CNAME'},
