@@ -1,5 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/maks.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2015-08-26T18:00:00+03:00</updated><entry><title>Загрузка видео на youtube</title><link href="https://samael500.github.io/articles/python/zagruzka-video-na-youtube/" rel="alternate"></link><updated>2015-08-26T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-22:articles/python/zagruzka-video-na-youtube/</id><summary type="html">&lt;p&gt;В одном из моих собственных проектов, возникла задача автоматической
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/maks.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2015-09-02T15:00:00+03:00</updated><entry><title>Авто содержание в Pelican</title><link href="https://samael500.github.io/articles/drugoe/avto-soderzhanie-v-pelican/" rel="alternate"></link><updated>2015-09-02T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-09-02:articles/drugoe/avto-soderzhanie-v-pelican/</id><summary type="html">&lt;p&gt;Так получается, что некоторые статьи, например
+&lt;a href="https://samael500.github.io/articles/python/ralli-na-brauzerakh/"&gt;ралли на браузерах&lt;/a&gt;. Содержат в себе несколько
+уровней заголовков. И в связи с этим, сделаем автоматическую навигацию
+по&amp;nbsp;статье.&lt;/p&gt;
+&lt;h2 id="iakoria-v-zagolovkakh-markdown"&gt;&lt;a class="toclink" href="#iakoria-v-zagolovkakh-markdown"&gt;Якоря в заголовках&amp;nbsp;markdown&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Для написания постов блога я использую 
+&lt;a href="http://daringfireball.net/projects/markdown/"&gt;markdown&lt;/a&gt; разметку текста.
+Для того, чтобы при генерации &lt;code&gt;html&lt;/code&gt; заголовкам присваивались якоря - необходимо
+подключить расширение
+&lt;a href="https://pythonhosted.org/Markdown/extensions/toc.html"&gt;Table of Contents&lt;/a&gt;.
+Делается это элементарно прописав в &lt;code&gt;pelicanconf.py&lt;/code&gt; следующую&amp;nbsp;строчку:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;MD_EXTENSIONS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;codehilite(css_class=highlight)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;extra&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;markdown.extensions.toc&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь при генерации &lt;code&gt;html&lt;/code&gt; каждому заголовку будет присваиваться &lt;code&gt;id&lt;/code&gt;
+содержащимся текстом.&amp;nbsp;Заголовок:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;##Markdown anchors
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Будет сгенерирован в такой &lt;code&gt;html&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;h2&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;markdown-anchors&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Markdown&lt;span class="ni"&gt;&amp;amp;nbsp;&lt;/span&gt;anchors&lt;span class="nt"&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="ssylki-v-zagolovkakh"&gt;&lt;a class="toclink" href="#ssylki-v-zagolovkakh"&gt;Ссылки в&amp;nbsp;заголовках&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Чтобы заголовки были непросто тегами &lt;code&gt;h1&lt;/code&gt; &amp;#8230; &lt;code&gt;h6&lt;/code&gt;, а содержали ссылку на
+самих себя нужно добавить аргумент &lt;code&gt;anchorlink&lt;/code&gt;. Теперь конфигурация
+&lt;code&gt;MD_EXTENSIONS&lt;/code&gt; выглядит&amp;nbsp;так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;MD_EXTENSIONS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;codehilite(css_class=highlight)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;extra&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;markdown.extensions.toc(anchorlink=True)&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Заголовок:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;##Markdown anchors
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Будет сгенерирован в такой &lt;code&gt;html&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;h2&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;markdown-anchors&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;toclink&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#markdown-anchors&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Markdown&lt;span class="ni"&gt;&amp;amp;nbsp;&lt;/span&gt;anchors&lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="kirillitsa-v-zagolovkakh"&gt;&lt;a class="toclink" href="#kirillitsa-v-zagolovkakh"&gt;Кириллица в&amp;nbsp;заголовках&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;К сожалению, стандартный &lt;code&gt;slugify&lt;/code&gt; который используется в &lt;code&gt;markdown toc&lt;/code&gt; не
+умеет обрабатывать кириллические символы, и поэтому&amp;nbsp;заголовок.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;##Ссылка в заголовке
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Будет сгенерирован в такой &lt;code&gt;html&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;h2&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;_1&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;toclink&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#_1&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Ссылка в&lt;span class="ni"&gt;&amp;amp;nbsp;&lt;/span&gt;заголовке&lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Что бы исправить это, можно воспользоваться библиотекой
+&lt;a href="https://pypi.python.org/pypi/python-slugify"&gt;python slugify&lt;/a&gt;, задав
+&lt;code&gt;TocExtension&lt;/code&gt; объект &lt;code&gt;slugify&lt;/code&gt;. Объект &lt;code&gt;slugify&lt;/code&gt; должен быть &lt;code&gt;callable&lt;/code&gt;
+поэтому не обойтись просто строковым указанием аргументов, придется явно
+импортировать и указывать в конструкторе аргументы для&amp;nbsp;расширения:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;markdown.extensions.toc&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;TocExtension&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;slugify&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;slugify&lt;/span&gt;
+&lt;span class="n"&gt;MD_EXTENSIONS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;codehilite(css_class=highlight)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;extra&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;TocExtension&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;anchorlink&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;slugify&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;slugify&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2 id="meniu-avto-soderzhaniia"&gt;&lt;a class="toclink" href="#meniu-avto-soderzhaniia"&gt;Меню авто&amp;nbsp;содержания&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Для навигации по заголовкам будем использовать &lt;code&gt;jQuery plugin&lt;/code&gt;
+&lt;a href="http://renaysha.me/anchorific-js/"&gt;Anchorific.js&lt;/a&gt;. Данный плагин умеет
+самостоятельно присваивать &lt;code&gt;id&lt;/code&gt; заголовкам, но поскольку заголовки уже
+сгенерированы с якорями, то создание ссылок джаваскриптом использоваться
+не будет, в конструкторе укажем &lt;code&gt;null&lt;/code&gt; значения для текста и позиции ссылки
+в&amp;nbsp;заголовке.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;article.content&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;anchorific&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+        &lt;span class="nx"&gt;anchorClass&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;anchorText&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;spy&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;position&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;anchor&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Так же пришлось немного подправить напильником этот плагин, под конкретные задачи,
+например заставить его искать не все заголовки, а только с&amp;nbsp;идентификаторами.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="gd"&gt;- self.headers = self.$elem.find( &amp;#39;h1, h2, h3, h4, h5, h6&amp;#39; );&lt;/span&gt;
+&lt;span class="gi"&gt;+ self.headers = self.$elem.find( &amp;#39;h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]&amp;#39; );&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="lipuchee-meniu"&gt;&lt;a class="toclink" href="#lipuchee-meniu"&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;Липучее&amp;#8221;&amp;nbsp;меню&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Для того, что бы при скроллинге страницы меню навигации всегда оставалось
+доступным будем использовать &lt;code&gt;position: fixed;&lt;/code&gt;, но присваивать его только
+при достижении вершины объекта при&amp;nbsp;скроллинге.&lt;/p&gt;
+&lt;p&gt;Создадим класс &lt;code&gt;sticky&lt;/code&gt; и будем навешивать его по событию&amp;nbsp;скролл.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nc"&gt;.sticky&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;position&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="k"&gt;fixed&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;top&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;33px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;z-index&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;999&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;$window&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;window&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="nx"&gt;$sticky&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;div.anchorific&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="nx"&gt;sticky_top&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;$sticky&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;offset&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="nx"&gt;top&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="nx"&gt;$window&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;scroll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;$sticky&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;toggleClass&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sticky&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;$window&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;scrollTop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;sticky_top&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;33&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Получилось такое авто&amp;nbsp;содержание:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nav" class="center" src="/media/md-headers/nav.png" /&gt;&lt;/p&gt;</summary><category term="python"></category><category term="pelican"></category><category term="markdown"></category><category term="md"></category><category term="autonav"></category><category term="anchor"></category><category term="javascript"></category><category term="css"></category></entry><entry><title>Загрузка видео на youtube</title><link href="https://samael500.github.io/articles/python/zagruzka-video-na-youtube/" rel="alternate"></link><updated>2015-08-26T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-22:articles/python/zagruzka-video-na-youtube/</id><summary type="html">&lt;p&gt;В одном из моих собственных проектов, возникла задача автоматической
 загрузки видео на канал на &lt;code&gt;youtube&lt;/code&gt;. Делается это достаточно просто, при
 помощи гугловского &lt;code&gt;api&lt;/code&gt; клиента для &lt;code&gt;python&lt;/code&gt;. Единственное затруднение
 вызвало полумагическое получение ключей доступа к &lt;code&gt;api&lt;/code&gt;.&lt;/p&gt;

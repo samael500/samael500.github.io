@@ -5,29 +5,36 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://samael500.github.io/</loc>
-<lastmod>2015-08-31T19:04:32-00:00</lastmod>
+<lastmod>2015-09-02T17:35:26-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://samael500.github.io/archives.html</loc>
-<lastmod>2015-08-31T19:04:32-00:00</lastmod>
+<lastmod>2015-09-02T17:35:26-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://samael500.github.io/tags.html</loc>
-<lastmod>2015-08-31T19:04:32-00:00</lastmod>
+<lastmod>2015-09-02T17:35:26-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://samael500.github.io/categories.html</loc>
-<lastmod>2015-08-31T19:04:32-00:00</lastmod>
+<lastmod>2015-09-02T17:35:26-00:00</lastmod>
 <changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://samael500.github.io/articles/drugoe/avto-soderzhanie-v-pelican/</loc>
+<lastmod>2015-09-02T15:00:00+03:00</lastmod>
+<changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
@@ -68,7 +75,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://samael500.github.io/category/drugoe.html</loc>
-<lastmod>2015-01-30T15:00:00+02:30</lastmod>
+<lastmod>2015-09-02T15:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -95,6 +102,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>https://samael500.github.io/tag/md/</loc>
+<lastmod>2015-09-02T15:00:00+02:30</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>https://samael500.github.io/tag/github/</loc>
 <lastmod>2015-08-08T18:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
@@ -102,8 +116,22 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>https://samael500.github.io/tag/pelican/</loc>
+<lastmod>2015-09-02T15:00:00+02:30</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>https://samael500.github.io/tag/python/</loc>
-<lastmod>2015-08-26T18:00:00+02:30</lastmod>
+<lastmod>2015-09-02T15:00:00+02:30</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://samael500.github.io/tag/javascript/</loc>
+<lastmod>2015-09-02T15:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -111,6 +139,20 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://samael500.github.io/tag/youtube/</loc>
 <lastmod>2015-08-26T18:00:00+02:30</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://samael500.github.io/tag/oauth2/</loc>
+<lastmod>2015-08-26T18:00:00+02:30</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://samael500.github.io/tag/markdown/</loc>
+<lastmod>2015-09-02T15:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -130,13 +172,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://samael500.github.io/tag/oauth2/</loc>
-<lastmod>2015-08-26T18:00:00+02:30</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
 <loc>https://samael500.github.io/tag/wb-tech/</loc>
 <lastmod>2015-04-05T19:30:00+02:30</lastmod>
 <changefreq>daily</changefreq>
@@ -144,8 +179,29 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>https://samael500.github.io/tag/anchor/</loc>
+<lastmod>2015-09-02T15:00:00+02:30</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://samael500.github.io/tag/css/</loc>
+<lastmod>2015-09-02T15:00:00+02:30</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://samael500.github.io/tag/autonav/</loc>
+<lastmod>2015-09-02T15:00:00+02:30</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>https://samael500.github.io/author/maks/</loc>
-<lastmod>2015-08-26T18:00:00+02:30</lastmod>
+<lastmod>2015-09-02T15:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

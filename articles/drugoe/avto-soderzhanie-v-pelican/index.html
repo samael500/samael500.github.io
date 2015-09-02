@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <script type="text/javascript">
+        if (window.location.protocol != "https:") {
+            window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+        }
+    </script>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Maks" />
+    <meta name="robots" content="index, follow"/>
+    <meta name="keywords" content="article, python, pelican, markdown, md, autonav, anchor, javascript, css" />
+
+    <meta property="og:title" content="Авто содержание в Pelican"/>
+    <meta property="og:url" content="https://samael500.github.io/articles/drugoe/avto-soderzhanie-v-pelican/"/>
+    <meta property="og:site_name" content="Maks blog"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:image" content="https://samael500.github.io/media/md-headers/pelican-md.png" />
+    <meta property="og:description" content="Так получается, что некоторые статьи, например ралли на браузерах. Содержат в себе несколько уровней заголовков. И в связи с этим, сделаем автоматическую навигацию по статье…" />
+
+    <link rel="canonical" href="https://samael500.github.io/articles/drugoe/avto-soderzhanie-v-pelican/" />
+
+    <title>Авто содержание в Pelican | Maks blog</title>
+
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/paginator.css" />
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/emojify.min.css" />
+
+    <script type="text/javascript" src="https://samael500.github.io/theme/js/jquery.min.js"></script>
+    <script type="text/javascript" src="https://samael500.github.io/theme/js/move-top.js"></script>
+    <script type="text/javascript" src="https://samael500.github.io/theme/js/easing.js"></script>
+    <script type="text/javascript" src="https://samael500.github.io/theme/js/emojify.min.js"></script>
+
+
+    <script type="text/javascript">var switchTo5x=true;</script>
+
+
+    <script type="text/javascript">
+        emojify.setConfig({
+            img_dir : '/theme/images/emojify',
+            ignore_emoticons: true,
+        });
+        $(document).ready(function() {
+            emojify.run(document.getElementsByTagName('article')[0]);
+        });
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/tree.css" />
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/anchorific.css" />
+    <script type="text/javascript" src="https://samael500.github.io/theme/js/anchorific.js"></script>
+</head>
+<body id="index">
+    <a class="forkmegithub" href="https://github.com/Samael500">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png">
+    </a>
+<div class="header">  
+    <div class="container">
+        <div class="logo">
+            <a href="https://samael500.github.io/">
+                MAKS BLOG            </a>
+        </div>
+
+        <div class="top-menu">
+
+            <div class="search">
+
+<script>
+  (function() {
+    var cx = '006263355362628034990:cuxoisonrno';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+<form id="searchbox_006263355362628034990:cuxoisonrno" action="https://www.google.com/">
+    <input value="006263355362628034990:cuxoisonrno" name="cx" type="hidden" />
+    <input value="FORID:11" name="cof" type="hidden" />
+    <input id="q" name="q" type="text" required />
+    <input type="submit" value="">
+</form>
+
+            </div>
+
+            <span class="menu"> </span>
+                <ul>
+                            <li class="active"><a href="https://samael500.github.io/category/drugoe.html">Другое</a></li>
+                            <li ><a href="https://samael500.github.io/category/github.html">Github</a></li>
+                            <li ><a href="https://samael500.github.io/category/python.html">Python</a></li>
+
+                    <div class="clearfix"></div>
+                </ul>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <script>
+                $("span.menu").click(function(){
+                    $(".top-menu ul").slideToggle("slow" , function(){
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>
+    <div class="content">
+        <div class="container">
+            <div class="content-grids">
+<div class="single-main">
+
+    <div class="col-md-9 single-grid">
+
+        <header>
+<h4>
+    <a href="https://samael500.github.io/articles/drugoe/avto-soderzhanie-v-pelican/" title="Авто содержание в Pelican">Авто содержание в&nbsp;Pelican</a>
+    Сент. 02, 2015
+</h4>
+
+<div class="footer art-info">
+
+        Автор: <a class="url fn" href="https://samael500.github.io/author/maks/">Maks</a> |
+
+    Категория: <a href="https://samael500.github.io/category/drugoe.html">Другое</a>
+
+
+        | <a href="https://samael500.github.io/articles/drugoe/avto-soderzhanie-v-pelican/#disqus_thread">Комментарии</a>
+
+    
+
+        <br />
+        Теги:         <a href="https://samael500.github.io/tag/python/">python</a>
+        <a href="https://samael500.github.io/tag/pelican/">pelican</a>
+        <a href="https://samael500.github.io/tag/markdown/">markdown</a>
+        <a href="https://samael500.github.io/tag/md/">md</a>
+        <a href="https://samael500.github.io/tag/autonav/">autonav</a>
+        <a href="https://samael500.github.io/tag/anchor/">anchor</a>
+        <a href="https://samael500.github.io/tag/javascript/">javascript</a>
+        <a href="https://samael500.github.io/tag/css/">css</a>
+
+</div>        </header>
+
+        <article class="content">
+
+
+            <p>Так получается, что некоторые статьи, например
+<a href="https://samael500.github.io/articles/python/ralli-na-brauzerakh/">ралли на браузерах</a>. Содержат в себе несколько
+уровней заголовков. И в связи с этим, сделаем автоматическую навигацию
+по&nbsp;статье.</p>
+<h2 id="iakoria-v-zagolovkakh-markdown"><a class="toclink" href="#iakoria-v-zagolovkakh-markdown">Якоря в заголовках&nbsp;markdown</a></h2>
+<p>Для написания постов блога я использую 
+<a href="http://daringfireball.net/projects/markdown/">markdown</a> разметку текста.
+Для того, чтобы при генерации <code>html</code> заголовкам присваивались якоря - необходимо
+подключить расширение
+<a href="https://pythonhosted.org/Markdown/extensions/toc.html">Table of Contents</a>.
+Делается это элементарно прописав в <code>pelicanconf.py</code> следующую&nbsp;строчку:</p>
+<div class="highlight"><pre><span class="n">MD_EXTENSIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">&#39;codehilite(css_class=highlight)&#39;</span><span class="p">,</span> <span class="s">&#39;extra&#39;</span><span class="p">,</span> <span class="s">&#39;markdown.extensions.toc&#39;</span> <span class="p">]</span>
+</pre></div>
+
+
+<p>Теперь при генерации <code>html</code> каждому заголовку будет присваиваться <code>id</code>
+содержащимся текстом.&nbsp;Заголовок:</p>
+<div class="highlight"><pre>##Markdown anchors
+</pre></div>
+
+
+<p>Будет сгенерирован в такой <code>html</code>:</p>
+<div class="highlight"><pre><span class="nt">&lt;h2</span> <span class="na">id=</span><span class="s">&quot;markdown-anchors&quot;</span><span class="nt">&gt;</span>Markdown<span class="ni">&amp;nbsp;</span>anchors<span class="nt">&lt;/h2&gt;</span>
+</pre></div>
+
+
+<h3 id="ssylki-v-zagolovkakh"><a class="toclink" href="#ssylki-v-zagolovkakh">Ссылки в&nbsp;заголовках</a></h3>
+<p>Чтобы заголовки были непросто тегами <code>h1</code> &#8230; <code>h6</code>, а содержали ссылку на
+самих себя нужно добавить аргумент <code>anchorlink</code>. Теперь конфигурация
+<code>MD_EXTENSIONS</code> выглядит&nbsp;так:</p>
+<div class="highlight"><pre><span class="n">MD_EXTENSIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">&#39;codehilite(css_class=highlight)&#39;</span><span class="p">,</span> <span class="s">&#39;extra&#39;</span><span class="p">,</span>
+    <span class="s">&#39;markdown.extensions.toc(anchorlink=True)&#39;</span> <span class="p">]</span>
+</pre></div>
+
+
+<p>Заголовок:</p>
+<div class="highlight"><pre>##Markdown anchors
+</pre></div>
+
+
+<p>Будет сгенерирован в такой <code>html</code>:</p>
+<div class="highlight"><pre><span class="nt">&lt;h2</span> <span class="na">id=</span><span class="s">&quot;markdown-anchors&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">&quot;toclink&quot;</span> <span class="na">href=</span><span class="s">&quot;#markdown-anchors&quot;</span><span class="nt">&gt;</span>Markdown<span class="ni">&amp;nbsp;</span>anchors<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/h2&gt;</span>
+</pre></div>
+
+
+<h3 id="kirillitsa-v-zagolovkakh"><a class="toclink" href="#kirillitsa-v-zagolovkakh">Кириллица в&nbsp;заголовках</a></h3>
+<p>К сожалению, стандартный <code>slugify</code> который используется в <code>markdown toc</code> не
+умеет обрабатывать кириллические символы, и поэтому&nbsp;заголовок.</p>
+<div class="highlight"><pre>##Ссылка в заголовке
+</pre></div>
+
+
+<p>Будет сгенерирован в такой <code>html</code>:</p>
+<div class="highlight"><pre><span class="nt">&lt;h2</span> <span class="na">id=</span><span class="s">&quot;_1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">&quot;toclink&quot;</span> <span class="na">href=</span><span class="s">&quot;#_1&quot;</span><span class="nt">&gt;</span>Ссылка в<span class="ni">&amp;nbsp;</span>заголовке<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/h2&gt;</span>
+</pre></div>
+
+
+<p>Что бы исправить это, можно воспользоваться библиотекой
+<a href="https://pypi.python.org/pypi/python-slugify">python slugify</a>, задав
+<code>TocExtension</code> объект <code>slugify</code>. Объект <code>slugify</code> должен быть <code>callable</code>
+поэтому не обойтись просто строковым указанием аргументов, придется явно
+импортировать и указывать в конструкторе аргументы для&nbsp;расширения:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">markdown.extensions.toc</span> <span class="kn">import</span> <span class="n">TocExtension</span>
+<span class="kn">from</span> <span class="nn">slugify</span> <span class="kn">import</span> <span class="n">slugify</span>
+<span class="n">MD_EXTENSIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">&#39;codehilite(css_class=highlight)&#39;</span><span class="p">,</span> <span class="s">&#39;extra&#39;</span><span class="p">,</span>
+    <span class="n">TocExtension</span><span class="p">(</span><span class="n">anchorlink</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">slugify</span><span class="o">=</span><span class="n">slugify</span><span class="p">),</span> <span class="p">]</span>
+</pre></div>
+
+
+<h2 id="meniu-avto-soderzhaniia"><a class="toclink" href="#meniu-avto-soderzhaniia">Меню авто&nbsp;содержания</a></h2>
+<p>Для навигации по заголовкам будем использовать <code>jQuery plugin</code>
+<a href="http://renaysha.me/anchorific-js/">Anchorific.js</a>. Данный плагин умеет
+самостоятельно присваивать <code>id</code> заголовкам, но поскольку заголовки уже
+сгенерированы с якорями, то создание ссылок джаваскриптом использоваться
+не будет, в конструкторе укажем <code>null</code> значения для текста и позиции ссылки
+в&nbsp;заголовке.</p>
+<div class="highlight"><pre>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;article.content&#39;</span><span class="p">).</span><span class="nx">anchorific</span><span class="p">({</span>
+        <span class="nx">anchorClass</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">anchorText</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">spy</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">position</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">anchor</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="p">});</span>
+</pre></div>
+
+
+<p>Так же пришлось немного подправить напильником этот плагин, под конкретные задачи,
+например заставить его искать не все заголовки, а только с&nbsp;идентификаторами.</p>
+<div class="highlight"><pre><span class="gd">- self.headers = self.$elem.find( &#39;h1, h2, h3, h4, h5, h6&#39; );</span>
+<span class="gi">+ self.headers = self.$elem.find( &#39;h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]&#39; );</span>
+</pre></div>
+
+
+<h3 id="lipuchee-meniu"><a class="toclink" href="#lipuchee-meniu"><span class="dquo">&#8220;</span>Липучее&#8221;&nbsp;меню</a></h3>
+<p>Для того, что бы при скроллинге страницы меню навигации всегда оставалось
+доступным будем использовать <code>position: fixed;</code>, но присваивать его только
+при достижении вершины объекта при&nbsp;скроллинге.</p>
+<p>Создадим класс <code>sticky</code> и будем навешивать его по событию&nbsp;скролл.</p>
+<div class="highlight"><pre><span class="nc">.sticky</span> <span class="p">{</span>
+    <span class="k">position</span><span class="o">:</span> <span class="k">fixed</span><span class="p">;</span>
+    <span class="k">top</span><span class="o">:</span> <span class="m">33px</span><span class="p">;</span>
+    <span class="k">z-index</span><span class="o">:</span> <span class="m">999</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">$window</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nb">window</span><span class="p">),</span>
+    <span class="nx">$sticky</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div.anchorific&#39;</span><span class="p">),</span>
+    <span class="nx">sticky_top</span> <span class="o">=</span> <span class="nx">$sticky</span><span class="p">.</span><span class="nx">offset</span><span class="p">().</span><span class="nx">top</span><span class="p">;</span>
+
+<span class="nx">$window</span><span class="p">.</span><span class="nx">scroll</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$sticky</span><span class="p">.</span><span class="nx">toggleClass</span><span class="p">(</span><span class="s1">&#39;sticky&#39;</span><span class="p">,</span> <span class="nx">$window</span><span class="p">.</span><span class="nx">scrollTop</span><span class="p">()</span> <span class="o">&gt;</span> <span class="nx">sticky_top</span> <span class="o">-</span> <span class="mi">33</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>Получилось такое авто&nbsp;содержание:</p>
+<p><img alt="nav" class="center" src="/media/md-headers/nav.png" /></p>
+
+
+        </article>
+
+            <div class="comments">
+                <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    var disqus_identifier = "articles/drugoe/avto-soderzhanie-v-pelican/";
+                    (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//samael500.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+            </div>
+    </div>
+    <div class="col-md-3 content-right">
+        <div class='anchorific'></div>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p>This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.</p>
+            <p><a href="http://github.com/samael500/w3-personal-blog/">W3 Personal Blog</a> is a flat <a href="http://getbootstrap.com/">bootstrap</a> responsive theme designed by <a href="https://w3layouts.com/personal-blog-a-blogging-category-flat-bootstrap-responsive-web-template/">W3layouts</a> ported to a pelican by <a href="http://samael500.github.io/">Samael500</a>.<p>
+            <p>Copyrights © 2015 Maks blog All rights reserved.</p>
+        </div>
+    </div>
+
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter32194009 = new Ya.Metrika({
+                    id:32194009,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<script type="text/javascript">
+    var disqus_shortname = 'samael500';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
+</body>
+</html>
