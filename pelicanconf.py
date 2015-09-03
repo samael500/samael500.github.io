@@ -102,8 +102,10 @@ SITEMAP = {
         'articles': 'weekly',
         'indexes': 'daily',
         'pages': 'monthly'
-    }
+    },
+    'exclude': ['tag/', 'category/']
 }
+
 
 # markdown settings
 from markdown.extensions.toc import TocExtension
