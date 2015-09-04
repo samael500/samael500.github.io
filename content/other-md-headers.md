@@ -1,4 +1,4 @@
-Title: Авто содержание в Pelican
+Title: Автоматическое содержание в Pelican
 Date: 2015-09-02 15:00
 Modified: 2015-09-02 15:00
 Category: Другое
