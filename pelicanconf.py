@@ -55,8 +55,9 @@ THEME = './theme'
 # THEME = '../w3-personal-blog'
 
 DISPLAY_PAGES_ON_MENU = True
+HIDE_CATEGORIES_FROM_MENU = True
 
-DEFAULT_PAGINATION = 10
+DEFAULT_PAGINATION = 5
 # url and path settings
 RELATIVE_URLS = True
 CACHE_CONTENT = False
