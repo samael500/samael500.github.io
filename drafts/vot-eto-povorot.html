@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <script type="text/javascript">
+        if (window.location.protocol != "https:") {
+            window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+        }
+    </script>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Maks" />
+    <meta name="robots" content="index, follow"/>
+    <meta name="keywords" content="article, python, exif, bug, magic, crop, jpg, thumbnail, pil, image, lena" />
+
+    <meta property="og:title" content="Вот это поворот…"/>
+    <meta property="og:url" content="https://samael500.github.io/drafts/vot-eto-povorot.html"/>
+    <meta property="og:site_name" content="Maks blog"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:image" content="https://samael500.github.io/media/md-headers/pelican-md.png" />
+    <meta property="og:description" content="Однажды столкнулся с магическим багом, причину возникновения которого, неудавалось отыскать почти на протяжении месяца. Да что там причину, его даже воспроизвести никак не удавалось. Заказчик постоянно жаловался что изображения обрезаются неправильно, да при том ещё непредсказуемо поворачиваются…" />
+
+    <link rel="canonical" href="https://samael500.github.io/drafts/vot-eto-povorot.html" />
+
+    <title>Вот это поворот… | Maks blog</title>
+
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/paginator.css" />
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/emojify.min.css" />
+
+    <script type="text/javascript" src="https://samael500.github.io/theme/js/jquery.min.js"></script>
+    <script type="text/javascript" src="https://samael500.github.io/theme/js/move-top.js"></script>
+    <script type="text/javascript" src="https://samael500.github.io/theme/js/easing.js"></script>
+    <script type="text/javascript" src="https://samael500.github.io/theme/js/emojify.min.js"></script>
+
+
+    <script type="text/javascript">var switchTo5x=true;</script>
+
+
+    <script type="text/javascript">
+        emojify.setConfig({
+            img_dir : '/theme/images/emojify',
+            ignore_emoticons: true,
+        });
+        $(document).ready(function() {
+            emojify.run(document.getElementsByTagName('article')[0]);
+        });
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/tree.css" />
+    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/anchorific.css" />
+    <script type="text/javascript" src="https://samael500.github.io/theme/js/anchorific.js"></script>
+</head>
+<body id="index">
+    <a class="forkmegithub" href="https://github.com/Samael500">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png">
+    </a>
+<div class="header">  
+    <div class="container">
+        <div class="logo">
+            <a href="https://samael500.github.io/">
+                MAKS BLOG            </a>
+        </div>
+
+        <div class="top-menu">
+
+            <div class="search">
+
+<script>
+  (function() {
+    var cx = '006263355362628034990:cuxoisonrno';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+<form id="searchbox_006263355362628034990:cuxoisonrno" action="https://www.google.com/">
+    <input value="006263355362628034990:cuxoisonrno" name="cx" type="hidden" />
+    <input value="FORID:11" name="cof" type="hidden" />
+    <input id="q" name="q" type="text" required />
+    <input type="submit" value="">
+</form>
+
+            </div>
+
+            <span class="menu"> </span>
+                <ul>
+
+                    <div class="clearfix"></div>
+                </ul>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <script>
+                $("span.menu").click(function(){
+                    $(".top-menu ul").slideToggle("slow" , function(){
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>
+    <div class="content">
+        <div class="container">
+            <div class="content-grids">
+<div class="single-main">
+
+    <div class="col-md-9 single-grid">
+
+        <header>
+<h4>
+    <a href="https://samael500.github.io/drafts/vot-eto-povorot.html" title="Вот это поворот…">Вот это&nbsp;поворот&#8230;</a>
+    Сент. 06, 2015
+</h4>
+
+<div class="footer art-info">
+
+        Автор: <a class="url fn" href="https://samael500.github.io/author/maks/">Maks</a> |
+
+    Категория: <a href="https://samael500.github.io/category/bugstory.html">Bugstory</a>
+
+
+        | <a href="https://samael500.github.io/drafts/vot-eto-povorot.html#disqus_thread">Комментарии</a>
+
+    
+
+        <br />
+        Теги:         <a href="https://samael500.github.io/tag/python/">python</a>
+        <a href="https://samael500.github.io/tag/exif/">exif</a>
+        <a href="https://samael500.github.io/tag/bug/">bug</a>
+        <a href="https://samael500.github.io/tag/magic/">magic</a>
+        <a href="https://samael500.github.io/tag/crop/">crop</a>
+        <a href="https://samael500.github.io/tag/jpg/">jpg</a>
+        <a href="https://samael500.github.io/tag/thumbnail/">thumbnail</a>
+        <a href="https://samael500.github.io/tag/pil/">pil</a>
+        <a href="https://samael500.github.io/tag/image/">image</a>
+        <a href="https://samael500.github.io/tag/lena/">lena</a>
+
+</div>        </header>
+
+        <article class="content">
+
+
+            <p>Однажды столкнулся с магическим багом, причину возникновения которого,
+неудавалось отыскать почти на протяжении месяца. Да что там причину,
+его даже воспроизвести никак не удавалось. Заказчик постоянно жаловался
+что изображения обрезаются неправильно, да при том ещё непредсказуемо&nbsp;поворачиваются&#8230;</p>
+<h2 id="neulovimaia-oshibka"><a class="toclink" href="#neulovimaia-oshibka">Неуловимая&nbsp;ошибка</a></h2>
+<p>Суть проекта заключалась в том, что пользователи выкладывают фотографии,
+сопровождая их коротенькими историями, далее модераторы проверяют контент
+на соответствие тематике ресурса, обрезают фотографии по необходимому
+соотношению сторон и публикуют эти&nbsp;истории.</p>
+<p>Буквально с первых же дней выхода проекта в продакшн, начали поступать жалобы
+от модераторов. Жаловались на то, что фотографии обрезаются не так как это
+ожидается, иногда появляются черные полоски, иногда фотографии внезапно
+поворачиваются, иногда вообще не происходит каких либо изменений после&nbsp;обрезки.</p>
+<p>Для обрезки изображений использовалась библиотека
+<a href="https://pypi.python.org/pypi/django-image-cropping">django-image-cropping</a>,
+которая позволяет в админке джанго обрезать изображения при помощи <code>jQuery</code>
+плагина <a href="http://deepliquid.com/content/Jcrop.html">Jcrop</a>.</p>
+<h2 id="lozhnye-obvineniia"><a class="toclink" href="#lozhnye-obvineniia">Ложные&nbsp;обвинения</a></h2>
+<p>Поскольку ошибку никак не удавалось воспроизвести, стали полагать, что причина
+прячется где то в клиентской части. За две с половиной недели поиска ошибки,
+были перепробованы чуть менее чем все комбинации различных браузеров и
+операционных систем, включая устаревшие версии браузеров. Но воспроизвести
+ошибку все никак не&nbsp;удавалось.</p>
+<p>Тем неменее, усердное тестирование обрезки изображения в различных браузерах
+выявило сопутствующую ошибку. От браузера, кстати, независящую. Продакшен
+сервер был оптимизирован под большое количество посетителей. Сам проект
+представлял из себя регенерируемый, статический сайт, кешированный <code>nginx</code>ом;
+небольшое <code>api</code> для добавления и поиска историй; и административный интерфейс
+для премодерации историй и перегенерации статического&nbsp;контента.</p>
+<p>Так получилось, что <code>nginx</code> слишком усердно справлялся с кешированием,
+и достаточно часто после обрезки изображения в админке показывал &#8220;старое&#8221;
+(не обрезанное изображение), после чего модератор снова и снова &#8220;обрезал&#8221;
+картинку, а в результате исходное изображение резалось по несуществующим
+координатам. Соответственно на выходе получалось изкромсаное изображение с
+черными полосками и когда кеш обновлялся то это становилось&nbsp;заметно.</p>
+<p>Данную ошибку с кеширование легко исправить введя случайный <code>GET</code> параметр в
+адресе изображения перед выводом его в админке.
+Примерно&nbsp;так:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+<span class="n">rand_url</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">url</span><span class="p">:</span> <span class="s">&#39;{url}?{num}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">randint</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">99999</span><span class="p">))</span>
+
+<span class="c"># ...</span>
+
+<span class="k">return</span> <span class="p">{</span>
+    <span class="c"># ...</span>
+    <span class="s">&#39;data-thumbnail-url&#39;</span><span class="p">:</span> <span class="n">rand_url</span><span class="p">(</span><span class="n">thumbnail</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+    <span class="c"># ...</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Вследствии чего, проблема отображения &#8220;старого&#8221; изображения после обрезки
+исчезла. В админке выводился следующий <code>html</code> код отображения&nbsp;изображения:</p>
+<div class="highlight"><pre>
+</pre></div>
+
+
+<p>Ошибка найдена и ликвидирована. Больше повторятся не должна.
+Можно торжествовать&nbsp;победу.</p>
+<h2 id="nachinaem-snachala"><a class="toclink" href="#nachinaem-snachala">Начинаем&nbsp;сначала</a></h2>
+<p>Буквально через неделю, после сабмита изменений в продакшн, от модераторов
+вновь поступила жалоба на некорректную обрезку изображения. К счастью,
+на этот раз они явно указали на каком именно изображении воспроизводится
+некорректная обрезка и переслали данное изображение по электронной&nbsp;почте.</p>
+<p>Открыв письмо, я открыл картинку в новой вкладке и сохранил её. Начал
+тестировать в <code>vagrant</code>е &#8212; ошибка не воспроизводится, изображение обрезается
+как нужно, ничего не поворачивается и не возникают черные полосы. Проверил
+эту же картинку на продакшн сервере &#8212; не воспроизводится.
+Хитрость оказалась в том, что нужно было картинку именно &#8220;скачать&#8221;, а не
+&#8220;сохранить&#8221; из письма. Получив исходное изображение, ошибка стала регулярно&nbsp;воспроизводится.</p>
+<h3 id="exif-metadannye"><a class="toclink" href="#exif-metadannye">Exif&nbsp;метаданные</a></h3>
+<p>Поскольку существенную разницу поведения изображения вызывало &#8220;сохранении&#8221;
+и &#8220;скачивание&#8221;, а так же &#8212; тот факт, что после сохранения изображения в
+графическом редакторе ошибка прекращала воспроизводится. Натолкнуло на мысль,
+о том, что в данном изображении содержится дополнительная информация,
+которая при сохранении&nbsp;теряется.</p>
+<p>В графических изображениях дополнительную метаинформацию можно сохранять
+в формате <a href="http://www.exif.org/"><span class="caps">EXIF</span></a>. Где среди прочего может содержаться
+информация об ориентации изображения. Выведя <code>exif</code> данного изображения,
+сразу стало понятно почему ошибка&nbsp;воспроизводится.  </p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">PIL.ExifTags</span> <span class="kn">import</span> <span class="n">TAGS</span>
+<span class="o">&gt;&gt;&gt;</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;photo.jpg&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">exif</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">_getexif</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="o">&gt;&gt;&gt;</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">exif</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="o">...</span>   <span class="n">decoded</span> <span class="o">=</span> <span class="n">TAGS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+<span class="o">...</span>   <span class="n">data</span><span class="p">[</span><span class="n">decoded</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+<span class="o">...</span> 
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">pprint</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pp</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">PrettyPrinter</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="p">{</span>   <span class="s">&#39;ApertureValue&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4281</span><span class="p">,</span> <span class="mi">1441</span><span class="p">),</span>
+    <span class="s">&#39;ColorSpace&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s">&#39;ComponentsConfiguration&#39;</span><span class="p">:</span> <span class="s">&#39;</span><span class="se">\x01\x02\x03\x00</span><span class="s">&#39;</span><span class="p">,</span>
+    <span class="s">&#39;DateTime&#39;</span><span class="p">:</span> <span class="s">u&#39;2012:09:08 18:10:40&#39;</span><span class="p">,</span>
+    <span class="s">&#39;DateTimeDigitized&#39;</span><span class="p">:</span> <span class="s">u&#39;2012:09:08 18:10:40&#39;</span><span class="p">,</span>
+    <span class="s">&#39;DateTimeOriginal&#39;</span><span class="p">:</span> <span class="s">u&#39;2012:09:08 18:10:40&#39;</span><span class="p">,</span>
+    <span class="s">&#39;ExifImageHeight&#39;</span><span class="p">:</span> <span class="mi">1536</span><span class="p">,</span>
+    <span class="s">&#39;ExifImageWidth&#39;</span><span class="p">:</span> <span class="mi">2048</span><span class="p">,</span>
+    <span class="s">&#39;ExifOffset&#39;</span><span class="p">:</span> <span class="mi">206</span><span class="p">,</span>
+    <span class="s">&#39;ExifVersion&#39;</span><span class="p">:</span> <span class="s">&#39;0221&#39;</span><span class="p">,</span>
+    <span class="s">&#39;ExposureMode&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;ExposureProgram&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s">&#39;ExposureTime&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span>
+    <span class="s">&#39;FNumber&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="s">&#39;Flash&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="s">&#39;FlashPixVersion&#39;</span><span class="p">:</span> <span class="s">&#39;0100&#39;</span><span class="p">,</span>
+    <span class="s">&#39;FocalLength&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">77</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+    <span class="s">&#39;GPSInfo&#39;</span><span class="p">:</span> <span class="p">{</span>   <span class="mi">1</span><span class="p">:</span> <span class="s">u&#39;N&#39;</span><span class="p">,</span>
+                   <span class="mi">2</span><span class="p">:</span> <span class="p">((</span><span class="o">**</span><span class="p">,</span> <span class="o">**</span><span class="p">),</span> <span class="p">(</span><span class="o">****</span><span class="p">,</span> <span class="o">****</span><span class="p">),</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)),</span>
+                   <span class="mi">3</span><span class="p">:</span> <span class="s">u&#39;E&#39;</span><span class="p">,</span>
+                   <span class="mi">4</span><span class="p">:</span> <span class="p">((</span><span class="o">**</span><span class="p">,</span> <span class="o">**</span><span class="p">),</span> <span class="p">(</span><span class="o">****</span><span class="p">,</span> <span class="o">****</span><span class="p">),</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)),</span>
+                   <span class="mi">5</span><span class="p">:</span> <span class="s">&#39;</span><span class="se">\x00</span><span class="s">&#39;</span><span class="p">,</span>
+                   <span class="mi">6</span><span class="p">:</span> <span class="p">(</span><span class="mi">25453</span><span class="p">,</span> <span class="mi">182</span><span class="p">),</span>
+                   <span class="mi">7</span><span class="p">:</span> <span class="p">((</span><span class="mi">11</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">3588</span><span class="p">,</span> <span class="mi">100</span><span class="p">)),</span>
+                   <span class="mi">16</span><span class="p">:</span> <span class="s">u&#39;M&#39;</span><span class="p">,</span>
+                   <span class="mi">17</span><span class="p">:</span> <span class="p">(</span><span class="mi">44274</span><span class="p">,</span> <span class="mi">191</span><span class="p">)},</span>
+    <span class="s">&#39;ISOSpeedRatings&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s">&#39;Make&#39;</span><span class="p">:</span> <span class="s">u&#39;Apple&#39;</span><span class="p">,</span>
+    <span class="s">&#39;MeteringMode&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s">&#39;Model&#39;</span><span class="p">:</span> <span class="s">u&#39;iPhone 3GS&#39;</span><span class="p">,</span>
+    <span class="s">&#39;Orientation&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="s">&#39;ResolutionUnit&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s">&#39;SceneCaptureType&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;SensingMethod&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s">&#39;Sharpness&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s">&#39;Software&#39;</span><span class="p">:</span> <span class="s">u&#39;5.1.1&#39;</span><span class="p">,</span>
+    <span class="s">&#39;SubjectLocation&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1023</span><span class="p">,</span> <span class="mi">767</span><span class="p">,</span> <span class="mi">614</span><span class="p">,</span> <span class="mi">614</span><span class="p">),</span>
+    <span class="s">&#39;WhiteBalance&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;XResolution&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s">&#39;YCbCrPositioning&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s">&#39;YResolution&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">1</span><span class="p">)}</span>
+<span class="o">&gt;&gt;&gt;</span>
+</pre></div>
+
+
+<p>Как видно из <code>exif</code> данных, изображением является фотография сделанная на
+<code>iPhone 3GS</code> в сентябре 2012 года. Но это не принципиально,
+главным является информация об ориентации изображения в пространстве:
+<code>Orientation: 6</code>.</p>
+<p><code>Exif Orientation</code> тег описывает ориентацию изображения в пространстве
+используя следующие&nbsp;правила:</p>
+<div class="highlight"><pre>  1        2       3      4         5            6           7          8
+
+######  ######      ##  ##      ##########  ##                  ##  ##########
+##          ##      ##  ##      ##  ##      ##  ##          ##  ##      ##  ##
+####      ####    ####  ####    ##          ##########  ##########          ##
+##          ##      ##  ##
+##          ##  ######  ######
+</pre></div>
+
+
+<p>Наглядно на примере фотокамеры, могут возникать 4 варианта тега&nbsp;ориентации:</p>
+<p><img alt="exif orient" class="center" src="/media/wrong-exif/orient.gif" /></p>
+<h3 id="pil-exif"><a class="toclink" href="#pil-exif"><span class="caps">PIL</span> <span class="amp">&amp;</span>&nbsp;Exif</a></h3>
+<p>При сохранении изображения с помощью <code>PIL</code> все метаданные <code>exif</code> стираются,
+поэтому сохраненная картинка без метаинформации уже не поворачивается при
+отображении, а остается такая как есть. Тоесть с точки зрения пользователя
+&#8212; &#8220;непредсказуемо&nbsp;поворачиваются&#8221;.</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="c"># ...</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">im</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">&#39;saved.jpg&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">im_saved</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;saved.jpg&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">exif</span> <span class="o">=</span> <span class="n">im_saved</span><span class="o">.</span><span class="n">_getexif</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">exif</span> <span class="ow">is</span> <span class="bp">None</span>
+<span class="bp">True</span>
+<span class="o">&gt;&gt;&gt;</span>
+</pre></div>
+
+
+        </article>
+
+            <div class="comments">
+                <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    var disqus_identifier = "drafts/vot-eto-povorot.html";
+                    (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//samael500.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+            </div>
+    </div>
+    <div class="col-md-3 content-right">
+        <div class='anchorific'></div>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p>This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.</p>
+            <p><a href="http://github.com/samael500/w3-personal-blog/">W3 Personal Blog</a> is a flat <a href="http://getbootstrap.com/">bootstrap</a> responsive theme designed by <a href="https://w3layouts.com/personal-blog-a-blogging-category-flat-bootstrap-responsive-web-template/">W3layouts</a> ported to a pelican by <a href="http://samael500.github.io/">Samael500</a>.<p>
+            <p>Copyrights © 2015 Maks blog All rights reserved.</p>
+        </div>
+    </div>
+
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter32194009 = new Ya.Metrika({
+                    id:32194009,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<script type="text/javascript">
+    var disqus_shortname = 'samael500';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
+</body>
+</html>
