@@ -2,7 +2,7 @@ Title: Вот это поворот...
 Date: 2015-09-06 15:00
 Modified: 2015-09-06 15:00
 Category: Bugstory
-Tags: python, exif, bug, magic, crop, jpg, thumbnail, pil, image, lena
+Tags: python, exif, bug, magic, crop, jpg, thumbnail, pil, image, lenna
 Image: /media/md-headers/pelican-md.png
 Summary:
     Однажды столкнулся с магическим багом, причину возникновения которого,
@@ -108,8 +108,8 @@ return {
 
 В графических изображениях дополнительную метаинформацию можно сохранять
 в формате [EXIF](http://www.exif.org/). Где среди прочего может содержаться
-информация об ориентации изображения. Выведя `exif` данного изображения,
-сразу стало понятно почему ошибка воспроизводится.  
+информация об ориентации изображения. Выведя `exif` данного файла,
+сразу стало понятно почему ошибка воспроизводится именно на нем.
 
 ```python
 >>> from PIL import Image
@@ -174,12 +174,11 @@ return {
 ```
 
 Как видно из `exif` данных, изображением является фотография сделанная на
-`iPhone 3GS` в сентябре 2012 года. Но это не принципиально,
-главным является информация об ориентации изображения в пространстве:
-`Orientation: 6`.
+`iPhone 3GS` в сентябре 2012 года. Но это совершенно не важно,
+главным является информация об ориентации изображения: `Orientation 6`.
 
-`Exif Orientation` тег описывает ориентацию изображения в пространстве
-используя следующие правила:
+`Exif Orientation` тег описывает ориентацию изображения при отображении,
+используя значения от 1 до 8:
 
 ```
   1        2       3      4         5            6           7          8
@@ -198,8 +197,9 @@ return {
 ###PIL & Exif
 
 При сохранении изображения с помощью `PIL` все метаданные `exif` стираются,
-поэтому сохраненная картинка уже не поворачивается а остается такая как есть,
-тоесть "непредсказуемо поворачиваются".
+поэтому сохраненная картинка без метаинформации уже не поворачивается при
+отображении, а остается такая как есть. Тоесть с точки зрения пользователя
+-- "непредсказуемо поворачиваются".
 
 ```python
 >>> # ...
@@ -209,4 +209,121 @@ return {
 >>> exif is None
 True
 >>>
+```
+
+###Поворот перед сохранением
+
+Поскольку `PIL` стирает метаинформацию при сохранении изображения, то
+будем поворачивать изображение при наличии тега ориентации самостоятельно.
+
+```python
+def orient(image_path):
+    """ Check are this img oriented """
+    img = Image.open(image_path)
+    # check is has exif data
+    if not hasattr(img, '_getexif') or img._getexif() is None:
+        return
+    # if has information - try rotate img
+    orientation = img._getexif().get(0x112)
+    rotate_values = {3: 180, 6: 270, 8: 90}
+    if orientation in rotate_values:
+        img = img.rotate(rotate_values[orientation])
+    img.save(image_path, quality=100)
+```
+
+Данная функция проверяет наличие информации о повороте изображения, и если она
+присутствует, поворачивает картинку на соответствующий угол. Сохраняя
+изображение метаинформация стирается, и поэтому, если даже `exif orientation`
+тег был не "фотоаппаратный" (3, 6, 8), а отраженный (2, 4, 5, 7). То картинка
+будет такой как и есть в действительности, и в случае необходимости,
+модераторы смогут её повернуть как им нужно.
+
+Вот такой простой функцией решилась эта коварная ошибка.
+
+##Наглядный пример
+
+Для большей наглядности, приведем пример различного поведения изображения с
+`exif` ориентацией и без. В качестве исходного изображения будем использовать
+знаменитую [Лену](http://lenna.org/), но для более заметных изменений, не её
+канонический вариант 512x512, а прямоугольное изображение. Для работы с `exif`
+информацией воспользуемся консольной утилитой
+[exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/).
+
+![lenna default](/media/wrong-exif/lenna_default.jpg){.center}
+Исходное изображение, `Orientation: 0`.
+
+```Bash
+$ exiftool lenna_default.jpg
+ExifTool Version Number         : 9.46
+File Name                       : lenna_default.jpg
+Directory                       : .
+File Size                       : 79 kB
+File Modification Date/Time     : 2015:09:06 10:40:30+03:00
+File Access Date/Time           : 2015:09:06 10:49:37+03:00
+File Inode Change Date/Time     : 2015:09:06 10:49:12+03:00
+File Permissions                : rw-rw-r--
+File Type                       : JPEG
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+Exif Byte Order                 : Little-endian (Intel, II)
+Orientation                     : Horizontal (normal)
+X Resolution                    : 72
+Y Resolution                    : 72
+Resolution Unit                 : inches
+Exif Version                    : 0210
+Flashpix Version                : 0100
+Color Space                     : Uncalibrated
+Exif Image Width                : 463
+Exif Image Height               : 584
+Image Width                     : 584
+Image Height                    : 463
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 (2 2)
+Image Size                      : 584x463
+```
+
+Скопируем изображение и установим тег ориентации 6.
+
+```Bash
+$ cp lenna_default.jpg lenna_exif_6.jpg
+$ exiftool -n -Orientation=6 lenna_exif_6.jpg
+    1 image files updated
+```
+
+![lenna exif rotate](/media/wrong-exif/lenna_exif_6.jpg){.center .exif}
+Повернутое изображение, `Orientation: 6` (чтобы увидеть поворот откройте
+изображение в новой вкладке).
+
+```Bash
+$ exiftool lenna_exif_6.jpg
+ExifTool Version Number         : 9.46
+File Name                       : lenna_exif_6.jpg
+Directory                       : .
+File Size                       : 79 kB
+File Modification Date/Time     : 2015:09:06 10:41:52+03:00
+File Access Date/Time           : 2015:09:06 10:49:25+03:00
+File Inode Change Date/Time     : 2015:09:06 10:49:18+03:00
+File Permissions                : rw-rw-r--
+File Type                       : JPEG
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+Exif Byte Order                 : Little-endian (Intel, II)
+Orientation                     : Rotate 90 CW
+X Resolution                    : 72
+Y Resolution                    : 72
+Resolution Unit                 : inches
+Exif Version                    : 0210
+Flashpix Version                : 0100
+Color Space                     : Uncalibrated
+Exif Image Width                : 463
+Exif Image Height               : 584
+Image Width                     : 584
+Image Height                    : 463
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 (2 2)
+Image Size                      : 584x463
 ```
