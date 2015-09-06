@@ -3,7 +3,7 @@ Date: 2015-09-06 15:00
 Modified: 2015-09-06 15:00
 Category: Bugstory
 Tags: python, exif, bug, magic, crop, jpg, thumbnail, pil, image, lenna
-Image: /media/md-headers/pelican-md.png
+Image: /media/wrong-exif/wrong_exif.png)
 Summary:
     Однажды столкнулся с магическим багом, причину возникновения которого,
     неудавалось отыскать почти на протяжении месяца. Да что там причину,
