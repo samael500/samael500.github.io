@@ -201,12 +201,29 @@
 модераторы смогут её повернуть как им&amp;nbsp;нужно.&lt;/p&gt;
 &lt;p&gt;Вот такой простой функцией решилась эта коварная&amp;nbsp;ошибка.&lt;/p&gt;
 &lt;h2 id="nagliadnyi-primer"&gt;&lt;a class="toclink" href="#nagliadnyi-primer"&gt;Наглядный&amp;nbsp;пример&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Для большей наглядности, приведем пример различного поведения изображения с
-&lt;code&gt;exif&lt;/code&gt; ориентацией и без. В качестве исходного изображения будем использовать
+&lt;p&gt;Для большей наглядности, приведем пример неправильной обрезки изображения из-за
+кеширования, а так же различного поведения изображения с &lt;code&gt;exif&lt;/code&gt; ориентацией
+и без. В качестве исходного изображения будем использовать
 знаменитую &lt;a href="http://lenna.org/"&gt;Лену&lt;/a&gt;, но для более заметных изменений, не её
 канонический вариант 512x512, а прямоугольное изображение. Для работы с &lt;code&gt;exif&lt;/code&gt;
 информацией воспользуемся консольной утилитой
 &lt;a href="http://www.sno.phy.queensu.ca/~phil/exiftool/"&gt;exiftool&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="oshibka-keshirovaniia"&gt;&lt;a class="toclink" href="#oshibka-keshirovaniia"&gt;Ошибка&amp;nbsp;кеширования&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Возьмем портретно ориентированное изображение, и попробуем его дважды обрезать
+на одном и том же превью&amp;nbsp;изображении.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="lenna" class="center" src="/media/wrong-exif/lenna.jpg" title="Исходное изображение." /&gt;&lt;/p&gt;
+&lt;p&gt;Модератор обрезает изображение, затем после обновления страницы повторно
+загружается тоже-самое превью. Модератор обрезает изображение второй раз,
+думая при этом, что изменения по какой либо причине не&amp;nbsp;сохранились.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="lenna" class="center" src="/media/wrong-exif/lenna_cut.png" title="Превью обрезки изображения." /&gt;&lt;/p&gt;
+&lt;p&gt;Но, на самом деле, изображение в первый раз обрезалось&amp;nbsp;корректно.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="lenna" class="center" src="/media/wrong-exif/lenna_cache_crop_1.jpg" title="Правильно обрезанное изображение." /&gt;&lt;/p&gt;
+&lt;p&gt;Получив повторные координаты для обрезки изображения, происходит&amp;nbsp;следующее.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="lenna" class="center" src="/media/wrong-exif/lenna_cache_crop_2.jpg" title="Дважды обрезанное изображение." /&gt;&lt;/p&gt;
+&lt;p&gt;И так далее, при каждой последующей обрезки исходное изображение будет
+продолжать кромсаться. Поэтому случайный &lt;code&gt;GET&lt;/code&gt; параметр позволяет бороться с
+кешированием и загружать необходимое превью для правильной обработки&amp;nbsp;изображения.&lt;/p&gt;
+&lt;h3 id="exif-orientatsiia"&gt;&lt;a class="toclink" href="#exif-orientatsiia"&gt;Exif&amp;nbsp;ориентация&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Создадим исходное изображение, с ландшафтным соотношение сторон,
 без заданного тега&amp;nbsp;ориентации.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="lenna default" class="center" src="/media/wrong-exif/lenna_default.jpg" title="Исходное изображение, Orientation: 0." /&gt;&lt;/p&gt;
