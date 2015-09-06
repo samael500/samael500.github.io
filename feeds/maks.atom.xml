@@ -1,5 +1,316 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/maks.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2015-09-02T15:00:00+03:00</updated><entry><title>Автоматическое содержание в Pelican</title><link href="https://samael500.github.io/articles/drugoe/avtomaticheskoe-soderzhanie-v-pelican/" rel="alternate"></link><updated>2015-09-02T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-09-02:articles/drugoe/avtomaticheskoe-soderzhanie-v-pelican/</id><summary type="html">&lt;p&gt;Так получается, что некоторые статьи, например
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/maks.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2015-09-06T15:00:00+03:00</updated><entry><title>Вот это поворот…</title><link href="https://samael500.github.io/articles/bugstory/vot-eto-povorot/" rel="alternate"></link><updated>2015-09-06T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-09-06:articles/bugstory/vot-eto-povorot/</id><summary type="html">&lt;p&gt;Однажды столкнулся с магическим багом, причину возникновения которого,
+неудавалось отыскать почти на протяжении месяца. Да что там причину,
+его даже воспроизвести никак не удавалось. Заказчик постоянно жаловался
+что изображения обрезаются неправильно, да при том ещё непредсказуемо&amp;nbsp;поворачиваются&amp;#8230;&lt;/p&gt;
+&lt;h2 id="neulovimaia-oshibka"&gt;&lt;a class="toclink" href="#neulovimaia-oshibka"&gt;Неуловимая&amp;nbsp;ошибка&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Суть проекта заключалась в том, что пользователи выкладывают фотографии,
+сопровождая их коротенькими историями, далее модераторы проверяют контент
+на соответствие тематике ресурса, обрезают фотографии по необходимому
+соотношению сторон и публикуют эти&amp;nbsp;истории.&lt;/p&gt;
+&lt;p&gt;Буквально с первых же дней выхода проекта в продакшн, начали поступать жалобы
+от модераторов. Жаловались на то, что фотографии обрезаются не так как это
+ожидается, иногда появляются черные полоски, иногда фотографии внезапно
+поворачиваются, иногда вообще не происходит каких либо изменений после&amp;nbsp;обрезки.&lt;/p&gt;
+&lt;p&gt;Для обрезки изображений использовалась библиотека
+&lt;a href="https://pypi.python.org/pypi/django-image-cropping"&gt;django-image-cropping&lt;/a&gt;,
+которая позволяет в админке джанго обрезать изображения при помощи &lt;code&gt;jQuery&lt;/code&gt;
+плагина &lt;a href="http://deepliquid.com/content/Jcrop.html"&gt;Jcrop&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="lozhnye-obvineniia"&gt;&lt;a class="toclink" href="#lozhnye-obvineniia"&gt;Ложные&amp;nbsp;обвинения&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Поскольку ошибку никак не удавалось воспроизвести, стали полагать, что причина
+прячется где то в клиентской части. За две с половиной недели поиска ошибки,
+были перепробованы чуть менее чем все комбинации различных браузеров и
+операционных систем, включая устаревшие версии браузеров. Но воспроизвести
+ошибку все никак не&amp;nbsp;удавалось.&lt;/p&gt;
+&lt;p&gt;Тем неменее, усердное тестирование обрезки изображения в различных браузерах
+выявило сопутствующую ошибку. От браузера, кстати, независящую. Продакшен
+сервер был оптимизирован под большое количество посетителей. Сам проект
+представлял из себя регенерируемый, статический сайт, кешированный &lt;code&gt;nginx&lt;/code&gt;ом;
+небольшое &lt;code&gt;api&lt;/code&gt; для добавления и поиска историй; и административный интерфейс
+для премодерации историй и перегенерации статического&amp;nbsp;контента.&lt;/p&gt;
+&lt;p&gt;Так получилось, что &lt;code&gt;nginx&lt;/code&gt; слишком усердно справлялся с кешированием,
+и достаточно часто после обрезки изображения в админке показывал &lt;strong&gt;старое&lt;/strong&gt;
+(не обрезанное изображение), после чего модератор снова и снова &lt;em&gt;обрезал&lt;/em&gt;
+картинку, а в результате исходное изображение резалось по несуществующим
+координатам. Соответственно на выходе получалось изкромсаное изображение с
+черными полосками и когда кеш обновлялся то это становилось&amp;nbsp;заметно.&lt;/p&gt;
+&lt;p&gt;Данную ошибку с кеширование легко исправить введя случайный &lt;code&gt;GET&lt;/code&gt; параметр в
+адресе изображения перед выводом его в админке.
+Примерно&amp;nbsp;так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;random&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;randint&lt;/span&gt;
+&lt;span class="n"&gt;rand_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;{url}?{num}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;randint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;99999&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="c"&gt;# ...&lt;/span&gt;
+
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c"&gt;# ...&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;data-thumbnail-url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;rand_url&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;thumbnail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c"&gt;# ...&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Вследствии чего, проблема отображения &lt;strong&gt;старого&lt;/strong&gt; изображения после обрезки
+исчезла. В админке выводился следующий &lt;code&gt;html&lt;/code&gt; код отображения&amp;nbsp;изображения:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;img&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;id_cropping-image&amp;quot;&lt;/span&gt;
+    &lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/src/img/9b/c6/9bc62cfaaf70be365de538b415cbb8df.jpg.800x800_q85_detail_upscale.jpg?80339&amp;quot;&lt;/span&gt;
+    &lt;span class="na"&gt;style=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;width: 800px; height: 634px;&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ошибка найдена и ликвидирована. Больше повторятся не должна.
+Можно торжествовать&amp;nbsp;победу.&lt;/p&gt;
+&lt;h2 id="nachinaem-snachala"&gt;&lt;a class="toclink" href="#nachinaem-snachala"&gt;Начинаем&amp;nbsp;сначала&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Буквально через неделю, после сабмита изменений в продакшн, от модераторов
+вновь поступила жалоба на некорректную обрезку изображения. К счастью,
+на этот раз они явно указали на каком именно изображении воспроизводится
+некорректная обрезка и переслали данное изображение по электронной&amp;nbsp;почте.&lt;/p&gt;
+&lt;p&gt;Открыв письмо, я открыл картинку в новой вкладке и сохранил её. Начал
+тестировать в &lt;code&gt;vagrant&lt;/code&gt;е &amp;#8212; ошибка не воспроизводится, изображение обрезается
+как нужно, ничего не поворачивается и не возникают черные полосы. Проверил
+эту же картинку на продакшн сервере &amp;#8212; не воспроизводится.
+Хитрость оказалась в том, что нужно было картинку именно &lt;strong&gt;скачать&lt;/strong&gt;, а не
+&lt;strong&gt;сохранить&lt;/strong&gt; из письма. Получив исходное изображение, ошибка стала регулярно&amp;nbsp;воспроизводится.&lt;/p&gt;
+&lt;h3 id="exif-metadannye"&gt;&lt;a class="toclink" href="#exif-metadannye"&gt;Exif&amp;nbsp;метаданные&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Поскольку существенную разницу поведения изображения вызывало &lt;strong&gt;сохранение&lt;/strong&gt;
+и &lt;strong&gt;скачивание&lt;/strong&gt;, а так же &amp;#8212; тот факт, что после сохранения изображения в
+графическом редакторе ошибка прекращала воспроизводится. Натолкнуло на мысль,
+о том, что в данном изображении содержится дополнительная информация,
+которая при сохранении&amp;nbsp;теряется.&lt;/p&gt;
+&lt;p&gt;В графических изображениях дополнительную метаинформацию можно сохранять
+в формате &lt;a href="http://www.exif.org/"&gt;&lt;span class="caps"&gt;EXIF&lt;/span&gt;&lt;/a&gt;. Где среди прочего может содержаться
+информация об ориентации изображения. Выведя &lt;code&gt;exif&lt;/code&gt; данного файла,
+сразу стало понятно почему ошибка воспроизводится именно на&amp;nbsp;нем.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;PIL&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;PIL.ExifTags&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;TAGS&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; 
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;im&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;photo.jpg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;exif&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;im&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_getexif&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; 
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; 
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;exif&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+&lt;span class="o"&gt;...&lt;/span&gt;   &lt;span class="n"&gt;decoded&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TAGS&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;...&lt;/span&gt;   &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;decoded&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;
+&lt;span class="o"&gt;...&lt;/span&gt; 
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pprint&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;pp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pprint&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;PrettyPrinter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;indent&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;pp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pprint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;   &lt;span class="s"&gt;&amp;#39;ApertureValue&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4281&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1441&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;ColorSpace&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;ComponentsConfiguration&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\x01\x02\x03\x00&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;DateTime&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;u&amp;#39;2012:09:08 18:10:40&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;DateTimeDigitized&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;u&amp;#39;2012:09:08 18:10:40&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;DateTimeOriginal&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;u&amp;#39;2012:09:08 18:10:40&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;ExifImageHeight&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1536&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;ExifImageWidth&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;2048&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;ExifOffset&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;206&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;ExifVersion&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;0221&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;ExposureMode&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;ExposureProgram&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;ExposureTime&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;FNumber&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;14&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;Flash&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;FlashPixVersion&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;0100&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;FocalLength&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;77&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;GPSInfo&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;   &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;u&amp;#39;N&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                   &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;****&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;****&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
+                   &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;u&amp;#39;E&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                   &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;****&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;****&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
+                   &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\x00&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                   &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;25453&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;182&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                   &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3588&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
+                   &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;u&amp;#39;M&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                   &lt;span class="mi"&gt;17&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;44274&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;191&lt;/span&gt;&lt;span class="p"&gt;)},&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;ISOSpeedRatings&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;Make&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;u&amp;#39;Apple&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;MeteringMode&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;Model&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;u&amp;#39;iPhone 3GS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;Orientation&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;ResolutionUnit&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;SceneCaptureType&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;SensingMethod&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;Sharpness&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;Software&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;u&amp;#39;5.1.1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;SubjectLocation&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1023&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;767&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;614&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;614&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;WhiteBalance&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;XResolution&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;72&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;YCbCrPositioning&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;YResolution&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;72&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)}&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Как видно из &lt;code&gt;exif&lt;/code&gt; данных, изображением является фотография сделанная на
+&lt;code&gt;iPhone 3GS&lt;/code&gt; в сентябре 2012 года. Но это совершенно не важно,
+главным является информация об ориентации изображения: &lt;code&gt;Orientation 6&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Exif Orientation&lt;/code&gt; тег описывает ориентацию изображения при отображении,
+используя значения от 1 до&amp;nbsp;8:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;  1        2       3      4         5            6           7          8
+
+######  ######      ##  ##      ##########  ##                  ##  ##########
+##          ##      ##  ##      ##  ##      ##  ##          ##  ##      ##  ##
+####      ####    ####  ####    ##          ##########  ##########          ##
+##          ##      ##  ##
+##          ##  ######  ######
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Наглядно на примере фотокамеры, могут возникать 4 варианта тега&amp;nbsp;ориентации:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="exif orient" class="center" src="/media/wrong-exif/orient.gif" /&gt;&lt;/p&gt;
+&lt;h3 id="pil-exif"&gt;&lt;a class="toclink" href="#pil-exif"&gt;&lt;span class="caps"&gt;PIL&lt;/span&gt; &lt;span class="amp"&gt;&amp;amp;&lt;/span&gt;&amp;nbsp;Exif&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;При сохранении изображения с помощью &lt;code&gt;PIL&lt;/code&gt; все метаданные &lt;code&gt;exif&lt;/code&gt; стираются,
+поэтому сохраненная картинка без метаинформации уже не поворачивается при
+отображении, а остается такая как есть. Тоесть с точки зрения пользователя
+&amp;#8212; &lt;em&gt;непредсказуемо поворачиваются&lt;/em&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="c"&gt;# ...&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;im&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;save&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;saved.jpg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;im_saved&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;saved.jpg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;exif&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;im_saved&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_getexif&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;exif&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+&lt;span class="bp"&gt;True&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="povorot-pered-sokhraneniem"&gt;&lt;a class="toclink" href="#povorot-pered-sokhraneniem"&gt;Поворот перед&amp;nbsp;сохранением&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Поскольку &lt;code&gt;PIL&lt;/code&gt; стирает метаинформацию при сохранении изображения, то
+будем поворачивать изображение при наличии тега ориентации&amp;nbsp;самостоятельно.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;orient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;image_path&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; Check are this img oriented &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;img&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;image_path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c"&gt;# check is has exif data&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="nb"&gt;hasattr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;_getexif&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_getexif&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;
+    &lt;span class="c"&gt;# if has information - try rotate img&lt;/span&gt;
+    &lt;span class="n"&gt;orientation&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_getexif&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mh"&gt;0x112&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;rotate_values&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;180&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;270&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;90&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;orientation&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;rotate_values&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;img&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rotate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rotate_values&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;orientation&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;save&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;image_path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;quality&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Данная функция проверяет наличие информации о повороте изображения, и если она
+присутствует, поворачивает картинку на соответствующий угол. Сохраняя
+изображение метаинформация стирается, и поэтому, если даже &lt;code&gt;exif orientation&lt;/code&gt;
+тег был не &lt;em&gt;фотоаппаратный&lt;/em&gt; (3, 6, 8), а отраженный (2, 4, 5, 7). То картинка
+будет такой как и есть в действительности, и в случае необходимости,
+модераторы смогут её повернуть как им&amp;nbsp;нужно.&lt;/p&gt;
+&lt;p&gt;Вот такой простой функцией решилась эта коварная&amp;nbsp;ошибка.&lt;/p&gt;
+&lt;h2 id="nagliadnyi-primer"&gt;&lt;a class="toclink" href="#nagliadnyi-primer"&gt;Наглядный&amp;nbsp;пример&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Для большей наглядности, приведем пример различного поведения изображения с
+&lt;code&gt;exif&lt;/code&gt; ориентацией и без. В качестве исходного изображения будем использовать
+знаменитую &lt;a href="http://lenna.org/"&gt;Лену&lt;/a&gt;, но для более заметных изменений, не её
+канонический вариант 512x512, а прямоугольное изображение. Для работы с &lt;code&gt;exif&lt;/code&gt;
+информацией воспользуемся консольной утилитой
+&lt;a href="http://www.sno.phy.queensu.ca/~phil/exiftool/"&gt;exiftool&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Создадим исходное изображение, с ландшафтным соотношение сторон,
+без заданного тега&amp;nbsp;ориентации.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="lenna default" class="center" src="/media/wrong-exif/lenna_default.jpg" title="Исходное изображение, Orientation: 0." /&gt;&lt;/p&gt;
+&lt;p&gt;Отобразим метаинформацию в данном&amp;nbsp;изображении.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;exiftool lenna_default.jpg
+ExifTool Version Number         : 9.46
+File Name                       : lenna_default.jpg
+Directory                       : .
+File Size                       : &lt;span class="m"&gt;79&lt;/span&gt; kB
+File Modification Date/Time     : 2015:09:06 10:40:30+03:00
+File Access Date/Time           : 2015:09:06 10:49:37+03:00
+File Inode Change Date/Time     : 2015:09:06 10:49:12+03:00
+File Permissions                : rw-rw-r--
+File Type                       : JPEG
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+Exif Byte Order                 : Little-endian &lt;span class="o"&gt;(&lt;/span&gt;Intel, II&lt;span class="o"&gt;)&lt;/span&gt;
+Orientation                     : Horizontal &lt;span class="o"&gt;(&lt;/span&gt;normal&lt;span class="o"&gt;)&lt;/span&gt;
+X Resolution                    : 72
+Y Resolution                    : 72
+Resolution Unit                 : inches
+Exif Version                    : 0210
+Flashpix Version                : 0100
+Color Space                     : Uncalibrated
+Exif Image Width                : 463
+Exif Image Height               : 584
+Image Width                     : 584
+Image Height                    : 463
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt; 2&lt;span class="o"&gt;)&lt;/span&gt;
+Image Size                      : 584x463
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Скопируем изображение и установим тег ориентации&amp;nbsp;6.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;cp lenna_default.jpg lenna_exif_6.jpg
+&lt;span class="nv"&gt;$ &lt;/span&gt;exiftool -n -Orientation&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;6&lt;/span&gt; lenna_exif_6.jpg
+    &lt;span class="m"&gt;1&lt;/span&gt; image files updated
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="lenna exif rotate" class="center" src="/media/wrong-exif/lenna_exif_6.jpg" title="Повернутое изображение, Orientation: 6." /&gt;
+Чтобы увидеть поворот откройте изображение в новой&amp;nbsp;вкладке.&lt;/p&gt;
+&lt;p&gt;Теперь посмотрим какая метаинформация содержится в этом&amp;nbsp;изображении.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;exiftool lenna_exif_6.jpg
+ExifTool Version Number         : 9.46
+File Name                       : lenna_exif_6.jpg
+Directory                       : .
+File Size                       : &lt;span class="m"&gt;79&lt;/span&gt; kB
+File Modification Date/Time     : 2015:09:06 10:41:52+03:00
+File Access Date/Time           : 2015:09:06 10:49:25+03:00
+File Inode Change Date/Time     : 2015:09:06 10:49:18+03:00
+File Permissions                : rw-rw-r--
+File Type                       : JPEG
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+Exif Byte Order                 : Little-endian &lt;span class="o"&gt;(&lt;/span&gt;Intel, II&lt;span class="o"&gt;)&lt;/span&gt;
+Orientation                     : Rotate &lt;span class="m"&gt;90&lt;/span&gt; CW
+X Resolution                    : 72
+Y Resolution                    : 72
+Resolution Unit                 : inches
+Exif Version                    : 0210
+Flashpix Version                : 0100
+Color Space                     : Uncalibrated
+Exif Image Width                : 463
+Exif Image Height               : 584
+Image Width                     : 584
+Image Height                    : 463
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt; 2&lt;span class="o"&gt;)&lt;/span&gt;
+Image Size                      : 584x463
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Как видно, в тег ориентации установлено значение &lt;code&gt;Rotate 90 CW&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Загрузив данные изображения на сервис - можно увидеть различное&amp;nbsp;поведение:&lt;/p&gt;
+&lt;p&gt;Изображение без тега ориентации не поворачивается и отображается &lt;strong&gt;как есть&lt;/strong&gt;,
+с ландшафтным соотношением&amp;nbsp;сторон.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="lenna on service default" class="center" src="/media/wrong-exif/lenna_service_default.png" title="Изображение без тега ориентации отображается как есть." /&gt;&lt;/p&gt;
+&lt;p&gt;Изображение с тегом ориентации при отображении поворачивается в портретное
+соотношение&amp;nbsp;сторон.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="lenna on service exif" class="center" src="/media/wrong-exif/lenna_service_exif_6.png" title="Изображение с тегом ориентации &amp;quot;поворачивается&amp;quot;." /&gt;&lt;/p&gt;
+&lt;p&gt;Второе изображение выглядит как нужно и модератор без сомнений обрезает&amp;nbsp;изображение.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="lenna crop" class="center" src="/media/wrong-exif/lenna_crop.png" title="Обрезка изображения с помощью Jcrop." /&gt;&lt;/p&gt;
+&lt;p&gt;Обрезая изображение как показано на рисунке сверху, модератор ожидает получить
+следующий&amp;nbsp;результат.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="lenna correct crop" class="center" src="/media/wrong-exif/lenna_crop_correct.jpg" title="Правильно обрезанное изображение." /&gt;&lt;/p&gt;
+&lt;p&gt;Однако, поскольку координаты заданы для портретной ориентации, а само
+изображение имеет размеры альбомной ориентации, результат получается
+неожиданным. Картинка поворачивается, и возникает черная полоса снизу&amp;nbsp;изображения.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="lenna wrong crop" class="center" src="/media/wrong-exif/lenna_crop_wrong.jpg" title="Не правильно обрезанное изображение." /&gt;&lt;/p&gt;
+&lt;p&gt;После использования предварительного поворота изображения, и удаления
+метаинформации, данное неожиданное поведение исчезает, изображение отображается
+таким какое оно есть на самом деле. Загружая картинку с тегом ориентации,
+при сохранении на сервере она сразу сохраняется&amp;nbsp;поворачивается.&lt;/p&gt;
+&lt;p&gt;Тоесть в случае, если модератор обрезает портретное&amp;nbsp;изображение.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="lenna on service exif" class="center" src="/media/wrong-exif/lenna_service_exif_6.png" title="Правильное отображение исходного изображения." /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="lenna crop" class="center" src="/media/wrong-exif/lenna_crop.png" title="Обрезка изображения с помощью Jcrop." /&gt;&lt;/p&gt;
+&lt;p&gt;Он получает, правильный портретный&amp;nbsp;результат.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="lenna correct crop" class="center" src="/media/wrong-exif/lenna_crop_correct.jpg" title="Правильно обрезанное изображение." /&gt;&lt;/p&gt;</summary><category term="python"></category><category term="exif"></category><category term="bug"></category><category term="magic"></category><category term="crop"></category><category term="jpg"></category><category term="thumbnail"></category><category term="pil"></category><category term="image"></category><category term="lenna"></category></entry><entry><title>Автоматическое содержание в Pelican</title><link href="https://samael500.github.io/articles/drugoe/avtomaticheskoe-soderzhanie-v-pelican/" rel="alternate"></link><updated>2015-09-02T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-09-02:articles/drugoe/avtomaticheskoe-soderzhanie-v-pelican/</id><summary type="html">&lt;p&gt;Так получается, что некоторые статьи, например
 &lt;a href="https://samael500.github.io/articles/python/ralli-na-brauzerakh/"&gt;ралли на браузерах&lt;/a&gt;. Содержат в себе несколько
 уровней заголовков. И в связи с этим, сделаем автоматическую навигацию
 по&amp;nbsp;статье.&lt;/p&gt;

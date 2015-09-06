@@ -12,16 +12,16 @@
 
     <meta name="author" content="Maks" />
     <meta name="robots" content="index, follow"/>
-    <meta name="keywords" content="article, python, exif, bug, magic, crop, jpg, thumbnail, pil, image, lena" />
+    <meta name="keywords" content="article, python, exif, bug, magic, crop, jpg, thumbnail, pil, image, lenna" />
 
     <meta property="og:title" content="Вот это поворот…"/>
-    <meta property="og:url" content="https://samael500.github.io/drafts/vot-eto-povorot.html"/>
+    <meta property="og:url" content="https://samael500.github.io/articles/bugstory/vot-eto-povorot/"/>
     <meta property="og:site_name" content="Maks blog"/>
     <meta property="og:type" content="article"/>
-    <meta property="og:image" content="https://samael500.github.io/media/md-headers/pelican-md.png" />
+    <meta property="og:image" content="https://samael500.github.io/media/wrong-exif/wrong_exif.png)" />
     <meta property="og:description" content="Однажды столкнулся с магическим багом, причину возникновения которого, неудавалось отыскать почти на протяжении месяца. Да что там причину, его даже воспроизвести никак не удавалось. Заказчик постоянно жаловался что изображения обрезаются неправильно, да при том ещё непредсказуемо поворачиваются…" />
 
-    <link rel="canonical" href="https://samael500.github.io/drafts/vot-eto-povorot.html" />
+    <link rel="canonical" href="https://samael500.github.io/articles/bugstory/vot-eto-povorot/" />
 
     <title>Вот это поворот… | Maks blog</title>
 
@@ -119,7 +119,7 @@
 
         <header>
 <h4>
-    <a href="https://samael500.github.io/drafts/vot-eto-povorot.html" title="Вот это поворот…">Вот это&nbsp;поворот&#8230;</a>
+    <a href="https://samael500.github.io/articles/bugstory/vot-eto-povorot/" title="Вот это поворот…">Вот это&nbsp;поворот&#8230;</a>
     Сент. 06, 2015
 </h4>
 
@@ -130,7 +130,7 @@
     Категория: <a href="https://samael500.github.io/category/bugstory.html">Bugstory</a>
 
 
-        | <a href="https://samael500.github.io/drafts/vot-eto-povorot.html#disqus_thread">Комментарии</a>
+        | <a href="https://samael500.github.io/articles/bugstory/vot-eto-povorot/#disqus_thread">Комментарии</a>
 
     
 
@@ -144,7 +144,7 @@
         <a href="https://samael500.github.io/tag/thumbnail/">thumbnail</a>
         <a href="https://samael500.github.io/tag/pil/">pil</a>
         <a href="https://samael500.github.io/tag/image/">image</a>
-        <a href="https://samael500.github.io/tag/lena/">lena</a>
+        <a href="https://samael500.github.io/tag/lenna/">lenna</a>
 
 </div>        </header>
 
@@ -181,8 +181,8 @@
 небольшое <code>api</code> для добавления и поиска историй; и административный интерфейс
 для премодерации историй и перегенерации статического&nbsp;контента.</p>
 <p>Так получилось, что <code>nginx</code> слишком усердно справлялся с кешированием,
-и достаточно часто после обрезки изображения в админке показывал &#8220;старое&#8221;
-(не обрезанное изображение), после чего модератор снова и снова &#8220;обрезал&#8221;
+и достаточно часто после обрезки изображения в админке показывал <strong>старое</strong>
+(не обрезанное изображение), после чего модератор снова и снова <em>обрезал</em>
 картинку, а в результате исходное изображение резалось по несуществующим
 координатам. Соответственно на выходе получалось изкромсаное изображение с
 черными полосками и когда кеш обновлялся то это становилось&nbsp;заметно.</p>
@@ -202,9 +202,11 @@
 </pre></div>
 
 
-<p>Вследствии чего, проблема отображения &#8220;старого&#8221; изображения после обрезки
+<p>Вследствии чего, проблема отображения <strong>старого</strong> изображения после обрезки
 исчезла. В админке выводился следующий <code>html</code> код отображения&nbsp;изображения:</p>
-<div class="highlight"><pre>
+<div class="highlight"><pre><span class="nt">&lt;img</span> <span class="na">id=</span><span class="s">&quot;id_cropping-image&quot;</span>
+    <span class="na">src=</span><span class="s">&quot;/src/img/9b/c6/9bc62cfaaf70be365de538b415cbb8df.jpg.800x800_q85_detail_upscale.jpg?80339&quot;</span>
+    <span class="na">style=</span><span class="s">&quot;width: 800px; height: 634px;&quot;</span><span class="nt">&gt;</span>
 </pre></div>
 
 
@@ -219,18 +221,18 @@
 тестировать в <code>vagrant</code>е &#8212; ошибка не воспроизводится, изображение обрезается
 как нужно, ничего не поворачивается и не возникают черные полосы. Проверил
 эту же картинку на продакшн сервере &#8212; не воспроизводится.
-Хитрость оказалась в том, что нужно было картинку именно &#8220;скачать&#8221;, а не
-&#8220;сохранить&#8221; из письма. Получив исходное изображение, ошибка стала регулярно&nbsp;воспроизводится.</p>
+Хитрость оказалась в том, что нужно было картинку именно <strong>скачать</strong>, а не
+<strong>сохранить</strong> из письма. Получив исходное изображение, ошибка стала регулярно&nbsp;воспроизводится.</p>
 <h3 id="exif-metadannye"><a class="toclink" href="#exif-metadannye">Exif&nbsp;метаданные</a></h3>
-<p>Поскольку существенную разницу поведения изображения вызывало &#8220;сохранении&#8221;
-и &#8220;скачивание&#8221;, а так же &#8212; тот факт, что после сохранения изображения в
+<p>Поскольку существенную разницу поведения изображения вызывало <strong>сохранение</strong>
+и <strong>скачивание</strong>, а так же &#8212; тот факт, что после сохранения изображения в
 графическом редакторе ошибка прекращала воспроизводится. Натолкнуло на мысль,
 о том, что в данном изображении содержится дополнительная информация,
 которая при сохранении&nbsp;теряется.</p>
 <p>В графических изображениях дополнительную метаинформацию можно сохранять
 в формате <a href="http://www.exif.org/"><span class="caps">EXIF</span></a>. Где среди прочего может содержаться
-информация об ориентации изображения. Выведя <code>exif</code> данного изображения,
-сразу стало понятно почему ошибка&nbsp;воспроизводится.  </p>
+информация об ориентации изображения. Выведя <code>exif</code> данного файла,
+сразу стало понятно почему ошибка воспроизводится именно на&nbsp;нем.</p>
 <div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">PIL.ExifTags</span> <span class="kn">import</span> <span class="n">TAGS</span>
 <span class="o">&gt;&gt;&gt;</span> 
@@ -294,11 +296,10 @@
 
 
 <p>Как видно из <code>exif</code> данных, изображением является фотография сделанная на
-<code>iPhone 3GS</code> в сентябре 2012 года. Но это не принципиально,
-главным является информация об ориентации изображения в пространстве:
-<code>Orientation: 6</code>.</p>
-<p><code>Exif Orientation</code> тег описывает ориентацию изображения в пространстве
-используя следующие&nbsp;правила:</p>
+<code>iPhone 3GS</code> в сентябре 2012 года. Но это совершенно не важно,
+главным является информация об ориентации изображения: <code>Orientation 6</code>.</p>
+<p><code>Exif Orientation</code> тег описывает ориентацию изображения при отображении,
+используя значения от 1 до&nbsp;8:</p>
 <div class="highlight"><pre>  1        2       3      4         5            6           7          8
 
 ######  ######      ##  ##      ##########  ##                  ##  ##########
@@ -315,7 +316,7 @@
 <p>При сохранении изображения с помощью <code>PIL</code> все метаданные <code>exif</code> стираются,
 поэтому сохраненная картинка без метаинформации уже не поворачивается при
 отображении, а остается такая как есть. Тоесть с точки зрения пользователя
-&#8212; &#8220;непредсказуемо&nbsp;поворачиваются&#8221;.</p>
+&#8212; <em>непредсказуемо поворачиваются</em>.</p>
 <div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="c"># ...</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">im</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">&#39;saved.jpg&#39;</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">im_saved</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;saved.jpg&#39;</span><span class="p">)</span>
@@ -326,12 +327,150 @@
 </pre></div>
 
 
+<h3 id="povorot-pered-sokhraneniem"><a class="toclink" href="#povorot-pered-sokhraneniem">Поворот перед&nbsp;сохранением</a></h3>
+<p>Поскольку <code>PIL</code> стирает метаинформацию при сохранении изображения, то
+будем поворачивать изображение при наличии тега ориентации&nbsp;самостоятельно.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">orient</span><span class="p">(</span><span class="n">image_path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Check are this img oriented &quot;&quot;&quot;</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
+    <span class="c"># check is has exif data</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s">&#39;_getexif&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">img</span><span class="o">.</span><span class="n">_getexif</span><span class="p">()</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="c"># if has information - try rotate img</span>
+    <span class="n">orientation</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">_getexif</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mh">0x112</span><span class="p">)</span>
+    <span class="n">rotate_values</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">:</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="mi">270</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mi">90</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">orientation</span> <span class="ow">in</span> <span class="n">rotate_values</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">rotate_values</span><span class="p">[</span><span class="n">orientation</span><span class="p">])</span>
+    <span class="n">img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Данная функция проверяет наличие информации о повороте изображения, и если она
+присутствует, поворачивает картинку на соответствующий угол. Сохраняя
+изображение метаинформация стирается, и поэтому, если даже <code>exif orientation</code>
+тег был не <em>фотоаппаратный</em> (3, 6, 8), а отраженный (2, 4, 5, 7). То картинка
+будет такой как и есть в действительности, и в случае необходимости,
+модераторы смогут её повернуть как им&nbsp;нужно.</p>
+<p>Вот такой простой функцией решилась эта коварная&nbsp;ошибка.</p>
+<h2 id="nagliadnyi-primer"><a class="toclink" href="#nagliadnyi-primer">Наглядный&nbsp;пример</a></h2>
+<p>Для большей наглядности, приведем пример различного поведения изображения с
+<code>exif</code> ориентацией и без. В качестве исходного изображения будем использовать
+знаменитую <a href="http://lenna.org/">Лену</a>, но для более заметных изменений, не её
+канонический вариант 512x512, а прямоугольное изображение. Для работы с <code>exif</code>
+информацией воспользуемся консольной утилитой
+<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">exiftool</a>.</p>
+<p>Создадим исходное изображение, с ландшафтным соотношение сторон,
+без заданного тега&nbsp;ориентации.</p>
+<p><img alt="lenna default" class="center" src="/media/wrong-exif/lenna_default.jpg" title="Исходное изображение, Orientation: 0." /></p>
+<p>Отобразим метаинформацию в данном&nbsp;изображении.</p>
+<div class="highlight"><pre><span class="nv">$ </span>exiftool lenna_default.jpg
+ExifTool Version Number         : 9.46
+File Name                       : lenna_default.jpg
+Directory                       : .
+File Size                       : <span class="m">79</span> kB
+File Modification Date/Time     : 2015:09:06 10:40:30+03:00
+File Access Date/Time           : 2015:09:06 10:49:37+03:00
+File Inode Change Date/Time     : 2015:09:06 10:49:12+03:00
+File Permissions                : rw-rw-r--
+File Type                       : JPEG
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+Exif Byte Order                 : Little-endian <span class="o">(</span>Intel, II<span class="o">)</span>
+Orientation                     : Horizontal <span class="o">(</span>normal<span class="o">)</span>
+X Resolution                    : 72
+Y Resolution                    : 72
+Resolution Unit                 : inches
+Exif Version                    : 0210
+Flashpix Version                : 0100
+Color Space                     : Uncalibrated
+Exif Image Width                : 463
+Exif Image Height               : 584
+Image Width                     : 584
+Image Height                    : 463
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 <span class="o">(</span><span class="m">2</span> 2<span class="o">)</span>
+Image Size                      : 584x463
+</pre></div>
+
+
+<p>Скопируем изображение и установим тег ориентации&nbsp;6.</p>
+<div class="highlight"><pre><span class="nv">$ </span>cp lenna_default.jpg lenna_exif_6.jpg
+<span class="nv">$ </span>exiftool -n -Orientation<span class="o">=</span><span class="m">6</span> lenna_exif_6.jpg
+    <span class="m">1</span> image files updated
+</pre></div>
+
+
+<p><img alt="lenna exif rotate" class="center" src="/media/wrong-exif/lenna_exif_6.jpg" title="Повернутое изображение, Orientation: 6." />
+Чтобы увидеть поворот откройте изображение в новой&nbsp;вкладке.</p>
+<p>Теперь посмотрим какая метаинформация содержится в этом&nbsp;изображении.</p>
+<div class="highlight"><pre><span class="nv">$ </span>exiftool lenna_exif_6.jpg
+ExifTool Version Number         : 9.46
+File Name                       : lenna_exif_6.jpg
+Directory                       : .
+File Size                       : <span class="m">79</span> kB
+File Modification Date/Time     : 2015:09:06 10:41:52+03:00
+File Access Date/Time           : 2015:09:06 10:49:25+03:00
+File Inode Change Date/Time     : 2015:09:06 10:49:18+03:00
+File Permissions                : rw-rw-r--
+File Type                       : JPEG
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+Exif Byte Order                 : Little-endian <span class="o">(</span>Intel, II<span class="o">)</span>
+Orientation                     : Rotate <span class="m">90</span> CW
+X Resolution                    : 72
+Y Resolution                    : 72
+Resolution Unit                 : inches
+Exif Version                    : 0210
+Flashpix Version                : 0100
+Color Space                     : Uncalibrated
+Exif Image Width                : 463
+Exif Image Height               : 584
+Image Width                     : 584
+Image Height                    : 463
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 <span class="o">(</span><span class="m">2</span> 2<span class="o">)</span>
+Image Size                      : 584x463
+</pre></div>
+
+
+<p>Как видно, в тег ориентации установлено значение <code>Rotate 90 CW</code>.</p>
+<p>Загрузив данные изображения на сервис - можно увидеть различное&nbsp;поведение:</p>
+<p>Изображение без тега ориентации не поворачивается и отображается <strong>как есть</strong>,
+с ландшафтным соотношением&nbsp;сторон.</p>
+<p><img alt="lenna on service default" class="center" src="/media/wrong-exif/lenna_service_default.png" title="Изображение без тега ориентации отображается как есть." /></p>
+<p>Изображение с тегом ориентации при отображении поворачивается в портретное
+соотношение&nbsp;сторон.</p>
+<p><img alt="lenna on service exif" class="center" src="/media/wrong-exif/lenna_service_exif_6.png" title="Изображение с тегом ориентации &quot;поворачивается&quot;." /></p>
+<p>Второе изображение выглядит как нужно и модератор без сомнений обрезает&nbsp;изображение.</p>
+<p><img alt="lenna crop" class="center" src="/media/wrong-exif/lenna_crop.png" title="Обрезка изображения с помощью Jcrop." /></p>
+<p>Обрезая изображение как показано на рисунке сверху, модератор ожидает получить
+следующий&nbsp;результат.</p>
+<p><img alt="lenna correct crop" class="center" src="/media/wrong-exif/lenna_crop_correct.jpg" title="Правильно обрезанное изображение." /></p>
+<p>Однако, поскольку координаты заданы для портретной ориентации, а само
+изображение имеет размеры альбомной ориентации, результат получается
+неожиданным. Картинка поворачивается, и возникает черная полоса снизу&nbsp;изображения.</p>
+<p><img alt="lenna wrong crop" class="center" src="/media/wrong-exif/lenna_crop_wrong.jpg" title="Не правильно обрезанное изображение." /></p>
+<p>После использования предварительного поворота изображения, и удаления
+метаинформации, данное неожиданное поведение исчезает, изображение отображается
+таким какое оно есть на самом деле. Загружая картинку с тегом ориентации,
+при сохранении на сервере она сразу сохраняется&nbsp;поворачивается.</p>
+<p>Тоесть в случае, если модератор обрезает портретное&nbsp;изображение.</p>
+<p><img alt="lenna on service exif" class="center" src="/media/wrong-exif/lenna_service_exif_6.png" title="Правильное отображение исходного изображения." /></p>
+<p><img alt="lenna crop" class="center" src="/media/wrong-exif/lenna_crop.png" title="Обрезка изображения с помощью Jcrop." /></p>
+<p>Он получает, правильный портретный&nbsp;результат.</p>
+<p><img alt="lenna correct crop" class="center" src="/media/wrong-exif/lenna_crop_correct.jpg" title="Правильно обрезанное изображение." /></p>
+
+
         </article>
 
             <div class="comments">
                 <div id="disqus_thread"></div>
                 <script type="text/javascript">
-                    var disqus_identifier = "drafts/vot-eto-povorot.html";
+                    var disqus_identifier = "articles/bugstory/vot-eto-povorot/";
                     (function() {
                     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                     dsq.src = '//samael500.disqus.com/embed.js';
