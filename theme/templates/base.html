@@ -34,12 +34,10 @@
     <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/theme/css/paginator.css" />
     <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/theme/css/font-awesome.css" />
     <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/theme/css/pygment.css" />
-    <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/theme/css/emojify.min.css" />
 
     <script type="text/javascript" src="{{ SITEURL }}/theme/js/jquery.min.js"></script>
     <script type="text/javascript" src="{{ SITEURL }}/theme/js/move-top.js"></script>
     <script type="text/javascript" src="{{ SITEURL }}/theme/js/easing.js"></script>
-    <script type="text/javascript" src="{{ SITEURL }}/theme/js/emojify.min.js"></script>
 
 
     <script type="text/javascript">var switchTo5x=true;</script>
@@ -55,18 +53,6 @@
         });
     </script>
     {% endif %}
-
-    {# emojify #}
-    <script type="text/javascript">
-        emojify.setConfig({
-            img_dir : '/theme/images/emojify',
-            ignore_emoticons: true,
-        });
-        $(document).ready(function() {
-            emojify.run(document.getElementsByTagName('article')[0]);
-        });
-    </script>
-    {# /emojify #}
 
     {% block extra_head %}{% endblock %}
 </head>
