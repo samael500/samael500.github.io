@@ -939,14 +939,14 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;p&gt;Во второй тур прошли 4 участника и 4 участника покинули соревнования.
 Турнирная таблица по окончанию первого&amp;nbsp;этапа.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;:white_check_mark:&amp;nbsp;Firefox&lt;/li&gt;
-&lt;li&gt;:white_check_mark:&amp;nbsp;Pantom.js&lt;/li&gt;
-&lt;li&gt;:white_check_mark:&amp;nbsp;Slimer.js&lt;/li&gt;
-&lt;li&gt;:warning:&amp;nbsp;Ghost.py&lt;/li&gt;
-&lt;li&gt;:x:&amp;nbsp;Chromium&lt;/li&gt;
-&lt;li&gt;:x: Google&amp;nbsp;Chrome&lt;/li&gt;
-&lt;li&gt;:x:&amp;nbsp;Splash&lt;/li&gt;
-&lt;li&gt;:x:&amp;nbsp;Zombie.js&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Firefox&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pantom.js&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Slimer.js&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Ghost.py&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;s&gt;Chromium&lt;/s&gt;&lt;/li&gt;
+&lt;li&gt;&lt;s&gt;Google Chrome&lt;/s&gt;&lt;/li&gt;
+&lt;li&gt;&lt;s&gt;Splash&lt;/s&gt;&lt;/li&gt;
+&lt;li&gt;&lt;s&gt;Zombie.js&lt;/s&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id="zaezd-vtoroi-skorost"&gt;&lt;a class="toclink" href="#zaezd-vtoroi-skorost"&gt;Заезд второй &amp;#8212;&amp;nbsp;&amp;#8220;Скорость&amp;#8221;&lt;/a&gt;&lt;/h2&gt;
 &lt;h3 id="proverka-skorosti-raboty-brauzerov"&gt;&lt;a class="toclink" href="#proverka-skorosti-raboty-brauzerov"&gt;Проверка скорости работы&amp;nbsp;браузеров&lt;/a&gt;&lt;/h3&gt;
@@ -1046,10 +1046,10 @@ Slimer.js 240px&lt;br /&gt;&lt;img alt="old google 2" class="shadow" src="/media
 &lt;/ol&gt;
 &lt;p&gt;На этом этапе выбывает &lt;code&gt;Ghost.py&lt;/code&gt;, турнирная таблица принимает&amp;nbsp;вид:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;:white_check_mark:&amp;nbsp;Pantom.js&lt;/li&gt;
-&lt;li&gt;:white_check_mark:&amp;nbsp;Slimer.js&lt;/li&gt;
-&lt;li&gt;:white_check_mark:&amp;nbsp;Firefox&lt;/li&gt;
-&lt;li&gt;:x:&amp;nbsp;Ghost.py&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pantom.js&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Slimer.js&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Firefox&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;s&gt;Ghost.py&lt;/s&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id="zaezd-chetvertyi-upravliaemost"&gt;&lt;a class="toclink" href="#zaezd-chetvertyi-upravliaemost"&gt;Заезд четвертый &amp;#8212;&amp;nbsp;&amp;#8220;Управляемость&amp;#8221;&lt;/a&gt;&lt;/h2&gt;
 &lt;h3 id="metody-upravlenie-brauzerami"&gt;&lt;a class="toclink" href="#metody-upravlenie-brauzerami"&gt;Методы управление&amp;nbsp;браузерами&lt;/a&gt;&lt;/h3&gt;
