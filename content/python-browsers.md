@@ -156,14 +156,14 @@ Google выдает различные версии сайта, в зависи�
 Во второй тур прошли 4 участника и 4 участника покинули соревнования.
 Турнирная таблица по окончанию первого этапа.
 
-- :white_check_mark: Firefox
-- :white_check_mark: Pantom.js
-- :white_check_mark: Slimer.js
-- :warning: Ghost.py
-- :x: Chromium
-- :x: Google Chrome
-- :x: Splash
-- :x: Zombie.js
+- **Firefox**
+- **Pantom.js**
+- **Slimer.js**
+- *Ghost.py*
+- <s>Chromium</s>
+- <s>Google Chrome</s>
+- <s>Splash</s>
+- <s>Zombie.js</s>
 
 ##Заезд второй -- "Скорость"
 ###Проверка скорости работы браузеров
@@ -272,10 +272,10 @@ from memory_profiler import memory_usage
 
 На этом этапе выбывает `Ghost.py`, турнирная таблица принимает вид:
 
-- :white_check_mark: Pantom.js
-- :white_check_mark: Slimer.js
-- :white_check_mark: Firefox
-- :x: Ghost.py
+- **Pantom.js**
+- **Slimer.js**
+- **Firefox**
+- <s>Ghost.py</s>
 
 ##Заезд четвертый -- "Управляемость"
 ###Методы управление браузерами
