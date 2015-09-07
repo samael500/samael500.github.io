@@ -50,6 +50,7 @@ SOCIAL = (
 # TWITTER_USERNAME = 'samael500'
 GITHUB_URL = 'https://github.com/Samael500'
 GOOGLE_CUSTOM_SEARCH = '006263355362628034990:cuxoisonrno'
+# SHARETHIS_PUB_KEY = "0d04814b-2bfc-47a7-b7f3-b10866d39438"
 
 THEME = './theme'
 # THEME = '../w3-personal-blog'
