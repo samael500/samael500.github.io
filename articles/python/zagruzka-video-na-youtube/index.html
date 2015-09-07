@@ -493,7 +493,6 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 <span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">&#39;https://l2.io/ip&#39;</span><span class="p">)</span>
 </pre></div>
 
-
         </article>
 
             <div class="comments">
@@ -525,6 +524,7 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
     </div>
 
 
+<script type="text/javascript" src="https://l2.io/ip.js?var=userip"></script>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function (d, w, c) {
@@ -535,7 +535,8 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
                     clickmap:true,
                     trackLinks:true,
                     accurateTrackBounce:true,
-                    webvisor:true
+                    webvisor:true,
+                    params:{'ip': userip};
                 });
             } catch(e) { }
         });

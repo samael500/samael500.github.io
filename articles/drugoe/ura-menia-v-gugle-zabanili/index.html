@@ -149,7 +149,6 @@
 <p>Ну что ж, прокси и впн-ы никто не отменял,
 при необходимости доступ к ресурсам получить будет&nbsp;можно.</p>
 
-
         </article>
 
             <div class="comments">
@@ -181,6 +180,7 @@
     </div>
 
 
+<script type="text/javascript" src="https://l2.io/ip.js?var=userip"></script>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function (d, w, c) {
@@ -191,7 +191,8 @@
                     clickmap:true,
                     trackLinks:true,
                     accurateTrackBounce:true,
-                    webvisor:true
+                    webvisor:true,
+                    params:{'ip': userip};
                 });
             } catch(e) { }
         });
