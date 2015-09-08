@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Maks blog</title><link>https://samael500.github.io/</link><description></description><atom:link href="https://samael500.github.io/feeds/maks.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 06 Sep 2015 15:00:00 +0300</lastBuildDate><item><title>Вот это поворот…</title><link>https://samael500.github.io/articles/bugstory/vot-eto-povorot/</link><description>&lt;p&gt;Однажды столкнулся с магическим багом, причину возникновения которого,
-неудавалось отыскать почти на протяжении месяца. Да что там причину,
+не удавалось отыскать почти на протяжении месяца. Да что там причину,
 его даже воспроизвести никак не удавалось. Заказчик постоянно жаловался
 что изображения обрезаются неправильно, да при том ещё непредсказуемо&amp;nbsp;поворачиваются&amp;#8230;&lt;/p&gt;
 &lt;h2 id="neulovimaia-oshibka"&gt;&lt;a class="toclink" href="#neulovimaia-oshibka"&gt;Неуловимая&amp;nbsp;ошибка&lt;/a&gt;&lt;/h2&gt;

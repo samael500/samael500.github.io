@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/bugstory.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2015-09-06T15:00:00+03:00</updated><entry><title>Вот это поворот…</title><link href="https://samael500.github.io/articles/bugstory/vot-eto-povorot/" rel="alternate"></link><updated>2015-09-06T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-09-06:articles/bugstory/vot-eto-povorot/</id><summary type="html">&lt;p&gt;Однажды столкнулся с магическим багом, причину возникновения которого,
-неудавалось отыскать почти на протяжении месяца. Да что там причину,
+не удавалось отыскать почти на протяжении месяца. Да что там причину,
 его даже воспроизвести никак не удавалось. Заказчик постоянно жаловался
 что изображения обрезаются неправильно, да при том ещё непредсказуемо&amp;nbsp;поворачиваются&amp;#8230;&lt;/p&gt;
 &lt;h2 id="neulovimaia-oshibka"&gt;&lt;a class="toclink" href="#neulovimaia-oshibka"&gt;Неуловимая&amp;nbsp;ошибка&lt;/a&gt;&lt;/h2&gt;
