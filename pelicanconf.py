@@ -47,7 +47,7 @@ SOCIAL = (
     ('<i class="fa-li fa fa-github"></i> Github', 'https://github.com/samael500'),
 )
 # links and usernames
-# TWITTER_USERNAME = 'samael500'
+TWITTER_USERNAME = 'samael500'
 GITHUB_URL = 'https://github.com/Samael500'
 GOOGLE_CUSTOM_SEARCH = '006263355362628034990:cuxoisonrno'
 # SHARETHIS_PUB_KEY = "0d04814b-2bfc-47a7-b7f3-b10866d39438"
