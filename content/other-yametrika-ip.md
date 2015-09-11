@@ -66,17 +66,21 @@ Summary:
 `отчеты` &rarr; `стандартные отчеты` &rarr; `содержание` &rarr;
 `параметры визитов`
 
-![visit params path](/media/yametrika-ip/visit_params_path.png){.center .shadow}
+![visit params path](/media/yametrika-ip/visit_params_path.png
+Путь к отчету по параметрам визитов.){.center .shadow}
 
-![visit params detail](/media/yametrika-ip/visit_params_detail.png){.center .shadow}
+![visit params detail](/media/yametrika-ip/visit_params_detail.png
+Отчет по параметрам визитов.){.center .shadow}
 
 Но, сами по себе `ip` адреса не столь информативны, интерестнее просмотреть
 связь посещения и `ip` адреса в вебвизоре. Для этого в вебвизор нужно добавить
 столбец "Параметры".
 
-![webvisor col params](/media/yametrika-ip/webvisor_col_params.png){.center .shadow}
+![webvisor col params](/media/yametrika-ip/webvisor_col_params.png
+Добавление столбца параметры в вебвизоре.){.center .shadow}
 
-![webvisor ip detail](/media/yametrika-ip/webvisor_ip_detail.png){.center .shadow}
+![webvisor ip detail](/media/yametrika-ip/webvisor_ip_detail.png
+Параметры визитов в вебвизоре.){.center .shadow}
 
 ##Определение IP адреса
 
