@@ -1,5 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/maks.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2015-09-06T15:00:00+03:00</updated><entry><title>Вот это поворот…</title><link href="https://samael500.github.io/articles/bugstory/vot-eto-povorot/" rel="alternate"></link><updated>2015-09-06T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-09-06:articles/bugstory/vot-eto-povorot/</id><summary type="html">&lt;p&gt;Однажды столкнулся с магическим багом, причину возникновения которого,
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/maks.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2015-09-22T15:00:00+03:00</updated><entry><title>Определение IP адреса посетителя в отчетах Yandex Метрика</title><link href="https://samael500.github.io/articles/drugoe/opredelenie-ip-adresa-posetitelia-v-otchetakh-yandex-metrika/" rel="alternate"></link><updated>2015-09-22T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-09-22:articles/drugoe/opredelenie-ip-adresa-posetitelia-v-otchetakh-yandex-metrika/</id><summary type="html">&lt;p&gt;Обновленная метрика не отображает информацию об &lt;code&gt;ip&lt;/code&gt; адресе посетителей
+сайта, сделано это с целью обезличивания статистики посещений. Данная
+&lt;a href="http://clubs.ya.ru/metrika/replies.xml?item_no=10888"&gt;новость&lt;/a&gt; была
+официально озвучена в клубе метрики. Обезличивание это здорово, но порой
+хочется узнать действительно ли в статистике отображаются различные
+посетители, или же это одно и тот же лицо, которое заходит с разных
+браузеров или устройств. А может быть у Вас несколько счетчиков метрики, и Вам
+интересно какие из посетителей ресурса &lt;em&gt;A&lt;/em&gt;, посещают также ресурсы &lt;em&gt;B&lt;/em&gt; или &lt;em&gt;C&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Также различным рекламщикам, может быть интересна информация об &lt;code&gt;ip&lt;/code&gt; адресах,
+например, с целью вычисления ботов&amp;nbsp;скликеров. &lt;/p&gt;
+&lt;p&gt;К счастью, метрика достаточно гибкая и позволяет устанавливать
+пользовательские параметры, тем самым создавать специальный
+персонализированный отчет о действиях пользователей. Благодаря чему,
+мы можем привязать информацию об &lt;code&gt;ip&lt;/code&gt; адресе к конкретному&amp;nbsp;визиту. &lt;/p&gt;
+&lt;h2 id="parametry-vizitov-yandex-metrika"&gt;&lt;a class="toclink" href="#parametry-vizitov-yandex-metrika"&gt;Параметры визитов&amp;nbsp;yandex.метрика&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Сервис &lt;a href="https://yandex.ru/support/metrika/reports/visit-params.xml"&gt;параметры визитов&lt;/a&gt;
+позволяет прикрепить к информации о посещении &lt;code&gt;json&lt;/code&gt; словарь с дополнительными
+параметрами. Для этого необходимо в конструктор счетчика добавить аргумент
+&lt;code&gt;params&lt;/code&gt; с необходимыми&amp;nbsp;значениями.&lt;/p&gt;
+&lt;p&gt;Например, если информация об &lt;code&gt;ip&lt;/code&gt; адресе будет содержаться в переменой
+&lt;code&gt;userip&lt;/code&gt;, то словарь параметры может выглядеть следующим&amp;nbsp;образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;ip&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;userip&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Конструктор счетчика, в таком случае, будет выглядеть&amp;nbsp;так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nx"&gt;w&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;yaCounterXXXXXX&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Ya&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Metrika&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+        &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="nx"&gt;XXXXXX&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="nx"&gt;clickmap&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="nx"&gt;trackLinks&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="nx"&gt;accurateTrackBounce&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="nx"&gt;webvisor&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="nx"&gt;params&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ip&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;userip&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Где &lt;code&gt;XXXXXX&lt;/code&gt; идентификатор&amp;nbsp;счетчика.&lt;/p&gt;
+&lt;p&gt;Чтобы просмотреть полученные результаты необходимо перейти: &lt;code&gt;метрика&lt;/code&gt; &amp;rarr;
+&lt;code&gt;отчеты&lt;/code&gt; &amp;rarr; &lt;code&gt;стандартные отчеты&lt;/code&gt; &amp;rarr; &lt;code&gt;содержание&lt;/code&gt; &amp;rarr;
+&lt;code&gt;параметры визитов&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="visit params path" class="center shadow" src="/media/yametrika-ip/visit_params_path.png" title="Путь к отчету по параметрам визитов." /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="visit params detail" class="center shadow" src="/media/yametrika-ip/visit_params_detail.png" title="Отчет по параметрам визитов." /&gt;&lt;/p&gt;
+&lt;p&gt;Но, сами по себе &lt;code&gt;ip&lt;/code&gt; адреса не столь информативны, интерестнее просмотреть
+связь посещения и &lt;code&gt;ip&lt;/code&gt; адреса в вебвизоре. Для этого в вебвизор нужно добавить
+столбец&amp;nbsp;&amp;#8220;Параметры&amp;#8221;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="webvisor col params" class="center shadow" src="/media/yametrika-ip/webvisor_col_params.png" title="Добавление столбца параметры в вебвизоре." /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="webvisor ip detail" class="center shadow" src="/media/yametrika-ip/webvisor_ip_detail.png" title="Параметры визитов в вебвизоре." /&gt;&lt;/p&gt;
+&lt;h2 id="opredelenie-ip-adresa"&gt;&lt;a class="toclink" href="#opredelenie-ip-adresa"&gt;Определение &lt;span class="caps"&gt;IP&lt;/span&gt;&amp;nbsp;адреса&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Выше я упоминал о переменной в которой содержится &lt;code&gt;ip&lt;/code&gt; адрес посетителя.
+Задать эту переменную легко если Вы имеете доступ к&amp;nbsp;бэкэнду.&lt;/p&gt;
+&lt;p&gt;Например в &lt;code&gt;django&lt;/code&gt;, предварительно подключив
+&lt;code&gt;django.core.context_processors.request&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;userip&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;{{ request.META.REMOTE_ADDR }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Или, если Вы используете&amp;nbsp;проксирование:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;userip&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;{{ request.META.HTTP_X_REAL_IP }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Или, например, в &lt;code&gt;php&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;userip&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;lt;? echo $_SERVER[&amp;#39;REMOTE_ADDR&amp;#39;];?&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Но что если сайт статический и какой либо бэкэнд отсутствует? В таком случае
+можно воспользоваться сервисом &lt;a href="https://l2.io"&gt;l2.io&lt;/a&gt;, который позволяет
+получить &lt;code&gt;ip&lt;/code&gt; на клиенте. К примеру Ваш &lt;code&gt;ip&lt;/code&gt; адрес:
+&lt;strong&gt;&lt;script type="text/javascript" src="https://www.l2.io/ip.js"&gt;&lt;/script&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Чтобы задать &lt;code&gt;ip&lt;/code&gt; адрес в переменную, нужно вставить такой&amp;nbsp;скрипт:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;https://www.l2.io/ip.js?var=userip&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Полный фрагмент скрипта яндекс метрики будет выглядеть&amp;nbsp;так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;lt;!-- получаем ip адрес одним из указанных вариантов --&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;https://www.l2.io/ip.js?var=userip&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;lt;!-- Yandex.Metrika counter --&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;d&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;w&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;w&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="p"&gt;[]).&lt;/span&gt;&lt;span class="nx"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="nx"&gt;w&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;yaCounterXXXXXX&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Ya&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Metrika&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+                    &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="nx"&gt;XXXXXX&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nx"&gt;clickmap&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nx"&gt;trackLinks&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nx"&gt;accurateTrackBounce&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nx"&gt;webvisor&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nx"&gt;params&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ip&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;userip&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+                &lt;span class="p"&gt;});&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;catch&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;e&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="p"&gt;});&lt;/span&gt;
+    &lt;span class="c1"&gt;// продолжение счетчика&lt;/span&gt;
+    &lt;span class="c1"&gt;// ...&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;lt;!-- /Yandex.Metrika counter --&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="ip"></category><category term="javascript"></category><category term="yandex"></category><category term="metrika"></category><category term="watch"></category></entry><entry><title>Вот это поворот…</title><link href="https://samael500.github.io/articles/bugstory/vot-eto-povorot/" rel="alternate"></link><updated>2015-09-06T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-09-06:articles/bugstory/vot-eto-povorot/</id><summary type="html">&lt;p&gt;Однажды столкнулся с магическим багом, причину возникновения которого,
 не удавалось отыскать почти на протяжении месяца. Да что там причину,
 его даже воспроизвести никак не удавалось. Заказчик постоянно жаловался
 что изображения обрезаются неправильно, да при том ещё непредсказуемо&amp;nbsp;поворачиваются&amp;#8230;&lt;/p&gt;
