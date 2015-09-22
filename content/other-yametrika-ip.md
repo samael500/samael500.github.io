@@ -1,10 +1,9 @@
 Title: Определение IP адреса посетителя в отчетах Yandex Метрика
-Date: 2015-09-13 15:00
-Modified: 2015-09-13 15:00
+Date: 2015-09-22 15:00
+Modified: 2015-09-22 15:00
 Category: Другое
-Status: draft
 Tags: ip, javascript, yandex, metrika, watch
-Image: /media/google-ban/google_ban.png
+Image: /media/yametrika-ip/yametrica-watch-you.png
 Summary:
     Обновленная метрика не отображает информацию об `ip` адресе посетителей
     сайта, сделано это с целью обезличивания статистики посещений. Данная
