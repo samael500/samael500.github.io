@@ -3,7 +3,7 @@ Date: 2015-09-22 15:00
 Modified: 2015-09-22 15:00
 Category: Другое
 Tags: ip, javascript, yandex, metrika, watch
-Image: /media/yametrika-ip/yametrica-watch-you.png
+Image: /media/yametrika-ip/yametrica-watch-you.min.png
 Summary:
     Обновленная метрика не отображает информацию об `ip` адресе посетителей
     сайта, сделано это с целью обезличивания статистики посещений. Данная
