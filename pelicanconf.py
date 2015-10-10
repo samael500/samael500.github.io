@@ -39,6 +39,10 @@ LINKS = (
     # ('You can modify those links in your config file', '#'),
 )
 
+MENUITEMS = (
+    ('Home', '/'),
+)
+
 # Social widget
 SOCIAL = (
     ('<i class="fa-li fa fa-vk"></i> ВКонтакте', 'https://vk.com/id44829586'),
