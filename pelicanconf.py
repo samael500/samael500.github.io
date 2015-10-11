@@ -41,6 +41,7 @@ LINKS = (
 
 MENUITEMS = (
     ('Home', '/'),
+    ('Best', '/tag/best/'),
 )
 
 # Social widget
