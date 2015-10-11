@@ -15,7 +15,7 @@
             <span class="menu"> </span>
                 <ul>
                     {% for title, link in MENUITEMS %}
-                        <li {% if link[1:] == output_file or (link == '/' and output_file == 'index.html') %}class="active"{% endif %}>
+                        <li {% if link[1:] in (output_file, output_file.replace('index.html', '')) %}class="active"{% endif %}>
                             <a href="{{ link }}">{{ title|upper }}</a></li>
                     {% endfor %}
                     {% if DISPLAY_PAGES_ON_MENU %}
