@@ -60,20 +60,22 @@
 
     <div class="content">
         <div class="container">
-            <div class="content-grids">
-                {% block content_container %}
-                    <div class="col-md-8 content-main">
-                        {% block content %}{% endblock %}
-                    </div>
+            {% block container %}
+                <div class="content-grids">
+                    {% block content_container %}
+                        <div class="col-md-8 content-main">
+                            {% block content %}{% endblock %}
+                        </div>
 
-                    <div class="col-md-4 content-right">
-                        {% block sidebar %}{% endblock %}
+                        <div class="col-md-4 content-right">
+                            {% block sidebar %}{% endblock %}
+                            <div class="clearfix"></div>
+                        </div>
+
                         <div class="clearfix"></div>
-                    </div>
-
-                    <div class="clearfix"></div>
-                {% endblock %}
-            </div>
+                    {% endblock %}
+                </div>
+            {% endblock %}
         </div>
     </div>
 
