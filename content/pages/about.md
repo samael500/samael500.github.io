@@ -1,5 +1,4 @@
 Title: About
-Status: hidden
 Date: 2015-10-10 15:00
 Modified: 2015-10-10 15:00
 
@@ -13,16 +12,16 @@ Modified: 2015-10-10 15:00
 В университете участвовал в студенческих олимпиадах ACM/ICPC. Проходил
 студенческую практику в [SoftServe](https://softserve.ua/) и [1С Рарус](https://rarus.ru/).
 
-###Некоторые технологии и языки
+###Технологии и языки
 
-- VCS -- Git
-- Server -- Nginx
-- Linux -- Debian / Ubuntu / Kali
 - Python -- Pure 2.x, 3.x / Django / Flask / GAE webapp2
+- Frontend -- HTML / CSS / JavaScript / CoffeeScript
 - SQL -- PostgreSQL / MySQL
 - NoSQL -- Redis / MongoDB / GAE Datastore
-- TDD -- unittest / nose / Selenium / Ghost.py
-- Frontend -- HTML / CSS / JavaScript / CoffeeScript
+- Linux -- Debian / Ubuntu / Kali
+- Server -- Nginx / Gunicorn
+- VCS -- Git
+- TDD -- Unittest / Nose / Selenium / Ghost.py
 
 ###Опыт работы
 
