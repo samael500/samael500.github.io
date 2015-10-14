@@ -1,10 +1,9 @@
-Title: Это Типограф
+Title: Это Типограф!
 Date: 2015-10-13 15:00
-Modified: 2015-10-13 15:00
+Modified: 2015-10-15 15:00
 Category: Python
 Tags: python, artlebedev, typograf, django
-Image: /media/browsers/pedestal.png
-Status: draft
+Image: /media/typograf/typo.png
 Summary:
     В одном из проектов была поставлена задача типографировать текст
     перед публикацией. Для этой задачи было решено использовать
