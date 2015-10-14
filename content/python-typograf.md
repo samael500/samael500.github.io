@@ -6,6 +6,9 @@ Tags: python, artlebedev, typograf, django
 Image: /media/browsers/pedestal.png
 Status: draft
 Summary:
+    В одном из проектов была поставлена задача типографировать текст
+    перед публикацией. Для этой задачи было решено использовать
+    &laquo;Типограф&raquo; Лебедева.
     У студии Лебедева есть сервис типографирования текста, который
     так и называется [типограф](http://www.artlebedev.ru/tools/typograf/).
     Как заявляют сами разработчики, никто не напишет &laquo;Типограф&raquo;
