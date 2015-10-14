@@ -72,6 +72,7 @@ EXTRA_PATH_METADATA = {
     'stuff/robots.txt': {'path': 'robots.txt'},
     'stuff/CNAME': {'path': 'CNAME'},
     'stuff/google57a1afa03280f644.html': {'path': 'google57a1afa03280f644.html'},
+    'stuff/yandex_5956fbabd1f7743f.html': {'path': 'yandex_5956fbabd1f7743f.html'},
 }
 # article
 ARTICLE_URL = u'articles/{category}/{slug}/'
