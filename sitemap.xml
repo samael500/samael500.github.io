@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://samael500.github.io/</loc>
-<lastmod>2015-10-25T20:53:08-00:00</lastmod>
+<lastmod>2015-11-16T17:00:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://samael500.github.io/archives.html</loc>
-<lastmod>2015-10-25T20:53:08-00:00</lastmod>
+<lastmod>2015-11-16T17:00:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://samael500.github.io/tags.html</loc>
-<lastmod>2015-10-25T20:53:08-00:00</lastmod>
+<lastmod>2015-11-16T17:00:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://samael500.github.io/categories.html</loc>
-<lastmod>2015-10-25T20:53:08-00:00</lastmod>
+<lastmod>2015-11-16T17:00:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -35,6 +35,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <loc>https://samael500.github.io/about/</loc>
 <lastmod>2015-10-10T15:00:00+03:00</lastmod>
 <changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://samael500.github.io/articles/github/trekhsotochka/</loc>
+<lastmod>2015-11-16T18:00:00+03:00</lastmod>
+<changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
@@ -103,7 +110,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://samael500.github.io/author/maks/</loc>
-<lastmod>2015-10-15T15:00:00+02:30</lastmod>
+<lastmod>2015-11-16T18:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
