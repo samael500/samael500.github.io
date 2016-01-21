@@ -187,23 +187,23 @@
 адресе изображения перед выводом его в админке.
 Примерно&nbsp;так:</p>
 <div class="highlight"><pre><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
-<span class="n">rand_url</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">url</span><span class="p">:</span> <span class="s">&#39;{url}?{num}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">randint</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">99999</span><span class="p">))</span>
+<span class="n">rand_url</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">url</span><span class="p">:</span> <span class="s1">&#39;{url}?{num}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">randint</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">99999</span><span class="p">))</span>
 
-<span class="c"># ...</span>
+<span class="c1"># ...</span>
 
 <span class="k">return</span> <span class="p">{</span>
-    <span class="c"># ...</span>
-    <span class="s">&#39;data-thumbnail-url&#39;</span><span class="p">:</span> <span class="n">rand_url</span><span class="p">(</span><span class="n">thumbnail</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
-    <span class="c"># ...</span>
+    <span class="c1"># ...</span>
+    <span class="s1">&#39;data-thumbnail-url&#39;</span><span class="p">:</span> <span class="n">rand_url</span><span class="p">(</span><span class="n">thumbnail</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+    <span class="c1"># ...</span>
 <span class="p">}</span>
 </pre></div>
 
 
 <p>Вследствии чего, проблема отображения <strong>старого</strong> изображения после обрезки
 исчезла. В админке выводился следующий <code>html</code> код отображения&nbsp;изображения:</p>
-<div class="highlight"><pre><span class="nt">&lt;img</span> <span class="na">id=</span><span class="s">&quot;id_cropping-image&quot;</span>
-    <span class="na">src=</span><span class="s">&quot;/src/img/9b/c6/9bc62cfaaf70be365de538b415cbb8df.jpg.800x800_q85_detail_upscale.jpg?80339&quot;</span>
-    <span class="na">style=</span><span class="s">&quot;width: 800px; height: 634px;&quot;</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><span class="p">&lt;</span><span class="nt">img</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;id_cropping-image&quot;</span>
+    <span class="na">src</span><span class="o">=</span><span class="s">&quot;/src/img/9b/c6/9bc62cfaaf70be365de538b415cbb8df.jpg.800x800_q85_detail_upscale.jpg?80339&quot;</span>
+    <span class="na">style</span><span class="o">=</span><span class="s">&quot;width: 800px; height: 634px;&quot;</span><span class="p">&gt;</span>
 </pre></div>
 
 
@@ -233,7 +233,7 @@
 <div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">PIL.ExifTags</span> <span class="kn">import</span> <span class="n">TAGS</span>
 <span class="o">&gt;&gt;&gt;</span> 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;photo.jpg&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;photo.jpg&#39;</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">exif</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">_getexif</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
@@ -247,47 +247,47 @@
 <span class="o">&gt;&gt;&gt;</span> <span class="n">pp</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">PrettyPrinter</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="p">{</span>   <span class="s">&#39;ApertureValue&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4281</span><span class="p">,</span> <span class="mi">1441</span><span class="p">),</span>
-    <span class="s">&#39;ColorSpace&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s">&#39;ComponentsConfiguration&#39;</span><span class="p">:</span> <span class="s">&#39;</span><span class="se">\x01\x02\x03\x00</span><span class="s">&#39;</span><span class="p">,</span>
-    <span class="s">&#39;DateTime&#39;</span><span class="p">:</span> <span class="s">u&#39;2012:09:08 18:10:40&#39;</span><span class="p">,</span>
-    <span class="s">&#39;DateTimeDigitized&#39;</span><span class="p">:</span> <span class="s">u&#39;2012:09:08 18:10:40&#39;</span><span class="p">,</span>
-    <span class="s">&#39;DateTimeOriginal&#39;</span><span class="p">:</span> <span class="s">u&#39;2012:09:08 18:10:40&#39;</span><span class="p">,</span>
-    <span class="s">&#39;ExifImageHeight&#39;</span><span class="p">:</span> <span class="mi">1536</span><span class="p">,</span>
-    <span class="s">&#39;ExifImageWidth&#39;</span><span class="p">:</span> <span class="mi">2048</span><span class="p">,</span>
-    <span class="s">&#39;ExifOffset&#39;</span><span class="p">:</span> <span class="mi">206</span><span class="p">,</span>
-    <span class="s">&#39;ExifVersion&#39;</span><span class="p">:</span> <span class="s">&#39;0221&#39;</span><span class="p">,</span>
-    <span class="s">&#39;ExposureMode&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s">&#39;ExposureProgram&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="s">&#39;ExposureTime&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span>
-    <span class="s">&#39;FNumber&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-    <span class="s">&#39;Flash&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
-    <span class="s">&#39;FlashPixVersion&#39;</span><span class="p">:</span> <span class="s">&#39;0100&#39;</span><span class="p">,</span>
-    <span class="s">&#39;FocalLength&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">77</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
-    <span class="s">&#39;GPSInfo&#39;</span><span class="p">:</span> <span class="p">{</span>   <span class="mi">1</span><span class="p">:</span> <span class="s">u&#39;N&#39;</span><span class="p">,</span>
+<span class="p">{</span>   <span class="s1">&#39;ApertureValue&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4281</span><span class="p">,</span> <span class="mi">1441</span><span class="p">),</span>
+    <span class="s1">&#39;ColorSpace&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">&#39;ComponentsConfiguration&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\x01\x02\x03\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DateTime&#39;</span><span class="p">:</span> <span class="s1">u&#39;2012:09:08 18:10:40&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DateTimeDigitized&#39;</span><span class="p">:</span> <span class="s1">u&#39;2012:09:08 18:10:40&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DateTimeOriginal&#39;</span><span class="p">:</span> <span class="s1">u&#39;2012:09:08 18:10:40&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ExifImageHeight&#39;</span><span class="p">:</span> <span class="mi">1536</span><span class="p">,</span>
+    <span class="s1">&#39;ExifImageWidth&#39;</span><span class="p">:</span> <span class="mi">2048</span><span class="p">,</span>
+    <span class="s1">&#39;ExifOffset&#39;</span><span class="p">:</span> <span class="mi">206</span><span class="p">,</span>
+    <span class="s1">&#39;ExifVersion&#39;</span><span class="p">:</span> <span class="s1">&#39;0221&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ExposureMode&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s1">&#39;ExposureProgram&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s1">&#39;ExposureTime&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span>
+    <span class="s1">&#39;FNumber&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="s1">&#39;Flash&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="s1">&#39;FlashPixVersion&#39;</span><span class="p">:</span> <span class="s1">&#39;0100&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;FocalLength&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">77</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+    <span class="s1">&#39;GPSInfo&#39;</span><span class="p">:</span> <span class="p">{</span>   <span class="mi">1</span><span class="p">:</span> <span class="s1">u&#39;N&#39;</span><span class="p">,</span>
                    <span class="mi">2</span><span class="p">:</span> <span class="p">((</span><span class="o">**</span><span class="p">,</span> <span class="o">**</span><span class="p">),</span> <span class="p">(</span><span class="o">****</span><span class="p">,</span> <span class="o">****</span><span class="p">),</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)),</span>
-                   <span class="mi">3</span><span class="p">:</span> <span class="s">u&#39;E&#39;</span><span class="p">,</span>
+                   <span class="mi">3</span><span class="p">:</span> <span class="s1">u&#39;E&#39;</span><span class="p">,</span>
                    <span class="mi">4</span><span class="p">:</span> <span class="p">((</span><span class="o">**</span><span class="p">,</span> <span class="o">**</span><span class="p">),</span> <span class="p">(</span><span class="o">****</span><span class="p">,</span> <span class="o">****</span><span class="p">),</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)),</span>
-                   <span class="mi">5</span><span class="p">:</span> <span class="s">&#39;</span><span class="se">\x00</span><span class="s">&#39;</span><span class="p">,</span>
+                   <span class="mi">5</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
                    <span class="mi">6</span><span class="p">:</span> <span class="p">(</span><span class="mi">25453</span><span class="p">,</span> <span class="mi">182</span><span class="p">),</span>
                    <span class="mi">7</span><span class="p">:</span> <span class="p">((</span><span class="mi">11</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">3588</span><span class="p">,</span> <span class="mi">100</span><span class="p">)),</span>
-                   <span class="mi">16</span><span class="p">:</span> <span class="s">u&#39;M&#39;</span><span class="p">,</span>
+                   <span class="mi">16</span><span class="p">:</span> <span class="s1">u&#39;M&#39;</span><span class="p">,</span>
                    <span class="mi">17</span><span class="p">:</span> <span class="p">(</span><span class="mi">44274</span><span class="p">,</span> <span class="mi">191</span><span class="p">)},</span>
-    <span class="s">&#39;ISOSpeedRatings&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s">&#39;Make&#39;</span><span class="p">:</span> <span class="s">u&#39;Apple&#39;</span><span class="p">,</span>
-    <span class="s">&#39;MeteringMode&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s">&#39;Model&#39;</span><span class="p">:</span> <span class="s">u&#39;iPhone 3GS&#39;</span><span class="p">,</span>
-    <span class="s">&#39;Orientation&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-    <span class="s">&#39;ResolutionUnit&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="s">&#39;SceneCaptureType&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s">&#39;SensingMethod&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="s">&#39;Sharpness&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s">&#39;Software&#39;</span><span class="p">:</span> <span class="s">u&#39;5.1.1&#39;</span><span class="p">,</span>
-    <span class="s">&#39;SubjectLocation&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1023</span><span class="p">,</span> <span class="mi">767</span><span class="p">,</span> <span class="mi">614</span><span class="p">,</span> <span class="mi">614</span><span class="p">),</span>
-    <span class="s">&#39;WhiteBalance&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s">&#39;XResolution&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="s">&#39;YCbCrPositioning&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s">&#39;YResolution&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">1</span><span class="p">)}</span>
+    <span class="s1">&#39;ISOSpeedRatings&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s1">&#39;Make&#39;</span><span class="p">:</span> <span class="s1">u&#39;Apple&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;MeteringMode&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">&#39;Model&#39;</span><span class="p">:</span> <span class="s1">u&#39;iPhone 3GS&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Orientation&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="s1">&#39;ResolutionUnit&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s1">&#39;SceneCaptureType&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s1">&#39;SensingMethod&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s1">&#39;Sharpness&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">&#39;Software&#39;</span><span class="p">:</span> <span class="s1">u&#39;5.1.1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;SubjectLocation&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1023</span><span class="p">,</span> <span class="mi">767</span><span class="p">,</span> <span class="mi">614</span><span class="p">,</span> <span class="mi">614</span><span class="p">),</span>
+    <span class="s1">&#39;WhiteBalance&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s1">&#39;XResolution&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s1">&#39;YCbCrPositioning&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">&#39;YResolution&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">1</span><span class="p">)}</span>
 <span class="o">&gt;&gt;&gt;</span>
 </pre></div>
 
@@ -314,9 +314,9 @@
 поэтому сохраненная картинка без метаинформации уже не поворачивается при
 отображении, а остается такая как есть. Тоесть с точки зрения пользователя
 &#8212; <em>непредсказуемо поворачиваются</em>.</p>
-<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="c"># ...</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">im</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">&#39;saved.jpg&#39;</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">im_saved</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;saved.jpg&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="c1"># ...</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">im</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;saved.jpg&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">im_saved</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;saved.jpg&#39;</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">exif</span> <span class="o">=</span> <span class="n">im_saved</span><span class="o">.</span><span class="n">_getexif</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">exif</span> <span class="ow">is</span> <span class="bp">None</span>
 <span class="bp">True</span>
@@ -330,10 +330,10 @@
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">orient</span><span class="p">(</span><span class="n">image_path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Check are this img oriented &quot;&quot;&quot;</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
-    <span class="c"># check is has exif data</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s">&#39;_getexif&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">img</span><span class="o">.</span><span class="n">_getexif</span><span class="p">()</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># check is has exif data</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s1">&#39;_getexif&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">img</span><span class="o">.</span><span class="n">_getexif</span><span class="p">()</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">return</span>
-    <span class="c"># if has information - try rotate img</span>
+    <span class="c1"># if has information - try rotate img</span>
     <span class="n">orientation</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">_getexif</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mh">0x112</span><span class="p">)</span>
     <span class="n">rotate_values</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">:</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="mi">270</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mi">90</span><span class="p">}</span>
     <span class="k">if</span> <span class="n">orientation</span> <span class="ow">in</span> <span class="n">rotate_values</span><span class="p">:</span>
@@ -377,7 +377,7 @@
 без заданного тега&nbsp;ориентации.</p>
 <p><img alt="lenna default" class="center" src="/media/wrong-exif/lenna_default.jpg" title="Исходное изображение, Orientation: 0." /></p>
 <p>Отобразим метаинформацию в данном&nbsp;изображении.</p>
-<div class="highlight"><pre><span class="nv">$ </span>exiftool lenna_default.jpg
+<div class="highlight"><pre>$ exiftool lenna_default.jpg
 ExifTool Version Number         : 9.46
 File Name                       : lenna_default.jpg
 Directory                       : .
@@ -410,8 +410,8 @@ Image Size                      : 584x463
 
 
 <p>Скопируем изображение и установим тег ориентации&nbsp;6.</p>
-<div class="highlight"><pre><span class="nv">$ </span>cp lenna_default.jpg lenna_exif_6.jpg
-<span class="nv">$ </span>exiftool -n -Orientation<span class="o">=</span><span class="m">6</span> lenna_exif_6.jpg
+<div class="highlight"><pre>$ cp lenna_default.jpg lenna_exif_6.jpg
+$ exiftool -n -Orientation<span class="o">=</span><span class="m">6</span> lenna_exif_6.jpg
     <span class="m">1</span> image files updated
 </pre></div>
 
@@ -419,7 +419,7 @@ Image Size                      : 584x463
 <p><img alt="lenna exif rotate" class="center" src="/media/wrong-exif/lenna_exif_6.jpg" title="Повернутое изображение, Orientation: 6." />
 Чтобы увидеть поворот откройте изображение в новой&nbsp;вкладке.</p>
 <p>Теперь посмотрим какая метаинформация содержится в этом&nbsp;изображении.</p>
-<div class="highlight"><pre><span class="nv">$ </span>exiftool lenna_exif_6.jpg
+<div class="highlight"><pre>$ exiftool lenna_exif_6.jpg
 ExifTool Version Number         : 9.46
 File Name                       : lenna_exif_6.jpg
 Directory                       : .
