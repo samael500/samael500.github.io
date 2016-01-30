@@ -18,10 +18,11 @@ Modified: 2015-10-10 15:00
 - Frontend -- HTML / CSS / JavaScript / CoffeeScript
 - SQL -- PostgreSQL / MySQL
 - NoSQL -- Redis / MongoDB / GAE Datastore
-- Linux -- Debian / Ubuntu / Kali
+- Linux -- Debian / Ubuntu / RHEL CentOS / Kali
 - Server -- Nginx / Gunicorn
 - VCS -- Git
 - TDD -- Unittest / Nose / Selenium / Ghost.py
+- Task queue -- Celery
 
 ###Опыт работы
 
