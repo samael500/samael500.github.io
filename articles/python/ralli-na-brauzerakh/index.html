@@ -222,8 +222,8 @@
 <p>Безголовый браузер <code>Splash</code>, запускается демоном и слушает <code>localhost:8050</code>, по
 которому предоставляет <code>http api</code> управления браузером. Для сохранения скриншота
 необходимо указать адрес сайта и ширину окна&nbsp;браузера.</p>
-<div class="highlight"><pre><span class="n">request</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:8050/render.png?url={url}&amp;width={res}&amp;render_all=1&amp;wait=1&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span><span class="s1">&#39;curl&#39;</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">save_as</span><span class="p">])</span>
+<div class="highlight"><pre><span class="n">request</span> <span class="o">=</span> <span class="s">&#39;http://localhost:8050/render.png?url={url}&amp;width={res}&amp;render_all=1&amp;wait=1&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span><span class="s">&#39;curl&#39;</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="s">&#39;-o&#39;</span><span class="p">,</span> <span class="n">save_as</span><span class="p">])</span>
 </pre></div>
 
 
@@ -252,7 +252,7 @@
 Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="/media/browsers/old_google_slimer.png" /></p>
 </blockquote>
 <p>Но при использовании поддельных паспортов, от <code>firefox</code> результат такой как&nbsp;нужно.</p>
-<div class="highlight"><pre><span class="s1">&#39;Mozilla/5.0 (X11; Linux x86_64) Gecko/20100101 Firefox/36.0&#39;</span>
+<div class="highlight"><pre><span class="s">&#39;Mozilla/5.0 (X11; Linux x86_64) Gecko/20100101 Firefox/36.0&#39;</span>
 </pre></div>
 
 
@@ -289,11 +289,11 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="/media/browsers
 <p>Измерения проводились при помощи стандартной библиотеки <code>time</code>, как разница
 времени между началом запуска функции и её&nbsp;окончания.</p>
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">time</span>
-<span class="c1"># ...</span>
+<span class="c"># ...</span>
     <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="c1"># call test browser fun()</span>
+    <span class="c"># call test browser fun()</span>
     <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="c1"># ...</span>
+<span class="c"># ...</span>
     <span class="n">times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
 </pre></div>
 
@@ -328,9 +328,9 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="/media/browsers
 с указанием параметра <code>include_children</code>.</p>
 <p>Измерялась минимальная, средняя и максимальная память для каждого&nbsp;скриншота.</p>
 <div class="highlight"><pre><span class="kn">from</span> <span class="nn">memory_profiler</span> <span class="kn">import</span> <span class="n">memory_usage</span>
-<span class="c1"># ...</span>
+<span class="c"># ...</span>
     <span class="n">memory</span> <span class="o">=</span> <span class="n">memory_usage</span><span class="p">((</span><span class="n">fun</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="n">include_children</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="c1"># ...</span>
+<span class="c"># ...</span>
     <span class="n">mins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">memory</span><span class="p">))</span>
     <span class="n">maxs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">memory</span><span class="p">))</span>
     <span class="n">avgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">avg</span><span class="p">(</span><span class="n">memory</span><span class="p">))</span>
@@ -394,8 +394,8 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="/media/browsers
 оболочку, поэтому нужно использовать виртуальный&nbsp;дисплей.</p>
 <div class="highlight"><pre><span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
 <span class="kn">from</span> <span class="nn">pyvirtualdisplay</span> <span class="kn">import</span> <span class="n">Display</span>
-<span class="c1"># ...</span>
-<span class="k">with</span> <span class="n">Display</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">),</span> <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;xvfb&#39;</span><span class="p">):</span>
+<span class="c"># ...</span>
+<span class="k">with</span> <span class="n">Display</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">),</span> <span class="n">backend</span><span class="o">=</span><span class="s">&#39;xvfb&#39;</span><span class="p">):</span>
     <span class="n">browser</span> <span class="o">=</span> <span class="n">Browser</span><span class="p">(</span><span class="o">**</span><span class="n">param</span><span class="p">)</span>
     <span class="n">browser</span><span class="o">.</span><span class="n">set_window_size</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="mi">768</span><span class="p">)</span>
     <span class="n">browser</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
@@ -423,8 +423,8 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="/media/browsers
 
 <p>В <code>python</code> запускаем браузер с помощью стандартной библиотеки <code>subprocess</code>.</p>
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="c1"># ...</span>
-<span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span><span class="n">phantom_path</span><span class="p">,</span> <span class="n">script_path</span><span class="p">,</span> <span class="s1">&#39;--ssl-protocol=any&#39;</span><span class="p">])</span>
+<span class="c"># ...</span>
+<span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span><span class="n">phantom_path</span><span class="p">,</span> <span class="n">script_path</span><span class="p">,</span> <span class="s">&#39;--ssl-protocol=any&#39;</span><span class="p">])</span>
 </pre></div>
 
 
@@ -450,9 +450,9 @@ Slimer.js 240px<br /><img alt="old google 2" class="shadow" src="/media/browsers
 <p>В <code>python</code> запускаем браузер с помощью стандартной библиотеки <code>subprocess</code>.</p>
 <div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyvirtualdisplay</span> <span class="kn">import</span> <span class="n">Display</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="c1"># ...</span>
-<span class="k">with</span> <span class="n">Display</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">),</span> <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;xvfb&#39;</span><span class="p">):</span>
-    <span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span><span class="n">slimer_path</span><span class="p">,</span> <span class="n">script_path</span><span class="p">,</span> <span class="s1">&#39;--ssl-protocol=any&#39;</span><span class="p">])</span>
+<span class="c"># ...</span>
+<span class="k">with</span> <span class="n">Display</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">),</span> <span class="n">backend</span><span class="o">=</span><span class="s">&#39;xvfb&#39;</span><span class="p">):</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span><span class="n">slimer_path</span><span class="p">,</span> <span class="n">script_path</span><span class="p">,</span> <span class="s">&#39;--ssl-protocol=any&#39;</span><span class="p">])</span>
 </pre></div>
 
 
