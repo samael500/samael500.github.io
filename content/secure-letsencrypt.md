@@ -1,10 +1,9 @@
 Title: Давайте шифровать!
 Date: 2016-01-15 15:00
 Modified: 2016-01-15 15:00
-Status: draft
 Category: Secure
 Tags: letsencrypt, nginx, ssl, https, secure, git
-Image: /media/wrong-exif/wrong_exif.png
+Image: /media/letsencrypt/letsencrypt.jpg
 Summary:
     `Let's Encrypt` представляет собой центр сертификации, который позволяет
     просто и **бесплатно** получить `TLS / SSL` сертификаты, тем самым
@@ -95,4 +94,59 @@ $ sudo ls /etc/letsencrypt/live/your_domain_name
 ```
 
 ##Подключение сертификата в Nginx
+
+Что бы правильно настроить `ssl` есть такая замечательная
+[шпаргалка](https://mozilla.github.io/server-side-tls/ssl-config-generator/)
+от `mozilla`.
+
+В общем случае достаточно использовать следующие настройки:
+
+```nginx
+    listen 443 ssl;
+
+    server_name example.com www.example.com;
+
+    # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
+    ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+    ssl_session_timeout 1d;
+    ssl_session_cache shared:SSL:50m;
+    ssl_session_tickets off;
+
+    # intermediate configuration. tweak to your needs.
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
+    ssl_prefer_server_ciphers on;
+```
+
+Для перманентного перенаправления на защизенное соединение, нужно
+создать дополнительный блок `server`.
+
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+    return 301 https://$host$request_uri;
+}
+```
+
+После внесения изменений в настройки сервера, нужно не забыть перезагрузить
+службу `nginx`.
+```Bash
+$ sudo service nginx restart
+# or
+$ sudo nginx -s reload
+```
+
+Готово. Теперь вы можете открыть ваш сайт используя защищенное соединение.
+
+##Автоматическое обновление сертификата
+
+Сертификаты, которые выдает `Let's Encrypt`, действительны всего 90 дней.
+В сравнениями с другими центрами сертификации, которые выдают
+сертификаты на год.
+Данный период кажется подозрительно коротким. Однако, в дальнейшем сроки
+сертификатов планируют ещё сократить. Это сделано с целью уменьшения
+угрозы от компрометации сертификата, а так же призывает повсеместно
+использовать автопродление сертификата.
 
