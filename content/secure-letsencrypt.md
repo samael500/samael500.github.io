@@ -1,6 +1,7 @@
 Title: Давайте шифровать!
-Date: 2016-02-07 15:00
-Modified: 2016-02-07 15:00
+Date: 2016-01-15 15:00
+Modified: 2016-01-15 15:00
+Status: draft
 Category: Secure
 Tags: letsencrypt, nginx, ssl, https, secure, git
 Image: /media/wrong-exif/wrong_exif.png
@@ -70,7 +71,7 @@ $ sudo service nginx stop
 IMPORTANT NOTES:
  - Congratulations! Your certificate and chain have been saved at
    /etc/letsencrypt/live/you.domain.com/fullchain.pem. Your cert
-   will expire on 2016-05-07. To obtain a new version of the
+   will expire on 2016-15-06. To obtain a new version of the
    certificate in the future, simply run Let's Encrypt again.
  - If you like Let's Encrypt, please consider supporting our work by:
 
