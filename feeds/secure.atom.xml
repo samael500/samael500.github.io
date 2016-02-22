@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/secure.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2016-01-15T15:00:00+03:00</updated><entry><title>Давайте шифровать!</title><link href="https://samael500.github.io/articles/secure/davaite-shifrovat/" rel="alternate"></link><updated>2016-01-15T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2016-01-15:articles/secure/davaite-shifrovat/</id><summary type="html">&lt;p&gt;&lt;code&gt;Let's Encrypt&lt;/code&gt; представляет собой центр сертификации, который позволяет
+просто и &lt;strong&gt;бесплатно&lt;/strong&gt; получить &lt;code&gt;TLS / SSL&lt;/code&gt; сертификаты, тем самым
+позволяя использовать зашифрованное соединение &lt;code&gt;HTTPS&lt;/code&gt;.
+В данный момент сервис находится на этапе бета тестирования, и получить
+сертификат в полностью автоматическом режиме, можно лишь при использовании
+веб-сервера &lt;code&gt;Apache&lt;/code&gt;. Я предпочитаю использовать &lt;code&gt;nginx&lt;/code&gt;, поэтому опишу
+как легко получить сертификат в ручном&amp;nbsp;режиме.&lt;/p&gt;
+&lt;h2 id="poluchenie-sertifikata-lets-encrypt"&gt;&lt;a class="toclink" href="#poluchenie-sertifikata-lets-encrypt"&gt;Получение сертификата Let&amp;#8217;s&amp;nbsp;Encrypt&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;Let's Encrypt&lt;/code&gt; устанавливается просто клонируя&amp;nbsp;репозиторий.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd cd&lt;/span&gt; /opt/letsencrypt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь получим сертификат используя следующую&amp;nbsp;команду:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;./letsencrypt-auto certonly --standalone
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Для данной команды необходимы привелегии суперпользователя, так что возможно
+будет потребован ввод&amp;nbsp;пароля.&lt;/p&gt;
+&lt;p&gt;Поскольку для проверки домена производитсья запрос на 80 порт,
+то он должен быть&amp;nbsp;свободен.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nginx error" class="center" src="/media/letsencrypt/nginx.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Что бы освободить порт, можно временно остановить &lt;code&gt;nginx&lt;/code&gt; выполнив&amp;nbsp;команду:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service nginx stop
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;letsencrypt&lt;/code&gt; запрашивает адрес электронной почты для
+уведомлений или востановления&amp;nbsp;ключей.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="email" class="center" src="/media/letsencrypt/email.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Далее, предлагают согласиться с условиями использования&amp;nbsp;сервиса.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="agree" class="center" src="/media/letsencrypt/agree.png" /&gt;&lt;/p&gt;
+&lt;p&gt;После, нужно указать для какого домена создается сертифика. Включая
+все необходимые&amp;nbsp;поддомены.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="domain" class="center" src="/media/letsencrypt/domain.png" /&gt;&lt;/p&gt;
+&lt;p&gt;При успешном получении сертификата, выдается следующее&amp;nbsp;сообщение:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at
+   /etc/letsencrypt/live/you.domain.com/fullchain.pem. Your cert
+   will expire on 2016-15-06. To obtain a new version of the
+   certificate in the future, simply run Let&amp;#39;s Encrypt again.
+ - If you like Let&amp;#39;s Encrypt, please consider supporting our work by:
+
+   Donating to ISRG / Let&amp;#39;s Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;После успешного получения сертификата у вас будут следующие&amp;nbsp;файлы:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;cert.pem: Сертификат&amp;nbsp;домена&lt;/li&gt;
+&lt;li&gt;chain.pem: Let&amp;#8217;s Encrypt&amp;nbsp;сертификат&lt;/li&gt;
+&lt;li&gt;fullchain.pem: cert.pem и chain.pem&amp;nbsp;объединенные&lt;/li&gt;
+&lt;li&gt;privkey.pem: Ключ&amp;nbsp;сертификата&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Что бы проверить что сертификаты успешно созданы и доступны,
+выведите содержимое директории &lt;code&gt;/etc/letsencrypt/live/your_domain_name&lt;/code&gt;,
+где &lt;code&gt;your_domain_name&lt;/code&gt; имя вашего&amp;nbsp;домена.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo ls /etc/letsencrypt/live/your_domain_name
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2 id="podkliuchenie-sertifikata-v-nginx"&gt;&lt;a class="toclink" href="#podkliuchenie-sertifikata-v-nginx"&gt;Подключение сертификата в&amp;nbsp;nginx&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Что бы правильно настроить &lt;code&gt;ssl&lt;/code&gt; есть такая замечательная
+&lt;a href="https://mozilla.github.io/server-side-tls/ssl-config-generator/"&gt;шпаргалка&lt;/a&gt;
+от &lt;code&gt;mozilla&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;В общем случае достаточно использовать следующие&amp;nbsp;настройки:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;server&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+
+    &lt;span class="kn"&gt;listen&lt;/span&gt; &lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="s"&gt;ssl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="kn"&gt;server_name&lt;/span&gt; &lt;span class="s"&gt;example.com&lt;/span&gt; &lt;span class="s"&gt;www.example.com&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# certs sent to the client in handshake are concatenated in ssl_certificate&lt;/span&gt;
+    &lt;span class="kn"&gt;ssl_certificate&lt;/span&gt; &lt;span class="s"&gt;/etc/letsencrypt/live/example.com/fullchain.pem&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;ssl_certificate_key&lt;/span&gt; &lt;span class="s"&gt;/etc/letsencrypt/live/example.com/privkey.pem&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;ssl_session_timeout&lt;/span&gt; &lt;span class="s"&gt;1d&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;ssl_session_cache&lt;/span&gt; &lt;span class="s"&gt;shared:SSL:50m&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;ssl_session_tickets&lt;/span&gt; &lt;span class="no"&gt;off&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# secure configuration&lt;/span&gt;
+    &lt;span class="kn"&gt;ssl_protocols&lt;/span&gt; &lt;span class="s"&gt;TLSv1&lt;/span&gt; &lt;span class="s"&gt;TLSv1.1&lt;/span&gt; &lt;span class="s"&gt;TLSv1.2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;ssl_ciphers&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;ssl_prefer_server_ciphers&lt;/span&gt; &lt;span class="no"&gt;on&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# ...&lt;/span&gt;
+
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Для перманентного перенаправления на защизенное соединение, нужно
+создать дополнительный блок &lt;code&gt;server&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;server&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kn"&gt;listen&lt;/span&gt; &lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;server_name&lt;/span&gt; &lt;span class="s"&gt;example.com&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;301&lt;/span&gt; &lt;span class="s"&gt;https://&lt;/span&gt;&lt;span class="nv"&gt;$host$request_uri&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;После внесения изменений в настройки сервера, нужно не забыть перезагрузить
+службу &lt;code&gt;nginx&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service nginx restart
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="c"&gt;# or&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo nginx -s reload
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Готово. Теперь вы можете открыть ваш сайт используя защищенное&amp;nbsp;соединение.&lt;/p&gt;
+&lt;h2 id="avtomaticheskoe-obnovlenie-sertifikata"&gt;&lt;a class="toclink" href="#avtomaticheskoe-obnovlenie-sertifikata"&gt;Автоматическое обновление&amp;nbsp;сертификата&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Сертификаты, которые выдает &lt;code&gt;Let's Encrypt&lt;/code&gt;, действительны всего 90 дней.
+В сравнениями с другими центрами сертификации, которые выдают
+сертификаты на год.
+Данный период кажется подозрительно коротким. Однако, в дальнейшем сроки
+сертификатов планируют ещё сократить. Это сделано с целью уменьшения
+угрозы от компрометации приватного ключа, а так же призывает повсеместно
+использовать автопродление сертификатов, в связи с тем, что через год,
+можно и забыть его&amp;nbsp;продлить.&lt;/p&gt;
+&lt;p&gt;Автопродление сертификата проходит с помощью плагина &lt;code&gt;webroot&lt;/code&gt;, который для
+верификации помещает специальный файл в директорию &lt;code&gt;./well-known&lt;/code&gt;
+доступную для чтения&amp;nbsp;вебсервером.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="k"&gt;location&lt;/span&gt; &lt;span class="p"&gt;~&lt;/span&gt; &lt;span class="sr"&gt;/.well-known&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kn"&gt;root&lt;/span&gt; &lt;span class="s"&gt;/path/to/root&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="kn"&gt;allow&lt;/span&gt; &lt;span class="s"&gt;all&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь мы можем использовать &lt;code&gt;letsencrypt-auto&lt;/code&gt; с дополнительным параметром
+&lt;code&gt;webroot-path&lt;/code&gt;, передавая домены с помощью ключа &lt;code&gt;-d&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /opt/letsencrypt
+&lt;span class="nv"&gt;$ &lt;/span&gt;./letsencrypt-auto certonly -a webroot --agree-tos --renew-by-default &lt;span class="se"&gt;\&lt;/span&gt;
+    --webroot-path&lt;span class="o"&gt;=&lt;/span&gt;/path/to/root -d example.com -d www.example.com
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;В результате обновления сертификата вы получите следующее&amp;nbsp;сообщение:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at
+   /etc/letsencrypt/live/example.com/fullchain.pem. Your cert will
+   expire on 2016-05-22. To obtain a new version of the certificate in
+   the future, simply run Let&amp;#39;s Encrypt again.
+ - If you like Let&amp;#39;s Encrypt, please consider supporting our work by:
+
+   Donating to ISRG / Let&amp;#39;s Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Получив обновленный сертификат, для его использования нужно перезапустить &lt;code&gt;nginx&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service nginx restart
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="c"&gt;# or&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo nginx -s reload
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь создадим конфигурационный файл, для автоматической подстановки параметров.
+Шаблон конфигурационного файла находится в примерах &lt;code&gt;letsencrypt&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;cat /opt/letsencrypt/examples/cli.ini
+&lt;span class="c"&gt;# This is an example of the kind of things you can do in a configuration file.&lt;/span&gt;
+&lt;span class="c"&gt;# All flags used by the client can be configured here. Run Let&amp;#39;s Encrypt with&lt;/span&gt;
+&lt;span class="c"&gt;# &amp;quot;--help&amp;quot; to learn more about the available options.&lt;/span&gt;
+
+&lt;span class="c"&gt;# Use a 4096 bit RSA key instead of 2048&lt;/span&gt;
+rsa-key-size &lt;span class="o"&gt;=&lt;/span&gt; 4096
+
+&lt;span class="c"&gt;# Uncomment and update to register with the specified e-mail address&lt;/span&gt;
+&lt;span class="c"&gt;# email = foo@example.com&lt;/span&gt;
+
+&lt;span class="c"&gt;# Uncomment and update to generate certificates for the specified&lt;/span&gt;
+&lt;span class="c"&gt;# domains.&lt;/span&gt;
+&lt;span class="c"&gt;# domains = example.com, www.example.com&lt;/span&gt;
+
+&lt;span class="c"&gt;# Uncomment to use a text interface instead of ncurses&lt;/span&gt;
+&lt;span class="c"&gt;# text = True&lt;/span&gt;
+
+&lt;span class="c"&gt;# Uncomment to use the standalone authenticator on port 443&lt;/span&gt;
+&lt;span class="c"&gt;# authenticator = standalone&lt;/span&gt;
+&lt;span class="c"&gt;# standalone-supported-challenges = tls-sni-01&lt;/span&gt;
+
+&lt;span class="c"&gt;# Uncomment to use the webroot authenticator. Replace webroot-path with the&lt;/span&gt;
+&lt;span class="c"&gt;# path to the public_html / webroot folder being served by your web server.&lt;/span&gt;
+&lt;span class="c"&gt;# authenticator = webroot&lt;/span&gt;
+&lt;span class="c"&gt;# webroot-path = /usr/share/nginx/html&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Скопируем его в директорию &lt;code&gt;/usr/local/etc&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo cp /opt/letsencrypt/examples/cli.ini /usr/local/etc/le-renew-webroot.ini
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Далее отредактируем его, изменив параметры &lt;code&gt;email&lt;/code&gt;, &lt;code&gt;domains&lt;/code&gt; и &lt;code&gt;webroot-path&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo nano /usr/local/etc/le-renew-webroot.ini
+
+&lt;span class="c"&gt;# This is an example of the kind of things you can do in a configuration file.&lt;/span&gt;
+&lt;span class="c"&gt;# All flags used by the client can be configured here. Run Let&amp;#39;s Encrypt with&lt;/span&gt;
+&lt;span class="c"&gt;# &amp;quot;--help&amp;quot; to learn more about the available options.&lt;/span&gt;
+
+&lt;span class="c"&gt;# Use a 4096 bit RSA key instead of 2048&lt;/span&gt;
+rsa-key-size &lt;span class="o"&gt;=&lt;/span&gt; 4096
+
+&lt;span class="c"&gt;# Uncomment and update to register with the specified e-mail address&lt;/span&gt;
+&lt;span class="nv"&gt;email&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; user@example.com
+
+&lt;span class="c"&gt;# Uncomment and update to generate certificates for the specified&lt;/span&gt;
+&lt;span class="c"&gt;# domains.&lt;/span&gt;
+&lt;span class="nv"&gt;domains&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; example.com, www.example.com
+
+&lt;span class="c"&gt;# Uncomment to use a text interface instead of ncurses&lt;/span&gt;
+&lt;span class="c"&gt;# text = True&lt;/span&gt;
+
+&lt;span class="c"&gt;# Uncomment to use the standalone authenticator on port 443&lt;/span&gt;
+&lt;span class="c"&gt;# authenticator = standalone&lt;/span&gt;
+&lt;span class="c"&gt;# standalone-supported-challenges = tls-sni-01&lt;/span&gt;
+
+&lt;span class="c"&gt;# Uncomment to use the webroot authenticator. Replace webroot-path with the&lt;/span&gt;
+&lt;span class="c"&gt;# path to the public_html / webroot folder being served by your web server.&lt;/span&gt;
+&lt;span class="c"&gt;# authenticator = webroot&lt;/span&gt;
+webroot-path &lt;span class="o"&gt;=&lt;/span&gt; /path/to/root
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь, вместо того что бы указывать параметры с помощью ключей комманды
+&lt;code&gt;letsencrypt&lt;/code&gt;, мы можем использовать конфигурационный&amp;nbsp;файл:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /opt/letsencrypt
+&lt;span class="nv"&gt;$ &lt;/span&gt;./letsencrypt-auto certonly -a webroot --renew-by-default &lt;span class="se"&gt;\&lt;/span&gt;
+    --config /usr/local/etc/le-renew-webroot.ini
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Скачаем и сделаем исполнимым скрипт автообновления&amp;nbsp;сертификата.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo curl -L -o /usr/local/sbin/le-renew-webroot &lt;span class="se"&gt;\&lt;/span&gt;
+    https://gist.githubusercontent.com/thisismitch/e1b603165523df66d5cc/raw/fbffbf358e96110d5566f13677d9bd5f4f65794c/le-renew-webroot
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo chmod +x /usr/local/sbin/le-renew-webroot
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь если его выполнить, то будет выдано ссобщение, о том, что сертификат
+не нуждается в&amp;nbsp;обновлении.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo le-renew-webroot
+Checking expiration date &lt;span class="k"&gt;for&lt;/span&gt; example.com...
+The certificate is up to date, no need &lt;span class="k"&gt;for&lt;/span&gt; renewal &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;89&lt;/span&gt; days left&lt;span class="o"&gt;)&lt;/span&gt;.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Для того что бы скрипт регулярно проверял состояние сертификата добавим его
+запуск в таблицу&amp;nbsp;крона:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo crontab -e
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Добавим строчку, которая будет запускать скрипт каждое воскресенье в 5.30
+утра, и логировать результат в файл &lt;code&gt;/var/log/le-renewal.log&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="m"&gt;30&lt;/span&gt; &lt;span class="m"&gt;5&lt;/span&gt; * * &lt;span class="m"&gt;7&lt;/span&gt; /usr/local/sbin/le-renew-webroot &amp;gt;&amp;gt; /var/log/le-renewal.log
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь можно не беспокоится о сроке годности сертификата, он будет регулярно
+обновлятся, когда будет приближаться срок истечения&amp;nbsp;сертификата.&lt;/p&gt;</summary><category term="letsencrypt"></category><category term="nginx"></category><category term="ssl"></category><category term="https"></category><category term="secure"></category><category term="git"></category></entry></feed>
