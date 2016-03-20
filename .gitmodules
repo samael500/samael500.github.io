@@ -1,0 +1,3 @@
+[submodule "w3-personal-blog"]
+	path = w3-personal-blog
+	url = git://github.com/Samael500/w3-personal-blog.git

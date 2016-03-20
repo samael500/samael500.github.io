@@ -57,8 +57,7 @@ GITHUB_URL = 'https://github.com/Samael500'
 GOOGLE_CUSTOM_SEARCH = '006263355362628034990:cuxoisonrno'
 # SHARETHIS_PUB_KEY = "0d04814b-2bfc-47a7-b7f3-b10866d39438"
 
-THEME = './theme'
-# THEME = '../w3-personal-blog'
+THEME = './w3-personal-blog'
 
 DISPLAY_PAGES_ON_MENU = True
 HIDE_CATEGORIES_FROM_MENU = True
