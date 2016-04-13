@@ -151,13 +151,13 @@
 как легко получить сертификат в ручном&nbsp;режиме.</p>
 <h2 id="poluchenie-sertifikata-lets-encrypt"><a class="toclink" href="#poluchenie-sertifikata-lets-encrypt">Получение сертификата Let&#8217;s&nbsp;Encrypt</a></h2>
 <p><code>Let's Encrypt</code> устанавливается просто клонируя&nbsp;репозиторий.</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
-<span class="nv">$ </span><span class="nb">cd cd</span> /opt/letsencrypt
+<div class="highlight"><pre><span></span>$ sudo git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
+$ <span class="nb">cd</span> <span class="nb">cd</span> /opt/letsencrypt
 </pre></div>
 
 
 <p>Теперь получим сертификат используя следующую&nbsp;команду:</p>
-<div class="highlight"><pre><span class="nv">$ </span>./letsencrypt-auto certonly --standalone
+<div class="highlight"><pre><span></span>$ ./letsencrypt-auto certonly --standalone
 </pre></div>
 
 
@@ -167,7 +167,7 @@
 то он должен быть&nbsp;свободен.</p>
 <p><img alt="nginx error" class="center" src="/media/letsencrypt/nginx.png" /></p>
 <p>Что бы освободить порт, можно временно остановить <code>nginx</code> выполнив&nbsp;команду:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo service nginx stop
+<div class="highlight"><pre><span></span>$ sudo service nginx stop
 </pre></div>
 
 
@@ -180,7 +180,7 @@
 все необходимые&nbsp;поддомены.</p>
 <p><img alt="domain" class="center" src="/media/letsencrypt/domain.png" /></p>
 <p>При успешном получении сертификата, выдается следующее&nbsp;сообщение:</p>
-<div class="highlight"><pre>IMPORTANT NOTES:
+<div class="highlight"><pre><span></span>IMPORTANT NOTES:
  - Congratulations! Your certificate and chain have been saved at
    /etc/letsencrypt/live/you.domain.com/fullchain.pem. Your cert
    will expire on 2016-15-06. To obtain a new version of the
@@ -202,7 +202,7 @@
 <p>Что бы проверить что сертификаты успешно созданы и доступны,
 выведите содержимое директории <code>/etc/letsencrypt/live/your_domain_name</code>,
 где <code>your_domain_name</code> имя вашего&nbsp;домена.</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo ls /etc/letsencrypt/live/your_domain_name
+<div class="highlight"><pre><span></span>$ sudo ls /etc/letsencrypt/live/your_domain_name
 </pre></div>
 
 
@@ -211,7 +211,7 @@
 <a href="https://mozilla.github.io/server-side-tls/ssl-config-generator/">шпаргалка</a>
 от <code>mozilla</code>.</p>
 <p>В общем случае достаточно использовать следующие&nbsp;настройки:</p>
-<div class="highlight"><pre><span class="k">server</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="k">server</span> <span class="p">{</span>
 
     <span class="kn">listen</span> <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
 
@@ -237,7 +237,7 @@
 
 <p>Для перманентного перенаправления на защизенное соединение, нужно
 создать дополнительный блок <code>server</code>.</p>
-<div class="highlight"><pre><span class="k">server</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="k">server</span> <span class="p">{</span>
     <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
     <span class="kn">server_name</span> <span class="s">example.com</span><span class="p">;</span>
     <span class="kn">return</span> <span class="mi">301</span> <span class="s">https://</span><span class="nv">$host$request_uri</span><span class="p">;</span>
@@ -247,9 +247,9 @@
 
 <p>После внесения изменений в настройки сервера, нужно не забыть перезагрузить
 службу <code>nginx</code>.</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo service nginx restart
-<span class="nv">$ </span><span class="c"># or</span>
-<span class="nv">$ </span>sudo nginx -s reload
+<div class="highlight"><pre><span></span>$ sudo service nginx restart
+$ <span class="c1"># or</span>
+$ sudo nginx -s reload
 </pre></div>
 
 
@@ -266,7 +266,7 @@
 <p>Автопродление сертификата проходит с помощью плагина <code>webroot</code>, который для
 верификации помещает специальный файл в директорию <code>./well-known</code>
 доступную для чтения&nbsp;вебсервером.</p>
-<div class="highlight"><pre>    <span class="k">location</span> <span class="p">~</span> <span class="sr">/.well-known</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span>    <span class="k">location</span> <span class="p">~</span> <span class="sr">/.well-known</span> <span class="p">{</span>
         <span class="kn">root</span> <span class="s">/path/to/root</span><span class="p">;</span>
         <span class="kn">allow</span> <span class="s">all</span><span class="p">;</span>
     <span class="p">}</span>
@@ -275,14 +275,14 @@
 
 <p>Теперь мы можем использовать <code>letsencrypt-auto</code> с дополнительным параметром
 <code>webroot-path</code>, передавая домены с помощью ключа <code>-d</code>:</p>
-<div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> /opt/letsencrypt
-<span class="nv">$ </span>./letsencrypt-auto certonly -a webroot --agree-tos --renew-by-default <span class="se">\</span>
+<div class="highlight"><pre><span></span>$ <span class="nb">cd</span> /opt/letsencrypt
+$ ./letsencrypt-auto certonly -a webroot --agree-tos --renew-by-default <span class="se">\</span>
     --webroot-path<span class="o">=</span>/path/to/root -d example.com -d www.example.com
 </pre></div>
 
 
 <p>В результате обновления сертификата вы получите следующее&nbsp;сообщение:</p>
-<div class="highlight"><pre>IMPORTANT NOTES:
+<div class="highlight"><pre><span></span>IMPORTANT NOTES:
  - Congratulations! Your certificate and chain have been saved at
    /etc/letsencrypt/live/example.com/fullchain.pem. Your cert will
    expire on 2016-05-22. To obtain a new version of the certificate in
@@ -295,97 +295,97 @@
 
 
 <p>Получив обновленный сертификат, для его использования нужно перезапустить <code>nginx</code></p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo service nginx restart
-<span class="nv">$ </span><span class="c"># or</span>
-<span class="nv">$ </span>sudo nginx -s reload
+<div class="highlight"><pre><span></span>$ sudo service nginx restart
+$ <span class="c1"># or</span>
+$ sudo nginx -s reload
 </pre></div>
 
 
 <p>Теперь создадим конфигурационный файл, для автоматической подстановки параметров.
 Шаблон конфигурационного файла находится в примерах <code>letsencrypt</code>.</p>
-<div class="highlight"><pre><span class="nv">$ </span>cat /opt/letsencrypt/examples/cli.ini
-<span class="c"># This is an example of the kind of things you can do in a configuration file.</span>
-<span class="c"># All flags used by the client can be configured here. Run Let&#39;s Encrypt with</span>
-<span class="c"># &quot;--help&quot; to learn more about the available options.</span>
+<div class="highlight"><pre><span></span>$ cat /opt/letsencrypt/examples/cli.ini
+<span class="c1"># This is an example of the kind of things you can do in a configuration file.</span>
+<span class="c1"># All flags used by the client can be configured here. Run Let&#39;s Encrypt with</span>
+<span class="c1"># &quot;--help&quot; to learn more about the available options.</span>
 
-<span class="c"># Use a 4096 bit RSA key instead of 2048</span>
+<span class="c1"># Use a 4096 bit RSA key instead of 2048</span>
 rsa-key-size <span class="o">=</span> 4096
 
-<span class="c"># Uncomment and update to register with the specified e-mail address</span>
-<span class="c"># email = foo@example.com</span>
+<span class="c1"># Uncomment and update to register with the specified e-mail address</span>
+<span class="c1"># email = foo@example.com</span>
 
-<span class="c"># Uncomment and update to generate certificates for the specified</span>
-<span class="c"># domains.</span>
-<span class="c"># domains = example.com, www.example.com</span>
+<span class="c1"># Uncomment and update to generate certificates for the specified</span>
+<span class="c1"># domains.</span>
+<span class="c1"># domains = example.com, www.example.com</span>
 
-<span class="c"># Uncomment to use a text interface instead of ncurses</span>
-<span class="c"># text = True</span>
+<span class="c1"># Uncomment to use a text interface instead of ncurses</span>
+<span class="c1"># text = True</span>
 
-<span class="c"># Uncomment to use the standalone authenticator on port 443</span>
-<span class="c"># authenticator = standalone</span>
-<span class="c"># standalone-supported-challenges = tls-sni-01</span>
+<span class="c1"># Uncomment to use the standalone authenticator on port 443</span>
+<span class="c1"># authenticator = standalone</span>
+<span class="c1"># standalone-supported-challenges = tls-sni-01</span>
 
-<span class="c"># Uncomment to use the webroot authenticator. Replace webroot-path with the</span>
-<span class="c"># path to the public_html / webroot folder being served by your web server.</span>
-<span class="c"># authenticator = webroot</span>
-<span class="c"># webroot-path = /usr/share/nginx/html</span>
+<span class="c1"># Uncomment to use the webroot authenticator. Replace webroot-path with the</span>
+<span class="c1"># path to the public_html / webroot folder being served by your web server.</span>
+<span class="c1"># authenticator = webroot</span>
+<span class="c1"># webroot-path = /usr/share/nginx/html</span>
 </pre></div>
 
 
 <p>Скопируем его в директорию <code>/usr/local/etc</code>:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo cp /opt/letsencrypt/examples/cli.ini /usr/local/etc/le-renew-webroot.ini
+<div class="highlight"><pre><span></span>$ sudo cp /opt/letsencrypt/examples/cli.ini /usr/local/etc/le-renew-webroot.ini
 </pre></div>
 
 
 <p>Далее отредактируем его, изменив параметры <code>email</code>, <code>domains</code> и <code>webroot-path</code>.</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo nano /usr/local/etc/le-renew-webroot.ini
+<div class="highlight"><pre><span></span>$ sudo nano /usr/local/etc/le-renew-webroot.ini
 
-<span class="c"># This is an example of the kind of things you can do in a configuration file.</span>
-<span class="c"># All flags used by the client can be configured here. Run Let&#39;s Encrypt with</span>
-<span class="c"># &quot;--help&quot; to learn more about the available options.</span>
+<span class="c1"># This is an example of the kind of things you can do in a configuration file.</span>
+<span class="c1"># All flags used by the client can be configured here. Run Let&#39;s Encrypt with</span>
+<span class="c1"># &quot;--help&quot; to learn more about the available options.</span>
 
-<span class="c"># Use a 4096 bit RSA key instead of 2048</span>
+<span class="c1"># Use a 4096 bit RSA key instead of 2048</span>
 rsa-key-size <span class="o">=</span> 4096
 
-<span class="c"># Uncomment and update to register with the specified e-mail address</span>
+<span class="c1"># Uncomment and update to register with the specified e-mail address</span>
 <span class="nv">email</span> <span class="o">=</span> user@example.com
 
-<span class="c"># Uncomment and update to generate certificates for the specified</span>
-<span class="c"># domains.</span>
+<span class="c1"># Uncomment and update to generate certificates for the specified</span>
+<span class="c1"># domains.</span>
 <span class="nv">domains</span> <span class="o">=</span> example.com, www.example.com
 
-<span class="c"># Uncomment to use a text interface instead of ncurses</span>
-<span class="c"># text = True</span>
+<span class="c1"># Uncomment to use a text interface instead of ncurses</span>
+<span class="c1"># text = True</span>
 
-<span class="c"># Uncomment to use the standalone authenticator on port 443</span>
-<span class="c"># authenticator = standalone</span>
-<span class="c"># standalone-supported-challenges = tls-sni-01</span>
+<span class="c1"># Uncomment to use the standalone authenticator on port 443</span>
+<span class="c1"># authenticator = standalone</span>
+<span class="c1"># standalone-supported-challenges = tls-sni-01</span>
 
-<span class="c"># Uncomment to use the webroot authenticator. Replace webroot-path with the</span>
-<span class="c"># path to the public_html / webroot folder being served by your web server.</span>
-<span class="c"># authenticator = webroot</span>
+<span class="c1"># Uncomment to use the webroot authenticator. Replace webroot-path with the</span>
+<span class="c1"># path to the public_html / webroot folder being served by your web server.</span>
+<span class="c1"># authenticator = webroot</span>
 webroot-path <span class="o">=</span> /path/to/root
 </pre></div>
 
 
 <p>Теперь, вместо того что бы указывать параметры с помощью ключей комманды
 <code>letsencrypt</code>, мы можем использовать конфигурационный&nbsp;файл:</p>
-<div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> /opt/letsencrypt
-<span class="nv">$ </span>./letsencrypt-auto certonly -a webroot --renew-by-default <span class="se">\</span>
+<div class="highlight"><pre><span></span>$ <span class="nb">cd</span> /opt/letsencrypt
+$ ./letsencrypt-auto certonly -a webroot --renew-by-default <span class="se">\</span>
     --config /usr/local/etc/le-renew-webroot.ini
 </pre></div>
 
 
 <p>Скачаем и сделаем исполнимым скрипт автообновления&nbsp;сертификата.</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo curl -L -o /usr/local/sbin/le-renew-webroot <span class="se">\</span>
+<div class="highlight"><pre><span></span>$ sudo curl -L -o /usr/local/sbin/le-renew-webroot <span class="se">\</span>
     https://gist.githubusercontent.com/thisismitch/e1b603165523df66d5cc/raw/fbffbf358e96110d5566f13677d9bd5f4f65794c/le-renew-webroot
-<span class="nv">$ </span>sudo chmod +x /usr/local/sbin/le-renew-webroot
+$ sudo chmod +x /usr/local/sbin/le-renew-webroot
 </pre></div>
 
 
 <p>Теперь если его выполнить, то будет выдано ссобщение, о том, что сертификат
 не нуждается в&nbsp;обновлении.</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo le-renew-webroot
+<div class="highlight"><pre><span></span>$ sudo le-renew-webroot
 Checking expiration date <span class="k">for</span> example.com...
 The certificate is up to date, no need <span class="k">for</span> renewal <span class="o">(</span><span class="m">89</span> days left<span class="o">)</span>.
 </pre></div>
@@ -393,13 +393,13 @@ The certificate is up to date, no need <span class="k">for</span> renewal <span 
 
 <p>Для того что бы скрипт регулярно проверял состояние сертификата добавим его
 запуск в таблицу&nbsp;крона:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo crontab -e
+<div class="highlight"><pre><span></span>$ sudo crontab -e
 </pre></div>
 
 
 <p>Добавим строчку, которая будет запускать скрипт каждое воскресенье в 5.30
 утра, и логировать результат в файл <code>/var/log/le-renewal.log</code>:</p>
-<div class="highlight"><pre><span class="m">30</span> <span class="m">5</span> * * <span class="m">7</span> /usr/local/sbin/le-renew-webroot &gt;&gt; /var/log/le-renewal.log
+<div class="highlight"><pre><span></span><span class="m">30</span> <span class="m">5</span> * * <span class="m">7</span> /usr/local/sbin/le-renew-webroot &gt;&gt; /var/log/le-renewal.log
 </pre></div>
 
 

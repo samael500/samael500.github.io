@@ -173,7 +173,7 @@
 <h4 id="prava-dostupa-k-akkauntu"><a class="toclink" href="#prava-dostupa-k-akkauntu">Права доступа к&nbsp;аккаунту</a></h4>
 <p>Получив данные для авторизации, нужно перейти по следующей ссылке, заменив в ней
 параметр <code>client_id</code> на тот, что Вы получили в предыдущем&nbsp;шаге.</p>
-<div class="highlight"><pre>    https://accounts.google.com/o/oauth2/auth?
+<div class="highlight"><pre><span></span>    https://accounts.google.com/o/oauth2/auth?
         client_id=230452130504-3uca1rp4ntlh06hdnsdbj50sqagaqfkt.apps.googleusercontent.com&amp;
         redirect_uri=urn:ietf:wg:oauth:2.0:oob&amp;
         scope=https://www.googleapis.com/auth/youtube&amp;
@@ -196,7 +196,7 @@
 отправить <code>POST</code> запрос с токеном авторизации по адресу
 <code>https://accounts.google.com/o/oauth2/token</code>. Сделать это легко, при помощи
 консольной утилиты <a href="http://curl.haxx.se/">curl</a>.</p>
-<div class="highlight"><pre><span class="nv">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="se">\</span>
+<div class="highlight"><pre><span></span><span class="nv">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="se">\</span>
 <span class="s2">&quot;code=4/Rw6A9raJQ3PrPWL0Q9z49guYu89FZoz322RySVFtzNc&amp;&quot;</span><span class="se">\</span>
 <span class="s2">&quot;client_id=230452130504-3uca1rp4ntlh06hdnsdbj50sqagaqfkt.apps.googleusercontent.com&amp;&quot;</span><span class="se">\</span>
 <span class="s2">&quot;client_secret=qawsWCd3J6HTRvnqsjYUpgH9&amp;&quot;</span><span class="se">\</span>
@@ -211,7 +211,7 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 его будет получено <code>Code was already redeemed.</code>.
 В ответ на корректный запрос, гугл возвращает <code>json</code> с временным токеном доступа
 и постоянным обновляемым токеном (собственно он нам и&nbsp;нужен).</p>
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;access_token&quot;</span> <span class="p">:</span> <span class="s2">&quot;ya29.1wGYJU7NP7Ul69c13aE1Vuvbx0LfxrsgMiBjXdNY3sU3tuE9LmuJ3nOGHeb3e_824LH0&quot;</span><span class="p">,</span>
     <span class="nt">&quot;token_type&quot;</span> <span class="p">:</span> <span class="s2">&quot;Bearer&quot;</span><span class="p">,</span>
     <span class="nt">&quot;expires_in&quot;</span> <span class="p">:</span> <span class="mi">3600</span><span class="p">,</span>
@@ -223,7 +223,7 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 <h4 id="token-dostupa"><a class="toclink" href="#token-dostupa">Токен&nbsp;доступа</a></h4>
 <p>Получив обновляемый токен, можем с его помощью каждый раз получать рабочий
 токен доступа, который предоставляется временем на 3600&nbsp;секунд.</p>
-<div class="highlight"><pre><span class="nv">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="se">\</span>
+<div class="highlight"><pre><span></span><span class="nv">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="se">\</span>
 <span class="s2">&quot;refresh_token=1/g1ixyts83iMrtR71oFqwGp3LSGbHz6ByxsBThrHRWCNIgOrJDtdun6zK6XiATCKT&amp;&quot;</span><span class="se">\</span>
 <span class="s2">&quot;client_id=230452130504-3uca1rp4ntlh06hdnsdbj50sqagaqfkt.apps.googleusercontent.com&amp;&quot;</span><span class="se">\</span>
 <span class="s2">&quot;client_secret=qawsWCd3J6HTRvnqsjYUpgH9&amp;&quot;</span><span class="se">\</span>
@@ -234,7 +234,7 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 
 
 <p>В ответ гугл возвращает <code>json</code> с временным токеном&nbsp;доступа.</p>
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="nt">&quot;access_token&quot;</span> <span class="p">:</span> <span class="s2">&quot;ya29.2AHpPjacO0prQkip0svapohuZtoK0wqdh7u0ohH49l0WWwrSyss7CWiwzMy5wX967tWsjQ&quot;</span><span class="p">,</span>
   <span class="nt">&quot;token_type&quot;</span> <span class="p">:</span> <span class="s2">&quot;Bearer&quot;</span><span class="p">,</span>
   <span class="nt">&quot;expires_in&quot;</span> <span class="p">:</span> <span class="mi">3600</span>
@@ -246,35 +246,35 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 <p>Получать этот токен доступа нужно будет каждые раз, при подключении к <code>api</code>.
 Для этого напишем простую функцию на <code>python 3</code> с использованием стандартной
 библиотеки <code>urllib.request</code></p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">json</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">urllib</span>
 <span class="kn">import</span> <span class="nn">urllib.request</span>
 
 
 <span class="k">def</span> <span class="nf">get_auth_code</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot; Get access token for connect to youtube api &quot;&quot;&quot;</span>
-    <span class="n">oauth_url</span> <span class="o">=</span> <span class="s">&#39;https://accounts.google.com/o/oauth2/token&#39;</span>
-    <span class="c"># create post data</span>
+    <span class="n">oauth_url</span> <span class="o">=</span> <span class="s1">&#39;https://accounts.google.com/o/oauth2/token&#39;</span>
+    <span class="c1"># create post data</span>
     <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
         <span class="n">refresh_token</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">YOUTUBE_REFRESH_TOKEN</span><span class="p">,</span>
         <span class="n">client_id</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">YOUTUBE_CLIENT_ID</span><span class="p">,</span>
         <span class="n">client_secret</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">YOUTUBE_CLIENT_SECRET</span><span class="p">,</span>
-        <span class="n">grant_type</span><span class="o">=</span><span class="s">&#39;refresh_token&#39;</span><span class="p">,</span>
+        <span class="n">grant_type</span><span class="o">=</span><span class="s1">&#39;refresh_token&#39;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s">&#39;application/x-www-form-urlencoded&#39;</span><span class="p">,</span>
-        <span class="s">&#39;Accept&#39;</span><span class="p">:</span> <span class="s">&#39;application/json&#39;</span>
+        <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/x-www-form-urlencoded&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span>
     <span class="p">}</span>
 
-    <span class="n">data</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
-    <span class="c"># make request and take response</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="c1"># make request and take response</span>
     <span class="n">request</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">oauth_url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 
-    <span class="c"># get access_token from response</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;access_token&#39;</span><span class="p">]</span>
+    <span class="c1"># get access_token from response</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;access_token&#39;</span><span class="p">]</span>
 </pre></div>
 
 
@@ -291,12 +291,12 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 <p>Вообще в руководстве по работе с <code>youtube api</code> рекомендуют использовать построение
 <code>oauth2</code> подключения с использованием объекта <code>flow_from_clientsecrets</code>,
 <a href="https://developers.google.com/youtube/v3/guides/uploading_a_video">примерно так</a>:</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">get_authenticated_service</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_authenticated_service</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
     <span class="n">flow</span> <span class="o">=</span> <span class="n">flow_from_clientsecrets</span><span class="p">(</span><span class="n">CLIENT_SECRETS_FILE</span><span class="p">,</span>
         <span class="n">scope</span><span class="o">=</span><span class="n">YOUTUBE_UPLOAD_SCOPE</span><span class="p">,</span>
         <span class="n">message</span><span class="o">=</span><span class="n">MISSING_CLIENT_SECRETS_MESSAGE</span><span class="p">)</span>
 
-    <span class="n">storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">-oauth2.json&quot;</span> <span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">-oauth2.json&quot;</span> <span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">credentials</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">credentials</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">credentials</span><span class="o">.</span><span class="n">invalid</span><span class="p">:</span>
@@ -312,7 +312,7 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 это не очень удобно. Учитывая, что можно замечательным образом получать
 токен авторизации, из обновляемого токена, мы будем использовать для создания
 <code>oauth2</code> подключения - объект <code>AccessTokenCredentials</code>.</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">httplib2</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">httplib2</span>
 
 <span class="kn">from</span> <span class="nn">oauth2client.client</span> <span class="kn">import</span> <span class="n">AccessTokenCredentials</span>
 <span class="kn">from</span> <span class="nn">apiclient.discovery</span> <span class="kn">import</span> <span class="n">build</span>
@@ -320,13 +320,13 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 
 <span class="k">def</span> <span class="nf">get_authenticated_service</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot; Create youtube oauth2 connection &quot;&quot;&quot;</span>
-    <span class="c"># make credentials with refresh_token auth</span>
+    <span class="c1"># make credentials with refresh_token auth</span>
     <span class="n">credentials</span> <span class="o">=</span> <span class="n">AccessTokenCredentials</span><span class="p">(</span>
-        <span class="n">access_token</span><span class="o">=</span><span class="n">get_auth_code</span><span class="p">(),</span> <span class="n">user_agent</span><span class="o">=</span><span class="s">&#39;my-awesome-project/1.0&#39;</span>
+        <span class="n">access_token</span><span class="o">=</span><span class="n">get_auth_code</span><span class="p">(),</span> <span class="n">user_agent</span><span class="o">=</span><span class="s1">&#39;my-awesome-project/1.0&#39;</span>
     <span class="p">)</span>
-    <span class="c"># create connection to youtube api</span>
+    <span class="c1"># create connection to youtube api</span>
     <span class="k">return</span> <span class="n">build</span><span class="p">(</span>
-        <span class="s">&#39;youtube&#39;</span><span class="p">,</span> <span class="s">&#39;v3&#39;</span><span class="p">,</span> <span class="n">http</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="n">httplib2</span><span class="o">.</span><span class="n">Http</span><span class="p">())</span>
+        <span class="s1">&#39;youtube&#39;</span><span class="p">,</span> <span class="s1">&#39;v3&#39;</span><span class="p">,</span> <span class="n">http</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="n">httplib2</span><span class="o">.</span><span class="n">Http</span><span class="p">())</span>
     <span class="p">)</span>
 </pre></div>
 
@@ -337,47 +337,47 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 <p>Имея готовое подключение к <code>api</code> загрузка видео происходит&nbsp;элементарно.</p>
 <p>Определим функцию инициализации загрузки, которая принимает в качестве
 аргументов подключение к <code>youtube api</code> и объект с информацией о&nbsp;видео.</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">apiclient.http</span> <span class="kn">import</span> <span class="n">MediaFileUpload</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apiclient.http</span> <span class="kn">import</span> <span class="n">MediaFileUpload</span>
 
 
 <span class="k">def</span> <span class="nf">initialize_upload</span><span class="p">(</span><span class="n">youtube</span><span class="p">,</span> <span class="n">card</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Create youtube upload data &quot;&quot;&quot;</span>
-    <span class="c"># create video meta data</span>
+    <span class="c1"># create video meta data</span>
     <span class="n">body</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">youtube_meta_data</span><span class="p">()</span>
-    <span class="c"># Call the API&#39;s videos.insert method to create and upload the video</span>
+    <span class="c1"># Call the API&#39;s videos.insert method to create and upload the video</span>
     <span class="n">insert_request</span> <span class="o">=</span> <span class="n">youtube</span><span class="o">.</span><span class="n">videos</span><span class="p">()</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
-        <span class="n">part</span><span class="o">=</span><span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">body</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="n">body</span><span class="o">=</span><span class="n">body</span><span class="p">,</span>
+        <span class="n">part</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">body</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="n">body</span><span class="o">=</span><span class="n">body</span><span class="p">,</span>
         <span class="n">media_body</span><span class="o">=</span><span class="n">MediaFileUpload</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">video</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">resumable</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
-    <span class="c"># wait for file uploading</span>
+    <span class="c1"># wait for file uploading</span>
     <span class="k">return</span> <span class="n">resumable_upload</span><span class="p">(</span><span class="n">insert_request</span><span class="p">)</span>
 </pre></div>
 
 
 <p>Метод <code>youtube_meta_data</code> должен возвращать словарь описания видео согласно
 <a href="https://developers.google.com/youtube/v3/docs/videos">формату</a>,&nbsp;например:</p>
-<div class="highlight"><pre><span class="p">{</span>
-    <span class="s">&quot;snippet&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s">&quot;title&quot;</span><span class="p">:</span> <span class="s">&quot;Summer vacation in California&quot;</span><span class="p">,</span>
-        <span class="s">&quot;description&quot;</span><span class="p">:</span> <span class="s">&quot;Had fun surfing in Santa Cruz&quot;</span><span class="p">,</span>
-        <span class="s">&quot;tags&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;surfing&quot;</span><span class="p">,</span> <span class="s">&quot;Santa Cruz&quot;</span><span class="p">],</span>
-        <span class="s">&quot;categoryId&quot;</span><span class="p">:</span> <span class="s">&quot;22&quot;</span>
+<div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;snippet&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Summer vacation in California&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Had fun surfing in Santa Cruz&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;surfing&quot;</span><span class="p">,</span> <span class="s2">&quot;Santa Cruz&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;categoryId&quot;</span><span class="p">:</span> <span class="s2">&quot;22&quot;</span>
     <span class="p">},</span>
-    <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s">&quot;privacyStatus&quot;</span><span class="p">:</span> <span class="s">&quot;private&quot;</span>
+    <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;privacyStatus&quot;</span><span class="p">:</span> <span class="s2">&quot;private&quot;</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
 
 <p>В моем случае данный метод имел следующий&nbsp;вид:</p>
-<div class="highlight"><pre>    <span class="k">def</span> <span class="nf">youtube_meta_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">youtube_meta_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create metadata dict for youtube video upload &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
             <span class="n">snippet</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
                 <span class="n">title</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">YOUTUBE_TITLE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">coord</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">),</span>
                 <span class="n">tags</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">YOUTUBE_TAGS</span><span class="p">,</span>
                 <span class="n">categoryId</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">YOUTUBE_CATEGORY_ID</span><span class="p">,</span>
-                <span class="n">description</span><span class="o">=</span><span class="s">&#39;{desc}</span><span class="se">\n</span><span class="s">{site_url}/{card_id}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">description</span><span class="o">=</span><span class="s1">&#39;{desc}</span><span class="se">\n</span><span class="s1">{site_url}/{card_id}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">desc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">site_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">SITE_URL</span><span class="p">,</span> <span class="n">card_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_absolute_url</span><span class="p">()),</span>
             <span class="p">),</span>
             <span class="n">status</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
@@ -396,24 +396,24 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 <p>После инициализации загрузки, необходимо поддерживать соединение и дождаться
 ответа от ютуба с идентификатором видео. Для этого будем использовать
 следующую&nbsp;функцию.</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">random</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">http</span>
 <span class="kn">import</span> <span class="nn">httplib2</span>
 
-<span class="c"># Explicitly tell the underlying HTTP transport library not to retry, since we are handling retry logic ourselves.</span>
+<span class="c1"># Explicitly tell the underlying HTTP transport library not to retry, since we are handling retry logic ourselves.</span>
 <span class="n">httplib2</span><span class="o">.</span><span class="n">RETRIES</span> <span class="o">=</span> <span class="mi">1</span>
 
-<span class="c"># Maximum number of times to retry before giving up.</span>
+<span class="c1"># Maximum number of times to retry before giving up.</span>
 <span class="n">MAX_RETRIES</span> <span class="o">=</span> <span class="mi">10</span>
 
-<span class="c"># Always retry when these exceptions are raised.</span>
+<span class="c1"># Always retry when these exceptions are raised.</span>
 <span class="n">RETRIABLE_EXCEPTIONS</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">httplib2</span><span class="o">.</span><span class="n">HttpLib2Error</span><span class="p">,</span> <span class="ne">IOError</span><span class="p">,</span> <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">NotConnected</span><span class="p">,</span>
     <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">IncompleteRead</span><span class="p">,</span> <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">ImproperConnectionState</span><span class="p">,</span>
     <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">CannotSendRequest</span><span class="p">,</span> <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">CannotSendHeader</span><span class="p">,</span>
     <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">ResponseNotReady</span><span class="p">,</span> <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">BadStatusLine</span><span class="p">)</span>
 
-<span class="c"># Always retry when an apiclient.errors.HttpError with one of these status codes is raised.</span>
+<span class="c1"># Always retry when an apiclient.errors.HttpError with one of these status codes is raised.</span>
 <span class="n">RETRIABLE_STATUS_CODES</span> <span class="o">=</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">502</span><span class="p">,</span> <span class="mi">503</span><span class="p">,</span> <span class="mi">504</span><span class="p">)</span>
 
 
@@ -424,8 +424,8 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
     <span class="k">while</span> <span class="n">response</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">status</span><span class="p">,</span> <span class="n">response</span> <span class="o">=</span> <span class="n">insert_request</span><span class="o">.</span><span class="n">next_chunk</span><span class="p">()</span>
-            <span class="k">if</span> <span class="s">&#39;id&#39;</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;id&#39;</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
         <span class="k">except</span> <span class="n">HttpError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">err</span><span class="o">.</span><span class="n">resp</span><span class="o">.</span><span class="n">status</span> <span class="ow">in</span> <span class="n">RETRIABLE_STATUS_CODES</span><span class="p">:</span>
                 <span class="n">error</span> <span class="o">=</span> <span class="bp">True</span>
@@ -437,7 +437,7 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
         <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
             <span class="n">retry</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">if</span> <span class="n">retry</span> <span class="o">&gt;</span> <span class="n">MAX_RETRIES</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;Maximum retry are fail&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Maximum retry are fail&#39;</span><span class="p">)</span>
 
             <span class="n">sleep_seconds</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">retry</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleep_seconds</span><span class="p">)</span>
@@ -445,7 +445,7 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 
 
 <p>Таким образом, загрузка видео запускается функцией <code>initialize_upload</code>:</p>
-<div class="highlight"><pre><span class="n">video_id</span> <span class="o">=</span> <span class="n">initialize_upload</span><span class="p">(</span><span class="n">get_authenticated_service</span><span class="p">(),</span> <span class="n">card</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">video_id</span> <span class="o">=</span> <span class="n">initialize_upload</span><span class="p">(</span><span class="n">get_authenticated_service</span><span class="p">(),</span> <span class="n">card</span><span class="p">)</span>
 </pre></div>
 
 
@@ -460,13 +460,13 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 <p>В качестве <code>vpn</code> соединения я использую <code>ssh</code> туннель и локальное <code>socks5</code>
 прокси на 1080 порту. Включаю/отключаю <code>ssh</code> тунель при помощи библиотеки
 <code>subprocess</code>.</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">subprocess</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">subprocess</span>
 
-<span class="c"># init ssh connection</span>
-<span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s">&#39;ssh&#39;</span><span class="p">,</span> <span class="s">&#39;-fN&#39;</span><span class="p">,</span> <span class="s">&#39;-D&#39;</span><span class="p">,</span> <span class="s">&#39;1080&#39;</span><span class="p">,</span> <span class="s">&#39;forward@vpn_connection&#39;</span><span class="p">])</span>
+<span class="c1"># init ssh connection</span>
+<span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;ssh&#39;</span><span class="p">,</span> <span class="s1">&#39;-fN&#39;</span><span class="p">,</span> <span class="s1">&#39;-D&#39;</span><span class="p">,</span> <span class="s1">&#39;1080&#39;</span><span class="p">,</span> <span class="s1">&#39;forward@vpn_connection&#39;</span><span class="p">])</span>
 
-<span class="c"># desctroy ssh connection</span>
-<span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s">&#39;pkill&#39;</span><span class="p">,</span> <span class="s">&#39;-f&#39;</span><span class="p">,</span> <span class="s">&#39;forward@vpn_connection&#39;</span><span class="p">])</span>
+<span class="c1"># desctroy ssh connection</span>
+<span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;pkill&#39;</span><span class="p">,</span> <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;forward@vpn_connection&#39;</span><span class="p">])</span>
 </pre></div>
 
 
@@ -475,11 +475,11 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 библиотеку <a href="http://socksipy.sourceforge.net/">socksipy</a>, как показано
 в <a href="https://code.google.com/p/httplib2/wiki/Examples#Proxies">примере</a>
 работы с <code>httplib2</code>:</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">httplib2</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">httplib2</span>
 <span class="kn">import</span> <span class="nn">socks</span>
 
-<span class="n">h</span> <span class="o">=</span> <span class="n">httplib2</span><span class="o">.</span><span class="n">Http</span><span class="p">(</span><span class="n">proxy_info</span> <span class="o">=</span> <span class="n">httplib2</span><span class="o">.</span><span class="n">ProxyInfo</span><span class="p">(</span><span class="n">socks</span><span class="o">.</span><span class="n">PROXY_TYPE_SOCKS5</span><span class="p">,</span> <span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
-<span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">&#39;https://l2.io/ip&#39;</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">httplib2</span><span class="o">.</span><span class="n">Http</span><span class="p">(</span><span class="n">proxy_info</span> <span class="o">=</span> <span class="n">httplib2</span><span class="o">.</span><span class="n">ProxyInfo</span><span class="p">(</span><span class="n">socks</span><span class="o">.</span><span class="n">PROXY_TYPE_SOCKS5</span><span class="p">,</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
+<span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s1">&#39;https://l2.io/ip&#39;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -491,13 +491,13 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
 <a href="https://code.google.com/p/socksipy-branch/">socksipy-branch</a>
 (<a href="https://gist.github.com/Samael500/5a53b01db96f812ac530">gist зеркало</a>).
 И оборачивать <code>httplib2</code> с помощью метода <code>wrapmodule</code>:</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">httplib2</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">httplib2</span>
 <span class="kn">import</span> <span class="nn">socks</span>
 
-<span class="n">socks</span><span class="o">.</span><span class="n">setdefaultproxy</span><span class="p">(</span><span class="n">socks</span><span class="o">.</span><span class="n">PROXY_TYPE_SOCKS5</span><span class="p">,</span> <span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">1080</span><span class="p">)</span>
+<span class="n">socks</span><span class="o">.</span><span class="n">setdefaultproxy</span><span class="p">(</span><span class="n">socks</span><span class="o">.</span><span class="n">PROXY_TYPE_SOCKS5</span><span class="p">,</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">1080</span><span class="p">)</span>
 <span class="n">socks</span><span class="o">.</span><span class="n">wrapmodule</span><span class="p">(</span><span class="n">httplib2</span><span class="p">)</span>
 <span class="n">h</span> <span class="o">=</span> <span class="n">httplib2</span><span class="o">.</span><span class="n">Http</span><span class="p">()</span>
-<span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">&#39;https://l2.io/ip&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s1">&#39;https://l2.io/ip&#39;</span><span class="p">)</span>
 </pre></div>
 
         </article>

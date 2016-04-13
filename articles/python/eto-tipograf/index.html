@@ -173,7 +173,7 @@
 дополнительными зависимостями, вроде <a href="https://pypi.python.org/pypi/six">six</a>
 для реализации совместимости версий <code>python</code>а, так что было использовано
 <code>sys.version.startswith</code>.</p>
-<div class="highlight"><pre><span class="n">PY3</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;3.&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">PY3</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;3.&#39;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -186,7 +186,7 @@
 а в третьем <code>io.BytesIO</code>.</li>
 </ol>
 <p>Так что вся совместимость версий, свелась к двум-трем условиям&nbsp;вида:</p>
-<div class="highlight"><pre><span class="c"># ... import memory file stream</span>
+<div class="highlight"><pre><span></span><span class="c1"># ... import memory file stream</span>
 
 <span class="k">if</span> <span class="n">PY3</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span> <span class="k">as</span> <span class="n">Container</span>
@@ -195,22 +195,22 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span class="c"># ... calculate a length of request</span>
+<div class="highlight"><pre><span></span><span class="c1"># ... calculate a length of request</span>
 
-<span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">soap_body</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">))</span> <span class="k">if</span> <span class="n">PY3</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">soap_body</span><span class="p">)</span>
+<span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">soap_body</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span> <span class="k">if</span> <span class="n">PY3</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">soap_body</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="c"># ... convert to and from bytes for socket connection in py3</span>
+<div class="highlight"><pre><span></span><span class="c1"># ... convert to and from bytes for socket connection in py3</span>
 
-<span class="k">if</span> <span class="n">PY3</span><span class="p">:</span>  <span class="c"># convert to bytes</span>
-    <span class="n">soap_request</span> <span class="o">=</span> <span class="n">soap_request</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">PY3</span><span class="p">:</span>  <span class="c1"># convert to bytes</span>
+    <span class="n">soap_request</span> <span class="o">=</span> <span class="n">soap_request</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
 
-<span class="c"># ...</span>
-<span class="c"># take a response via socket</span>
-<span class="c"># ...</span>
+<span class="c1"># ...</span>
+<span class="c1"># take a response via socket</span>
+<span class="c1"># ...</span>
 
-<span class="k">if</span> <span class="n">PY3</span><span class="p">:</span>  <span class="c"># convert to str</span>
+<span class="k">if</span> <span class="n">PY3</span><span class="p">:</span>  <span class="c1"># convert to str</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
 </pre></div>
 
@@ -219,14 +219,14 @@
 <p>Библиотека <a href="https://docs.python.org/library/socket.html">socket</a>
 предусматривает возможность установки максимального времени ожидания ответа
 от сервера. Делается это с помощью метода <code>settimeout</code>.</p>
-<div class="highlight"><pre><span class="c"># send request use soket</span>
+<div class="highlight"><pre><span></span><span class="c1"># send request use soket</span>
 <span class="n">connector</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
 <span class="n">connector</span><span class="o">.</span><span class="n">settimeout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span><span class="p">)</span>
 <span class="n">connector</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">HOST</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
 <span class="n">connector</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">soap_request</span><span class="p">)</span>
-<span class="c"># call for response</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">b</span><span class="s">&#39;&#39;</span>
-<span class="n">buf</span> <span class="o">=</span> <span class="s">&#39;0&#39;</span>
+<span class="c1"># call for response</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">b</span><span class="s1">&#39;&#39;</span>
+<span class="n">buf</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
 <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">buf</span><span class="p">):</span>
     <span class="n">buf</span> <span class="o">=</span> <span class="n">connector</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">8192</span><span class="p">)</span>
     <span class="n">response</span> <span class="o">+=</span> <span class="n">buf</span>
@@ -244,7 +244,7 @@
 типографирование. Типографировать нужно было всего две модели, поэтому была
 создана простая функция <code>make_typograf</code>, вызов которой был повешен на сигнал
 сохранения&nbsp;моделей.</p>
-<div class="highlight"><pre><span class="c"># helpers/service.py</span>
+<div class="highlight"><pre><span></span><span class="c1"># helpers/service.py</span>
 
 <span class="k">def</span> <span class="nf">make_typograf</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; For each instance.field in fields - make typograf &quot;&quot;&quot;</span>
@@ -255,27 +255,27 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span class="c"># articles/signals.py</span>
+<div class="highlight"><pre><span></span><span class="c1"># articles/signals.py</span>
 
 <span class="kn">from</span> <span class="nn">django.db.models.signals</span> <span class="kn">import</span> <span class="n">pre_save</span>
 <span class="kn">from</span> <span class="nn">articles.models</span> <span class="kn">import</span> <span class="n">Article</span>
 <span class="kn">from</span> <span class="nn">helpers.service</span> <span class="kn">import</span> <span class="n">make_typograf</span>
 
 <span class="k">def</span> <span class="nf">typograf</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">make_typograf</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="s">&#39;subtitle&#39;</span><span class="p">,</span> <span class="p">))</span>
+    <span class="n">make_typograf</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;subtitle&#39;</span><span class="p">,</span> <span class="p">))</span>
 
 <span class="n">pre_save</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">typograf</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">Article</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="c"># cards/signals.py</span>
+<div class="highlight"><pre><span></span><span class="c1"># cards/signals.py</span>
 
 <span class="kn">from</span> <span class="nn">django.db.models.signals</span> <span class="kn">import</span> <span class="n">pre_save</span>
 <span class="kn">from</span> <span class="nn">cards.models</span> <span class="kn">import</span> <span class="n">Card</span>
 <span class="kn">from</span> <span class="nn">helpers.service</span> <span class="kn">import</span> <span class="n">make_typograf</span>
 
 <span class="k">def</span> <span class="nf">typograf</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">make_typograf</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;person_profession&#39;</span><span class="p">,</span> <span class="s">&#39;soldier_rank&#39;</span><span class="p">,</span> <span class="s">&#39;history&#39;</span><span class="p">,</span> <span class="p">))</span>
+    <span class="n">make_typograf</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;person_profession&#39;</span><span class="p">,</span> <span class="s1">&#39;soldier_rank&#39;</span><span class="p">,</span> <span class="s1">&#39;history&#39;</span><span class="p">,</span> <span class="p">))</span>
 
 <span class="n">pre_save</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">typograf</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">Card</span><span class="p">)</span>
 </pre></div>
@@ -292,12 +292,12 @@
 которые затрудняют чтение. (см. пример&nbsp;ниже)</li>
 </ol>
 <p>Пример исходного&nbsp;текста:</p>
-<div class="highlight"><pre>&quot;Вы все еще кое-как верстаете в &quot;Ворде&quot;? - Тогда мы идем к вам!&quot;
+<div class="highlight"><pre><span></span>&quot;Вы все еще кое-как верстаете в &quot;Ворде&quot;? - Тогда мы идем к вам!&quot;
 </pre></div>
 
 
 <p>Пример типографированного&nbsp;текста:</p>
-<div class="highlight"><pre><span class="nt">&lt;p&gt;</span><span class="ni">&amp;laquo;</span>Вы<span class="ni">&amp;nbsp;</span>все еще кое-как верстаете в<span class="ni">&amp;nbsp;&amp;bdquo;</span>Ворде<span class="ni">&amp;ldquo;</span>?
+<div class="highlight"><pre><span></span><span class="nt">&lt;p&gt;</span><span class="ni">&amp;laquo;</span>Вы<span class="ni">&amp;nbsp;</span>все еще кое-как верстаете в<span class="ni">&amp;nbsp;&amp;bdquo;</span>Ворде<span class="ni">&amp;ldquo;</span>?
 <span class="ni">&amp;mdash;&amp;nbsp;</span>Тогда мы<span class="ni">&amp;nbsp;</span>идем к<span class="ni">&amp;nbsp;</span>вам!<span class="ni">&amp;raquo;</span><span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
 <span class="nt">&lt;/p&gt;</span>
 </pre></div>
@@ -324,7 +324,7 @@
 <p>Поскольку нам не важно какой вид будет иметь хешсумма, сравним
 производительность различных алгоритмов хеширования с целью выбора&nbsp;оптимального.</p>
 <p>Затраты времени для <code>md5</code> суммы:</p>
-<div class="highlight"><pre><span class="nv">$ </span><span class="nb">time </span>python -c <span class="s1">&#39;from hashlib import md5</span>
+<div class="highlight"><pre><span></span>$ <span class="nb">time</span> python -c <span class="s1">&#39;from hashlib import md5</span>
 <span class="s1">for i in xrange(int(1e+6)): md5(str(i)).hexdigest()&#39;</span>
 
 real    0m1.015s
@@ -334,7 +334,7 @@ sys 0m0.008s
 
 
 <p>Затраты времени для <code>sha1</code> суммы:</p>
-<div class="highlight"><pre><span class="nv">$ </span><span class="nb">time </span>python -c <span class="s1">&#39;from hashlib import sha1</span>
+<div class="highlight"><pre><span></span>$ <span class="nb">time</span> python -c <span class="s1">&#39;from hashlib import sha1</span>
 <span class="s1">for i in xrange(int(1e+6)): sha1(str(i)).hexdigest()&#39;</span>
 
 real    0m1.095s
@@ -344,7 +344,7 @@ sys 0m0.004s
 
 
 <p>Затраты времени для <code>crc32</code> суммы:</p>
-<div class="highlight"><pre><span class="nv">$ </span><span class="nb">time </span>python -c <span class="s1">&#39;from binascii import crc32</span>
+<div class="highlight"><pre><span></span>$ <span class="nb">time</span> python -c <span class="s1">&#39;from binascii import crc32</span>
 <span class="s1">for i in xrange(int(1e+6)): crc32(str(i))&#39;</span>
 
 real    0m0.473s
@@ -354,7 +354,7 @@ sys 0m0.000s
 
 
 <p>Затрат времени на стравнение&nbsp;строк:</p>
-<div class="highlight"><pre><span class="nv">$ </span><span class="nb">time </span>python -c <span class="s1">&#39;for i in xrange(int(1e+6)): &quot;123&quot; == &quot;321&quot;&#39;</span>
+<div class="highlight"><pre><span></span>$ <span class="nb">time</span> python -c <span class="s1">&#39;for i in xrange(int(1e+6)): &quot;123&quot; == &quot;321&quot;&#39;</span>
 
 real    0m0.092s
 user    0m0.087s
@@ -363,7 +363,7 @@ sys 0m0.008s
 
 
 <p>Затрат времени на стравнение целых&nbsp;чисел:</p>
-<div class="highlight"><pre><span class="nv">$ </span><span class="nb">time </span>python -c <span class="s1">&#39;for i in xrange(int(1e+6)): 123 == 321&#39;</span>
+<div class="highlight"><pre><span></span>$ <span class="nb">time</span> python -c <span class="s1">&#39;for i in xrange(int(1e+6)): 123 == 321&#39;</span>
 
 real    0m0.088s
 user    0m0.080s
@@ -387,27 +387,27 @@ sys 0m0.008s
 <h5 id="skrytye-polia"><a class="toclink" href="#skrytye-polia">Скрытые&nbsp;поля</a></h5>
 <p>Служебные поля для типографированного текста и хешсуммы будут создаваться
 автоматически с помощью метода метакласса&nbsp;предка.</p>
-<div class="highlight"><pre>    <span class="c"># ...</span>
+<div class="highlight"><pre><span></span>    <span class="c1"># ...</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">create_typograf_fields</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">local_typograf_fields</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create helpers to the local typografed fields &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">local_typograf_fields</span><span class="p">:</span>
-            <span class="c"># check is text field</span>
+            <span class="c1"># check is text field</span>
             <span class="n">field</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">)):</span>
                 <span class="k">raise</span> <span class="n">TypografFieldError</span><span class="p">(</span>
-                    <span class="s">&#39;Can</span><span class="se">\&#39;</span><span class="s">t be typografed field &quot;{field}&quot;.&#39;</span>
-                    <span class="s">&#39; This must be a text or char field.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">field_name</span><span class="p">))</span>
-            <span class="c"># create fields for store typografed text and typografed hash</span>
+                    <span class="s1">&#39;Can</span><span class="se">\&#39;</span><span class="s1">t be typografed field &quot;{field}&quot;.&#39;</span>
+                    <span class="s1">&#39; This must be a text or char field.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">field_name</span><span class="p">))</span>
+            <span class="c1"># create fields for store typografed text and typografed hash</span>
             <span class="n">typograf_field</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
             <span class="n">typograf_field</span><span class="o">.</span><span class="n">creation_counter</span> <span class="o">+=</span> <span class="mf">0.0001</span>
             <span class="n">typograf_field_hash</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
             <span class="n">typograf_field_hash</span><span class="o">.</span><span class="n">creation_counter</span> <span class="o">+=</span> <span class="mf">0.0001</span>
-            <span class="c"># create fields name&#39;s</span>
+            <span class="c1"># create fields name&#39;s</span>
             <span class="n">typograf_field_name</span> <span class="o">=</span> <span class="n">get_typograf_field_name</span><span class="p">(</span><span class="n">field_name</span><span class="p">)</span>
             <span class="n">typograf_field_hash_name</span> <span class="o">=</span> <span class="n">get_typograf_hash_field_name</span><span class="p">(</span><span class="n">field_name</span><span class="p">)</span>
-            <span class="c"># update attrs</span>
+            <span class="c1"># update attrs</span>
             <span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
                 <span class="n">typograf_field_name</span><span class="p">:</span> <span class="n">typograf_field</span><span class="p">,</span>
                 <span class="n">typograf_field_hash_name</span><span class="p">:</span> <span class="n">typograf_field_hash</span><span class="p">})</span>
@@ -422,7 +422,7 @@ sys 0m0.008s
 <p>Для того чтобы эти служебные поля были недоступны в административном
 интерфейсе, добавим внутренний метод <code>_exclude</code>, который будет возвращать
 списки скрытых&nbsp;полей.</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
 <span class="kn">from</span> <span class="nn">django_typograf.utils</span> <span class="kn">import</span> <span class="n">get_typograf_field_name</span><span class="p">,</span> <span class="n">get_typograf_hash_field_name</span>
 
 <span class="k">class</span> <span class="nc">TypografAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
@@ -451,7 +451,7 @@ sys 0m0.008s
 <p>Теперь, для автоматического типографирования текста, достаточно установить
 пакет <code>django_typograf</code> из <code>pypi</code>, наследовать модель от <code>TypografModel</code>
 и указать поля, которые необходимо&nbsp;типографировать.</p>
-<div class="highlight"><pre><span class="c"># articles/models.py</span>
+<div class="highlight"><pre><span></span><span class="c1"># articles/models.py</span>
 
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">django_typograf.models</span> <span class="kn">import</span> <span class="n">TypografModel</span>
@@ -460,19 +460,19 @@ sys 0m0.008s
 
     <span class="sd">&quot;&quot;&quot; Model for articles &quot;&quot;&quot;</span>
 
-    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s">&#39;заголовок&#39;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-    <span class="n">subtitle</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s">&#39;подзаголовок&#39;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-    <span class="n">site_url</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">URLField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s">&#39;URL&#39;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;заголовок&#39;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">subtitle</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;подзаголовок&#39;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">site_url</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">URLField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;URL&#39;</span><span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="n">Sortable</span><span class="o">.</span><span class="n">Meta</span><span class="p">):</span>
-        <span class="n">typograf</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="s">&#39;subtitle&#39;</span><span class="p">,</span> <span class="p">)</span>
-        <span class="n">verbose_name</span> <span class="o">=</span> <span class="s">&#39;статья&#39;</span>
-        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s">&#39;статьи&#39;</span>
+        <span class="n">typograf</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;subtitle&#39;</span><span class="p">,</span> <span class="p">)</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="s1">&#39;статья&#39;</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s1">&#39;статьи&#39;</span>
 </pre></div>
 
 
 <p>А также, в шаблоне, не забыть работать с &#8220;типографированными&#8221;&nbsp;полями.</p>
-<div class="highlight"><pre><span class="nt">&lt;h1&gt;</span><span class="cp">{{</span> <span class="nv">article.typograf_title</span><span class="o">|</span><span class="nf">default_if_none</span><span class="o">:</span><span class="nv">article.title</span><span class="o">|</span><span class="nf">safe</span> <span class="cp">}}</span><span class="nt">&lt;/h1&gt;</span>
+<div class="highlight"><pre><span></span><span class="nt">&lt;h1&gt;</span><span class="cp">{{</span> <span class="nv">article.typograf_title</span><span class="o">|</span><span class="nf">default_if_none</span><span class="o">:</span><span class="nv">article.title</span><span class="o">|</span><span class="nf">safe</span> <span class="cp">}}</span><span class="nt">&lt;/h1&gt;</span>
 <span class="nt">&lt;h2&gt;</span><span class="cp">{{</span> <span class="nv">article.typograf_subtitle</span><span class="o">|</span><span class="nf">default_if_none</span><span class="o">:</span><span class="nv">article.subtitle</span><span class="o">|</span><span class="nf">safe</span> <span class="cp">}}</span><span class="nt">&lt;/h2&gt;</span>
 </pre></div>
 

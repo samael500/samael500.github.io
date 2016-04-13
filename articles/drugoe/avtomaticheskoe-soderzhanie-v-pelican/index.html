@@ -155,19 +155,19 @@
 подключить расширение
 <a href="https://pythonhosted.org/Markdown/extensions/toc.html">Table of Contents</a>.
 Делается это элементарно прописав в <code>pelicanconf.py</code> следующую&nbsp;строчку:</p>
-<div class="highlight"><pre><span class="n">MD_EXTENSIONS</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s">&#39;codehilite(css_class=highlight)&#39;</span><span class="p">,</span> <span class="s">&#39;extra&#39;</span><span class="p">,</span> <span class="s">&#39;markdown.extensions.toc&#39;</span> <span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="n">MD_EXTENSIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;codehilite(css_class=highlight)&#39;</span><span class="p">,</span> <span class="s1">&#39;extra&#39;</span><span class="p">,</span> <span class="s1">&#39;markdown.extensions.toc&#39;</span> <span class="p">]</span>
 </pre></div>
 
 
 <p>Теперь при генерации <code>html</code> каждому заголовку будет присваиваться <code>id</code>
 содержащимся текстом.&nbsp;Заголовок:</p>
-<div class="highlight"><pre>##Markdown anchors
+<div class="highlight"><pre><span></span>##Markdown anchors
 </pre></div>
 
 
 <p>Будет сгенерирован в такой <code>html</code>:</p>
-<div class="highlight"><pre><span class="nt">&lt;h2</span> <span class="na">id=</span><span class="s">&quot;markdown-anchors&quot;</span><span class="nt">&gt;</span>Markdown<span class="ni">&amp;nbsp;</span>anchors<span class="nt">&lt;/h2&gt;</span>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;markdown-anchors&quot;</span><span class="p">&gt;</span>Markdown<span class="ni">&amp;nbsp;</span>anchors<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
 </pre></div>
 
 
@@ -175,35 +175,35 @@
 <p>Чтобы заголовки были непросто тегами <code>h1</code> &#8230; <code>h6</code>, а содержали ссылку на
 самих себя нужно добавить аргумент <code>anchorlink</code>. Теперь конфигурация
 <code>MD_EXTENSIONS</code> выглядит&nbsp;так:</p>
-<div class="highlight"><pre><span class="n">MD_EXTENSIONS</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s">&#39;codehilite(css_class=highlight)&#39;</span><span class="p">,</span> <span class="s">&#39;extra&#39;</span><span class="p">,</span>
-    <span class="s">&#39;markdown.extensions.toc(anchorlink=True)&#39;</span> <span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="n">MD_EXTENSIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;codehilite(css_class=highlight)&#39;</span><span class="p">,</span> <span class="s1">&#39;extra&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;markdown.extensions.toc(anchorlink=True)&#39;</span> <span class="p">]</span>
 </pre></div>
 
 
 <p>Заголовок:</p>
-<div class="highlight"><pre>##Markdown anchors
+<div class="highlight"><pre><span></span>##Markdown anchors
 </pre></div>
 
 
 <p>Будет сгенерирован в такой <code>html</code>:</p>
-<div class="highlight"><pre><span class="nt">&lt;h2</span> <span class="na">id=</span><span class="s">&quot;markdown-anchors&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">&quot;toclink&quot;</span> <span class="na">href=</span><span class="s">&quot;#markdown-anchors&quot;</span><span class="nt">&gt;</span>Markdown<span class="ni">&amp;nbsp;</span>anchors<span class="nt">&lt;/a&gt;</span>
-<span class="nt">&lt;/h2&gt;</span>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;markdown-anchors&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;toclink&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;#markdown-anchors&quot;</span><span class="p">&gt;</span>Markdown<span class="ni">&amp;nbsp;</span>anchors<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
 </pre></div>
 
 
 <h3 id="kirillitsa-v-zagolovkakh"><a class="toclink" href="#kirillitsa-v-zagolovkakh">Кириллица в&nbsp;заголовках</a></h3>
 <p>К сожалению, стандартный <code>slugify</code> который используется в <code>markdown toc</code> не
 умеет обрабатывать кириллические символы, и поэтому&nbsp;заголовок.</p>
-<div class="highlight"><pre>##Ссылка в заголовке
+<div class="highlight"><pre><span></span>##Ссылка в заголовке
 </pre></div>
 
 
 <p>Будет сгенерирован в такой <code>html</code>:</p>
-<div class="highlight"><pre><span class="nt">&lt;h2</span> <span class="na">id=</span><span class="s">&quot;_1&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">&quot;toclink&quot;</span> <span class="na">href=</span><span class="s">&quot;#_1&quot;</span><span class="nt">&gt;</span>Ссылка в<span class="ni">&amp;nbsp;</span>заголовке<span class="nt">&lt;/a&gt;</span>
-<span class="nt">&lt;/h2&gt;</span>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;_1&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;toclink&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;#_1&quot;</span><span class="p">&gt;</span>Ссылка в<span class="ni">&amp;nbsp;</span>заголовке<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
 </pre></div>
 
 
@@ -212,10 +212,10 @@
 <code>TocExtension</code> объект <code>slugify</code>. Объект <code>slugify</code> должен быть <code>callable</code>
 поэтому не обойтись просто строковым указанием аргументов, придется явно
 импортировать и указывать в конструкторе аргументы для&nbsp;расширения:</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">markdown.extensions.toc</span> <span class="kn">import</span> <span class="n">TocExtension</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">markdown.extensions.toc</span> <span class="kn">import</span> <span class="n">TocExtension</span>
 <span class="kn">from</span> <span class="nn">slugify</span> <span class="kn">import</span> <span class="n">slugify</span>
 <span class="n">MD_EXTENSIONS</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s">&#39;codehilite(css_class=highlight)&#39;</span><span class="p">,</span> <span class="s">&#39;extra&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;codehilite(css_class=highlight)&#39;</span><span class="p">,</span> <span class="s1">&#39;extra&#39;</span><span class="p">,</span>
     <span class="n">TocExtension</span><span class="p">(</span><span class="n">anchorlink</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">slugify</span><span class="o">=</span><span class="n">slugify</span><span class="p">),</span> <span class="p">]</span>
 </pre></div>
 
@@ -227,7 +227,7 @@
 сгенерированы с якорями, то создание ссылок джаваскриптом использоваться
 не будет, в конструкторе укажем <code>null</code> значения для текста и позиции ссылки
 в&nbsp;заголовке.</p>
-<div class="highlight"><pre>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;article.content&#39;</span><span class="p">).</span><span class="nx">anchorific</span><span class="p">({</span>
+<div class="highlight"><pre><span></span>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;article.content&#39;</span><span class="p">).</span><span class="nx">anchorific</span><span class="p">({</span>
         <span class="nx">anchorClass</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">anchorText</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">spy</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">position</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">anchor</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
     <span class="p">});</span>
 </pre></div>
@@ -235,7 +235,7 @@
 
 <p>Так же пришлось немного подправить напильником этот плагин, под конкретные задачи,
 например заставить его искать не все заголовки, а только с&nbsp;идентификаторами.</p>
-<div class="highlight"><pre><span class="gd">- self.headers = self.$elem.find( &#39;h1, h2, h3, h4, h5, h6&#39; );</span>
+<div class="highlight"><pre><span></span><span class="gd">- self.headers = self.$elem.find( &#39;h1, h2, h3, h4, h5, h6&#39; );</span>
 <span class="gi">+ self.headers = self.$elem.find( &#39;h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]&#39; );</span>
 </pre></div>
 
@@ -245,15 +245,15 @@
 доступным будем использовать <code>position: fixed;</code>, но присваивать его только
 при достижении вершины объекта при&nbsp;скроллинге.</p>
 <p>Создадим класс <code>sticky</code> и будем навешивать его по событию&nbsp;скролл.</p>
-<div class="highlight"><pre><span class="nc">.sticky</span> <span class="p">{</span>
-    <span class="k">position</span><span class="o">:</span> <span class="k">fixed</span><span class="p">;</span>
-    <span class="k">top</span><span class="o">:</span> <span class="m">33px</span><span class="p">;</span>
-    <span class="k">z-index</span><span class="o">:</span> <span class="m">999</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="nc">.sticky</span> <span class="p">{</span>
+    <span class="nb">position</span><span class="o">:</span> <span class="nb">fixed</span><span class="p">;</span>
+    <span class="nb">top</span><span class="o">:</span> <span class="m">33px</span><span class="p">;</span>
+    <span class="nb">z-index</span><span class="o">:</span> <span class="m">999</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">$window</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nb">window</span><span class="p">),</span>
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">$window</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nb">window</span><span class="p">),</span>
     <span class="nx">$sticky</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div.anchorific&#39;</span><span class="p">),</span>
     <span class="nx">sticky_top</span> <span class="o">=</span> <span class="nx">$sticky</span><span class="p">.</span><span class="nx">offset</span><span class="p">().</span><span class="nx">top</span><span class="p">;</span>
 
