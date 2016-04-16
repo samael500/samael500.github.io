@@ -3,7 +3,7 @@ Date: 2016-04-13 15:00
 Modified: 2016-04-13 15:00
 Category: Python
 Tags: python, code, crazy
-Image: 
+Image: /media/crazy-code/snake_charmer.jpg
 Summary:
     `Python` имеет очень простой синтаксис, и практически всегда ведёт себя
     предсказуемо. Однако порой происходит нечто невероятное...
