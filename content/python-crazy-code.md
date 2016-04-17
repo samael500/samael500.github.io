@@ -95,3 +95,34 @@ TypeError: can only concatenate list (not "str") to list
 </details>
 
 ###ООП, такое ООП
+
+```
+>>> class A():
+...   def foo(self):
+...     print "this is A"
+... 
+>>> class B():
+...   def foo(self):
+...     print "this is B"
+... 
+>>> 
+>>> a = A()
+>>> b = B()
+>>> 
+>>> a.foo()
+this is A
+>>> b.foob()
+this is B
+>>> 
+>>> A.foo = B.foob
+>>> 
+>>> a.foo()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unbound method foob() must be called with B instance as first argument (got nothing instead)
+>>> 
+>>> A.foo = b.foob
+>>> a.foo()
+this is B
+>>> 
+```
