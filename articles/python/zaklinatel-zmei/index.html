@@ -14,16 +14,16 @@
     <meta name="robots" content="index, follow"/>
     <meta name="keywords" content="article, python, code, crazy" />
 
-    <meta property="og:title" content="Как прострелить себе ногу? Или что делает этот код?"/>
-    <meta property="og:url" content="https://samael500.github.io/articles/python/kak-prostrelit-sebe-nogu-ili-chto-delaet-etot-kod/"/>
+    <meta property="og:title" content="Заклинатель змей?"/>
+    <meta property="og:url" content="https://samael500.github.io/articles/python/zaklinatel-zmei/"/>
     <meta property="og:site_name" content="Maks blog"/>
     <meta property="og:type" content="article"/>
     <meta property="og:image" content="https://samael500.github.io/media/crazy-code/snake_charmer.jpg" />
     <meta property="og:description" content="Python имеет очень простой синтаксис, и практически всегда ведёт себя предсказуемо. Однако порой происходит нечто невероятное…" />
 
-    <link rel="canonical" href="https://samael500.github.io/articles/python/kak-prostrelit-sebe-nogu-ili-chto-delaet-etot-kod/" />
+    <link rel="canonical" href="https://samael500.github.io/articles/python/zaklinatel-zmei/" />
 
-    <title>Как прострелить себе ногу? Или что делает этот код? | Maks blog</title>
+    <title>Заклинатель змей? | Maks blog</title>
 
     <link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css" />
@@ -109,7 +109,7 @@
 
         <header>
 <h4>
-    <a href="https://samael500.github.io/articles/python/kak-prostrelit-sebe-nogu-ili-chto-delaet-etot-kod/" title="Как прострелить себе ногу? Или что делает этот код?">Как прострелить себе ногу? Или что делает этот&nbsp;код?</a>
+    <a href="https://samael500.github.io/articles/python/zaklinatel-zmei/" title="Заклинатель змей?">Заклинатель&nbsp;змей?</a>
     Апр. 13, 2016
 </h4>
 
@@ -120,7 +120,7 @@
     Категория: <a href="https://samael500.github.io/category/python.html">Python</a>
 
 
-        | <a href="https://samael500.github.io/articles/python/kak-prostrelit-sebe-nogu-ili-chto-delaet-etot-kod/#disqus_thread">Комментарии</a>
+        | <a href="https://samael500.github.io/articles/python/zaklinatel-zmei/#disqus_thread">Комментарии</a>
 
     
 
@@ -141,6 +141,7 @@
 
             <p><code>Python</code> имеет очень простой синтаксис, и практически всегда ведёт себя
 предсказуемо. Однако порой происходит нечто&nbsp;невероятное&#8230;</p>
+<h3 id="nepredskazuemye-spiski"><a class="toclink" href="#nepredskazuemye-spiski">Непредсказуемые&nbsp;списки</a></h3>
 <div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">[[]]</span> <span class="o">*</span> <span class="mi">3</span>
 <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
 <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
@@ -184,13 +185,46 @@
 
 
 <p></details></p>
+<div class="highlight"><pre><span></span><span class="c1"># list += str</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">x</span> <span class="o">+=</span> <span class="s1">&#39;abcd&#39;</span>
+<span class="k">print</span> <span class="n">x</span>
+
+<span class="c1"># list + str</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="s1">&#39;abcd&#39;</span>
+<span class="k">print</span> <span class="n">x</span>
+</pre></div>
+
+
+<p><details>
+    <summary>Результат</summary></p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="c1"># list += str</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">+=</span> <span class="s1">&#39;abcd&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">x</span>
+<span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="c1"># list + str</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="s1">&#39;abcd&#39;</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">TypeError</span><span class="p">:</span> <span class="n">can</span> <span class="n">only</span> <span class="n">concatenate</span> <span class="nb">list</span> <span class="p">(</span><span class="ow">not</span> <span class="s2">&quot;str&quot;</span><span class="p">)</span> <span class="n">to</span> <span class="nb">list</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">x</span>
+<span class="p">[]</span>
+</pre></div>
+
+
+<p></details></p>
+<h3 id="oop-takoe-oop"><a class="toclink" href="#oop-takoe-oop">ООП, такое&nbsp;ООП</a></h3>
 
         </article>
 
             <div class="comments">
                 <div id="disqus_thread"></div>
                 <script type="text/javascript">
-                    var disqus_identifier = "articles/python/kak-prostrelit-sebe-nogu-ili-chto-delaet-etot-kod/";
+                    var disqus_identifier = "articles/python/zaklinatel-zmei/";
                     (function() {
                     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                     dsq.src = '//samael500.disqus.com/embed.js';

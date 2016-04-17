@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/all-ru.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2016-04-13T15:00:00+03:00</updated><entry><title>Как прострелить себе ногу? Или что делает этот код?</title><link href="https://samael500.github.io/articles/python/kak-prostrelit-sebe-nogu-ili-chto-delaet-etot-kod/" rel="alternate"></link><published>2016-04-13T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-04-13:articles/python/kak-prostrelit-sebe-nogu-ili-chto-delaet-etot-kod/</id><summary type="html">&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; имеет очень простой синтаксис, и практически всегда ведёт себя
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/all-ru.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2016-04-17T15:00:00+03:00</updated><entry><title>Заклинатель змей?</title><link href="https://samael500.github.io/articles/python/zaklinatel-zmei/" rel="alternate"></link><published>2016-04-17T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-04-13:articles/python/zaklinatel-zmei/</id><summary type="html">&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; имеет очень простой синтаксис, и практически всегда ведёт себя
 предсказуемо. Однако порой происходит нечто&amp;nbsp;невероятное&amp;#8230;&lt;/p&gt;
+&lt;h3 id="nepredskazuemye-spiski"&gt;&lt;a class="toclink" href="#nepredskazuemye-spiski"&gt;Непредсказуемые&amp;nbsp;списки&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[[]]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
 &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;b&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -43,7 +44,40 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;/details&gt;&lt;/p&gt;</summary><category term="python"></category><category term="code"></category><category term="crazy"></category></entry><entry><title>Full year streak!</title><link href="https://samael500.github.io/articles/github/full-year-streak/" rel="alternate"></link><published>2016-01-21T20:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-01-21:articles/github/full-year-streak/</id><summary type="html">&lt;p&gt;&lt;img alt="streak-year" class="center" src="/media/streak-year/streak.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/details&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# list += str&lt;/span&gt;
+&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;abcd&amp;#39;&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;
+
+&lt;span class="c1"&gt;# list + str&lt;/span&gt;
+&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;abcd&amp;#39;&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;details&gt;
+    &lt;summary&gt;Результат&lt;/summary&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="c1"&gt;# list += str&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;abcd&amp;#39;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;b&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;c&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="c1"&gt;# list + str&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;abcd&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;Traceback&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;most&lt;/span&gt; &lt;span class="n"&gt;recent&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt; &lt;span class="n"&gt;last&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+  &lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;module&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="ne"&gt;TypeError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="n"&gt;only&lt;/span&gt; &lt;span class="n"&gt;concatenate&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;str&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;
+&lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;/details&gt;&lt;/p&gt;
+&lt;h3 id="oop-takoe-oop"&gt;&lt;a class="toclink" href="#oop-takoe-oop"&gt;ООП, такое&amp;nbsp;ООП&lt;/a&gt;&lt;/h3&gt;</summary><category term="python"></category><category term="code"></category><category term="crazy"></category></entry><entry><title>Full year streak!</title><link href="https://samael500.github.io/articles/github/full-year-streak/" rel="alternate"></link><published>2016-01-21T20:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-01-21:articles/github/full-year-streak/</id><summary type="html">&lt;p&gt;&lt;img alt="streak-year" class="center" src="/media/streak-year/streak.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Год непрерывного contribution, как оказывается не так и сложно.
 В этом году я не только ежедневно коммитил, но и сделал некоторые вещи,&amp;nbsp;например:&lt;/p&gt;
 &lt;ul&gt;
