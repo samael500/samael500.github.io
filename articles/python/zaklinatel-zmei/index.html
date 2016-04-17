@@ -218,6 +218,35 @@
 
 <p></details></p>
 <h3 id="oop-takoe-oop"><a class="toclink" href="#oop-takoe-oop">ООП, такое&nbsp;ООП</a></h3>
+<div class="highlight"><pre><span></span>&gt;&gt;&gt; class A():
+...   def foo(self):
+...     print &quot;this is A&quot;
+... 
+&gt;&gt;&gt; class B():
+...   def foo(self):
+...     print &quot;this is B&quot;
+... 
+&gt;&gt;&gt; 
+&gt;&gt;&gt; a = A()
+&gt;&gt;&gt; b = B()
+&gt;&gt;&gt; 
+&gt;&gt;&gt; a.foo()
+this is A
+&gt;&gt;&gt; b.foob()
+this is B
+&gt;&gt;&gt; 
+&gt;&gt;&gt; A.foo = B.foob
+&gt;&gt;&gt; 
+&gt;&gt;&gt; a.foo()
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+TypeError: unbound method foob() must be called with B instance as first argument (got nothing instead)
+&gt;&gt;&gt; 
+&gt;&gt;&gt; A.foo = b.foob
+&gt;&gt;&gt; a.foo()
+this is B
+&gt;&gt;&gt; 
+</pre></div>
 
         </article>
 

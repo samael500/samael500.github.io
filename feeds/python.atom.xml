@@ -77,7 +77,36 @@
 
 
 &lt;p&gt;&lt;/details&gt;&lt;/p&gt;
-&lt;h3 id="oop-takoe-oop"&gt;&lt;a class="toclink" href="#oop-takoe-oop"&gt;ООП, такое&amp;nbsp;ООП&lt;/a&gt;&lt;/h3&gt;</summary><category term="python"></category><category term="code"></category><category term="crazy"></category></entry><entry><title>Это Типограф!</title><link href="https://samael500.github.io/articles/python/eto-tipograf/" rel="alternate"></link><published>2015-10-15T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2015-10-13:articles/python/eto-tipograf/</id><summary type="html">&lt;p&gt;В одном из проектов была поставлена задача типографировать текст
+&lt;h3 id="oop-takoe-oop"&gt;&lt;a class="toclink" href="#oop-takoe-oop"&gt;ООП, такое&amp;nbsp;ООП&lt;/a&gt;&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt;&amp;gt;&amp;gt; class A():
+...   def foo(self):
+...     print &amp;quot;this is A&amp;quot;
+... 
+&amp;gt;&amp;gt;&amp;gt; class B():
+...   def foo(self):
+...     print &amp;quot;this is B&amp;quot;
+... 
+&amp;gt;&amp;gt;&amp;gt; 
+&amp;gt;&amp;gt;&amp;gt; a = A()
+&amp;gt;&amp;gt;&amp;gt; b = B()
+&amp;gt;&amp;gt;&amp;gt; 
+&amp;gt;&amp;gt;&amp;gt; a.foo()
+this is A
+&amp;gt;&amp;gt;&amp;gt; b.foob()
+this is B
+&amp;gt;&amp;gt;&amp;gt; 
+&amp;gt;&amp;gt;&amp;gt; A.foo = B.foob
+&amp;gt;&amp;gt;&amp;gt; 
+&amp;gt;&amp;gt;&amp;gt; a.foo()
+Traceback (most recent call last):
+  File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 1, in &amp;lt;module&amp;gt;
+TypeError: unbound method foob() must be called with B instance as first argument (got nothing instead)
+&amp;gt;&amp;gt;&amp;gt; 
+&amp;gt;&amp;gt;&amp;gt; A.foo = b.foob
+&amp;gt;&amp;gt;&amp;gt; a.foo()
+this is B
+&amp;gt;&amp;gt;&amp;gt; 
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="code"></category><category term="crazy"></category></entry><entry><title>Это Типограф!</title><link href="https://samael500.github.io/articles/python/eto-tipograf/" rel="alternate"></link><published>2015-10-15T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2015-10-13:articles/python/eto-tipograf/</id><summary type="html">&lt;p&gt;В одном из проектов была поставлена задача типографировать текст
 перед публикацией. Для этой задачи было решено использовать
 &amp;laquo;Типограф&amp;raquo;&amp;nbsp;Лебедева.&lt;/p&gt;
 &lt;p&gt;У студии Лебедева есть сервис типографирования текста, который

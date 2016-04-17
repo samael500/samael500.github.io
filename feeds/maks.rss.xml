@@ -77,7 +77,36 @@
 
 
 &lt;p&gt;&lt;/details&gt;&lt;/p&gt;
-&lt;h3 id="oop-takoe-oop"&gt;&lt;a class="toclink" href="#oop-takoe-oop"&gt;ООП, такое&amp;nbsp;ООП&lt;/a&gt;&lt;/h3&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Sun, 17 Apr 2016 15:00:00 +0300</pubDate><guid isPermaLink="false">tag:samael500.github.io,2016-04-13:articles/python/zaklinatel-zmei/</guid><category>python</category><category>code</category><category>crazy</category></item><item><title>Full year streak!</title><link>https://samael500.github.io/articles/github/full-year-streak/</link><description>&lt;p&gt;&lt;img alt="streak-year" class="center" src="/media/streak-year/streak.png" /&gt;&lt;/p&gt;
+&lt;h3 id="oop-takoe-oop"&gt;&lt;a class="toclink" href="#oop-takoe-oop"&gt;ООП, такое&amp;nbsp;ООП&lt;/a&gt;&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt;&amp;gt;&amp;gt; class A():
+...   def foo(self):
+...     print &amp;quot;this is A&amp;quot;
+... 
+&amp;gt;&amp;gt;&amp;gt; class B():
+...   def foo(self):
+...     print &amp;quot;this is B&amp;quot;
+... 
+&amp;gt;&amp;gt;&amp;gt; 
+&amp;gt;&amp;gt;&amp;gt; a = A()
+&amp;gt;&amp;gt;&amp;gt; b = B()
+&amp;gt;&amp;gt;&amp;gt; 
+&amp;gt;&amp;gt;&amp;gt; a.foo()
+this is A
+&amp;gt;&amp;gt;&amp;gt; b.foob()
+this is B
+&amp;gt;&amp;gt;&amp;gt; 
+&amp;gt;&amp;gt;&amp;gt; A.foo = B.foob
+&amp;gt;&amp;gt;&amp;gt; 
+&amp;gt;&amp;gt;&amp;gt; a.foo()
+Traceback (most recent call last):
+  File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 1, in &amp;lt;module&amp;gt;
+TypeError: unbound method foob() must be called with B instance as first argument (got nothing instead)
+&amp;gt;&amp;gt;&amp;gt; 
+&amp;gt;&amp;gt;&amp;gt; A.foo = b.foob
+&amp;gt;&amp;gt;&amp;gt; a.foo()
+this is B
+&amp;gt;&amp;gt;&amp;gt; 
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Sun, 17 Apr 2016 15:00:00 +0300</pubDate><guid isPermaLink="false">tag:samael500.github.io,2016-04-13:articles/python/zaklinatel-zmei/</guid><category>python</category><category>code</category><category>crazy</category></item><item><title>Full year streak!</title><link>https://samael500.github.io/articles/github/full-year-streak/</link><description>&lt;p&gt;&lt;img alt="streak-year" class="center" src="/media/streak-year/streak.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Год непрерывного contribution, как оказывается не так и сложно.
 В этом году я не только ежедневно коммитил, но и сделал некоторые вещи,&amp;nbsp;например:&lt;/p&gt;
 &lt;ul&gt;
