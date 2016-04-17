@@ -96,7 +96,7 @@ TypeError: can only concatenate list (not "str") to list
 
 ###ООП, такое ООП
 
-```
+```python
 >>> class A():
 ...   def foo(self):
 ...     print "this is A"
