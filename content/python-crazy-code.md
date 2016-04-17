@@ -1,6 +1,6 @@
-Title: Как прострелить себе ногу? Или что делает этот код?
+Title: Заклинатель змей?
 Date: 2016-04-13 15:00
-Modified: 2016-04-13 15:00
+Modified: 2016-04-17 15:00
 Category: Python
 Tags: python, code, crazy
 Image: /media/crazy-code/snake_charmer.jpg
@@ -10,6 +10,8 @@ Summary:
 
 `Python` имеет очень простой синтаксис, и практически всегда ведёт себя
 предсказуемо. Однако порой происходит нечто невероятное...
+
+###Непредсказуемые списки
 
 ```Python
 x = [[]] * 3
@@ -57,3 +59,39 @@ TypeError: 'tuple' object does not support item assignment
 ```
 
 </details>
+
+```Python
+# list += str
+x = []
+x += 'abcd'
+print x
+
+# list + str
+x = []
+x = x + 'abcd'
+print x
+```
+
+<details>
+    <summary>Результат</summary>
+
+```Python
+>>> # list += str
+>>> x = []
+>>> x += 'abcd'
+>>> print x
+['a', 'b', 'c', 'd']
+>>>
+>>> # list + str
+>>> x = []
+>>> x = x + 'abcd'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: can only concatenate list (not "str") to list
+>>> print x
+[]
+```
+
+</details>
+
+###ООП, такое ООП
