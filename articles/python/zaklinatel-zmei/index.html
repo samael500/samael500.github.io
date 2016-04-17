@@ -218,34 +218,34 @@
 
 <p></details></p>
 <h3 id="oop-takoe-oop"><a class="toclink" href="#oop-takoe-oop">ООП, такое&nbsp;ООП</a></h3>
-<div class="highlight"><pre><span></span>&gt;&gt;&gt; class A():
-...   def foo(self):
-...     print &quot;this is A&quot;
-... 
-&gt;&gt;&gt; class B():
-...   def foo(self):
-...     print &quot;this is B&quot;
-... 
-&gt;&gt;&gt; 
-&gt;&gt;&gt; a = A()
-&gt;&gt;&gt; b = B()
-&gt;&gt;&gt; 
-&gt;&gt;&gt; a.foo()
-this is A
-&gt;&gt;&gt; b.foob()
-this is B
-&gt;&gt;&gt; 
-&gt;&gt;&gt; A.foo = B.foob
-&gt;&gt;&gt; 
-&gt;&gt;&gt; a.foo()
-Traceback (most recent call last):
-  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
-TypeError: unbound method foob() must be called with B instance as first argument (got nothing instead)
-&gt;&gt;&gt; 
-&gt;&gt;&gt; A.foo = b.foob
-&gt;&gt;&gt; a.foo()
-this is B
-&gt;&gt;&gt; 
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">A</span><span class="p">():</span>
+<span class="o">...</span>   <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">...</span>     <span class="k">print</span> <span class="s2">&quot;this is A&quot;</span>
+<span class="o">...</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">B</span><span class="p">():</span>
+<span class="o">...</span>   <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">...</span>     <span class="k">print</span> <span class="s2">&quot;this is B&quot;</span>
+<span class="o">...</span> 
+<span class="o">&gt;&gt;&gt;</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="n">B</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">foo</span><span class="p">()</span>
+<span class="n">this</span> <span class="ow">is</span> <span class="n">A</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span><span class="o">.</span><span class="n">foob</span><span class="p">()</span>
+<span class="n">this</span> <span class="ow">is</span> <span class="n">B</span>
+<span class="o">&gt;&gt;&gt;</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">A</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">foob</span>
+<span class="o">&gt;&gt;&gt;</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">foo</span><span class="p">()</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">TypeError</span><span class="p">:</span> <span class="n">unbound</span> <span class="n">method</span> <span class="n">foob</span><span class="p">()</span> <span class="n">must</span> <span class="n">be</span> <span class="n">called</span> <span class="k">with</span> <span class="n">B</span> <span class="n">instance</span> <span class="k">as</span> <span class="n">first</span> <span class="n">argument</span> <span class="p">(</span><span class="n">got</span> <span class="n">nothing</span> <span class="n">instead</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">A</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">foob</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">foo</span><span class="p">()</span>
+<span class="n">this</span> <span class="ow">is</span> <span class="n">B</span>
+<span class="o">&gt;&gt;&gt;</span> 
 </pre></div>
 
         </article>
