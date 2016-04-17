@@ -111,17 +111,17 @@ TypeError: can only concatenate list (not "str") to list
 >>> 
 >>> a.foo()
 this is A
->>> b.foob()
+>>> b.foo()
 this is B
 >>> 
->>> A.foo = B.foob
+>>> A.foo = B.foo
 >>> 
 >>> a.foo()
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
-TypeError: unbound method foob() must be called with B instance as first argument (got nothing instead)
+TypeError: unbound method foo() must be called with B instance as first argument (got nothing instead)
 >>> 
->>> A.foo = b.foob
+>>> A.foo = b.foo
 >>> a.foo()
 this is B
 >>> 
