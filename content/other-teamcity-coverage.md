@@ -27,6 +27,14 @@ Summary:
 Хотелось получить собственную систему, похожую на
 [Coveralls](https://coveralls.io/github/Samael500) работающую с `python`.
 
+В результате статус пулреквеста зависит от проверки покрытия кода.
+
+![pending](/media/teamcity-coverage/github_pending.png){.center}
+
+![failure](/media/teamcity-coverage/github_failure.png){.center}
+
+![success](/media/teamcity-coverage/github_success.png){.center}
+
 ## Формирование отчета
 
 Первым делом, необходимо сформировать данные о покрытии кода. Делаем это
