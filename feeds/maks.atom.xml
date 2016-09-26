@@ -1,5 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/maks.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2016-04-17T15:00:00+03:00</updated><entry><title>Заклинатель змей?</title><link href="https://samael500.github.io/articles/python/zaklinatel-zmei/" rel="alternate"></link><published>2016-04-17T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-04-13:articles/python/zaklinatel-zmei/</id><summary type="html">&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; имеет очень простой синтаксис, и практически всегда ведёт себя
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/maks.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2016-09-26T15:00:00+03:00</updated><entry><title>Отчеты coverage в TeamCity</title><link href="https://samael500.github.io/articles/drugoe/otchety-coverage-v-teamcity/" rel="alternate"></link><published>2016-09-26T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-09-26:articles/drugoe/otchety-coverage-v-teamcity/</id><summary type="html">&lt;p&gt;Мы, в &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; в качестве системы неприрывной
+интеграции используем &lt;a href="https://www.jetbrains.com/teamcity/"&gt;TeamCity&lt;/a&gt;.
+А саму разработку ведем в приватных репозиториях
+на &lt;a href="https://github.com/"&gt;github&lt;/a&gt;. С задачей запуска тестов и публикации
+статуса выполнения вветку на &lt;code&gt;github&lt;/code&gt; &lt;code&gt;TeamCity&lt;/code&gt; справляется отлично. Но
+выводить отчет по покрытию кода
+&lt;a href="https://confluence.jetbrains.com/display/TCD9/Code+Coverage"&gt;изкоробки&lt;/a&gt;
+умеет только для &lt;code&gt;Java&lt;/code&gt; и &lt;code&gt;.NET&lt;/code&gt;, а это не наш профиль.
+Хотелось получить собственную систему, похожую на
+&lt;a href="https://coveralls.io/github/Samael500"&gt;Coveralls&lt;/a&gt; работающую с &lt;code&gt;python&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;В результате статус пулреквеста зависит от проверки покрытия&amp;nbsp;кода.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="pending" class="center" src="/media/teamcity-coverage/github_pending.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="failure" class="center" src="/media/teamcity-coverage/github_failure.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="success" class="center" src="/media/teamcity-coverage/github_success.png" /&gt;&lt;/p&gt;
+&lt;h2 id="formirovanie-otcheta"&gt;&lt;a class="toclink" href="#formirovanie-otcheta"&gt;Формирование&amp;nbsp;отчета&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Первым делом, необходимо сформировать данные о покрытии кода. Делаем это
+с помощью утилиты &lt;a href="https://coverage.readthedocs.io/"&gt;Coverage.py&lt;/a&gt;.
+Т.к. для удобства работы с проектом, мы используем &lt;code&gt;Makefile&lt;/code&gt;,
+то пропишем в нем дополнительные команды, для запуска тестов с покрытием кода,
+и формирования&amp;nbsp;отчета.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;VENV_PATH&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;HOME&lt;span class="k"&gt;)&lt;/span&gt;/venv/bin
+&lt;span class="nv"&gt;PROJ_NAME&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; my_awesome_project
+
+&lt;span class="c"&gt;# ...&lt;/span&gt;
+
+&lt;span class="nf"&gt;ci_test&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;cover_test&lt;/span&gt; &lt;span class="n"&gt;cover_report&lt;/span&gt;
+
+&lt;span class="nf"&gt;cover_test&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;$(&lt;/span&gt;VENV_PATH&lt;span class="k"&gt;)&lt;/span&gt;/coverage run --source&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;PROJ_NAME&lt;span class="k"&gt;)&lt;/span&gt; manage.py &lt;span class="nb"&gt;test&lt;/span&gt; -v &lt;span class="m"&gt;2&lt;/span&gt; --noinput
+
+&lt;span class="nf"&gt;cover_report&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;$(&lt;/span&gt;VENV_PATH&lt;span class="k"&gt;)&lt;/span&gt;/coverage report -m
+    &lt;span class="k"&gt;$(&lt;/span&gt;VENV_PATH&lt;span class="k"&gt;)&lt;/span&gt;/coverage html
+    &lt;span class="k"&gt;$(&lt;/span&gt;VENV_PATH&lt;span class="k"&gt;)&lt;/span&gt;/coverage-badge &amp;gt; htmlcov/coverage.svg
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Команда &lt;code&gt;cover_test&lt;/code&gt; запускает джанговские тесты, и замеряет покрытие кода.
+Команда &lt;code&gt;cover_report&lt;/code&gt; выводит в консоль отчет о покрытии, а так же формирует
+&lt;code&gt;html&lt;/code&gt; отчет и, при помощи утилиты
+&lt;a href="https://github.com/dbrgn/coverage-badge"&gt;coverage-badge&lt;/a&gt; формирует красивый
+беджик со статусом покрытия кода &lt;img alt="badge" src="/media/teamcity-coverage/badge.svg" /&gt;.&lt;/p&gt;
+&lt;p&gt;После того, как исходные данные для отчета подготовлены, мы можем отображать
+результат. Для этого нужно сконфигугрировать сбор артифактов в &lt;code&gt;teamcity&lt;/code&gt;.
+Делается это на вкладке &lt;code&gt;General Settings&lt;/code&gt; в настройках проекта. Мы копируем в
+артифакты папку &lt;code&gt;htmlcov&lt;/code&gt; содержащую отчет и&amp;nbsp;беджик.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="General Settings" class="center shadow" src="/media/teamcity-coverage/artifacts.png" /&gt;&lt;/p&gt;
+&lt;p&gt;После следующего запуска тестов, перейдя во вкладку &lt;code&gt;Artifacts&lt;/code&gt;, можно увидеть
+дерево артифактов данного&amp;nbsp;билда.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Artifacts tree" class="center shadow" src="/media/teamcity-coverage/artifacts_tree.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Сами артифакты так же доступны авторизованым пользователям &lt;code&gt;TeamCity&lt;/code&gt;
+напрямую по ссылкам&amp;nbsp;вида:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;/repository/download/%teamcity.project.id%/%teamcity.build.id%:id/htmlcov/index.html&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/repository/download/%teamcity.project.id%/.lastFinished/htmlcov/index.html&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Более подробно о доступе к артифактам в &lt;a href="https://confluence.jetbrains.com/display/TCD9/Patterns+For+Accessing+Build+Artifacts"&gt;документации&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="uvedomleniia-statusa-na-github"&gt;&lt;a class="toclink" href="#uvedomleniia-statusa-na-github"&gt;Уведомления статуса на&amp;nbsp;Github&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Имея готовый отчет будем отправлять вебхуки на &lt;code&gt;github&lt;/code&gt; с указаним статуса
+покрытия кода. Для этого добавим простые &lt;code&gt;build steps&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Build steps" class="center shadow" src="/media/teamcity-coverage/build_steps.png" /&gt;&lt;/p&gt;
+&lt;h4 id="coverage-pending-hook"&gt;&lt;a class="toclink" href="#coverage-pending-hook"&gt;Coverage pending&amp;nbsp;hook&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Заставляем гитхаб ждать отчета по покрытию&amp;nbsp;кода.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Runner type&lt;/strong&gt; &lt;em&gt;Command&amp;nbsp;Line&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Execute step&lt;/strong&gt; &lt;em&gt;Even if some of the previous steps&amp;nbsp;failed&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Custom&amp;nbsp;script&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;OWNER&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;lt;GITHUB OWNER&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;REPO&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;lt;REPO NAME&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;SHA&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;%build.vcs.number%&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+curl &lt;span class="s2"&gt;&amp;quot;https://api.github.com/repos/&lt;/span&gt;&lt;span class="nv"&gt;$OWNER&lt;/span&gt;&lt;span class="s2"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;$REPO&lt;/span&gt;&lt;span class="s2"&gt;/statuses/&lt;/span&gt;&lt;span class="nv"&gt;$SHA&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    -X POST &lt;span class="se"&gt;\&lt;/span&gt;
+    -H &lt;span class="s2"&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    -H &lt;span class="s2"&gt;&amp;quot;Authorization: token &amp;lt;GITHUB API TOKEN&amp;gt;&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    -d &lt;span class="s1"&gt;&amp;#39;{&lt;/span&gt;
+&lt;span class="s1"&gt;        &amp;quot;state&amp;quot;: &amp;quot;pending&amp;quot;,&lt;/span&gt;
+&lt;span class="s1"&gt;        &amp;quot;description&amp;quot;: &amp;quot;Coverage pending.&amp;quot;,&lt;/span&gt;
+&lt;span class="s1"&gt;        &amp;quot;context&amp;quot;: &amp;quot;continuous-integration/coverage&amp;quot;&lt;/span&gt;
+&lt;span class="s1"&gt;    }&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4 id="badge-copy"&gt;&lt;a class="toclink" href="#badge-copy"&gt;Badge&amp;nbsp;copy&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Копируем сформированный беджик, в папку доступную напрямую через вебсервер.
+Для того, что бы &lt;code&gt;github&lt;/code&gt; имел доступ к беджику без аутентификации в &lt;code&gt;teamcity&lt;/code&gt;.
+Если у вас разрешен гостевой доступ - то этот шаг выполнять не&amp;nbsp;обязательно.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Runner type&lt;/strong&gt; &lt;em&gt;Command&amp;nbsp;Line&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Execute step&lt;/strong&gt; &lt;em&gt;Even if some of the previous steps&amp;nbsp;failed&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Custom&amp;nbsp;script&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;BADGE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/path/to/public/dir/badges/%teamcity.project.id%/%teamcity.build.branch%-coverage.svg&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;DIR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;dirname &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;BADGE&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+mkdir -p &lt;span class="nv"&gt;$DIR&lt;/span&gt;
+cp -f htmlcov/coverage.svg &lt;span class="nv"&gt;$BADGE&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4 id="coverage-finish-hook"&gt;&lt;a class="toclink" href="#coverage-finish-hook"&gt;Coverage finish&amp;nbsp;hook&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;По окончанию тестов, отправляем отчет на&amp;nbsp;гитхаб.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Runner type&lt;/strong&gt; &lt;em&gt;Command&amp;nbsp;Line&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Execute step&lt;/strong&gt; &lt;em&gt;Even if some of the previous steps&amp;nbsp;failed&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Custom&amp;nbsp;script&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;OWNER&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;lt;GITHUB OWNER&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;REPO&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;lt;REPO NAME&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;SHA&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;%build.vcs.number%&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="nv"&gt;REPORT_URL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;http://&amp;lt;YOU TEAMCITY DOMAIN&amp;gt;/repository/download/%teamcity.project.id%/%teamcity.build.id%:id/htmlcov/index.html&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="nv"&gt;COVERAGE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;cat ./htmlcov/index.html &lt;span class="p"&gt;|&lt;/span&gt; grep &lt;span class="s1"&gt;&amp;#39;&amp;lt;span class=&amp;quot;pc_cov&amp;quot;&amp;gt;&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep -o &lt;span class="s1"&gt;&amp;#39;[0-9]\+&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$COVERAGE&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -ge &lt;span class="s2"&gt;&amp;quot;85&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="nv"&gt;STATUS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;success&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="nv"&gt;STATUS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;failure&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+curl &lt;span class="s2"&gt;&amp;quot;https://api.github.com/repos/&lt;/span&gt;&lt;span class="nv"&gt;$OWNER&lt;/span&gt;&lt;span class="s2"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;$REPO&lt;/span&gt;&lt;span class="s2"&gt;/statuses/&lt;/span&gt;&lt;span class="nv"&gt;$SHA&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    -X POST &lt;span class="se"&gt;\&lt;/span&gt;
+    -H &lt;span class="s2"&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    -H &lt;span class="s2"&gt;&amp;quot;Authorization: token &amp;lt;GITHUB API TOKEN&amp;gt;&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    -d &lt;span class="s1"&gt;&amp;#39;{&lt;/span&gt;
+&lt;span class="s1"&gt;        &amp;quot;state&amp;quot;: &amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;$STATUS&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;quot;,&lt;/span&gt;
+&lt;span class="s1"&gt;        &amp;quot;target_url&amp;quot;: &amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;$REPORT_URL&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;quot;,&lt;/span&gt;
+&lt;span class="s1"&gt;        &amp;quot;description&amp;quot;: &amp;quot;Coverage &amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;$COVERAGE&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%&amp;quot;,&lt;/span&gt;
+&lt;span class="s1"&gt;        &amp;quot;context&amp;quot;: &amp;quot;continuous-integration/coverage&amp;quot;&lt;/span&gt;
+&lt;span class="s1"&gt;    }&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;В данном случае, если покрытие менее 85%, то данная проверка будет считаться
+ошибкой, и в гитхабе отметиться красным&amp;nbsp;крестиком.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="fail" class="center shadow" src="/media/teamcity-coverage/coverage_fail.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="success" class="center shadow" src="/media/teamcity-coverage/coverage_success.png" /&gt;&lt;/p&gt;
+&lt;h4 id="bedzhik-v-readme"&gt;&lt;a class="toclink" href="#bedzhik-v-readme"&gt;Беджик в&amp;nbsp;readme&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Для отображения беджика в &lt;code&gt;README.md&lt;/code&gt; добавим ссылку, на последний успешний&amp;nbsp;билд.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;!&lt;span class="o"&gt;[&lt;/span&gt;coverage report&lt;span class="o"&gt;](&lt;/span&gt;http://&amp;lt;TEAMCITY DOMAIN&amp;gt;/badges/&amp;lt;TEAMCITY PROJ ID&amp;gt;/master-coverage.svg&lt;span class="o"&gt;)](&lt;/span&gt;http://&amp;lt;TEAMCITY DOMAIN&amp;gt;/repository/download/&amp;lt;TEAMCITY PROJ ID&amp;gt;/.lastFinished/htmlcov/index.html&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Где &lt;code&gt;/badges/&amp;lt;TEAMCITY PROJ ID&amp;gt;/&lt;/code&gt; доступна для анонимных посетиелей, что бы &lt;code&gt;github&lt;/code&gt; мог закешировать&amp;nbsp;изображение.&lt;/p&gt;
+&lt;p&gt;Теперь в &lt;code&gt;README&lt;/code&gt; виден кликабельный беджик с покрытием&amp;nbsp;кода.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="readme" class="center shadow" src="/media/teamcity-coverage/readme.md.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Кликнув на который, мы попадаем в отчет по покрытию&amp;nbsp;кода.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="report" class="center shadow" src="/media/teamcity-coverage/report.png" /&gt;&lt;/p&gt;</summary><category term="ci"></category><category term="coverage"></category><category term="python"></category><category term="github"></category><category term="teamcity"></category></entry><entry><title>Заклинатель змей?</title><link href="https://samael500.github.io/articles/python/zaklinatel-zmei/" rel="alternate"></link><published>2016-04-17T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-04-13:articles/python/zaklinatel-zmei/</id><summary type="html">&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; имеет очень простой синтаксис, и практически всегда ведёт себя
 предсказуемо. Однако порой происходит нечто&amp;nbsp;невероятное&amp;#8230;&lt;/p&gt;
 &lt;h3 id="nepredskazuemye-spiski"&gt;&lt;a class="toclink" href="#nepredskazuemye-spiski"&gt;Непредсказуемые&amp;nbsp;списки&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[[]]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
