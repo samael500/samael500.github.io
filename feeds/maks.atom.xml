@@ -9,7 +9,8 @@
 умеет только для &lt;code&gt;Java&lt;/code&gt; и &lt;code&gt;.NET&lt;/code&gt;, а это не наш профиль.
 Хотелось получить собственную систему, похожую на
 &lt;a href="https://coveralls.io/github/Samael500"&gt;Coveralls&lt;/a&gt; работающую с &lt;code&gt;python&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;В результате статус пулреквеста зависит от проверки покрытия&amp;nbsp;кода.&lt;/p&gt;
+&lt;p&gt;В результате в пулреквест выводится показатель покрытия кода тестами,
+учитывая необходимый минимум &lt;code&gt;85%&lt;/code&gt;, а также предоставляет ссылку на&amp;nbsp;отчет.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="pending" class="center" src="/media/teamcity-coverage/github_pending.png" /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt="failure" class="center" src="/media/teamcity-coverage/github_failure.png" /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt="success" class="center" src="/media/teamcity-coverage/github_success.png" /&gt;&lt;/p&gt;
