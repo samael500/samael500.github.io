@@ -19,7 +19,7 @@
     <meta property="og:site_name" content="Maks blog"/>
     <meta property="og:type" content="article"/>
     <meta property="og:image" content="https://samael500.github.io/media/teamcity-coverage/banner.png" />
-    <meta property="og:description" content="Мы, в WB—Tech в качестве системы неприрывной интеграции используем TeamCity. А саму разработку ведем в приватных репозиториях на github. С задачей запуска тестов и публикации статуса выполнения вветку на github TeamCity справляется отлично. Но выводить отчет по покрытию кода изкоробки умеет только для Java и .NET, а это не наш профиль. Хотелось получить собственную систему, похожую на Coveralls работающую с python." />
+    <meta property="og:description" content="Мы, в WB—Tech в качестве системы непрерывной интеграции используем TeamCity. А саму разработку ведем в приватных репозиториях на github. С задачей запуска тестов и публикации статуса выполнения в ветку на github TeamCity справляется отлично. Но выводить отчет по покрытию кода из коробки умеет только для Java и .NET, а это не наш профиль. Хотелось получить собственную систему, похожую на Coveralls работающую с python." />
 
     <link rel="canonical" href="https://samael500.github.io/articles/drugoe/otchety-coverage-v-teamcity/" />
 
@@ -141,13 +141,13 @@
         <article class="content">
 
 
-            <p>Мы, в <a href="http://wbtech.pro/"><span class="caps">WB</span>&#8212;Tech</a> в качестве системы неприрывной
+            <p>Мы, в <a href="http://wbtech.pro/"><span class="caps">WB</span>&#8212;Tech</a> в качестве системы непрерывной
 интеграции используем <a href="https://www.jetbrains.com/teamcity/">TeamCity</a>.
 А саму разработку ведем в приватных репозиториях
 на <a href="https://github.com/">github</a>. С задачей запуска тестов и публикации
-статуса выполнения вветку на <code>github</code> <code>TeamCity</code> справляется отлично. Но
+статуса выполнения в ветку на <code>github</code> <code>TeamCity</code> справляется отлично. Но
 выводить отчет по покрытию кода
-<a href="https://confluence.jetbrains.com/display/TCD9/Code+Coverage">изкоробки</a>
+<a href="https://confluence.jetbrains.com/display/TCD9/Code+Coverage">из коробки</a>
 умеет только для <code>Java</code> и <code>.NET</code>, а это не наш профиль.
 Хотелось получить собственную систему, похожую на
 <a href="https://coveralls.io/github/Samael500">Coveralls</a> работающую с <code>python</code>.</p>
@@ -179,27 +179,27 @@
 
 
 <p>Команда <code>cover_test</code> запускает джанговские тесты, и замеряет покрытие кода.
-Команда <code>cover_report</code> выводит в консоль отчет о покрытии, а так же формирует
+Команда <code>cover_report</code> выводит в консоль отчет о покрытии, а также формирует
 <code>html</code> отчет и, при помощи утилиты
 <a href="https://github.com/dbrgn/coverage-badge">coverage-badge</a> формирует красивый
-беджик со статусом покрытия кода <img alt="badge" src="/media/teamcity-coverage/badge.svg" />.</p>
+бейджик со статусом покрытия кода <img alt="badge" src="/media/teamcity-coverage/badge.svg" />.</p>
 <p>После того, как исходные данные для отчета подготовлены, мы можем отображать
-результат. Для этого нужно сконфигугрировать сбор артифактов в <code>teamcity</code>.
+результат. Для этого нужно сконфигурировать сбор артефактов в <code>teamcity</code>.
 Делается это на вкладке <code>General Settings</code> в настройках проекта. Мы копируем в
-артифакты папку <code>htmlcov</code> содержащую отчет и&nbsp;беджик.</p>
+артефакты папку <code>htmlcov</code> содержащую отчет и&nbsp;бейджик.</p>
 <p><img alt="General Settings" class="center shadow" src="/media/teamcity-coverage/artifacts.png" /></p>
 <p>После следующего запуска тестов, перейдя во вкладку <code>Artifacts</code>, можно увидеть
-дерево артифактов данного&nbsp;билда.</p>
+дерево артефактов данного&nbsp;билда.</p>
 <p><img alt="Artifacts tree" class="center shadow" src="/media/teamcity-coverage/artifacts_tree.png" /></p>
-<p>Сами артифакты так же доступны авторизованым пользователям <code>TeamCity</code>
+<p>Сами артефакты также доступны авторизованным пользователям <code>TeamCity</code>
 напрямую по ссылкам&nbsp;вида:</p>
 <ul>
 <li><code>/repository/download/%teamcity.project.id%/%teamcity.build.id%:id/htmlcov/index.html</code></li>
 <li><code>/repository/download/%teamcity.project.id%/.lastFinished/htmlcov/index.html</code></li>
 </ul>
-<p>Более подробно о доступе к артифактам в <a href="https://confluence.jetbrains.com/display/TCD9/Patterns+For+Accessing+Build+Artifacts">документации</a>.</p>
+<p>Более подробно о доступе к артефактам в <a href="https://confluence.jetbrains.com/display/TCD9/Patterns+For+Accessing+Build+Artifacts">документации</a>.</p>
 <h2 id="uvedomleniia-statusa-na-github"><a class="toclink" href="#uvedomleniia-statusa-na-github">Уведомления статуса на&nbsp;Github</a></h2>
-<p>Имея готовый отчет будем отправлять вебхуки на <code>github</code> с указаним статуса
+<p>Имея готовый отчет будем отправлять вебхуки на <code>github</code> с указанием статуса
 покрытия кода. Для этого добавим простые <code>build steps</code>.</p>
 <p><img alt="Build steps" class="center shadow" src="/media/teamcity-coverage/build_steps.png" /></p>
 <h4 id="coverage-pending-hook"><a class="toclink" href="#coverage-pending-hook">Coverage pending&nbsp;hook</a></h4>
@@ -226,8 +226,8 @@ curl <span class="s2">&quot;https://api.github.com/repos/</span><span class="nv"
 
 
 <h4 id="badge-copy"><a class="toclink" href="#badge-copy">Badge&nbsp;copy</a></h4>
-<p>Копируем сформированный беджик, в папку доступную напрямую через вебсервер.
-Для того, что бы <code>github</code> имел доступ к беджику без аутентификации в <code>teamcity</code>.
+<p>Копируем сформированный бейджик, в папку доступную напрямую через вебсервер.
+Для того, чтобы <code>github</code> имел доступ к бейджику без аутентификации в <code>teamcity</code>.
 Если у вас разрешен гостевой доступ - то этот шаг выполнять не&nbsp;обязательно.</p>
 <ul>
 <li><strong>Runner type</strong> <em>Command&nbsp;Line</em></li>
@@ -279,14 +279,14 @@ curl <span class="s2">&quot;https://api.github.com/repos/</span><span class="nv"
 ошибкой, и в гитхабе отметиться красным&nbsp;крестиком.</p>
 <p><img alt="fail" class="center shadow" src="/media/teamcity-coverage/coverage_fail.png" /></p>
 <p><img alt="success" class="center shadow" src="/media/teamcity-coverage/coverage_success.png" /></p>
-<h4 id="bedzhik-v-readme"><a class="toclink" href="#bedzhik-v-readme">Беджик в&nbsp;readme</a></h4>
-<p>Для отображения беджика в <code>README.md</code> добавим ссылку, на последний успешний&nbsp;билд.</p>
+<h4 id="beidzhik-v-readme"><a class="toclink" href="#beidzhik-v-readme">Бейджик в&nbsp;readme</a></h4>
+<p>Для отображения бейджика в <code>README.md</code> добавим ссылку, на последний успешний&nbsp;билд.</p>
 <div class="highlight"><pre><span></span><span class="o">[</span>!<span class="o">[</span>coverage report<span class="o">](</span>http://&lt;TEAMCITY DOMAIN&gt;/badges/&lt;TEAMCITY PROJ ID&gt;/master-coverage.svg<span class="o">)](</span>http://&lt;TEAMCITY DOMAIN&gt;/repository/download/&lt;TEAMCITY PROJ ID&gt;/.lastFinished/htmlcov/index.html<span class="o">)</span>
 </pre></div>
 
 
-<p>Где <code>/badges/&lt;TEAMCITY PROJ ID&gt;/</code> доступна для анонимных посетиелей, что бы <code>github</code> мог закешировать&nbsp;изображение.</p>
-<p>Теперь в <code>README</code> виден кликабельный беджик с покрытием&nbsp;кода.</p>
+<p>Где <code>/badges/&lt;TEAMCITY PROJ ID&gt;/</code> доступна для анонимных посетителей, чтобы <code>github</code> мог закешировать&nbsp;изображение.</p>
+<p>Теперь в <code>README</code> виден кликабельный бейджик с покрытием&nbsp;кода.</p>
 <p><img alt="readme" class="center shadow" src="/media/teamcity-coverage/readme.md.png" /></p>
 <p>Кликнув на который, мы попадаем в отчет по покрытию&nbsp;кода.</p>
 <p><img alt="report" class="center shadow" src="/media/teamcity-coverage/report.png" /></p>
