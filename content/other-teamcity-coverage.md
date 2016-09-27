@@ -5,24 +5,24 @@ Category: Другое
 Tags: ci, coverage, python, github, teamcity
 Image: /media/teamcity-coverage/banner.png
 Summary:
-    Мы, в [WB--Tech](http://wbtech.pro/) в качестве системы неприрывной
+    Мы, в [WB--Tech](http://wbtech.pro/) в качестве системы непрерывной
     интеграции используем [TeamCity](https://www.jetbrains.com/teamcity/).
     А саму разработку ведем в приватных репозиториях
     на [github](https://github.com/). С задачей запуска тестов и публикации
-    статуса выполнения вветку на `github` `TeamCity` справляется отлично. Но
+    статуса выполнения в ветку на `github` `TeamCity` справляется отлично. Но
     выводить отчет по покрытию кода
-    [изкоробки](https://confluence.jetbrains.com/display/TCD9/Code+Coverage)
+    [из коробки](https://confluence.jetbrains.com/display/TCD9/Code+Coverage)
     умеет только для `Java` и `.NET`, а это не наш профиль.
     Хотелось получить собственную систему, похожую на
     [Coveralls](https://coveralls.io/github/Samael500) работающую с `python`.
 
-Мы, в [WB--Tech](http://wbtech.pro/) в качестве системы неприрывной
+Мы, в [WB--Tech](http://wbtech.pro/) в качестве системы непрерывной
 интеграции используем [TeamCity](https://www.jetbrains.com/teamcity/).
 А саму разработку ведем в приватных репозиториях
 на [github](https://github.com/). С задачей запуска тестов и публикации
-статуса выполнения вветку на `github` `TeamCity` справляется отлично. Но
+статуса выполнения в ветку на `github` `TeamCity` справляется отлично. Но
 выводить отчет по покрытию кода
-[изкоробки](https://confluence.jetbrains.com/display/TCD9/Code+Coverage)
+[из коробки](https://confluence.jetbrains.com/display/TCD9/Code+Coverage)
 умеет только для `Java` и `.NET`, а это не наш профиль.
 Хотелось получить собственную систему, похожую на
 [Coveralls](https://coveralls.io/github/Samael500) работающую с `python`.
@@ -62,34 +62,34 @@ cover_report:
 ```
 
 Команда `cover_test` запускает джанговские тесты, и замеряет покрытие кода.
-Команда `cover_report` выводит в консоль отчет о покрытии, а так же формирует
+Команда `cover_report` выводит в консоль отчет о покрытии, а также формирует
 `html` отчет и, при помощи утилиты
 [coverage-badge](https://github.com/dbrgn/coverage-badge) формирует красивый
-беджик со статусом покрытия кода ![badge](/media/teamcity-coverage/badge.svg).
+бейджик со статусом покрытия кода ![badge](/media/teamcity-coverage/badge.svg).
 
 После того, как исходные данные для отчета подготовлены, мы можем отображать
-результат. Для этого нужно сконфигугрировать сбор артифактов в `teamcity`.
+результат. Для этого нужно сконфигурировать сбор артефактов в `teamcity`.
 Делается это на вкладке `General Settings` в настройках проекта. Мы копируем в
-артифакты папку `htmlcov` содержащую отчет и беджик.
+артефакты папку `htmlcov` содержащую отчет и бейджик.
 
 ![General Settings](/media/teamcity-coverage/artifacts.png){.center .shadow}
 
 После следующего запуска тестов, перейдя во вкладку `Artifacts`, можно увидеть
-дерево артифактов данного билда.
+дерево артефактов данного билда.
 
 ![Artifacts tree](/media/teamcity-coverage/artifacts_tree.png){.center .shadow}
 
-Сами артифакты так же доступны авторизованым пользователям `TeamCity`
+Сами артефакты также доступны авторизованным пользователям `TeamCity`
 напрямую по ссылкам вида:
 
 - `/repository/download/%teamcity.project.id%/%teamcity.build.id%:id/htmlcov/index.html`
 - `/repository/download/%teamcity.project.id%/.lastFinished/htmlcov/index.html`
 
-Более подробно о доступе к артифактам в [документации](https://confluence.jetbrains.com/display/TCD9/Patterns+For+Accessing+Build+Artifacts).
+Более подробно о доступе к артефактам в [документации](https://confluence.jetbrains.com/display/TCD9/Patterns+For+Accessing+Build+Artifacts).
 
 ## Уведомления статуса на Github
 
-Имея готовый отчет будем отправлять вебхуки на `github` с указаним статуса
+Имея готовый отчет будем отправлять вебхуки на `github` с указанием статуса
 покрытия кода. Для этого добавим простые `build steps`.
 
 ![Build steps](/media/teamcity-coverage/build_steps.png){.center .shadow}
@@ -120,8 +120,8 @@ curl "https://api.github.com/repos/$OWNER/$REPO/statuses/$SHA" \
 
 #### Badge copy
 
-Копируем сформированный беджик, в папку доступную напрямую через вебсервер.
-Для того, что бы `github` имел доступ к беджику без аутентификации в `teamcity`.
+Копируем сформированный бейджик, в папку доступную напрямую через вебсервер.
+Для того, чтобы `github` имел доступ к бейджику без аутентификации в `teamcity`.
 Если у вас разрешен гостевой доступ - то этот шаг выполнять не обязательно.
 
 - **Runner type** _Command Line_
@@ -177,17 +177,17 @@ curl "https://api.github.com/repos/$OWNER/$REPO/statuses/$SHA" \
 
 ![success](/media/teamcity-coverage/coverage_success.png){.center .shadow}
 
-#### Беджик в readme
+#### Бейджик в readme
 
-Для отображения беджика в `README.md` добавим ссылку, на последний успешний билд.
+Для отображения бейджика в `README.md` добавим ссылку, на последний успешний билд.
 
 ```shell
 [![coverage report](http://<TEAMCITY DOMAIN>/badges/<TEAMCITY PROJ ID>/master-coverage.svg)](http://<TEAMCITY DOMAIN>/repository/download/<TEAMCITY PROJ ID>/.lastFinished/htmlcov/index.html)
 ```
 
-Где `/badges/<TEAMCITY PROJ ID>/` доступна для анонимных посетиелей, что бы `github` мог закешировать изображение.
+Где `/badges/<TEAMCITY PROJ ID>/` доступна для анонимных посетителей, чтобы `github` мог закешировать изображение.
 
-Теперь в `README` виден кликабельный беджик с покрытием кода.
+Теперь в `README` виден кликабельный бейджик с покрытием кода.
 
 ![readme](/media/teamcity-coverage/readme.md.png){.center .shadow}
 
