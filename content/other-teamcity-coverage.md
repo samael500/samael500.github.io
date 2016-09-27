@@ -4,6 +4,8 @@ Modified: 2016-09-26 15:00
 Category: Другое
 Tags: ci, coverage, python, github, teamcity
 Image: /media/teamcity-coverage/banner.png
+Image_width: 735
+Image_height: 455
 Summary:
     Мы, в [WB--Tech](http://wbtech.pro/) в качестве системы непрерывной
     интеграции используем [TeamCity](https://www.jetbrains.com/teamcity/).
