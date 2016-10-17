@@ -1,5 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/python.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2016-04-17T15:00:00+03:00</updated><entry><title>Заклинатель змей?</title><link href="https://samael500.github.io/articles/python/zaklinatel-zmei/" rel="alternate"></link><published>2016-04-17T15:00:00+03:00</published><updated>2016-04-17T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2016-04-13:articles/python/zaklinatel-zmei/</id><summary type="html">&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; имеет очень простой синтаксис, и практически всегда ведёт себя
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/python.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2016-10-10T15:00:00+03:00</updated><entry><title>Быстрый старт на Джанго</title><link href="https://samael500.github.io/articles/python/bystryi-start-na-dzhango/" rel="alternate"></link><published>2016-10-10T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-10-10:articles/python/bystryi-start-na-dzhango/</id><summary type="html">&lt;p&gt;Новый проект это всегда интересно, новые задачи, новый опыт, новые знания.
+Начиная новый проект хочется сразу броситься &amp;#8220;в бой&amp;#8221;. Но перед этим приходится
+тратить время на первоначальную настройку окружения, подключения и установку
+зависимостей, создания структуры, инициализацию проекта. Порой это может
+занимать целый день. Рутинная и во многом однообразная задача написания &lt;code&gt;fab&lt;/code&gt;
+скриптов для запуска виртуального окружения &amp;#8212; охлаждает пыл и отвлекает.
+Для того чтобы пропускать этот шаг, и сразу приступать к разработке.
+Был написан простенький &lt;code&gt;fab&lt;/code&gt; скрипт для фальстарта нового проекта.
+Так что теперь, достаточно написать &lt;code&gt;falstart &amp;lt;название проекта&amp;gt;&lt;/code&gt;,
+выпить чашечку чая и приступать к работе над новым&amp;nbsp;проектом.&lt;/p&gt;
+&lt;p&gt;Мы, в &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; в основном используем следующий стек:
+&lt;a href="https://www.python.org/"&gt;Python 3.x&lt;/a&gt; + &lt;a href="https://www.djangoproject.com/"&gt;Django&lt;/a&gt; +
+&lt;a href="https://www.postgresql.org/"&gt;PostgreSQL&lt;/a&gt; + &lt;a href="http://www.celeryproject.org/"&gt;Celery&lt;/a&gt; +
+&lt;a href="http://redis.io/"&gt;Redis&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;А саму разработку ведем в виртуальном окружении &lt;a href="vagrantup.com"&gt;Vagrant&lt;/a&gt; +
+&lt;a href="https://www.virtualbox.org/"&gt;VirtualBox&lt;/a&gt; под управлением
+&lt;a href="https://www.debian.org/index.html"&gt;&lt;span class="caps"&gt;OS&lt;/span&gt; Debian&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="falstart" class="center" src="/media/falstart/fs-logo.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/Samael500/falstart"&gt;Falstart&lt;/a&gt; позволяет быстро развернуть
+виртуальное окружение и приступить к работе ответив на десяток простых&amp;nbsp;вопросов.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ falstart awesome
+&amp;gt; Django version &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;1.9.5&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; 1.10.2
+&amp;gt; Debian version &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; vagrant box&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;jessie64&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&amp;gt; Python version &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;3.5.1&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; 3.5.2
+&amp;gt; Vagrant box IP-addr &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;10.1.1.123&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; 10.1.1.111
+&amp;gt; Do you nead a POSTGRES? &lt;span class="o"&gt;[&lt;/span&gt;Y/n&lt;span class="o"&gt;]&lt;/span&gt;
+&amp;gt; Do you nead a CELERY? &lt;span class="o"&gt;[&lt;/span&gt;y/N&lt;span class="o"&gt;]&lt;/span&gt; y
+&amp;gt; Do you nead a REDIS? &lt;span class="o"&gt;[&lt;/span&gt;y/N&lt;span class="o"&gt;]&lt;/span&gt; y
+&amp;gt; Do you nead a SENTRY? &lt;span class="o"&gt;[&lt;/span&gt;y/N&lt;span class="o"&gt;]&lt;/span&gt;
+&amp;gt; Database name &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;awesome_db&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&amp;gt; Database user &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;awesome_user&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&amp;gt; Database pass &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;vFeH1uJVN&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;После чего выполняются скрипты и через 10-15 минут будет готова структура&amp;nbsp;проекта.&lt;/p&gt;
+&lt;h3 id="pred-zavisimosti"&gt;&lt;a class="toclink" href="#pred-zavisimosti"&gt;Пред&amp;nbsp;зависимости&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Для работы фальстарта необходим &lt;a href="vagrantup.com"&gt;Vagrant&lt;/a&gt; и &lt;a href="https://www.virtualbox.org/"&gt;VirtualBox&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="ustanovka"&gt;&lt;a class="toclink" href="#ustanovka"&gt;Установка&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Фальстарт доступен для установки через &lt;code&gt;pip&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ pip install falstart
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="rezultat"&gt;&lt;a class="toclink" href="#rezultat"&gt;Результат&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Пример результата: &lt;a href="https://github.com/Samael500/falstart-example"&gt;falstart-example&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;details&gt;
+    &lt;summary&gt;Пример итоговой структуры проекта&lt;/summary&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ tree
+.
+├── awesome
+│   ├── celery.py
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── celery.cpython-35.pyc
+│   │   ├── __init__.cpython-35.pyc
+│   │   ├── settings.cpython-35.pyc
+│   │   ├── settings_local.cpython-35.pyc
+│   │   ├── urls.cpython-35.pyc
+│   │   └── wsgi.cpython-35.pyc
+│   ├── settings_local.py
+│   ├── settings_local.py.example
+│   ├── settings.py
+│   ├── static
+│   │   └── admin
+│   │       ├── css
+│   │       │   ├── base.css
+│   │       │   ├── changelists.css
+│   │       │   ├── dashboard.css
+│   │       │   ├── fonts.css
+│   │       │   ├── forms.css
+│   │       │   ├── login.css
+│   │       │   ├── rtl.css
+│   │       │   └── widgets.css
+│   │       ├── fonts
+│   │       │   ├── LICENSE.txt
+│   │       │   ├── README.txt
+│   │       │   ├── Roboto-Bold-webfont.woff
+│   │       │   ├── Roboto-Light-webfont.woff
+│   │       │   └── Roboto-Regular-webfont.woff
+│   │       ├── img
+│   │       │   ├── calendar-icons.svg
+│   │       │   ├── gis
+│   │       │   │   ├── move_vertex_off.svg
+│   │       │   │   └── move_vertex_on.svg
+│   │       │   ├── icon-addlink.svg
+│   │       │   ├── icon-alert.svg
+│   │       │   ├── icon-calendar.svg
+│   │       │   ├── icon-changelink.svg
+│   │       │   ├── icon-clock.svg
+│   │       │   ├── icon-deletelink.svg
+│   │       │   ├── icon-no.svg
+│   │       │   ├── icon-unknown-alt.svg
+│   │       │   ├── icon-unknown.svg
+│   │       │   ├── icon-yes.svg
+│   │       │   ├── inline-delete.svg
+│   │       │   ├── LICENSE
+│   │       │   ├── README.txt
+│   │       │   ├── search.svg
+│   │       │   ├── selector-icons.svg
+│   │       │   ├── sorting-icons.svg
+│   │       │   ├── tooltag-add.svg
+│   │       │   └── tooltag-arrowright.svg
+│   │       └── js
+│   │           ├── actions.js
+│   │           ├── actions.min.js
+│   │           ├── admin
+│   │           │   ├── DateTimeShortcuts.js
+│   │           │   └── RelatedObjectLookups.js
+│   │           ├── calendar.js
+│   │           ├── cancel.js
+│   │           ├── change_form.js
+│   │           ├── collapse.js
+│   │           ├── collapse.min.js
+│   │           ├── core.js
+│   │           ├── inlines.js
+│   │           ├── inlines.min.js
+│   │           ├── jquery.init.js
+│   │           ├── popup_response.js
+│   │           ├── prepopulate_init.js
+│   │           ├── prepopulate.js
+│   │           ├── prepopulate.min.js
+│   │           ├── SelectBox.js
+│   │           ├── SelectFilter2.js
+│   │           ├── timeparse.js
+│   │           ├── urlify.js
+│   │           └── vendor
+│   │               ├── jquery
+│   │               │   ├── jquery.js
+│   │               │   ├── jquery.min.js
+│   │               │   └── LICENSE-JQUERY.txt
+│   │               └── xregexp
+│   │                   ├── LICENSE-XREGEXP.txt
+│   │                   ├── xregexp.js
+│   │                   └── xregexp.min.js
+│   ├── urls.py
+│   └── wsgi.py
+├── Makefile
+├── manage.py
+├── provision
+│   ├── fabric_provisioner.py
+│   ├── fabric_provisioner.pyc
+│   └── templates
+│       ├── environment.j2
+│       ├── locale.gen.j2
+│       └── nginx-host.j2
+├── requirements-remote.txt
+├── requirements.txt
+├── Vagrantfile
+├── var
+│   ├── celery_awesome_worker.log
+│   ├── celery_awesome_worker.pid
+│   ├── celerybeat-schedule
+│   └── gunicorn.pid
+└── wheels
+    ├── amqp-1.4.9-py2.py3-none-any.whl
+    ├── anyjson-0.3.3-py3-none-any.whl
+    ├── billiard-3.3.0.23-py3-none-any.whl
+    ├── celery-3.1.23-py2.py3-none-any.whl
+    ├── coverage-4.2-cp35-cp35m-linux_x86_64.whl
+    ├── coverage_badge-0.1.2-py3-none-any.whl
+    ├── Django-1.10.2-py2.py3-none-any.whl
+    ├── django_rainbowtests-0.5.1-py3-none-any.whl
+    ├── gunicorn-19.4.5-py2.py3-none-any.whl
+    ├── kombu-3.0.37-py2.py3-none-any.whl
+    ├── mccabe-0.4.0-py2.py3-none-any.whl
+    ├── pep257-0.7.0-py2.py3-none-any.whl
+    ├── pep8-1.7.0-py2.py3-none-any.whl
+    ├── psycopg2-2.6.1-cp35-cp35m-linux_x86_64.whl
+    ├── pyflakes-1.0.0-py2.py3-none-any.whl
+    ├── pylama-7.0.7-py2.py3-none-any.whl
+    ├── pytz-2016.7-py2.py3-none-any.whl
+    └── redis-2.10.5-py2.py3-none-any.whl
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;/details&gt;&lt;/p&gt;
+&lt;p&gt;Теперь можно перейти по адресу указанному в приветственном сообщении &lt;code&gt;Vagrant&lt;/code&gt;а
+и увидеть начальную страницу&amp;nbsp;Джанго.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant: Machine &lt;span class="s1"&gt;&amp;#39;awesome_vagrant&amp;#39;&lt;/span&gt; has a post &lt;span class="sb"&gt;`&lt;/span&gt;vagrant up&lt;span class="sb"&gt;`&lt;/span&gt; message. This is a &lt;span class="nv"&gt;message&lt;/span&gt;
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant: from the creator of the Vagrantfile, and not from Vagrant itself:
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant: awesome dev server successfuly started.
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:     Connect to host with:
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:     http://10.1.1.111/
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:     or over ssh with &lt;span class="sb"&gt;`&lt;/span&gt;vagrant ssh&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:     Admin user credentials:
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:       login: &lt;span class="nv"&gt;root&lt;/span&gt;
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:       password: &lt;span class="nv"&gt;123123&lt;/span&gt;
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="init app" class="center" src="/media/falstart/init_app.png" /&gt;&lt;/p&gt;</summary><category term="python"></category><category term="github"></category><category term="django"></category><category term="vagrant"></category><category term="falstart"></category></entry><entry><title>Заклинатель змей?</title><link href="https://samael500.github.io/articles/python/zaklinatel-zmei/" rel="alternate"></link><published>2016-04-17T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-04-13:articles/python/zaklinatel-zmei/</id><summary type="html">&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; имеет очень простой синтаксис, и практически всегда ведёт себя
 предсказуемо. Однако порой происходит нечто&amp;nbsp;невероятное&amp;#8230;&lt;/p&gt;
 &lt;h3 id="nepredskazuemye-spiski"&gt;&lt;a class="toclink" href="#nepredskazuemye-spiski"&gt;Непредсказуемые&amp;nbsp;списки&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[[]]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
@@ -106,7 +300,7 @@
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;foo&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;span class="n"&gt;this&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; 
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="code"></category><category term="crazy"></category></entry><entry><title>Это Типограф!</title><link href="https://samael500.github.io/articles/python/eto-tipograf/" rel="alternate"></link><published>2015-10-15T15:00:00+03:00</published><updated>2015-10-15T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-10-13:articles/python/eto-tipograf/</id><summary type="html">&lt;p&gt;В одном из проектов была поставлена задача типографировать текст
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="code"></category><category term="crazy"></category></entry><entry><title>Это Типограф!</title><link href="https://samael500.github.io/articles/python/eto-tipograf/" rel="alternate"></link><published>2015-10-15T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2015-10-13:articles/python/eto-tipograf/</id><summary type="html">&lt;p&gt;В одном из проектов была поставлена задача типографировать текст
 перед публикацией. Для этой задачи было решено использовать
 &amp;laquo;Типограф&amp;raquo;&amp;nbsp;Лебедева.&lt;/p&gt;
 &lt;p&gt;У студии Лебедева есть сервис типографирования текста, который
@@ -440,7 +634,7 @@ sys 0m0.008s
 &lt;p&gt;А также, в шаблоне, не забыть работать с &amp;#8220;типографированными&amp;#8221;&amp;nbsp;полями.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;article.typograf_title&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="nf"&gt;default_if_none&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;article.title&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="nf"&gt;safe&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
 &lt;span class="nt"&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;article.typograf_subtitle&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="nf"&gt;default_if_none&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;article.subtitle&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="nf"&gt;safe&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="artlebedev"></category><category term="typograf"></category><category term="django"></category></entry><entry><title>Загрузка видео на youtube</title><link href="https://samael500.github.io/articles/python/zagruzka-video-na-youtube/" rel="alternate"></link><published>2015-08-26T18:00:00+03:00</published><updated>2015-08-26T18:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-22:articles/python/zagruzka-video-na-youtube/</id><summary type="html">&lt;p&gt;В одном из моих собственных проектов, возникла задача автоматической
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="artlebedev"></category><category term="typograf"></category><category term="django"></category></entry><entry><title>Загрузка видео на youtube</title><link href="https://samael500.github.io/articles/python/zagruzka-video-na-youtube/" rel="alternate"></link><published>2015-08-26T18:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2015-08-22:articles/python/zagruzka-video-na-youtube/</id><summary type="html">&lt;p&gt;В одном из моих собственных проектов, возникла задача автоматической
 загрузки видео на канал на &lt;code&gt;youtube&lt;/code&gt;. Делается это достаточно просто, при
 помощи гугловского &lt;code&gt;api&lt;/code&gt; клиента для &lt;code&gt;python&lt;/code&gt;. Единственное затруднение
 вызвало полумагическое получение ключей доступа к &lt;code&gt;api&lt;/code&gt;.&lt;/p&gt;
@@ -798,7 +992,7 @@ curl --data &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="s2"&gt;&am
 &lt;span class="n"&gt;socks&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;wrapmodule&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;httplib2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;httplib2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Http&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;https://l2.io/ip&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="youtube"></category><category term="oauth2"></category><category term="video upload"></category></entry><entry><title>Ралли на браузерах</title><link href="https://samael500.github.io/articles/python/ralli-na-brauzerakh/" rel="alternate"></link><published>2015-04-05T19:30:00+03:00</published><updated>2015-04-05T19:30:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-01:articles/python/ralli-na-brauzerakh/</id><summary type="html">&lt;p&gt;Собственный проект &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; по комментированию
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="youtube"></category><category term="oauth2"></category><category term="video upload"></category></entry><entry><title>Ралли на браузерах</title><link href="https://samael500.github.io/articles/python/ralli-na-brauzerakh/" rel="alternate"></link><published>2015-04-05T19:30:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2015-04-01:articles/python/ralli-na-brauzerakh/</id><summary type="html">&lt;p&gt;Собственный проект &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; по комментированию
 скриншотов &lt;a href="http://coment.me/"&gt;coment.me&lt;/a&gt; на сегодняшний день, для получения
 снимка сайта использует связку &lt;code&gt;selenium + firefox&lt;/code&gt;. Данный подход решает
 задачи получения скриншота, однако тратит достаточно много памяти, и к тому же

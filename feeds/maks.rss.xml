@@ -1,5 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Maks blog</title><link>https://samael500.github.io/</link><description></description><lastBuildDate>Mon, 26 Sep 2016 15:00:00 +0300</lastBuildDate><item><title>Отчеты coverage в TeamCity</title><link>https://samael500.github.io/articles/drugoe/otchety-coverage-v-teamcity/</link><description>&lt;p&gt;Мы, в &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; в качестве системы непрерывной
+<rss version="2.0"><channel><title>Maks blog</title><link>https://samael500.github.io/</link><description></description><lastBuildDate>Mon, 10 Oct 2016 15:00:00 +0300</lastBuildDate><item><title>Быстрый старт на Джанго</title><link>https://samael500.github.io/articles/python/bystryi-start-na-dzhango/</link><description>&lt;p&gt;Новый проект это всегда интересно, новые задачи, новый опыт, новые знания.
+Начиная новый проект хочется сразу броситься &amp;#8220;в бой&amp;#8221;. Но перед этим приходится
+тратить время на первоначальную настройку окружения, подключения и установку
+зависимостей, создания структуры, инициализацию проекта. Порой это может
+занимать целый день. Рутинная и во многом однообразная задача написания &lt;code&gt;fab&lt;/code&gt;
+скриптов для запуска виртуального окружения &amp;#8212; охлаждает пыл и отвлекает.
+Для того чтобы пропускать этот шаг, и сразу приступать к разработке.
+Был написан простенький &lt;code&gt;fab&lt;/code&gt; скрипт для фальстарта нового проекта.
+Так что теперь, достаточно написать &lt;code&gt;falstart &amp;lt;название проекта&amp;gt;&lt;/code&gt;,
+выпить чашечку чая и приступать к работе над новым&amp;nbsp;проектом.&lt;/p&gt;
+&lt;p&gt;Мы, в &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; в основном используем следующий стек:
+&lt;a href="https://www.python.org/"&gt;Python 3.x&lt;/a&gt; + &lt;a href="https://www.djangoproject.com/"&gt;Django&lt;/a&gt; +
+&lt;a href="https://www.postgresql.org/"&gt;PostgreSQL&lt;/a&gt; + &lt;a href="http://www.celeryproject.org/"&gt;Celery&lt;/a&gt; +
+&lt;a href="http://redis.io/"&gt;Redis&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;А саму разработку ведем в виртуальном окружении &lt;a href="vagrantup.com"&gt;Vagrant&lt;/a&gt; +
+&lt;a href="https://www.virtualbox.org/"&gt;VirtualBox&lt;/a&gt; под управлением
+&lt;a href="https://www.debian.org/index.html"&gt;&lt;span class="caps"&gt;OS&lt;/span&gt; Debian&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="falstart" class="center" src="/media/falstart/fs-logo.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/Samael500/falstart"&gt;Falstart&lt;/a&gt; позволяет быстро развернуть
+виртуальное окружение и приступить к работе ответив на десяток простых&amp;nbsp;вопросов.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ falstart awesome
+&amp;gt; Django version &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;1.9.5&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; 1.10.2
+&amp;gt; Debian version &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; vagrant box&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;jessie64&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&amp;gt; Python version &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;3.5.1&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; 3.5.2
+&amp;gt; Vagrant box IP-addr &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;10.1.1.123&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; 10.1.1.111
+&amp;gt; Do you nead a POSTGRES? &lt;span class="o"&gt;[&lt;/span&gt;Y/n&lt;span class="o"&gt;]&lt;/span&gt;
+&amp;gt; Do you nead a CELERY? &lt;span class="o"&gt;[&lt;/span&gt;y/N&lt;span class="o"&gt;]&lt;/span&gt; y
+&amp;gt; Do you nead a REDIS? &lt;span class="o"&gt;[&lt;/span&gt;y/N&lt;span class="o"&gt;]&lt;/span&gt; y
+&amp;gt; Do you nead a SENTRY? &lt;span class="o"&gt;[&lt;/span&gt;y/N&lt;span class="o"&gt;]&lt;/span&gt;
+&amp;gt; Database name &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;awesome_db&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&amp;gt; Database user &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;awesome_user&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&amp;gt; Database pass &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;vFeH1uJVN&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;После чего выполняются скрипты и через 10-15 минут будет готова структура&amp;nbsp;проекта.&lt;/p&gt;
+&lt;h3 id="pred-zavisimosti"&gt;&lt;a class="toclink" href="#pred-zavisimosti"&gt;Пред&amp;nbsp;зависимости&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Для работы фальстарта необходим &lt;a href="vagrantup.com"&gt;Vagrant&lt;/a&gt; и &lt;a href="https://www.virtualbox.org/"&gt;VirtualBox&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="ustanovka"&gt;&lt;a class="toclink" href="#ustanovka"&gt;Установка&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Фальстарт доступен для установки через &lt;code&gt;pip&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ pip install falstart
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="rezultat"&gt;&lt;a class="toclink" href="#rezultat"&gt;Результат&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Пример результата: &lt;a href="https://github.com/Samael500/falstart-example"&gt;falstart-example&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;details&gt;
+    &lt;summary&gt;Пример итоговой структуры проекта&lt;/summary&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ tree
+.
+├── awesome
+│   ├── celery.py
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── celery.cpython-35.pyc
+│   │   ├── __init__.cpython-35.pyc
+│   │   ├── settings.cpython-35.pyc
+│   │   ├── settings_local.cpython-35.pyc
+│   │   ├── urls.cpython-35.pyc
+│   │   └── wsgi.cpython-35.pyc
+│   ├── settings_local.py
+│   ├── settings_local.py.example
+│   ├── settings.py
+│   ├── static
+│   │   └── admin
+│   │       ├── css
+│   │       │   ├── base.css
+│   │       │   ├── changelists.css
+│   │       │   ├── dashboard.css
+│   │       │   ├── fonts.css
+│   │       │   ├── forms.css
+│   │       │   ├── login.css
+│   │       │   ├── rtl.css
+│   │       │   └── widgets.css
+│   │       ├── fonts
+│   │       │   ├── LICENSE.txt
+│   │       │   ├── README.txt
+│   │       │   ├── Roboto-Bold-webfont.woff
+│   │       │   ├── Roboto-Light-webfont.woff
+│   │       │   └── Roboto-Regular-webfont.woff
+│   │       ├── img
+│   │       │   ├── calendar-icons.svg
+│   │       │   ├── gis
+│   │       │   │   ├── move_vertex_off.svg
+│   │       │   │   └── move_vertex_on.svg
+│   │       │   ├── icon-addlink.svg
+│   │       │   ├── icon-alert.svg
+│   │       │   ├── icon-calendar.svg
+│   │       │   ├── icon-changelink.svg
+│   │       │   ├── icon-clock.svg
+│   │       │   ├── icon-deletelink.svg
+│   │       │   ├── icon-no.svg
+│   │       │   ├── icon-unknown-alt.svg
+│   │       │   ├── icon-unknown.svg
+│   │       │   ├── icon-yes.svg
+│   │       │   ├── inline-delete.svg
+│   │       │   ├── LICENSE
+│   │       │   ├── README.txt
+│   │       │   ├── search.svg
+│   │       │   ├── selector-icons.svg
+│   │       │   ├── sorting-icons.svg
+│   │       │   ├── tooltag-add.svg
+│   │       │   └── tooltag-arrowright.svg
+│   │       └── js
+│   │           ├── actions.js
+│   │           ├── actions.min.js
+│   │           ├── admin
+│   │           │   ├── DateTimeShortcuts.js
+│   │           │   └── RelatedObjectLookups.js
+│   │           ├── calendar.js
+│   │           ├── cancel.js
+│   │           ├── change_form.js
+│   │           ├── collapse.js
+│   │           ├── collapse.min.js
+│   │           ├── core.js
+│   │           ├── inlines.js
+│   │           ├── inlines.min.js
+│   │           ├── jquery.init.js
+│   │           ├── popup_response.js
+│   │           ├── prepopulate_init.js
+│   │           ├── prepopulate.js
+│   │           ├── prepopulate.min.js
+│   │           ├── SelectBox.js
+│   │           ├── SelectFilter2.js
+│   │           ├── timeparse.js
+│   │           ├── urlify.js
+│   │           └── vendor
+│   │               ├── jquery
+│   │               │   ├── jquery.js
+│   │               │   ├── jquery.min.js
+│   │               │   └── LICENSE-JQUERY.txt
+│   │               └── xregexp
+│   │                   ├── LICENSE-XREGEXP.txt
+│   │                   ├── xregexp.js
+│   │                   └── xregexp.min.js
+│   ├── urls.py
+│   └── wsgi.py
+├── Makefile
+├── manage.py
+├── provision
+│   ├── fabric_provisioner.py
+│   ├── fabric_provisioner.pyc
+│   └── templates
+│       ├── environment.j2
+│       ├── locale.gen.j2
+│       └── nginx-host.j2
+├── requirements-remote.txt
+├── requirements.txt
+├── Vagrantfile
+├── var
+│   ├── celery_awesome_worker.log
+│   ├── celery_awesome_worker.pid
+│   ├── celerybeat-schedule
+│   └── gunicorn.pid
+└── wheels
+    ├── amqp-1.4.9-py2.py3-none-any.whl
+    ├── anyjson-0.3.3-py3-none-any.whl
+    ├── billiard-3.3.0.23-py3-none-any.whl
+    ├── celery-3.1.23-py2.py3-none-any.whl
+    ├── coverage-4.2-cp35-cp35m-linux_x86_64.whl
+    ├── coverage_badge-0.1.2-py3-none-any.whl
+    ├── Django-1.10.2-py2.py3-none-any.whl
+    ├── django_rainbowtests-0.5.1-py3-none-any.whl
+    ├── gunicorn-19.4.5-py2.py3-none-any.whl
+    ├── kombu-3.0.37-py2.py3-none-any.whl
+    ├── mccabe-0.4.0-py2.py3-none-any.whl
+    ├── pep257-0.7.0-py2.py3-none-any.whl
+    ├── pep8-1.7.0-py2.py3-none-any.whl
+    ├── psycopg2-2.6.1-cp35-cp35m-linux_x86_64.whl
+    ├── pyflakes-1.0.0-py2.py3-none-any.whl
+    ├── pylama-7.0.7-py2.py3-none-any.whl
+    ├── pytz-2016.7-py2.py3-none-any.whl
+    └── redis-2.10.5-py2.py3-none-any.whl
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;/details&gt;&lt;/p&gt;
+&lt;p&gt;Теперь можно перейти по адресу указанному в приветственном сообщении &lt;code&gt;Vagrant&lt;/code&gt;а
+и увидеть начальную страницу&amp;nbsp;Джанго.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant: Machine &lt;span class="s1"&gt;&amp;#39;awesome_vagrant&amp;#39;&lt;/span&gt; has a post &lt;span class="sb"&gt;`&lt;/span&gt;vagrant up&lt;span class="sb"&gt;`&lt;/span&gt; message. This is a &lt;span class="nv"&gt;message&lt;/span&gt;
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant: from the creator of the Vagrantfile, and not from Vagrant itself:
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant: awesome dev server successfuly started.
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:     Connect to host with:
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:     http://10.1.1.111/
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:     or over ssh with &lt;span class="sb"&gt;`&lt;/span&gt;vagrant ssh&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:     Admin user credentials:
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:       login: &lt;span class="nv"&gt;root&lt;/span&gt;
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:       password: &lt;span class="nv"&gt;123123&lt;/span&gt;
+&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; awesome_vagrant:
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="init app" class="center" src="/media/falstart/init_app.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Mon, 10 Oct 2016 15:00:00 +0300</pubDate><guid isPermaLink="false">tag:samael500.github.io,2016-10-10:articles/python/bystryi-start-na-dzhango/</guid><category>python</category><category>github</category><category>django</category><category>vagrant</category><category>falstart</category></item><item><title>Отчеты coverage в TeamCity</title><link>https://samael500.github.io/articles/drugoe/otchety-coverage-v-teamcity/</link><description>&lt;p&gt;Мы, в &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; в качестве системы непрерывной
 интеграции используем &lt;a href="https://www.jetbrains.com/teamcity/"&gt;TeamCity&lt;/a&gt;.
 А саму разработку ведем в приватных репозиториях
 на &lt;a href="https://github.com/"&gt;github&lt;/a&gt;. С задачей запуска тестов и публикации
@@ -148,7 +342,7 @@ curl &lt;span class="s2"&gt;&amp;quot;https://api.github.com/repos/&lt;/span&gt;
 &lt;p&gt;Теперь в &lt;code&gt;README&lt;/code&gt; виден кликабельный бейджик с покрытием&amp;nbsp;кода.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="readme" class="center shadow" src="/media/teamcity-coverage/readme.md.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Кликнув на который, мы попадаем в отчет по покрытию&amp;nbsp;кода.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="report" class="center shadow" src="/media/teamcity-coverage/report.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Mon, 26 Sep 2016 15:00:00 +0300</pubDate><guid isPermaLink="false">tag:samael500.github.io,2016-09-26:articles/drugoe/otchety-coverage-v-teamcity/</guid><category>ci</category><category>coverage</category><category>python</category><category>github</category><category>teamcity</category></item><item><title>Заклинатель змей?</title><link>https://samael500.github.io/articles/python/zaklinatel-zmei/</link><description>&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; имеет очень простой синтаксис, и практически всегда ведёт себя
+&lt;p&gt;&lt;img alt="report" class="center shadow" src="/media/teamcity-coverage/report.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Mon, 26 Sep 2016 15:00:00 +0300</pubDate><guid isPermaLink="false">tag:samael500.github.io,2016-09-26:articles/drugoe/otchety-coverage-v-teamcity/</guid><category>ci</category><category>coverage</category><category>python</category><category>github</category><category>teamcity</category><category>best</category></item><item><title>Заклинатель змей?</title><link>https://samael500.github.io/articles/python/zaklinatel-zmei/</link><description>&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; имеет очень простой синтаксис, и практически всегда ведёт себя
 предсказуемо. Однако порой происходит нечто&amp;nbsp;невероятное&amp;#8230;&lt;/p&gt;
 &lt;h3 id="nepredskazuemye-spiski"&gt;&lt;a class="toclink" href="#nepredskazuemye-spiski"&gt;Непредсказуемые&amp;nbsp;списки&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[[]]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
