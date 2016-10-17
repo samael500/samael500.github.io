@@ -3,7 +3,7 @@ Date: 2016-10-10 15:00
 Modified: 2016-10-10 15:00
 Category: Python
 Tags: python, github, django, vagrant, falstart
-Image: /media/teamcity-coverage/banner.jpg
+Image: /media/falstart/falstart.png
 Image_width: 735
 Image_height: 455
 Summary:
@@ -18,6 +18,8 @@ Summary:
     простенький `fab` скрипт для фальстарта нового проекта.
     Так что теперь, достаточно написать `falstart <название проекта>`,
     выпить чашечку чая и приступать к работе над новым проектом.
+
+![falstart](/media/falstart/fs-logo.svg){.center}
 
 Новый проект это всегда интересно, новые задачи, новый опыт, новые знания.
 Начиная новый проект хочется сразу броситься "в бой". Но перед этим приходится
