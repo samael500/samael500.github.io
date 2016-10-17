@@ -4,8 +4,8 @@ Modified: 2016-10-10 15:00
 Category: Python
 Tags: python, github, django, vagrant, falstart
 Image: /media/falstart/falstart.png
-Image_width: 735
-Image_height: 455
+Image_width: 1280
+Image_height: 791
 Summary:
     Новый проект это всегда интересно, новые задачи, новый опыт,
     новые знания. Начиная новый проект хочется сразу броситься "в бой".
