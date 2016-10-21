@@ -51,6 +51,7 @@ SOCIAL = (
     ('<i class="fa-li fa fa-twitter"></i> Twitter', 'https://twitter.com/samael500'),
     ('<i class="fa-li fa fa-github"></i> Github', 'https://github.com/samael500'),
     ('<i class="fa-li fa fa-linkedin"></i> LinkedIn', 'https://www.linkedin.com/in/samael500'),
+    # ('<i class="fa-li fa fa-stack-overflow"></i> StackOverflow', 'http://stackoverflow.com/story/samael500'),
 )
 # links and usernames
 TWITTER_USERNAME = 'samael500'
