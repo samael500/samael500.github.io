@@ -70,6 +70,7 @@ RELATIVE_URLS = True
 CACHE_CONTENT = False
 STATIC_PATHS = ['icons', 'media', 'extra', 'stuff', ]
 EXTRA_PATH_METADATA = {
+    'stuff/nojekyll': {'path': '.nojekyll'},
     'stuff/robots.txt': {'path': 'robots.txt'},
     'stuff/CNAME': {'path': 'CNAME'},
     'stuff/google57a1afa03280f644.html': {'path': 'google57a1afa03280f644.html'},
