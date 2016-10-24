@@ -1,4 +1,4 @@
-Title: Отчеты coverage в TeamCity
+Title: xxx
 Date: 2016-10-25 15:00
 Modified: 2016-10-25 15:00
 Category: Другое
@@ -29,3 +29,25 @@ Summary:
 использовать `enterprise`. Триал у нас закончился, всязи с чем было решено
 хостить боксы на своем сервере. А сделали мы это с помощью [lua](https://www.lua.org/).
 
+Версийность боксов в `Vagrant` описывается при помощи `json`
+[документа](https://www.vagrantup.com/docs/boxes/format.html).
+
+```json
+{
+  "name": "hashicorp/precise64",
+  "description": "This box contains Ubuntu 12.04 LTS 64-bit.",
+  "versions": [
+    {
+      "version": "0.1.0",
+      "providers": [
+        {
+          "name": "virtualbox",
+          "url": "http://somewhere.com/precise64_010_virtualbox.box",
+          "checksum_type": "sha1",
+          "checksum": "foo"
+        }
+      ]
+    }
+  ]
+}
+```
