@@ -2,7 +2,7 @@ Title: Отчеты coverage в TeamCity
 Date: 2016-09-26 15:00
 Modified: 2016-09-26 15:00
 Category: Другое
-Tags: ci, coverage, python, github, teamcity, best
+Tags: ci, coverage, python, github, teamcity, wb-tech, best
 Image: /media/teamcity-coverage/banner.png
 Image_width: 735
 Image_height: 455
