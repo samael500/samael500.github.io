@@ -140,6 +140,56 @@ Hello world!
 
 ### Vagrant метаданные
 
+#### Настройка Nginx
+
+На сервере мы складываем боксы в директорию `hosted`, создавая поддиректорию
+для каждого проекта. Сами боксы в которой хранятся файлами со строго указанным
+форматом имени `{provider}-{version.subversion}.box`.
+
+Формируя примерно такое дерево:
+
+```shell
+$ tree hosted/
+hosted/
+├── foo
+│   ├── docker-1.0.box
+│   ├── docker-1.3.box
+│   ├── virtualbox-1.0.box
+│   ├── virtualbox-1.4.box
+│   └── virtualbox-1.7.box
+└── bar
+    ├── virtualbox-1.0.box
+    ├── virtualbox-1.1.box
+    └── virtualbox-1.2.box
+
+2 directories, 8 files
+```
+
+Настроим `nginx` так, чтобы для любого бокса -- начиналось непосредственное скачивание,
+а для имени проекта, возвращались вычисленные метаданные.
+
+```Nginx
+server {
+    listen    80;
+
+    set $box_url 'http://10.1.1.111/%s/%s-%s.box';
+    set $box_prefix '/home/vagrant/proj/hosted/';
+
+    location ~ /*\.box$ {
+        root /home/vagrant/proj/hosted;
+        # just return box
+    }
+
+    location ~ /(?<box_name>\w+)/?$ {
+        content_by_lua_file /home/vagrant/proj/app/handler.lua;
+    }
+}
+```
+
+Переменные `$box_url` и `$box_prefix` будут использовать при формировании метаданных.
+
+#### Вычисление метаданных с помощью Lua
+
 Приступим теперь непосредственно к формированию метаданных
 для версирования `Vagrant` боксов.
 
