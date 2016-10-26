@@ -3,9 +3,9 @@ Date: 2016-10-25 15:00
 Modified: 2016-10-25 15:00
 Category: Другое
 Tags: vagrant, lua, nginx, self-hosted, wb-tech, best
-Image: /media/teamcity-coverage/banner.png
-Image_width: 735
-Image_height: 455
+Image: /media/lua-vagrant/lua-vagrant.png
+Image_width: 1280
+Image_height: 791
 Summary:
     Для удобного процесса разработки, быстрого переключения между проектами и
     эффективного взаимодействия бэкенд и фронтенд команд. Мы, в
