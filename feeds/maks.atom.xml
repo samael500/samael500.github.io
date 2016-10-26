@@ -1,5 +1,289 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/maks.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2016-10-10T15:00:00+03:00</updated><entry><title>Быстрый старт на Джанго</title><link href="https://samael500.github.io/articles/python/bystryi-start-na-dzhango/" rel="alternate"></link><published>2016-10-10T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-10-10:articles/python/bystryi-start-na-dzhango/</id><summary type="html">&lt;p&gt;Новый проект это всегда интересно, новые задачи, новый опыт, новые знания.
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/maks.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2016-10-25T15:00:00+03:00</updated><entry><title>Собственное хранилище версированных Vagrant боксов с помощью Nginx Lua</title><link href="https://samael500.github.io/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-lua/" rel="alternate"></link><published>2016-10-25T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-10-25:articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-lua/</id><summary type="html">&lt;p&gt;Для удобного процесса разработки, быстрого переключения между проектами и
+эффективного взаимодействия бэкенд и фронтенд команд. Мы, в
+&lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt;, работаем в виртуальном окружении
+&lt;a href="https://www.vagrantup.com/"&gt;Vagrant&lt;/a&gt; + &lt;a href="https://www.virtualbox.org/"&gt;VirtualBox&lt;/a&gt;.
+&lt;code&gt;Vagrant&lt;/code&gt; &amp;#8212; прекрасный менеджер окружения, а для ускорения развертывания
+виртуальной машины можно использовать компилированные, версированные боксы.
+Хостить их можно на &lt;a href="https://atlas.hashicorp.com/boxes/search"&gt;родном сервере&lt;/a&gt;,
+но триал &lt;code&gt;Vagrant enterprise&lt;/code&gt; у нас закончился, в связи с чем было решено
+хостить боксы самостоятельно. А сделали мы это с помощью &lt;a href="https://www.lua.org/"&gt;Lua&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Версийность боксов в &lt;code&gt;Vagrant&lt;/code&gt; описывается при помощи &lt;code&gt;json&lt;/code&gt;
+&lt;a href="https://www.vagrantup.com/docs/boxes/format.html"&gt;документа&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;box_name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;description&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;This box description.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;versions&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;42.0&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;quot;providers&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+                &lt;span class="p"&gt;{&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;virtualbox&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://somewhere.com/precise64_010_virtualbox.box&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;quot;checksum_type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sha1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;quot;checksum&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;
+                &lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Далее, в самом &lt;code&gt;Vagrantfile&lt;/code&gt; нужно указывать путь к метаданным в атрибуте &lt;code&gt;config.vm.box_url&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;box_name&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_version&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;42.0&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://somewhere.com/path/to/metadata.json&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Каждый раз при обновлении версии бокса, описывать данный документ вручную, а
+потом загружать на сервер вместе с новым боксом, было бы слишком скучно.
+Делать для этого какой либо бэкенд нецелесообразно. Когда можно обойтись одним
+лишь &lt;code&gt;Nginx&lt;/code&gt; с дополнительным &lt;a href="https://www.nginx.com/resources/wiki/modules/lua/"&gt;модулем&lt;/a&gt;.
+Так что формирование метаданных сделано при помощи простого скрипта на &lt;code&gt;Lua&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id="daleko-li-do-luny"&gt;&lt;a class="toclink" href="#daleko-li-do-luny"&gt;Далеко ли до&amp;nbsp;Луны?&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;Lua&lt;/code&gt; (с порт. — &amp;#8221;луна&amp;#8221;) — скриптовый язык программирования,
+разработанный в подразделении &lt;code&gt;Tecgraf&lt;/code&gt; Католического университета
+Рио-де-Жанейро. Интерпретатор языка является свободно
+распространяемым, с открытыми исходными текстами на языке&amp;nbsp;Си.&lt;/p&gt;
+&lt;p&gt;По возможностям, идеологии и реализации язык ближе всего к &lt;code&gt;JavaScript&lt;/code&gt;,
+однако &lt;code&gt;Lua&lt;/code&gt; отличается более мощными и гораздо более гибкими конструкциями.
+Хотя &lt;code&gt;Lua&lt;/code&gt; не содержит понятия класса и объекта в явном виде,
+механизмы объектно-ориентированного программирования, включая множественное
+наследование, легко реализуются с использованием метатаблиц, которые также
+отвечают за перегрузку операций и т. п. Реализуемая модель
+объектно-ориентированного программирования — прототипная (как и в &lt;code&gt;JavaScript&lt;/code&gt;).&lt;/p&gt;
+&lt;h3 id="ustanovka-i-zavisimosti"&gt;&lt;a class="toclink" href="#ustanovka-i-zavisimosti"&gt;Установка и&amp;nbsp;зависимости&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Описание приведено для операционных систем семейства &lt;code&gt;Debian&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Прежде всего нам потребуется &lt;code&gt;Nginx&lt;/code&gt; с модулем
+&lt;a href="https://github.com/openresty/lua-nginx-module"&gt;lua-nginx-module&lt;/a&gt;.
+Собрать его можно вручную, но проще установить готовый пакет
+&lt;a href="https://packages.debian.org/ru/sid/nginx-extras"&gt;nginx-extras&lt;/a&gt;,
+который содержит множество полезных&amp;nbsp;модулей.&lt;/li&gt;
+&lt;li&gt;Также не будет лишним интерпретатор &lt;code&gt;Lua&lt;/code&gt;, чтобы оттестировать скрипт
+в интерактивной&amp;nbsp;консоли.&lt;/li&gt;
+&lt;li&gt;Для компиляции модулей, потребуется утилита &lt;code&gt;make&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Время собирать лунные камни, нам будет нужен менеджер пакетов &lt;a href="https://luarocks.org/"&gt;luarocks&lt;/a&gt;.&lt;ul&gt;
+&lt;li&gt;Для поиска файлов в директории, будем использовать модуль &lt;a href="http://luaposix.github.io/luaposix/"&gt;luaposix&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Ну и для конвертации словаря в &lt;code&gt;JSON&lt;/code&gt; установим &lt;a href="http://json.luaforge.net/"&gt;JSON4Lua&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo apt-get -y install make nginx-extras lua5.1 luarocks
+$ &lt;span class="c1"&gt;# install lua modules&lt;/span&gt;
+$ sudo luarocks install luaposix
+$ sudo luarocks install JSON4Lua
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="zdravstvui-podlunnyi-mir"&gt;&lt;a class="toclink" href="#zdravstvui-podlunnyi-mir"&gt;Здравствуй, подлунный&amp;nbsp;мир!&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;Здравствуй, мир!&amp;#8221; на &lt;code&gt;Lua&lt;/code&gt;, так же прост и прекрасен, как и на &lt;code&gt;Python&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Lua&lt;/span&gt; &lt;span class="mf"&gt;5.1.5&lt;/span&gt;  &lt;span class="n"&gt;Copyright&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1994&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2012&lt;/span&gt; &lt;span class="n"&gt;Lua&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PUC&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Rio&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;Hello world!&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;Hello&lt;/span&gt; &lt;span class="n"&gt;world&lt;/span&gt;&lt;span class="err"&gt;!&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь попробуем тоже самое при помощи полнофункционального
+&lt;a href="https://github.com/openresty/lua-nginx-module#nginx-api-for-lua"&gt;Nginx Lua &lt;span class="caps"&gt;API&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;server&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kn"&gt;listen&lt;/span&gt;    &lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="kn"&gt;location&lt;/span&gt; &lt;span class="s"&gt;/hello-world&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kn"&gt;content_by_lua&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
+            &lt;span class="s"&gt;ngx.header.content_type&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;text/plain&amp;quot;&lt;/span&gt;
+            &lt;span class="s"&gt;ngx.say(&amp;quot;Hello&lt;/span&gt; &lt;span class="s"&gt;world!&amp;quot;)&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ curl http://10.1.1.111/hello-world
+Hello world!
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Для исполнения &lt;code&gt;Lua&lt;/code&gt; скрипта, служит директива &lt;code&gt;content_by_lua&lt;/code&gt;,
+для которого &lt;code&gt;Nginx&lt;/code&gt; ожидает получить ответ через &lt;code&gt;API&lt;/code&gt;. Если скрипт большой,
+то не обязательно описывать его внутри конфига, достаточно лишь подключить
+через директиву &lt;code&gt;content_by_lua_file&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id="vagrant-metadannye"&gt;&lt;a class="toclink" href="#vagrant-metadannye"&gt;Vagrant&amp;nbsp;метаданные&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Приступим теперь непосредственно к формированию метаданных
+для версирования &lt;code&gt;Vagrant&lt;/code&gt; боксов.&lt;/p&gt;
+&lt;p&gt;Идея будет заключаться в том, что по запросу, &lt;code&gt;Lua&lt;/code&gt; будет осуществлять поиск
+сохраненных боксов в заданной директории на сервере, вычислять их хешсуммы,
+и формировать ответ в формате метаданных &lt;code&gt;vagrant&lt;/code&gt;а.&lt;/p&gt;
+&lt;p&gt;Используя &lt;a href="https://luaposix.github.io/luaposix/modules/posix.glob.html"&gt;glob&lt;/a&gt;
+из библиотеки &lt;code&gt;posix&lt;/code&gt; найдем все&amp;nbsp;боксы.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;box_root&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_prefix&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_name&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt;/&amp;#39;&lt;/span&gt;
+&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;posix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;posix&amp;quot;&lt;/span&gt;
+&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;glob&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;posix&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;glob&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;box_root&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt;*.box&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- Если боксы не найдены, можно сразу возвращать 404&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;glob&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTTP_NOT_FOUND&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTTP_NOT_FOUND&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Итеративно пройдем по найденным боксам, и сформируем словарь с найденными&amp;nbsp;версиями.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;versions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+&lt;span class="c1"&gt;-- Discover the boxes&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;box&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;ipairs&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;glob&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="c1"&gt;-- Обрабатываем найденый бокс, определяя версию и формируя описание&lt;/span&gt;
+    &lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;provider&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;make_provider&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;box&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;versions&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="kc"&gt;nil&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+            &lt;span class="c1"&gt;-- Если версия встречается впервые, создаем запись для новой версии&lt;/span&gt;
+            &lt;span class="n"&gt;versions&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="n"&gt;providers&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;provider&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;
+            &lt;span class="c1"&gt;-- Если версия уже была описана, обновляем список провайдеров&lt;/span&gt;
+            &lt;span class="nb"&gt;table.insert&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;versions&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt;providers&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;provider&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;end&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Для вычисления хешсуммы больших файлов боксов воспользуемся утилитами операционной системы.
+Такими как &lt;code&gt;sha1sum&lt;/code&gt;, &lt;code&gt;sha256sum&lt;/code&gt;, &lt;code&gt;md5sum&lt;/code&gt;&amp;#8230;
+Делается это с помощью вызова процесса через &lt;code&gt;io.popen&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt;sha1&amp;#39;&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;get_hash&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filepath&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c1"&gt;-- Вычисляем хешсумму используя вызов консольной утилиты sha1sum&lt;/span&gt;
+    &lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;command&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;string.format&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt;%ssum %s | cut -d &amp;quot; &amp;quot; -f1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;filepath&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;hashsum&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;assert&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;io.popen&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt;r&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;string.gsub&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hashsum&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt;*a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;hashsum&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Функция &lt;code&gt;make_provider&lt;/code&gt; выполняется для каждого найденного бокса.
+Подразумевается, что боксы хранятся на сервере со строго заданным форматом имени:
+&lt;code&gt;{provider}-{version.subversion}.box&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Разбираем версию и имя провайдера, регуляркой, после чего формируем словарь,
+описывающий данный&amp;nbsp;бокс.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;make_provider&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filepath&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c1"&gt;-- Make vagrant provider from given file&lt;/span&gt;
+    &lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;box_provider&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;box_version&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;string.match&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;filepath&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;string.format&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt;%s(%%a+)-(.+).box&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;box_root&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;-- Название провайдера virtualbox или docker&lt;/span&gt;
+        &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;box_provider&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="c1"&gt;-- Прямая ссылка на бокс, которую будет запрашивать vagrant&lt;/span&gt;
+        &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;string.format&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;box_provider&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;box_version&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+        &lt;span class="c1"&gt;-- Алгоритм хешсуммы sha1, sha256, md5&lt;/span&gt;
+        &lt;span class="n"&gt;checksum_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="c1"&gt;-- Строка со значением хешсуммы&lt;/span&gt;
+        &lt;span class="n"&gt;checksum&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_hash&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filepath&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="n"&gt;box_version&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Обработав все боксы и сформировав список версий, обернем всё в дополнительный&amp;nbsp;словарь.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;-- Make result response&lt;/span&gt;
+&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;vagrant&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;description&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;string.format&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;Boxes for %s proj&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_name&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="n"&gt;versions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;pairs&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;versions&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="nb"&gt;table.insert&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;vagrant&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt;versions&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ответ сервера &lt;code&gt;JSON&lt;/code&gt; с найденными&amp;nbsp;версиями.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;content_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;application/json; charset=utf-8&amp;quot;&lt;/span&gt;
+&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;json&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;say&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;vagrant&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="lunnoe-zatmenie-vmesto-zakliucheniia"&gt;&lt;a class="toclink" href="#lunnoe-zatmenie-vmesto-zakliucheniia"&gt;Лунное затмение (вместо&amp;nbsp;заключения)&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Полученный скрипт формирует &lt;code&gt;JSON&lt;/code&gt; ответ содержащий метаинформацию о&amp;nbsp;боксах.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ curl http://10.1.1.111/example &lt;span class="p"&gt;|&lt;/span&gt; jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+&lt;span class="m"&gt;100&lt;/span&gt;   &lt;span class="m"&gt;943&lt;/span&gt;    &lt;span class="m"&gt;0&lt;/span&gt;   &lt;span class="m"&gt;943&lt;/span&gt;    &lt;span class="m"&gt;0&lt;/span&gt;     &lt;span class="m"&gt;0&lt;/span&gt;  &lt;span class="m"&gt;13412&lt;/span&gt;      &lt;span class="m"&gt;0&lt;/span&gt; --:--:-- --:--:-- --:--:-- 13471
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;versions&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;1.7&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;providers&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://10.1.1.111/example/virtualbox-1.7.box&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;3221c0fd58a4b2430efc5eeaf09cb8eaf877f3a9&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;virtualbox&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum_type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sha1&amp;quot;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;1.3&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;providers&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://10.1.1.111/example/docker-1.3.box&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;def7148aa7ded879dbf5944af4785c2b09aba97a&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;docker&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum_type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sha1&amp;quot;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;1.4&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;providers&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://10.1.1.111/example/virtualbox-1.4.box&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;63b06d8c065f5c2522c356d4d6ceb718ec3f8198&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;virtualbox&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum_type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sha1&amp;quot;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;1.0&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;providers&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://10.1.1.111/example/docker-1.0.box&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;65cb550765d251604dcfeedc36ea61f66ce205c4&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;docker&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum_type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sha1&amp;quot;&lt;/span&gt;
+        &lt;span class="p"&gt;},&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://10.1.1.111/example/virtualbox-1.0.box&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;c0a9d5c3d6679cfcc4b1374e3ad42465f3dd596e&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;virtualbox&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum_type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sha1&amp;quot;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="p"&gt;],&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;example&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;description&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Boxes for example proj&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Полный пример скрипта можно посмотреть в репозитории на
+&lt;a href="https://github.com/Samael500/ngx-vagrant"&gt;github&lt;/a&gt;. А при желании
+поиграться запустив настроенный &lt;code&gt;Vagrant&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;О том, как ещё можно интересно использовать связку &lt;code&gt;Nginx&lt;/code&gt; и &lt;code&gt;Lua&lt;/code&gt;, можно
+прочитать в статье &lt;a href="http://dizballanze.com/drugoe/primenenie-nginx-lua-dlia-obrabotki-prostykh-form/"&gt;Применение Nginx + Lua для обработки контактной&amp;nbsp;формы&lt;/a&gt;&lt;/p&gt;</summary><category term="vagrant"></category><category term="lua"></category><category term="nginx"></category><category term="self-hosted"></category><category term="wb-tech"></category><category term="best"></category></entry><entry><title>Быстрый старт на Джанго</title><link href="https://samael500.github.io/articles/python/bystryi-start-na-dzhango/" rel="alternate"></link><published>2016-10-10T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-10-10:articles/python/bystryi-start-na-dzhango/</id><summary type="html">&lt;p&gt;Новый проект это всегда интересно, новые задачи, новый опыт, новые знания.
 Начиная новый проект хочется сразу броситься &amp;#8220;в бой&amp;#8221;. Но перед этим приходится
 тратить время на первоначальную настройку окружения, подключения и установку
 зависимостей, создания структуры, инициализацию проекта. Порой это может
@@ -193,7 +477,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="init app" class="center" src="/media/falstart/init_app.png" /&gt;&lt;/p&gt;</summary><category term="python"></category><category term="github"></category><category term="django"></category><category term="vagrant"></category><category term="falstart"></category></entry><entry><title>Отчеты coverage в TeamCity</title><link href="https://samael500.github.io/articles/drugoe/otchety-coverage-v-teamcity/" rel="alternate"></link><published>2016-09-26T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-09-26:articles/drugoe/otchety-coverage-v-teamcity/</id><summary type="html">&lt;p&gt;Мы, в &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; в качестве системы непрерывной
+&lt;p&gt;&lt;img alt="init app" class="center" src="/media/falstart/init_app.png" /&gt;&lt;/p&gt;</summary><category term="python"></category><category term="github"></category><category term="django"></category><category term="vagrant"></category><category term="wb-tech"></category><category term="falstart"></category></entry><entry><title>Отчеты coverage в TeamCity</title><link href="https://samael500.github.io/articles/drugoe/otchety-coverage-v-teamcity/" rel="alternate"></link><published>2016-09-26T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-09-26:articles/drugoe/otchety-coverage-v-teamcity/</id><summary type="html">&lt;p&gt;Мы, в &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; в качестве системы непрерывной
 интеграции используем &lt;a href="https://www.jetbrains.com/teamcity/"&gt;TeamCity&lt;/a&gt;.
 А саму разработку ведем в приватных репозиториях
 на &lt;a href="https://github.com/"&gt;github&lt;/a&gt;. С задачей запуска тестов и публикации
@@ -342,7 +626,7 @@ curl &lt;span class="s2"&gt;&amp;quot;https://api.github.com/repos/&lt;/span&gt;
 &lt;p&gt;Теперь в &lt;code&gt;README&lt;/code&gt; виден кликабельный бейджик с покрытием&amp;nbsp;кода.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="readme" class="center shadow" src="/media/teamcity-coverage/readme.md.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Кликнув на который, мы попадаем в отчет по покрытию&amp;nbsp;кода.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="report" class="center shadow" src="/media/teamcity-coverage/report.png" /&gt;&lt;/p&gt;</summary><category term="ci"></category><category term="coverage"></category><category term="python"></category><category term="github"></category><category term="teamcity"></category><category term="best"></category></entry><entry><title>Заклинатель змей?</title><link href="https://samael500.github.io/articles/python/zaklinatel-zmei/" rel="alternate"></link><published>2016-04-17T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-04-13:articles/python/zaklinatel-zmei/</id><summary type="html">&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; имеет очень простой синтаксис, и практически всегда ведёт себя
+&lt;p&gt;&lt;img alt="report" class="center shadow" src="/media/teamcity-coverage/report.png" /&gt;&lt;/p&gt;</summary><category term="ci"></category><category term="coverage"></category><category term="python"></category><category term="github"></category><category term="teamcity"></category><category term="wb-tech"></category><category term="best"></category></entry><entry><title>Заклинатель змей?</title><link href="https://samael500.github.io/articles/python/zaklinatel-zmei/" rel="alternate"></link><published>2016-04-17T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-04-13:articles/python/zaklinatel-zmei/</id><summary type="html">&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; имеет очень простой синтаксис, и практически всегда ведёт себя
 предсказуемо. Однако порой происходит нечто&amp;nbsp;невероятное&amp;#8230;&lt;/p&gt;
 &lt;h3 id="nepredskazuemye-spiski"&gt;&lt;a class="toclink" href="#nepredskazuemye-spiski"&gt;Непредсказуемые&amp;nbsp;списки&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[[]]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;

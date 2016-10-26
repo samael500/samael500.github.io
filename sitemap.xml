@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://samael500.github.io/</loc>
-<lastmod>2016-10-23T11:29:53-00:00</lastmod>
+<lastmod>2016-10-26T10:49:28-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://samael500.github.io/archives.html</loc>
-<lastmod>2016-10-23T11:29:53-00:00</lastmod>
+<lastmod>2016-10-26T10:49:28-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://samael500.github.io/tags.html</loc>
-<lastmod>2016-10-23T11:29:53-00:00</lastmod>
+<lastmod>2016-10-26T10:49:28-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://samael500.github.io/categories.html</loc>
-<lastmod>2016-10-23T11:29:53-00:00</lastmod>
+<lastmod>2016-10-26T10:49:28-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -35,6 +35,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <loc>https://samael500.github.io/about/</loc>
 <lastmod>2016-04-13T15:00:00+03:00</lastmod>
 <changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://samael500.github.io/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-lua/</loc>
+<lastmod>2016-10-25T15:00:00+03:00</lastmod>
+<changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
@@ -145,7 +152,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://samael500.github.io/author/maks/</loc>
-<lastmod>2016-10-10T15:00:00+02:30</lastmod>
+<lastmod>2016-10-25T15:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
