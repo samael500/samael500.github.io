@@ -259,6 +259,50 @@ Hello world!
 то не обязательно описывать его внутри конфига, достаточно лишь подключить
 через директиву <code>content_by_lua_file</code>.</p>
 <h3 id="vagrant-metadannye"><a class="toclink" href="#vagrant-metadannye">Vagrant&nbsp;метаданные</a></h3>
+<h4 id="nastroika-nginx"><a class="toclink" href="#nastroika-nginx">Настройка&nbsp;Nginx</a></h4>
+<p>На сервере мы складываем боксы в директорию <code>hosted</code>, создавая поддиректорию
+для каждого проекта. Сами боксы в которой хранятся файлами со строго указанным
+форматом имени <code>{provider}-{version.subversion}.box</code>.</p>
+<p>Формируя примерно такое&nbsp;дерево:</p>
+<div class="highlight"><pre><span></span>$ tree hosted/
+hosted/
+├── foo
+│   ├── docker-1.0.box
+│   ├── docker-1.3.box
+│   ├── virtualbox-1.0.box
+│   ├── virtualbox-1.4.box
+│   └── virtualbox-1.7.box
+└── bar
+    ├── virtualbox-1.0.box
+    ├── virtualbox-1.1.box
+    └── virtualbox-1.2.box
+
+<span class="m">2</span> directories, <span class="m">8</span> files
+</pre></div>
+
+
+<p>Настроим <code>nginx</code> так, чтобы для любого бокса &#8212; начиналось непосредственное скачивание,
+а для имени проекта, возвращались вычисленные&nbsp;метаданные.</p>
+<div class="highlight"><pre><span></span><span class="k">server</span> <span class="p">{</span>
+    <span class="kn">listen</span>    <span class="mi">80</span><span class="p">;</span>
+
+    <span class="kn">set</span> <span class="nv">$box_url</span> <span class="s">&#39;http://10.1.1.111/%s/%s-%s.box&#39;</span><span class="p">;</span>
+    <span class="kn">set</span> <span class="nv">$box_prefix</span> <span class="s">&#39;/home/vagrant/proj/hosted/&#39;</span><span class="p">;</span>
+
+    <span class="kn">location</span> <span class="p">~</span> <span class="sr">/*\.box$</span> <span class="p">{</span>
+        <span class="kn">root</span> <span class="s">/home/vagrant/proj/hosted</span><span class="p">;</span>
+        <span class="c1"># just return box</span>
+    <span class="p">}</span>
+
+    <span class="kn">location</span> <span class="p">~</span> <span class="sr">/(?&lt;box_name&gt;\w+)/?$</span> <span class="p">{</span>
+        <span class="kn">content_by_lua_file</span> <span class="s">/home/vagrant/proj/app/handler.lua</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Переменные <code>$box_url</code> и <code>$box_prefix</code> будут использовать при формировании&nbsp;метаданных.</p>
+<h4 id="vychislenie-metadannykh-s-pomoshchiu-lua"><a class="toclink" href="#vychislenie-metadannykh-s-pomoshchiu-lua">Вычисление метаданных с помощью&nbsp;Lua</a></h4>
 <p>Приступим теперь непосредственно к формированию метаданных
 для версирования <code>Vagrant</code> боксов.</p>
 <p>Идея будет заключаться в том, что по запросу, <code>Lua</code> будет осуществлять поиск

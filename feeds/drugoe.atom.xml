@@ -111,6 +111,50 @@ Hello world!
 то не обязательно описывать его внутри конфига, достаточно лишь подключить
 через директиву &lt;code&gt;content_by_lua_file&lt;/code&gt;.&lt;/p&gt;
 &lt;h3 id="vagrant-metadannye"&gt;&lt;a class="toclink" href="#vagrant-metadannye"&gt;Vagrant&amp;nbsp;метаданные&lt;/a&gt;&lt;/h3&gt;
+&lt;h4 id="nastroika-nginx"&gt;&lt;a class="toclink" href="#nastroika-nginx"&gt;Настройка&amp;nbsp;Nginx&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;На сервере мы складываем боксы в директорию &lt;code&gt;hosted&lt;/code&gt;, создавая поддиректорию
+для каждого проекта. Сами боксы в которой хранятся файлами со строго указанным
+форматом имени &lt;code&gt;{provider}-{version.subversion}.box&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Формируя примерно такое&amp;nbsp;дерево:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ tree hosted/
+hosted/
+├── foo
+│   ├── docker-1.0.box
+│   ├── docker-1.3.box
+│   ├── virtualbox-1.0.box
+│   ├── virtualbox-1.4.box
+│   └── virtualbox-1.7.box
+└── bar
+    ├── virtualbox-1.0.box
+    ├── virtualbox-1.1.box
+    └── virtualbox-1.2.box
+
+&lt;span class="m"&gt;2&lt;/span&gt; directories, &lt;span class="m"&gt;8&lt;/span&gt; files
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Настроим &lt;code&gt;nginx&lt;/code&gt; так, чтобы для любого бокса &amp;#8212; начиналось непосредственное скачивание,
+а для имени проекта, возвращались вычисленные&amp;nbsp;метаданные.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;server&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kn"&gt;listen&lt;/span&gt;    &lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="kn"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;$box_url&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;http://10.1.1.111/%s/%s-%s.box&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;$box_prefix&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;/home/vagrant/proj/hosted/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="kn"&gt;location&lt;/span&gt; &lt;span class="p"&gt;~&lt;/span&gt; &lt;span class="sr"&gt;/*\.box$&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kn"&gt;root&lt;/span&gt; &lt;span class="s"&gt;/home/vagrant/proj/hosted&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="c1"&gt;# just return box&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="kn"&gt;location&lt;/span&gt; &lt;span class="p"&gt;~&lt;/span&gt; &lt;span class="sr"&gt;/(?&amp;lt;box_name&amp;gt;\w+)/?$&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kn"&gt;content_by_lua_file&lt;/span&gt; &lt;span class="s"&gt;/home/vagrant/proj/app/handler.lua&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Переменные &lt;code&gt;$box_url&lt;/code&gt; и &lt;code&gt;$box_prefix&lt;/code&gt; будут использовать при формировании&amp;nbsp;метаданных.&lt;/p&gt;
+&lt;h4 id="vychislenie-metadannykh-s-pomoshchiu-lua"&gt;&lt;a class="toclink" href="#vychislenie-metadannykh-s-pomoshchiu-lua"&gt;Вычисление метаданных с помощью&amp;nbsp;Lua&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Приступим теперь непосредственно к формированию метаданных
 для версирования &lt;code&gt;Vagrant&lt;/code&gt; боксов.&lt;/p&gt;
 &lt;p&gt;Идея будет заключаться в том, что по запросу, &lt;code&gt;Lua&lt;/code&gt; будет осуществлять поиск
