@@ -185,8 +185,8 @@ for _, box in ipairs (glob) do
 end
 ```
 
-Для вычисления хешсуммы больших файлов боксов, будем использовать функции операционной системы.
-Такие как `sha1sum`, `sha256sum`, `md5sum`...
+Для вычисления хешсуммы больших файлов боксов воспользуемся утилитами операционной системы.
+Такими как `sha1sum`, `sha256sum`, `md5sum`...
 Делается это с помощью вызова процесса через `io.popen`:
 
 ```Lua
@@ -250,6 +250,73 @@ ngx.say (json.encode (vagrant))
 ```
 
 ### Лунное затмение (вместо заключения)
+
+Полученный скрипт формирует `JSON` ответ содержащий метаинформацию о боксах.
+
+```shell
+$ curl http://10.1.1.111/example | jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   943    0   943    0     0  13412      0 --:--:-- --:--:-- --:--:-- 13471
+```
+```json
+{
+  "versions": [
+    {
+      "version": "1.7",
+      "providers": [
+        {
+          "url": "http://10.1.1.111/example/virtualbox-1.7.box",
+          "checksum": "3221c0fd58a4b2430efc5eeaf09cb8eaf877f3a9",
+          "name": "virtualbox",
+          "checksum_type": "sha1"
+        }
+      ]
+    },
+    {
+      "version": "1.3",
+      "providers": [
+        {
+          "url": "http://10.1.1.111/example/docker-1.3.box",
+          "checksum": "def7148aa7ded879dbf5944af4785c2b09aba97a",
+          "name": "docker",
+          "checksum_type": "sha1"
+        }
+      ]
+    },
+    {
+      "version": "1.4",
+      "providers": [
+        {
+          "url": "http://10.1.1.111/example/virtualbox-1.4.box",
+          "checksum": "63b06d8c065f5c2522c356d4d6ceb718ec3f8198",
+          "name": "virtualbox",
+          "checksum_type": "sha1"
+        }
+      ]
+    },
+    {
+      "version": "1.0",
+      "providers": [
+        {
+          "url": "http://10.1.1.111/example/docker-1.0.box",
+          "checksum": "65cb550765d251604dcfeedc36ea61f66ce205c4",
+          "name": "docker",
+          "checksum_type": "sha1"
+        },
+        {
+          "url": "http://10.1.1.111/example/virtualbox-1.0.box",
+          "checksum": "c0a9d5c3d6679cfcc4b1374e3ad42465f3dd596e",
+          "name": "virtualbox",
+          "checksum_type": "sha1"
+        }
+      ]
+    }
+  ],
+  "name": "example",
+  "description": "Boxes for example proj"
+}
+```
 
 Полный пример скрипта можно посмотреть в репозитории на
 [github](https://github.com/Samael500/ngx-vagrant). А при желании
