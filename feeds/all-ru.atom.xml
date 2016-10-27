@@ -323,8 +323,8 @@ hosted/
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Полный пример скрипта можно посмотреть в репозитории на
-&lt;a href="https://github.com/Samael500/ngx-vagrant"&gt;github&lt;/a&gt;. А при желании
+&lt;p&gt;Полный пример скрипта можно посмотреть в репозитории на &lt;code&gt;github&lt;/code&gt;
+&lt;a href="https://github.com/Samael500/ngx-vagrant"&gt;Samael500/ngx-vagrant&lt;/a&gt;. А при желании
 поиграться запустив настроенный &lt;code&gt;Vagrant&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;О том, как ещё можно интересно использовать связку &lt;code&gt;Nginx&lt;/code&gt; и &lt;code&gt;Lua&lt;/code&gt;, можно
 прочитать в статье &lt;a href="http://dizballanze.com/drugoe/primenenie-nginx-lua-dlia-obrabotki-prostykh-form/"&gt;Применение Nginx + Lua для обработки контактной&amp;nbsp;формы&lt;/a&gt;&lt;/p&gt;</summary><category term="vagrant"></category><category term="lua"></category><category term="nginx"></category><category term="self-hosted"></category><category term="wb-tech"></category><category term="best"></category></entry><entry><title>Быстрый старт на Джанго</title><link href="https://samael500.github.io/articles/python/bystryi-start-na-dzhango/" rel="alternate"></link><published>2016-10-10T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-10-10:articles/python/bystryi-start-na-dzhango/</id><summary type="html">&lt;p&gt;Новый проект это всегда интересно, новые задачи, новый опыт, новые знания.
