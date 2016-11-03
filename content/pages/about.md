@@ -12,7 +12,12 @@ Modified: 2016-04-13 15:00
 В университете участвовал в студенческих олимпиадах ACM/ICPC. Проходил
 студенческую практику в [SoftServe](https://softserve.ua/) и [1С-Рарус](https://rarus.ru/).
 
-###Технологии и языки
+Currently web developer at small but strong company.
+As a student, was a participant of ACM&nbsp;ICPC competitions.
+Enthusiast, fanatic and a workaholic with an annual continuous GitHub
+contribution activity and StackOverflow "Fanatic" gold-badge.
+
+### Skills
 
 - Python -- Pure 2.x, 3.x / Django / Flask / GAE webapp2
 - Frontend -- HTML / CSS / JavaScript / CoffeeScript
@@ -24,9 +29,9 @@ Modified: 2016-04-13 15:00
 - TDD -- Unittest / Nose / Selenium / Ghost.py
 - Task queue -- Celery
 
-###Опыт работы
+### Professional experience
 
 - Февраль 2014 ~ н. в. -- Backend разработчик в [WB--Tech](http://wbtech.ru)
 - Сентябрь 2015 ~ Апрель 2016 -- Преподаватель [кафедры ИБ](http://isev.su/) в СевГУ
-- Сентябрь 2013 ~ Декабрь 2014 -- Инженер [кафедры ИБ](http://isev.su/) в СНУЯЭиП
+- Февраль 2014 ~ Декабрь 2014 -- Инженер [кафедры ИБ](http://isev.su/) в СНУЯЭиП
 - Сентябрь 2011 ~ Август 2013 -- Учитель информатики в [СОШ №9](https://schools.dnevnik.ru/1000006960210)
