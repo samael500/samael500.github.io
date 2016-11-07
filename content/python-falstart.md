@@ -2,7 +2,7 @@ Title: Быстрый старт на Джанго
 Date: 2016-10-10 15:00
 Modified: 2016-10-10 15:00
 Category: Python
-Tags: python, github, django, vagrant, wb-tech, falstart
+Tags: python, github, django, vagrant, wb-tech, falstart, best
 Image: /media/falstart/falstart.png
 Image_width: 1280
 Image_height: 791
