@@ -55,6 +55,118 @@ $ # всё пропало, всё что нажито непосильным т�
 После проверки тестового задания, меня взяли на испытательный срок,
 а в дальнейшем и на постоянную работу.
 
-За эти три года, я узнал много нового и получил практический опыт разработки.
-Поучаствовал в создании и поддержке многих проектов. Некоторые из них:
+За эти три года работы в [wb-tech](http://wbtech.pro), я узнал много нового
+и получил практический опыт разработки.
+Поучаствовал в создании и поддержке многих проектов.
+
+<details>
+    <summary>Некоторые из которых представлены ниже:</summary>
+
+Каталог реалитишоу Мир реалити.
+
+`Django`, `Postgre`.
+
+<div class="center browser-mockup with-url" style="width:75%">
+    <a href="http://mirreality.ru/">
+        <img src="/media/wbt3/mirreality.png" class="center" alt="mirreality">
+    </a>
+</div>
+
+<hr />
+
+Площадка для купли-продажи запчастей для автомобилей в Казани.
+
+`Django`, `Postgre`.
+
+<div class="center browser-mockup with-url" style="width:75%">
+    <a href="http://autokazan.ru/">
+        <img src="/media/wbt3/autokazan.png" class="center" alt="autokazan">
+    </a>
+</div>
+
+<hr />
+
+Сервис создания скришотов вебстраниц Coment.me.
+
+`Flask`, `PhantomJS`.
+
+<div class="center browser-mockup with-url" style="width:75%">
+    <a href="http://coment.me/">
+        <img src="/media/wbt3/coment.png" class="center" alt="coment">
+    </a>
+</div>
+
+<hr />
+
+Спецпроект Ленты к юбилею победы в Великой отечественной войне. Победа 70.
+
+`Django`, `Postgre`.
+
+<div class="center browser-mockup with-url" style="width:75%">
+    <a href="http://pobeda70.lenta.ru/">
+        <img src="/media/wbt3/may9.png" class="center" alt="pobeda70">
+    </a>
+</div>
+
+<hr />
+
+Сервис проектирования каркасных домов.
+
+`Flask`, `MongoDB`, `Celery`.
+
+<div class="center browser-mockup with-url" style="width:75%">
+    <a href="#">
+        <img src="/media/wbt3/fhouse.png" class="center" alt="fhouse">
+    </a>
+</div>
+
+<hr />
+
+Визуализация науки от команды Visual-Science.
+
+`Yii`, `MySQL`.
+
+<div class="center browser-mockup with-url" style="width:75%">
+    <a href="http://visual-science.com/">
+        <img src="/media/wbt3/visual.png" class="center" alt="visual">
+    </a>
+</div>
+
+<hr />
+
+Геоинформационная система поиска оптимальной точки размещения коммерческого объекта.
+
+`Django`, `Postgre`, `PostGIS`, `Geoserver`, `Celery`.
+
+<div class="center browser-mockup with-url" style="width:75%">
+    <a href="https://arendohod.ru/">
+        <img src="/media/wbt3/arend.png" class="center" alt="arend">
+    </a>
+</div>
+
+<hr />
+
+Увлекательные путешествия по России и миру. Pro Adventure.
+
+`Django`, `Postgre`, `Celery`.
+
+<div class="center browser-mockup with-url" style="width:75%">
+    <a href="https://pro-adventure.ru/">
+        <img src="/media/wbt3/pro.png" class="center" alt="pro">
+    </a>
+</div>
+
+<hr />
+
+Площадка для купли-продаже брендовой одежды. Preloved.
+
+`Django`, `Postgre`, `Celery`.
+
+<div class="center browser-mockup with-url" style="width:75%">
+    <a href="#">
+        <img src="/media/wbt3/plvd.png" class="center" alt="plvd">
+    </a>
+</div>
+
+</details>
 
