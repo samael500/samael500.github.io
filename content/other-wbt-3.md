@@ -3,7 +3,7 @@ Date: 2017-01-15 15:00
 Modified: 2017-01-15 15:00
 Category: Другое
 Tags: wb-tech
-Image: /media/wbt3/#.png
+Image: /media/wbt3/thumb/#.png
 Image_width: 1280
 Image_height: 791
 Summary:
@@ -13,7 +13,9 @@ Summary:
 Кажется ещё только вчера я был студентом, но вот уже пролетело три года,
 как я работаю в дружной и слаженной команде [Вебтек](http://wbtech.pro).
 
-![wbt team](/media/wbt3/team.jpg){.center}
+![wbt team](/media/wbt3/thumb/team.jpg){.center}
+
+## Как я попал в WBT
 
 Началось всё в конце 2013 года, я тогда учился на 1-м курсе магистратуры,
 а знания `python` были весьма поверхностными. Скажи мне кто тогда, что я буду
@@ -61,23 +63,26 @@ $ # всё пропало, всё что нажито непосильным т�
 И уже более аккуратно подходил к контролю версий. После проверки тестового
 задания, меня взяли на испытательный срок, а в дальнейшем и на постоянную работу.
 
+## 3 года в комманде
+
 За эти три года работы в [WB--Tech](http://wbtech.pro), я узнал много нового
-и получил практический опыт разработки. Сталкивался с сложными задачами
+и получил практический опыт разработки. Мы делаем аутсорс круптым заказчикам,
+так что приходилось сталкиваться с интересными и сложными задачами
 в высоконагруженных проектах. С шардированием больших баз данных.
 Порой встречалось legacy слепленное из говна и палок,
 без автоматических тестов и документации. Но были и простые задачи.
 Поучаствовал в создании и поддержке многих проектов.
 
 <details>
-    <summary>Некоторые из которых представлены ниже:</summary>
+    <summary>Некоторые из которых не ограничены `NDA` представлены ниже:</summary>
 
 > Каталог реалитишоу Мир реалити.
 
 `Django`, `Postgre`.
 
-<div class="center browser-mockup with-tab" style="width:75%">
+<div class="center browser-mockup with-tab" style="width:600px">
     <a href="http://mirreality.ru/">
-        <img src="/media/wbt3/mirreality.png" class="center" alt="mirreality">
+        <img src="/media/wbt3/thumb/mirreality.png" class="center" alt="mirreality">
     </a>
 </div>
 
@@ -87,9 +92,9 @@ $ # всё пропало, всё что нажито непосильным т�
 
 `Django`, `Postgre`.
 
-<div class="center browser-mockup with-tab" style="width:75%">
+<div class="center browser-mockup with-tab" style="width:600px">
     <a href="http://autokazan.ru/">
-        <img src="/media/wbt3/autokazan.png" class="center" alt="autokazan">
+        <img src="/media/wbt3/thumb/autokazan.png" class="center" alt="autokazan">
     </a>
 </div>
 
@@ -99,9 +104,9 @@ $ # всё пропало, всё что нажито непосильным т�
 
 `Flask`, `PhantomJS`.
 
-<div class="center browser-mockup with-tab" style="width:75%">
+<div class="center browser-mockup with-tab" style="width:600px">
     <a href="http://coment.me/">
-        <img src="/media/wbt3/coment.png" class="center" alt="coment">
+        <img src="/media/wbt3/thumb/coment.png" class="center" alt="coment">
     </a>
 </div>
 
@@ -111,9 +116,9 @@ $ # всё пропало, всё что нажито непосильным т�
 
 `Django`, `Postgre`.
 
-<div class="center browser-mockup with-tab" style="width:75%">
+<div class="center browser-mockup with-tab" style="width:600px">
     <a href="http://pobeda70.lenta.ru/">
-        <img src="/media/wbt3/may9.png" class="center" alt="pobeda70">
+        <img src="/media/wbt3/thumb/may9.png" class="center" alt="pobeda70">
     </a>
 </div>
 
@@ -123,9 +128,9 @@ $ # всё пропало, всё что нажито непосильным т�
 
 `Flask`, `MongoDB`, `Celery`.
 
-<div class="center browser-mockup with-tab" style="width:75%">
+<div class="center browser-mockup with-tab" style="width:600px">
     <a href="#">
-        <img src="/media/wbt3/fhouse.png" class="center" alt="fhouse">
+        <img src="/media/wbt3/thumb/fhouse.png" class="center" alt="fhouse">
     </a>
 </div>
 
@@ -135,9 +140,9 @@ $ # всё пропало, всё что нажито непосильным т�
 
 `Yii`, `MySQL`.
 
-<div class="center browser-mockup with-tab" style="width:75%">
+<div class="center browser-mockup with-tab" style="width:600px">
     <a href="http://visual-science.com/">
-        <img src="/media/wbt3/visual.png" class="center" alt="visual">
+        <img src="/media/wbt3/thumb/visual.png" class="center" alt="visual">
     </a>
 </div>
 
@@ -147,9 +152,9 @@ $ # всё пропало, всё что нажито непосильным т�
 
 `Django`, `Postgre`, `PostGIS`, `Geoserver`, `Celery`.
 
-<div class="center browser-mockup with-tab" style="width:75%">
+<div class="center browser-mockup with-tab" style="width:600px">
     <a href="https://arendohod.ru/">
-        <img src="/media/wbt3/arend.png" class="center" alt="arend">
+        <img src="/media/wbt3/thumb/arend.png" class="center" alt="arend">
     </a>
 </div>
 
@@ -159,9 +164,9 @@ $ # всё пропало, всё что нажито непосильным т�
 
 `Django`, `Postgre`, `Celery`.
 
-<div class="center browser-mockup with-tab" style="width:75%">
+<div class="center browser-mockup with-tab" style="width:600px">
     <a href="https://pro-adventure.ru/">
-        <img src="/media/wbt3/pro.png" class="center" alt="pro">
+        <img src="/media/wbt3/thumb/pro.png" class="center" alt="pro">
     </a>
 </div>
 
@@ -171,21 +176,13 @@ $ # всё пропало, всё что нажито непосильным т�
 
 `Django`, `Postgre`, `Celery`.
 
-<div class="center browser-mockup with-tab" style="width:75%">
+<div class="center browser-mockup with-tab" style="width:600px">
     <a href="#">
-        <img src="/media/wbt3/plvd.png" class="center" alt="plvd">
+        <img src="/media/wbt3/thumb/plvd.png" class="center" alt="plvd">
     </a>
 </div>
 
 </details>
-
-
-
-
-
-
-
-
 
 <details>
     <summary>Пару проектов сделал для себя:</summary>
@@ -194,9 +191,9 @@ $ # всё пропало, всё что нажито непосильным т�
 
 `Django`, `Postgre`.
 
-<div class="center browser-mockup with-tab" style="width:75%">
+<div class="center browser-mockup with-tab" style="width:600px">
     <a href="http://underground-maze.github.io/insta-map/">
-        <img src="/media/wbt3/revealer.png" class="center" alt="revealer">
+        <img src="/media/wbt3/thumb/revealer.png" class="center" alt="revealer">
     </a>
 </div>
 
@@ -206,9 +203,9 @@ $ # всё пропало, всё что нажито непосильным т�
 
 `Django`, `Postgre`.
 
-<div class="center browser-mockup with-tab" style="width:75%">
+<div class="center browser-mockup with-tab" style="width:600px">
     <a href="https://olya-maks.ru/">
-        <img src="/media/wbt3/om.png" class="center" alt="om">
+        <img src="/media/wbt3/thumb/om.png" class="center" alt="om">
     </a>
 </div>
 
@@ -218,9 +215,21 @@ $ # всё пропало, всё что нажито непосильным т�
 
 `Django`, `Postgre`.
 
-<div class="center browser-mockup with-tab" style="width:75%">
+<div class="center browser-mockup with-tab" style="width:600px">
     <a href="http://elenaskorokhod.ru/">
-        <img src="/media/wbt3/helena.png" class="center" alt="helena">
+        <img src="/media/wbt3/thumb/helena.png" class="center" alt="helena">
+    </a>
+</div>
+
+<hr />
+
+> Мой блог ;).
+
+`Pelican`.
+
+<div class="center browser-mockup with-tab" style="width:600px">
+    <a href="/">
+        <img src="/media/wbt3/thumb/log.png" class="center" alt="log">
     </a>
 </div>
 
