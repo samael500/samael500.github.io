@@ -62,7 +62,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;blockquote&gt;
 &lt;p&gt;Каталог реалитишоу Мир&amp;nbsp;реалити.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
     &lt;a href="http://mirreality.ru/"&gt;
         &lt;img src="/media/wbt3/thumb/mirreality.png" class="center" alt="mirreality"&gt;
@@ -74,7 +74,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;blockquote&gt;
 &lt;p&gt;Площадка для купли-продажи запчастей для автомобилей в&amp;nbsp;Казани.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
     &lt;a href="http://autokazan.ru/"&gt;
         &lt;img src="/media/wbt3/thumb/autokazan.png" class="center" alt="autokazan"&gt;
@@ -98,7 +98,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;blockquote&gt;
 &lt;p&gt;Спецпроект Ленты к юбилею победы в Великой Отечественной войне. Победа&amp;nbsp;70.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
     &lt;a href="http://pobeda70.lenta.ru/"&gt;
         &lt;img src="/media/wbt3/thumb/may9.png" class="center" alt="pobeda70"&gt;
@@ -134,7 +134,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;blockquote&gt;
 &lt;p&gt;Геоинформационная система поиска оптимальной точки размещения коммерческого&amp;nbsp;объекта.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;, &lt;code&gt;PostGIS&lt;/code&gt;, &lt;code&gt;Geoserver&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;, &lt;code&gt;PostGIS&lt;/code&gt;, &lt;code&gt;Geoserver&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
     &lt;a href="https://arendohod.ru/"&gt;
         &lt;img src="/media/wbt3/thumb/arend.png" class="center" alt="arend"&gt;
@@ -146,7 +146,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;blockquote&gt;
 &lt;p&gt;Увлекательные путешествия по России и миру. Pro&amp;nbsp;Adventure.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
     &lt;a href="https://pro-adventure.ru/"&gt;
         &lt;img src="/media/wbt3/thumb/pro.png" class="center" alt="pro"&gt;
@@ -158,7 +158,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;blockquote&gt;
 &lt;p&gt;Площадка для купли-продаже брендовой одежды.&amp;nbsp;Preloved.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
     &lt;a href="#"&gt;
         &lt;img src="/media/wbt3/thumb/plvd.png" class="center" alt="plvd"&gt;
@@ -171,7 +171,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;blockquote&gt;
 &lt;p&gt;Я &amp;#8212; первооткрыватель. Сотри белые пятна с&amp;nbsp;карты.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
     &lt;a href="http://underground-maze.github.io/insta-map/"&gt;
         &lt;img src="/media/wbt3/thumb/revealer.png" class="center" alt="revealer"&gt;
@@ -183,7 +183,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;blockquote&gt;
 &lt;p&gt;Мой свадебный информационный&amp;nbsp;сайт.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
     &lt;a href="https://olya-maks.ru/"&gt;
         &lt;img src="/media/wbt3/thumb/om.png" class="center" alt="om"&gt;
@@ -195,7 +195,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;blockquote&gt;
 &lt;p&gt;Сайт-портфолио.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
     &lt;a href="http://elenaskorokhod.ru/"&gt;
         &lt;img src="/media/wbt3/thumb/helena.png" class="center" alt="helena"&gt;
