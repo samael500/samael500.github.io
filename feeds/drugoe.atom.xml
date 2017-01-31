@@ -1,5 +1,268 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/drugoe.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2016-10-25T15:00:00+03:00</updated><entry><title>Собственное хранилище версированных Vagrant боксов с помощью Nginx и Lua</title><link href="https://samael500.github.io/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/" rel="alternate"></link><published>2016-10-25T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-10-25:articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/</id><summary type="html">&lt;p&gt;Для удобного процесса разработки, быстрого переключения между проектами и
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/drugoe.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2017-01-18T15:00:00+03:00</updated><entry><title>Три года в команде</title><link href="https://samael500.github.io/articles/drugoe/tri-goda-v-komande/" rel="alternate"></link><published>2017-01-18T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2017-01-18:articles/drugoe/tri-goda-v-komande/</id><summary type="html">&lt;p&gt;Кажется ещё только вчера я был студентом, но вот уже пролетело три года
+как я работаю в дружной и слаженной команде &lt;a href="http://wbtech.pro"&gt;Вебтек&lt;/a&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;img alt="wbt team" class="center" src="/media/wbt3/team.jpg" /&gt;
+Встреча &lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech в Севастополе. Февраль 2016&amp;nbsp;г.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="kak-ia-popal-v-wbt"&gt;&lt;a class="toclink" href="#kak-ia-popal-v-wbt"&gt;Как я попал в &lt;span class="caps"&gt;WBT&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Началось всё в конце 2013 года, я тогда учился на 1-м курсе магистратуры,
+а знания &lt;code&gt;python&lt;/code&gt; были весьма поверхностными. Скажи мне кто тогда, что я буду
+веб-разработчиком, ни за что не поверил бы. Тогда я воспринимал программный
+продукт как единую алгоритмическую структуру с четко ограниченными точками
+входа и выхода. Идея независимых обработчиков с различными точками входа,
+решающих конкретные подзадачи, казалась мне&amp;nbsp;чуждой.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#8212; Почему обезьяна может программировать на &lt;span class="caps"&gt;PHP&lt;/span&gt;?&lt;br /&gt;
+&amp;#8212; Потому что она всю жизнь прыгает с ветки на ветку, с лианы на лиану,
+независимые обработчики с различными точками входа &amp;#8212; это её повседневное&amp;nbsp;окружение.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Мне предложили пройти стажировку в вебтек, а для поступления выполнить
+простое тестовое задание: создать сайт на &lt;code&gt;django&lt;/code&gt; с парой моделей и
+несколькими вьюхами. Даже сохранился репозиторий с этим заданием
+&lt;a href="https://github.com/Samael500/todo-test-task"&gt;github.com:Samael500/todo-test-task&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Заканчивался семестр, нужно было сдавать зачеты, впереди предстояли
+новогодние каникулы, на которые я уехал из города, а по возвращению
+пошел на практику в &lt;a href="http://rarus.ru/"&gt;1С-Рарус&lt;/a&gt;, где занятия проходили
+с утра до вечера. Так что выполнение тестового задания слегка затянулось&amp;#8230;
+более чем на месяц. Примерно на третий день в рарусе я вспомнил о тестовом
+задании и наконец решил его сделать, к тому же срок уже&amp;nbsp;поджимал.&lt;/p&gt;
+&lt;p&gt;В то время, я плохо знал &lt;code&gt;python&lt;/code&gt;, не сталкивался с &lt;code&gt;django&lt;/code&gt;, не было опыта
+работы с &lt;code&gt;linux&lt;/code&gt; и &lt;code&gt;git&lt;/code&gt;. Но взяв за основу
+&lt;a href="https://docs.djangoproject.com/en/1.10/intro/tutorial01/"&gt;django tutorial&lt;/a&gt;,
+за несколько дней тестовое задание было полностью готово.
+За одним исключением: не было произведено ни одного коммита.
+Пришло время закоммитить результаты работы и как говорится, ничто не предвещало&amp;nbsp;беды.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ git add .
+$ git status
+$ &lt;span class="c1"&gt;# тут оказался длинный список не нужных файлов, т.к. я забыл доавить .gitignore&lt;/span&gt;
+$ &lt;span class="c1"&gt;# я решил удалить лишнее, но вместо git reset, я совершил ошибку&lt;/span&gt;
+$ git rm -rf
+$ git add .
+$ git status
+$ &lt;span class="c1"&gt;# всё пропало, всё что нажито непосильным трудом...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Было и смешно, и грустно одновременно, но ничего, пришлось сделать
+тестовое задание с нуля, заново. Во второй раз я справился всего за полдня.
+И уже более аккуратно подходил к контролю версий. После проверки тестового
+задания, меня взяли на испытательный срок, а в дальнейшем и на постоянную&amp;nbsp;работу.&lt;/p&gt;
+&lt;h2 id="3-goda-v-komande"&gt;&lt;a class="toclink" href="#3-goda-v-komande"&gt;3 года в&amp;nbsp;команде&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;За эти три года работы в &lt;a href="http://wbtech.pro"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; я узнал много нового
+и получил практический опыт разработки. Мы делаем аутсорс крупным заказчикам,
+так что приходилось сталкиваться с интересными и сложными задачами
+в высоконагруженных проектах. С шардированием больших баз данных.
+Порой встречалось &lt;code&gt;legacy&lt;/code&gt; слепленное из говна и палок,
+без автоматических тестов и документации. Но были и простые, но не менее
+интересные задачи.
+За это время, я поучаствовал в создании и поддержке многих&amp;nbsp;проектов.&lt;/p&gt;
+&lt;p&gt;&lt;details&gt;
+    &lt;summary&gt;Некоторые из которых не ограничены &lt;code&gt;NDA&lt;/code&gt; представлены ниже:&lt;/summary&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Каталог реалитишоу Мир&amp;nbsp;реалити.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://mirreality.ru/"&gt;
+        &lt;img src="/media/wbt3/thumb/mirreality.png" class="center" alt="mirreality"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Площадка для купли-продажи запчастей для автомобилей в&amp;nbsp;Казани.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://autokazan.ru/"&gt;
+        &lt;img src="/media/wbt3/thumb/autokazan.png" class="center" alt="autokazan"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Сервис создания скришотов вебстраниц&amp;nbsp;Coment.me.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Flask&lt;/code&gt;, &lt;code&gt;PhantomJS&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://coment.me/"&gt;
+        &lt;img src="/media/wbt3/thumb/coment.png" class="center" alt="coment"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Спецпроект Ленты к юбилею победы в Великой Отечественной войне. Победа&amp;nbsp;70.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://pobeda70.lenta.ru/"&gt;
+        &lt;img src="/media/wbt3/thumb/may9.png" class="center" alt="pobeda70"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Сервис проектирования каркасных&amp;nbsp;домов.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Flask&lt;/code&gt;, &lt;code&gt;MongoDB&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="#"&gt;
+        &lt;img src="/media/wbt3/thumb/fhouse.png" class="center" alt="fhouse"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Визуализация науки от команды&amp;nbsp;Visual-Science.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Yii&lt;/code&gt;, &lt;code&gt;MySQL&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://visual-science.com/"&gt;
+        &lt;img src="/media/wbt3/thumb/visual.png" class="center" alt="visual"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Геоинформационная система поиска оптимальной точки размещения коммерческого&amp;nbsp;объекта.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;, &lt;code&gt;PostGIS&lt;/code&gt;, &lt;code&gt;Geoserver&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="https://arendohod.ru/"&gt;
+        &lt;img src="/media/wbt3/thumb/arend.png" class="center" alt="arend"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Увлекательные путешествия по России и миру. Pro&amp;nbsp;Adventure.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="https://pro-adventure.ru/"&gt;
+        &lt;img src="/media/wbt3/thumb/pro.png" class="center" alt="pro"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Площадка для купли-продаже брендовой одежды.&amp;nbsp;Preloved.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="#"&gt;
+        &lt;img src="/media/wbt3/thumb/plvd.png" class="center" alt="plvd"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;/details&gt;&lt;/p&gt;
+&lt;p&gt;&lt;details&gt;
+    &lt;summary&gt;Пару проектов сделал для себя:&lt;/summary&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Я &amp;#8212; первооткрыватель. Сотри белые пятна с&amp;nbsp;карты.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://underground-maze.github.io/insta-map/"&gt;
+        &lt;img src="/media/wbt3/thumb/revealer.png" class="center" alt="revealer"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Мой свадебный информационный&amp;nbsp;сайт.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="https://olya-maks.ru/"&gt;
+        &lt;img src="/media/wbt3/thumb/om.png" class="center" alt="om"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Сайт-портфолио.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;Postgre&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://elenaskorokhod.ru/"&gt;
+        &lt;img src="/media/wbt3/thumb/helena.png" class="center" alt="helena"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Вебстраница кафедры информационной безопасности&amp;nbsp;СевГУ.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;gh-pages&lt;/code&gt;, &lt;code&gt;static html&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://isev.su/"&gt;
+        &lt;img src="/media/wbt3/thumb/isev.png" class="center" alt="isev"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Мой блог&amp;nbsp;;).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;gh-pages&lt;/code&gt;, &lt;code&gt;Pelican&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="/"&gt;
+        &lt;img src="/media/wbt3/thumb/log.png" class="center" alt="log"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;/details&gt;&lt;/p&gt;
+&lt;p&gt;Вебтек &amp;#8212; небольшая компания. Мы работаем удаленно из разных точек планеты.
+Нас объединяет трудолюбие и&amp;nbsp;энтузиазм.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;img alt="sip" class="center" src="/media/wbt3/sip.jpg" /&gt;
+Мы можем работать в любом месте, в любое время, из любого&amp;nbsp;города.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Удалёнка позволяет максимально эффективно работать на результат
+ведь не важно сколько часов потрачено на
+задачу, главное, что она решена качественно и в срок.
+Это даёт возможность свободно
+организовывать своё время, не нанося ущерба рабочему процессу. Мы легко
+работаем в выходные и праздничные дни, запускаем деплои боевых серверов
+глубокими ночами с минимизированным&amp;nbsp;доунтаймом.&lt;/p&gt;
+&lt;p&gt;А самое главное, что это нам нравится. Как сказал&amp;nbsp;Конфуций:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Выбери себе работу по душе и тебе не придется работать
+ни одного дня в своей&amp;nbsp;жизни.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Безусловно подтверждаю эти слова.
+За выбор профессионального пути, я хотел бы&amp;nbsp;поблагодарить:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;img alt="sip" class="center" src="/media/wbt3/ss-team.jpg" /&gt;
+&lt;span class="caps"&gt;SS&lt;/span&gt; Team, Севастополь. Первая летняя школа. Август 2010&amp;nbsp;г.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Михнева Сергея Сергеевича &amp;#8212; преподаватель и тренер по спортивному
+программированию. Ведь именно он увидел мой потенциал и направил в нужное&amp;nbsp;русло.&lt;/li&gt;
+&lt;li&gt;Пешкурова Романа &amp;#8212; друг и наставник по алгоритмам, который поверил в меня
+раньше, чем я&amp;nbsp;сам.&lt;/li&gt;
+&lt;li&gt;Гришанина Кирилла и Шиканова Юрия &amp;#8212; сооснователи вебтек,
+спасибо за практический опыт и работу в интересной&amp;nbsp;команде.&lt;/li&gt;
+&lt;li&gt;Землянова Василия и Захарова Андрея &amp;#8212; школьные друзья, а затем и однокурсники,
+которые выбрали тот же&amp;nbsp;путь.&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="wb-tech"></category></entry><entry><title>Собственное хранилище версированных Vagrant боксов с помощью Nginx и Lua</title><link href="https://samael500.github.io/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/" rel="alternate"></link><published>2016-10-25T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2016-10-25:articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/</id><summary type="html">&lt;p&gt;Для удобного процесса разработки, быстрого переключения между проектами и
 эффективного взаимодействия бэкенд и фронтенд команд. Мы, в
 &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt;, работаем в виртуальном окружении
 &lt;a href="https://www.vagrantup.com/"&gt;Vagrant&lt;/a&gt; + &lt;a href="https://www.virtualbox.org/"&gt;VirtualBox&lt;/a&gt;.

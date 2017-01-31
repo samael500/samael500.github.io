@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://samael500.github.io/</loc>
-<lastmod>2017-01-27T19:09:22-00:00</lastmod>
+<lastmod>2017-01-31T17:38:39-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://samael500.github.io/archives.html</loc>
-<lastmod>2017-01-27T19:09:22-00:00</lastmod>
+<lastmod>2017-01-31T17:38:39-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://samael500.github.io/tags.html</loc>
-<lastmod>2017-01-27T19:09:22-00:00</lastmod>
+<lastmod>2017-01-31T17:38:39-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://samael500.github.io/categories.html</loc>
-<lastmod>2017-01-27T19:09:22-00:00</lastmod>
+<lastmod>2017-01-31T17:38:39-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -35,6 +35,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <loc>https://samael500.github.io/about/</loc>
 <lastmod>2016-04-13T15:00:00+03:00</lastmod>
 <changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://samael500.github.io/articles/drugoe/tri-goda-v-komande/</loc>
+<lastmod>2017-01-18T15:00:00+03:00</lastmod>
+<changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
@@ -152,7 +159,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://samael500.github.io/author/maks/</loc>
-<lastmod>2016-10-25T15:00:00+02:30</lastmod>
+<lastmod>2017-01-18T15:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
