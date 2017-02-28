@@ -33,7 +33,7 @@ Summary:
 Установим свой почтовый сервер, будем использовать простой и удобный
 [PostFix](http://www.postfix.org/).
 
-```shell
+```bash
 $ sudo apt-get install postfix
 ```
 
@@ -46,13 +46,30 @@ $ sudo apt-get install postfix
 Для дальнейшей настройки, скопируем базовый конфигурационный файл для `debian`.
 И добавим доступ только из локального хоста.
 
-```shell
+```bash
 $ sudo cp /usr/share/postfix/main.cf.debian /etc/postfix/main.cf
 $ echo "
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 mydestination = localhost
 " | sudo tee -a /etc/postfix/main.cf
 $ sudo service postfix reload
+```
+
+По умолчанию у `postfix` открыт 25 порт из внешнего мира, закроем его,
+отредактировав `etc/postfix/master.cf`.
+
+```diff
+--- /etc/postfix/master.cf
++++ /etc/postfix/master.cf
+@@ -10,7 +10,7 @@
+ #               (yes)   (yes)   (yes)   (never) (100)
+ # ==========================================================================
+ # smtp      inet  n       -       -       -       -       smtpd
+-smtp               inet  n       -       n       -       -       smtpd
++127.0.0.1:smtp     inet  n       -       n       -       -       smtpd
+ #smtp      inet  n       -       -       -       1       postscreen
+ #smtpd     pass  -       -       -       -       -       smtpd
+ #dnsblog   unix  -       -       -       -       0       dnsblog
 ```
 
 Теперь можем попробовать отправить свое первое письмо с собственного сервера.
@@ -119,14 +136,14 @@ smtpd_tls_loglevel = 1
 
 Устанавливаем необходимые пакеты, [OpenDKIM](http://www.opendkim.org/).
 
-```shell
+```bash
 $ sudo apt-get install opendkim opendkim-tools
 ```
 
 Генерируем ключи и сохраняем их доступными для чтения группе `opendkim`,
 а так же добавляем в эту группу `postfix`. 
 
-```shell
+```bash
 $ sudo mkdir /etc/opendkim
 $ sudo opendkim-genkey -D /etc/opendkim -d $(hostname -d) -s $(hostname)
 $ sudo chgrp opendkim /etc/opendkim/*
@@ -152,19 +169,19 @@ X-Header yes
 Теперь заполним таблицы ключей в файлах `/etc/opendkim/keytable` и `/etc/opendkim/signingtable`.
 Они указывают соответсвие между доменом и ключем которым необходимо подписывать письмо.
 
-```shell
+```bash
 # /etc/opendkim/keytable
 ключ домен:селектор:/путь/до/ключа
 ```
 
-```shell
+```bash
 # /etc/opendkim/signingtable
 домен ключ
 ```
 
 Например:
 
-```shell
+```bash
 # /etc/opendkim/keytable
 mail._domainkey.example.com example.com:mail:/etc/opendkim/mail.private
 ```
@@ -178,7 +195,7 @@ example.com    mail._domainkey.example.com
 
 Указываем о необходимости подписывать все письма с помощью `dkim`.
 
-```shell
+```bash
 $ sudo postconf -e milter_default_action=accept
 $ sudo postconf -e milter_protocol=2
 $ sudo postconf -e smtpd_milters=unix:/var/run/opendkim/opendkim.sock
@@ -187,7 +204,7 @@ $ sudo postconf -e non_smtpd_milters=unix:/var/run/opendkim/opendkim.sock
 
 Перезапускаем службы и отправляем подписанное письмо.
 
-```shell
+```bash
 $ sudo service postfix restart
 $ sudo service opendkim restart
 ```
@@ -198,7 +215,7 @@ $ sudo service opendkim restart
 нужно добавить `TXT` запись содежащую ключ. Сделать это нужно в контрольной
 панели регистратора. Проверим что `dns` зоны обновились.
 
-```shell
+```bash
 $ dig +short TXT mail._domainkey.example.com
 "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCvfTJ37Gqs06fhG0YYj/6HbojCrDp
 F8X6u20YUaOax+jrvO0KtItfWYUi6hkCJeKbGTAOmqhWLu1T/DMt0XaICAJ7Q8525Z4ghwfvc5LgYyNSDEODeF
@@ -207,7 +224,7 @@ LNPlXgn3IP5o6Og2We/SnO4QCv8drKGf0N2xm5IIzIT8CjsbM6gPQIHTQIDAQAB"
 
 Так же, хорошо указать разрешенные `ip` адреса для исходящих писем, в запись `spf`.
 
-```shell
+```bash
 $ dig +short TXT example.com
 "v=spf1 a:example.com ip4:<ip v4 addr> ip6:<ip v6 addr> ~all"
 ```
@@ -221,7 +238,7 @@ $ dig +short TXT example.com
 
 Так что укажем в конфигурации `postfix` отправку только с использованием `ipv4`.
 
-```shell
+```bash
 $ sudo postconf -e inet_protocols=ipv4
 ```
 
@@ -229,10 +246,73 @@ $ sudo postconf -e inet_protocols=ipv4
 
 ![gmail ok](/media/postfix/gmail_ok.png){.center .shadow}
 
+<details>
+    <summary>Пример письма</summary>
+```python
+Delivered-To: samael500@gmail.com
+Received: by 10.182.174.67 with SMTP id bq3csp1452226obc;
+        Tue, 28 Feb 2017 08:09:52 -0800 (PST)
+X-Received: by 10.46.22.18 with SMTP id w18mr1151641ljd.86.1488298192253;
+        Tue, 28 Feb 2017 08:09:52 -0800 (PST)
+Return-Path: <info*********>
+Received: from ********* (*********. [**.**.**.**])
+        by mx.google.com with ESMTPS id x14si1225569lfd.155.2017.02.28.08.09.51
+        for <samael500@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 28 Feb 2017 08:09:52 -0800 (PST)
+Received-SPF: pass (google.com: domain of info********* designates **.**.**.** as permitted sender) client-ip=**.**.**.**;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=*********;
+       spf=pass (google.com: domain of info********* designates **.**.**.** as permitted sender) smtp.mailfrom=info*********
+Received: from ********* (localhost [127.0.0.1])
+    by ********* (Postfix) with ESMTP id D9ED0452AB
+    for <samael500@gmail.com>; Tue, 28 Feb 2017 16:09:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.9.2 ********* D9ED0452AB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=*********;
+    s=mail; t=1488298193;
+    bh=juRoCRHzIAJJ4fKO8VlXEyxNddxTS8ftBnWmLxjdAik=;
+    h=Subject:From:To:Date:From;
+    b=G0Z6uXOV0LQHscdUOwMg5rjuJA/KWZ7x6Iqx3Z2x01nZ2kD+E1OgyP4zEfqS9XDiS
+     fG04P0qpIJyGEmO8hgRDIlH1d5FIDGjGPMAFDynwZ9j7pG1h88yLHThdtesUN7Fjib
+     2yL1xxiyw2dZbtfvgXwhj0Nb9RXpphrY+c9v2fW4=
+Content-Type: multipart/alternative;
+ boundary="===============3211535685628593130=="
+MIME-Version: 1.0
+Subject: Hello from Earth
+From: info*********
+To: samael500@gmail.com
+Message-Id: <20170228160953.D9ED0452AB*********>
+Date: Tue, 28 Feb 2017 16:09:53 +0000 (UTC)
+
+--===============3211535685628593130==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+There are test mail text content
+--===============3211535685628593130==
+Content-Type: text/html; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+
+<html>
+  <head></head>
+  <body>
+    <h1>Hello from Earth<h1>
+    <p>There are test mail html content.</p>
+    <p style="color:red">have a good day ;)</p>
+  </body>
+</html>
+
+--===============3211535685628593130==--
+```
+</details>
+
 
 ## Django settings
 
-Теперь можно подключить настройки `smtp` в джанго.
+Теперь можно подключить отправку писем через наш `smtp` в джанго.
 
 ```python
 EMAIL_HOST = 'localhost'
