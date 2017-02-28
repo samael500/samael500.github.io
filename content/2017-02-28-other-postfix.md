@@ -18,7 +18,7 @@ Summary:
 отправлять письма с боевого сервера. Есть множество удобных сервисов, таких как
 [mailgun](https://www.mailgun.com/) или [mailjet](https://www.mailjet.com/),
 можно отправлять письма со своего домена через `smtp`
-[https://pdd.yandex.ru/](Яндекса). Но иногда нужно организовать свой почтовый
+[Яндекса](https://pdd.yandex.ru/). Но иногда нужно организовать свой почтовый
 сервер и разсылать письма через него.
 
 На этапе разработки проекта, в качестве почтового сервера, мы используем
@@ -222,4 +222,24 @@ $ dig +short TXT example.com
 
 ```shell
 $ sudo postconf -e inet_protocols=ipv4
+```
+
+Теперь письма успешно доставляются, и проходят все валидации.
+
+![gmail ok](/media/postfix/gmail_ok.png){.center .shadow}
+
+
+## Django settings
+
+Теперь можно подключить настройки `smtp` в джанго.
+
+```python
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+DEFAULT_FROM_EMAIL = 'info@example.com'
 ```
