@@ -118,7 +118,7 @@ conn.quit()
 
 Подключим `tls` шифрование писем добавив следующие строки в `/etc/postfix/main.cf`
 
-```
+```Lighttpd
 smtpd_tls_security_level = may
 smtp_tls_security_level = may
 smtp_tls_loglevel = 1
@@ -154,7 +154,7 @@ $ sudo gpasswd -a postfix opendkim
 Теперь указываем `opendkim` где находятся ключи, для этого дописываем
 в конфигурационный файл `/etc/opendkim.conf` следующие строки.
 
-```conf
+```Lighttpd
 Canonicalization relaxed/relaxed
 SyslogSuccess yes
 RequireSafeKeys false
@@ -186,7 +186,7 @@ X-Header yes
 mail._domainkey.example.com example.com:mail:/etc/opendkim/mail.private
 ```
 
-```
+```bash
 # /etc/opendkim/signingtable
 example.com    mail._domainkey.example.com
 ```
