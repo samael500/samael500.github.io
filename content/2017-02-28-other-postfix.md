@@ -192,7 +192,7 @@ $ sudo service postfix restart
 $ sudo service opendkim restart
 ```
 
-### Указываем публичный ключ в DNS
+## Настроийки доменной зоны
 
 Что бы сервер мог удостовериться в корректности подписи,
 нужно добавить `TXT` запись содежащую ключ.
@@ -204,3 +204,22 @@ F8X6u20YUaOax+jrvO0KtItfWYUi6hkCJeKbGTAOmqhWLu1T/DMt0XaICAJ7Q8525Z4ghwfvc5LgYyNS
 LNPlXgn3IP5o6Og2We/SnO4QCv8drKGf0N2xm5IIzIT8CjsbM6gPQIHTQIDAQAB"
 ```
 
+Так же, хорошо указать разрешенные `ip` адреса для исходящих писем, в запись `spf`.
+
+```shell
+$ dig +short TXT example.com
+"v=spf1 a:example.com ip4:<ip v4 addr> ip6:<ip v6 addr> ~all"
+```
+
+## Все не как у людей
+
+Сегодня мы живем, в недалеком и почти светлом будущем, когда по бескрайним
+просторам сети широко распространяется `ipv6` адресация. Но, оказывается,
+абсолютно все письма отправленные с `ipv6` всегда воспринимаются гуглом, как спам.
+Даже пройдя верефикацию по `dkim` и `spf` записям уходят в нежелательную почту.
+
+Так что укажем в конфигурации `postfix` отправку только с использованием `ipv4`.
+
+```shell
+$ sudo postconf -e inet_protocols=ipv4
+```
