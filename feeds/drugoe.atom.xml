@@ -1,5 +1,406 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/drugoe.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2017-01-18T15:00:00+03:00</updated><entry><title>Три года в команде</title><link href="https://samael500.github.io/articles/drugoe/tri-goda-v-komande/" rel="alternate"></link><published>2017-01-18T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2017-01-18:articles/drugoe/tri-goda-v-komande/</id><summary type="html">&lt;p&gt;Кажется ещё только вчера я был студентом, но вот уже пролетело три года
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/drugoe.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2017-02-28T15:00:00+03:00</updated><entry><title>Сам себе почтальон</title><link href="https://samael500.github.io/articles/drugoe/sam-sebe-pochtalon/" rel="alternate"></link><published>2017-02-28T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2017-02-28:articles/drugoe/sam-sebe-pochtalon/</id><summary type="html">&lt;p&gt;Каждый раз при запуске проекта в продакшн, встает вопрос, как
+отправлять письма с боевого сервера. Есть множество удобных сервисов, таких как
+&lt;a href="https://www.mailgun.com/"&gt;mailgun&lt;/a&gt; или &lt;a href="https://www.mailjet.com/"&gt;mailjet&lt;/a&gt;,
+можно отправлять письма со своего домена через &lt;code&gt;smtp&lt;/code&gt;
+&lt;a href="https://pdd.yandex.ru/"&gt;Яндекса&lt;/a&gt;. Но иногда нужно организовать свой почтовый
+сервер и рассылать письма через&amp;nbsp;него.&lt;/p&gt;
+&lt;p&gt;На этапе разработки проекта в качестве почтового сервера мы используем
+&lt;a href="https://debugmail.io"&gt;DebugMail&lt;/a&gt; сервис, который позволяет без настройки
+своего &lt;code&gt;smtp&lt;/code&gt; сервера отправлять тестовые
+&lt;a href="https://debugmail.io/mails/ec14ea018ee2944ff36776c9f1ba1b186984df8a"&gt;письма&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Debug Mail" class="center" src="/media/postfix/dm.png" /&gt;&lt;/p&gt;
+&lt;h2 id="pisma-pisma-lichno-na-pochtu-noshu"&gt;&lt;a class="toclink" href="#pisma-pisma-lichno-na-pochtu-noshu"&gt;Письма, письма лично на почту&amp;nbsp;ношу&amp;#8230;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Установим свой почтовый сервер, будем использовать простой и удобный
+&lt;a href="http://www.postfix.org/"&gt;PostFix&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo apt-get install postfix
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;В интерактивном режиме указываем тип и домен нашего&amp;nbsp;сервера.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Configure Postfix" class="center" src="/media/postfix/ps-configure.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Postfix domain" class="center" src="/media/postfix/ps-domain.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Для дальнейшей настройки скопируем базовый конфигурационный файл для &lt;code&gt;debian&lt;/code&gt;.
+И добавим доступ только из локального&amp;nbsp;хоста.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo cp /usr/share/postfix/main.cf.debian /etc/postfix/main.cf
+$ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128&lt;/span&gt;
+&lt;span class="s2"&gt;mydestination = localhost&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sudo tee -a /etc/postfix/main.cf
+$ sudo service postfix reload
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;По умолчанию у &lt;code&gt;postfix&lt;/code&gt; открыт 25 порт из внешнего мира, закроем его,
+отредактировав &lt;code&gt;etc/postfix/master.cf&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gd"&gt;--- /etc/postfix/master.cf&lt;/span&gt;
+&lt;span class="gi"&gt;+++ /etc/postfix/master.cf&lt;/span&gt;
+&lt;span class="gu"&gt;@@ -10,7 +10,7 @@&lt;/span&gt;
+ #               (yes)   (yes)   (yes)   (never) (100)
+ # ==========================================================================
+ # smtp      inet  n       -       -       -       -       smtpd
+&lt;span class="gd"&gt;-smtp               inet  n       -       n       -       -       smtpd&lt;/span&gt;
+&lt;span class="gi"&gt;+127.0.0.1:smtp     inet  n       -       n       -       -       smtpd&lt;/span&gt;
+ #smtp      inet  n       -       -       -       1       postscreen
+ #smtpd     pass  -       -       -       -       -       smtpd
+ #dnsblog   unix  -       -       -       -       0       dnsblog
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь можем попробовать отправить свое первое письмо с собственного сервера.
+Воспользуемся для этого стандартной библиотекой &lt;code&gt;python&lt;/code&gt;
+&lt;a href="https://docs.python.org/3.6/library/smtplib.html"&gt;SMTPLib&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;smtplib&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;email.mime.text&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MIMEText&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;email.mime.multipart&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MIMEMultipart&lt;/span&gt;
+
+&lt;span class="n"&gt;text_part&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MIMEText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;There are test mail text content&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;plain&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;html_part&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MIMEText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class="s1"&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;  &amp;lt;head&amp;gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;  &amp;lt;body&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;    &amp;lt;h1&amp;gt;Hello from Earth&amp;lt;h1&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;    &amp;lt;p&amp;gt;There are test mail html content.&amp;lt;/p&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;    &amp;lt;p style=&amp;quot;color:red&amp;quot;&amp;gt;have a good day ;)&amp;lt;/p&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;  &amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;from_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;to_&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;from@some.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;to@other.org&amp;#39;&lt;/span&gt;
+
+&lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MIMEMultipart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alternative&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Subject&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Hello from Earth&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;From&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;from_&lt;/span&gt;
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;To&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;to_&lt;/span&gt;
+
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text_part&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;html_part&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;host&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;smtplib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SMTP&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sendmail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;from_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;to_&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;as_string&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;quit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Письмо успешно отправляется и обязательно попадает в спам, т.к. выглядит
+очень подозрительно и отправлено с неподтвержденного&amp;nbsp;адреса.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="gmail spam" class="center shadow" src="/media/postfix/gmail.png" /&gt;&lt;/p&gt;
+&lt;!-- ### Немного безопасности --&gt;
+
+&lt;p&gt;Подключим &lt;code&gt;tls&lt;/code&gt; шифрование писем, добавив следующие строки в &lt;code&gt;/etc/postfix/main.cf&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;smtpd_tls_security_level&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;may&lt;/span&gt;
+&lt;span class="k"&gt;smtp_tls_security_level&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;may&lt;/span&gt;
+&lt;span class="k"&gt;smtp_tls_loglevel&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="k"&gt;smtpd_tls_loglevel&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+
+&lt;span class="k"&gt;smtpd_tls_CAfile&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;/etc/letsencrypt/live/example.com/chain.pem&lt;/span&gt;
+&lt;span class="k"&gt;smtpd_tls_cert_file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;/etc/letsencrypt/live/example.com/cert.pem&lt;/span&gt;
+&lt;span class="k"&gt;smtpd_tls_key_file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;/etc/letsencrypt/live/example.com/privkey.pem&lt;/span&gt;
+
+&lt;span class="k"&gt;smtp_tls_session_cache_database&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;btree&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="n"&gt;/var/lib/postfix/smtp_scache&lt;/span&gt;
+
+&lt;span class="k"&gt;smtp_tls_mandatory_exclude_ciphers&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;aNULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;MD&lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;DES&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;ADH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;RC&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;PSD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;SRP&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="k"&gt;DES&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;eNULL&lt;/span&gt;
+&lt;span class="k"&gt;smtp_tls_mandatory_protocols&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;SSLv&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;SSLv&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;TLSv&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;TLSv&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="k"&gt;.&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="k"&gt;smtp_tls_protocols&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;SSLv&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;SSLv&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;TLSv&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;TLSv&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="k"&gt;.&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="k"&gt;smtp_tls_mandatory_ciphers&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;high&lt;/span&gt;
+&lt;span class="k"&gt;tls_high_cipherlist&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;EDH&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;CAMELLIA&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;EDH&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;aRSA&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;EECDH&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;aRSA&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;AESGCM&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;EECDH&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;aRSA&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;SHA&lt;/span&gt;&lt;span class="m"&gt;384&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;EECDH&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;aRSA&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;SHA&lt;/span&gt;&lt;span class="m"&gt;256&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;EECDH&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;CAMELLIA&lt;/span&gt;&lt;span class="m"&gt;256&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;AES&lt;/span&gt;&lt;span class="m"&gt;256&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;CAMELLIA&lt;/span&gt;&lt;span class="m"&gt;128&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;AES&lt;/span&gt;&lt;span class="m"&gt;128&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;SSLv&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;aNULL&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;eNULL&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;LOW&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="k"&gt;DES&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;MD&lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;EXP&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;PSK&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;DSS&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;RC&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;SEED&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;ECDSA&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;CAMELLIA&lt;/span&gt;&lt;span class="m"&gt;256&lt;/span&gt;&lt;span class="k"&gt;-SHA&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;AES&lt;/span&gt;&lt;span class="m"&gt;256&lt;/span&gt;&lt;span class="k"&gt;-SHA&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;CAMELLIA&lt;/span&gt;&lt;span class="m"&gt;128&lt;/span&gt;&lt;span class="k"&gt;-SHA&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;AES&lt;/span&gt;&lt;span class="m"&gt;128&lt;/span&gt;&lt;span class="k"&gt;-SHA&lt;/span&gt;
+&lt;span class="k"&gt;tls_random_source&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;dev&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="n"&gt;/dev/urandom&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Здесь нам понадобятся сертификаты, можно сгенерировать их самостоятельно,
+но проще и надежнее использовать бесплатные сертификаты от &lt;a href="https://letsencrypt.org/"&gt;Let’s Encrypt&lt;/a&gt;.
+Как их получить можно причтать в статье &lt;a href="https://samael500.github.io/articles/secure/davaite-shifrovat/"&gt;Давайте шифровать&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;После настройки перезапускаем &lt;code&gt;postfix&lt;/code&gt; и проверяем доступность &lt;code&gt;tls&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ openssl s_client -starttls smtp -showcerts -connect localhost:25
+
+CONNECTED&lt;span class="o"&gt;(&lt;/span&gt;00000003&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nv"&gt;depth&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="nv"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; US, &lt;span class="nv"&gt;O&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; Let&lt;span class="s1"&gt;&amp;#39;s Encrypt, CN = Let&amp;#39;&lt;/span&gt;s Encrypt Authority X3
+verify error:num&lt;span class="o"&gt;=&lt;/span&gt;20:unable to get &lt;span class="nb"&gt;local&lt;/span&gt; issuer certificate
+---
+Certificate chain
+ &lt;span class="m"&gt;0&lt;/span&gt; s:/CN&lt;span class="o"&gt;=&lt;/span&gt;example.com
+   i:/C&lt;span class="o"&gt;=&lt;/span&gt;US/O&lt;span class="o"&gt;=&lt;/span&gt;Let&lt;span class="s1"&gt;&amp;#39;s Encrypt/CN=Let&amp;#39;&lt;/span&gt;s Encrypt Authority X3
+-----BEGIN CERTIFICATE-----
+&amp;lt;cert content&amp;gt;
+-----END CERTIFICATE-----
+ &lt;span class="m"&gt;1&lt;/span&gt; s:/C&lt;span class="o"&gt;=&lt;/span&gt;US/O&lt;span class="o"&gt;=&lt;/span&gt;Let&lt;span class="s1"&gt;&amp;#39;s Encrypt/CN=Let&amp;#39;&lt;/span&gt;s Encrypt Authority X3
+   i:/O&lt;span class="o"&gt;=&lt;/span&gt;Digital Signature Trust Co./CN&lt;span class="o"&gt;=&lt;/span&gt;DST Root CA X3
+-----BEGIN CERTIFICATE-----
+&amp;lt;cert content&amp;gt;
+-----END CERTIFICATE-----
+---
+Server certificate
+&lt;span class="nv"&gt;subject&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/CN&lt;span class="o"&gt;=&lt;/span&gt;example.com
+&lt;span class="nv"&gt;issuer&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/C&lt;span class="o"&gt;=&lt;/span&gt;US/O&lt;span class="o"&gt;=&lt;/span&gt;Let&lt;span class="s1"&gt;&amp;#39;s Encrypt/CN=Let&amp;#39;&lt;/span&gt;s Encrypt Authority X3
+---
+No client certificate CA names sent
+Peer signing digest: SHA512
+Server Temp Key: ECDH, P-256, &lt;span class="m"&gt;256&lt;/span&gt; bits
+---
+SSL handshake has &lt;span class="nb"&gt;read&lt;/span&gt; &lt;span class="m"&gt;3884&lt;/span&gt; bytes and written &lt;span class="m"&gt;468&lt;/span&gt; bytes
+---
+New, TLSv1/SSLv3, Cipher is ECDHE-RSA-AES256-GCM-SHA384
+Server public key is &lt;span class="m"&gt;4096&lt;/span&gt; bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+SSL-Session:
+    Protocol  : TLSv1.2
+    Cipher    : ECDHE-RSA-AES256-GCM-SHA384
+    Session-ID: 9C05050D143CE1474438AEC0A57BD8303953053608ECD5775B565A26455EDADB
+    Session-ID-ctx: 
+    Master-Key: D6A09F3AC016E489542EAA11E9EFF7B56118D24F849FD480B26E219322E8D97D43DE7C537E9B928A67DDCAD3F9397EC6
+    Key-Arg   : None
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: &lt;span class="m"&gt;7200&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;seconds&lt;span class="o"&gt;)&lt;/span&gt;
+    TLS session ticket:
+    &lt;span class="m"&gt;0000&lt;/span&gt; - &lt;span class="nb"&gt;cd&lt;/span&gt; a5 c1 &lt;span class="m"&gt;43&lt;/span&gt; &lt;span class="m"&gt;13&lt;/span&gt; c9 2c 4b-7e &lt;span class="m"&gt;14&lt;/span&gt; f6 &lt;span class="m"&gt;53&lt;/span&gt; &lt;span class="m"&gt;92&lt;/span&gt; &lt;span class="m"&gt;86&lt;/span&gt; &lt;span class="m"&gt;89&lt;/span&gt; &lt;span class="m"&gt;29&lt;/span&gt;   ...C..,K~..S...&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="m"&gt;0010&lt;/span&gt; - &lt;span class="m"&gt;88&lt;/span&gt; dc ae cc d4 &lt;span class="m"&gt;61&lt;/span&gt; a1 4c-ec &lt;span class="m"&gt;05&lt;/span&gt; b1 &lt;span class="m"&gt;61&lt;/span&gt; &lt;span class="m"&gt;94&lt;/span&gt; 0c b1 6c   .....a.L...a...l
+    &lt;span class="m"&gt;0020&lt;/span&gt; - &lt;span class="m"&gt;13&lt;/span&gt; &lt;span class="m"&gt;57&lt;/span&gt; &lt;span class="m"&gt;84&lt;/span&gt; &lt;span class="m"&gt;63&lt;/span&gt; 0f e4 6a d7-da &lt;span class="m"&gt;08&lt;/span&gt; &lt;span class="m"&gt;45&lt;/span&gt; 7e &lt;span class="m"&gt;80&lt;/span&gt; 3e fd d7   .W.c..j...E~.&amp;gt;..
+    &lt;span class="m"&gt;0030&lt;/span&gt; - &lt;span class="m"&gt;16&lt;/span&gt; &lt;span class="m"&gt;82&lt;/span&gt; &lt;span class="m"&gt;70&lt;/span&gt; d5 e4 8a bd ba-6f 9d b9 6f d9 &lt;span class="m"&gt;49&lt;/span&gt; &lt;span class="m"&gt;56&lt;/span&gt; b7   ..p.....o..o.IV.
+    &lt;span class="m"&gt;0040&lt;/span&gt; - d4 &lt;span class="m"&gt;41&lt;/span&gt; 5a c7 &lt;span class="m"&gt;27&lt;/span&gt; &lt;span class="m"&gt;53&lt;/span&gt; &lt;span class="m"&gt;82&lt;/span&gt; b5-8d 5d &lt;span class="m"&gt;22&lt;/span&gt; &lt;span class="m"&gt;08&lt;/span&gt; &lt;span class="m"&gt;38&lt;/span&gt; 3c a5 &lt;span class="m"&gt;59&lt;/span&gt;   .AZ.&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;S...&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.8&amp;lt;.Y&lt;/span&gt;
+&lt;span class="s2"&gt;    0050 - 6b 06 e7 5f ba 36 2f 91-44 85 7a 5d 1c e4 da d9   k.._.6/.D.z]....&lt;/span&gt;
+&lt;span class="s2"&gt;    0060 - 90 78 64 10 63 6a df c9-79 8d d9 10 66 dc 24 74   .xd.cj..y...f.&lt;/span&gt;&lt;span class="nv"&gt;$t&lt;/span&gt;&lt;span class="s2"&gt;&lt;/span&gt;
+&lt;span class="s2"&gt;    0070 - fb 5a f6 f5 02 14 c5 d5-b0 b3 65 57 24 01 f2 bd   .Z........eW&lt;/span&gt;$&lt;span class="s2"&gt;...&lt;/span&gt;
+&lt;span class="s2"&gt;    0080 - 06 31 f9 a9 e3 32 42 ad-f0 3b b5 3d 39 77 2c 95   .1...2B..;.=9w,.&lt;/span&gt;
+&lt;span class="s2"&gt;    0090 - 8f fd e9 4f c9 4c 1d 77-8e 23 e4 ca 48 e8 9f ed   ...O.L.w.#..H...&lt;/span&gt;
+
+&lt;span class="s2"&gt;    Start Time: 1489229346&lt;/span&gt;
+&lt;span class="s2"&gt;    Timeout   : 300 (sec)&lt;/span&gt;
+&lt;span class="s2"&gt;    Verify return code: 20 (unable to get local issuer certificate)&lt;/span&gt;
+&lt;span class="s2"&gt;---&lt;/span&gt;
+&lt;span class="s2"&gt;250 DSN&lt;/span&gt;
+
+&lt;span class="s2"&gt;QUIT&lt;/span&gt;
+&lt;span class="s2"&gt;DONE&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;!--
+Установим авториазацию с помощью [SASL](https://tools.ietf.org/html/rfc2222).
+
+wzxhzdk:6
+
+
+Укажим доступные пары логин\пароль в файле `/etc/postfix/sasl_passwd`.
+
+
+wzxhzdk:7
+
+
+Дадим доступ на чтение этого файла только администратору и сгенерируем таблицу.
+
+
+wzxhzdk:8
+
+
+Разрешим доступ только аутентифицированным пользователям, добавив в `/etc/postfix/main.cf`
+
+
+wzxhzdk:9
+
+
+Перезапускаем `postfix` и проверяем `SMTP` авторизацию по `telnet`.
+
+
+wzxhzdk:10
+
+
+Следующие строки указывают на наличие аутентификации.
+
+
+wzxhzdk:11
+
+
+Проверяем отправку письма добавив авторизацию.
+
+
+wzxhzdk:12
+
+--&gt;
+
+&lt;h2 id="podpisyvaius-pod-kazhdym-slovom"&gt;&lt;a class="toclink" href="#podpisyvaius-pod-kazhdym-slovom"&gt;Подписываюсь под каждым&amp;nbsp;словом&amp;#8230;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;На сегодняшний день, считается обязательным подпись электронных писем
+с помощью &lt;a href="http://www.dkim.org/"&gt;&lt;span class="caps"&gt;DKIM&lt;/span&gt;&lt;/a&gt; для того чтобы почтовый сервер
+получателя мог удостоверится в том, что почта отправлена именно с сервера
+указанного в поле &lt;code&gt;From&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id="ustanovka-i-nastroika-opendkim"&gt;&lt;a class="toclink" href="#ustanovka-i-nastroika-opendkim"&gt;Установка и настройка&amp;nbsp;OpenDKIM&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Устанавливаем необходимые пакеты, &lt;a href="http://www.opendkim.org/"&gt;OpenDKIM&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo apt-get install opendkim opendkim-tools
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Генерируем ключи и сохраняем их доступными для чтения группе &lt;code&gt;opendkim&lt;/code&gt;,
+а также добавляем в эту группу &lt;code&gt;postfix&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo mkdir /etc/opendkim
+$ sudo opendkim-genkey -D /etc/opendkim -d &lt;span class="k"&gt;$(&lt;/span&gt;hostname -d&lt;span class="k"&gt;)&lt;/span&gt; -s &lt;span class="k"&gt;$(&lt;/span&gt;hostname&lt;span class="k"&gt;)&lt;/span&gt;
+$ sudo chgrp opendkim /etc/opendkim/*
+$ sudo chmod g+r /etc/opendkim/*
+$ sudo gpasswd -a postfix opendkim
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь указываем &lt;code&gt;opendkim&lt;/code&gt;где находятся ключи, для этого дописываем
+в конфигурационный файл &lt;code&gt;/etc/opendkim.conf&lt;/code&gt; следующие&amp;nbsp;строки.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;Canonicalization&lt;/span&gt; &lt;span class="k"&gt;relaxed&lt;/span&gt;&lt;span class="n"&gt;/relaxed&lt;/span&gt;
+&lt;span class="k"&gt;SyslogSuccess&lt;/span&gt; &lt;span class="k"&gt;yes&lt;/span&gt;
+&lt;span class="k"&gt;RequireSafeKeys&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="k"&gt;KeyTable&lt;/span&gt; &lt;span class="k"&gt;file&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="n"&gt;/etc/opendkim/keytable&lt;/span&gt;
+&lt;span class="k"&gt;SigningTable&lt;/span&gt; &lt;span class="k"&gt;file&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="n"&gt;/etc/opendkim/signingtable&lt;/span&gt;
+&lt;span class="k"&gt;X-Header&lt;/span&gt; &lt;span class="k"&gt;yes&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Подробнее ознакомится с возможными параметрами можно в
+&lt;a href="http://www.opendkim.org/opendkim.conf.5.html"&gt;документации&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Теперь заполним таблицы ключей в файлах &lt;code&gt;/etc/opendkim/keytable&lt;/code&gt; и &lt;code&gt;/etc/opendkim/signingtable&lt;/code&gt;.
+Они указывают соответсвие между доменом и ключем, которым необходимо подписывать&amp;nbsp;письмо.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# /etc/opendkim/keytable&lt;/span&gt;
+ключ домен:селектор:/путь/до/ключа
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# /etc/opendkim/signingtable&lt;/span&gt;
+домен ключ
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Например:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# /etc/opendkim/keytable&lt;/span&gt;
+mail._domainkey.example.com example.com:mail:/etc/opendkim/mail.private
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# /etc/opendkim/signingtable&lt;/span&gt;
+example.com    mail._domainkey.example.com
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="nastroika-postfix-dlia-raboty-s-opendkim"&gt;&lt;a class="toclink" href="#nastroika-postfix-dlia-raboty-s-opendkim"&gt;Настройка Postfix для работы с&amp;nbsp;OpenDKIM&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Указываем о необходимости подписывать все письма с помощью &lt;code&gt;dkim&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo postconf -e &lt;span class="nv"&gt;milter_default_action&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;accept
+$ sudo postconf -e &lt;span class="nv"&gt;milter_protocol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;2
+$ sudo postconf -e &lt;span class="nv"&gt;smtpd_milters&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;unix:/var/run/opendkim/opendkim.sock
+$ sudo postconf -e &lt;span class="nv"&gt;non_smtpd_milters&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;unix:/var/run/opendkim/opendkim.sock
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Перезапускаем службы и отправляем подписанное&amp;nbsp;письмо.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo service postfix restart
+$ sudo service opendkim restart
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2 id="nastroiiki-domennoi-zony"&gt;&lt;a class="toclink" href="#nastroiiki-domennoi-zony"&gt;Настроийки доменной&amp;nbsp;зоны&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Чтобы сервер мог удостовериться в корректности подписи,
+нужно добавить &lt;code&gt;TXT&lt;/code&gt; запись содежащую ключ. Сделать это нужно в контрольной
+панели регистратора. Проверим, что &lt;code&gt;dns&lt;/code&gt; зоны&amp;nbsp;обновились.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ dig +short TXT mail._domainkey.example.com
+&lt;span class="s2"&gt;&amp;quot;v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCvfTJ37Gqs06fhG0YYj/6HbojCrDp&lt;/span&gt;
+&lt;span class="s2"&gt;F8X6u20YUaOax+jrvO0KtItfWYUi6hkCJeKbGTAOmqhWLu1T/DMt0XaICAJ7Q8525Z4ghwfvc5LgYyNSDEODeF&lt;/span&gt;
+&lt;span class="s2"&gt;LNPlXgn3IP5o6Og2We/SnO4QCv8drKGf0N2xm5IIzIT8CjsbM6gPQIHTQIDAQAB&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Также хорошо указать разрешенные &lt;code&gt;ip&lt;/code&gt; адреса для исходящих писем в запись &lt;code&gt;spf&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ dig +short TXT example.com
+&lt;span class="s2"&gt;&amp;quot;v=spf1 a:example.com ip4:&amp;lt;ip v4 addr&amp;gt; ip6:&amp;lt;ip v6 addr&amp;gt; ~all&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2 id="vse-ne-kak-u-liudei"&gt;&lt;a class="toclink" href="#vse-ne-kak-u-liudei"&gt;Все не как у&amp;nbsp;людей&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Сегодня мы живем в далеком и почти светлом будущем, когда по бескрайним
+просторам сети широко распространяется &lt;code&gt;ipv6&lt;/code&gt; адресация. Но, оказывается,
+абсолютно все письма отправленные с &lt;code&gt;ipv6&lt;/code&gt; всегда воспринимаются гуглом как спам.
+Даже пройдя верефикацию по &lt;code&gt;dkim&lt;/code&gt; и &lt;code&gt;spf&lt;/code&gt; записям, уходят в нежелательную&amp;nbsp;почту.&lt;/p&gt;
+&lt;p&gt;Так что укажем в конфигурации &lt;code&gt;postfix&lt;/code&gt; отправку только с использованием &lt;code&gt;ipv4&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo postconf -e &lt;span class="nv"&gt;inet_protocols&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;ipv4
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь письма успешно доставляются и проходят все&amp;nbsp;валидации.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="gmail ok" class="center shadow" src="/media/postfix/gmail_ok.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;details&gt;
+    &lt;summary&gt;Пример письма&lt;/summary&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Delivered&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;To&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;samael500&lt;/span&gt;&lt;span class="nd"&gt;@gmail.com&lt;/span&gt;
+&lt;span class="n"&gt;Received&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="mf"&gt;10.182&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;174.67&lt;/span&gt; &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;SMTP&lt;/span&gt; &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="n"&gt;bq3csp1452226obc&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;Tue&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt; &lt;span class="n"&gt;Feb&lt;/span&gt; &lt;span class="mi"&gt;2017&lt;/span&gt; &lt;span class="mi"&gt;08&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;09&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;52&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;0800&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PST&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Received&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="mf"&gt;10.46&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;22.18&lt;/span&gt; &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;SMTP&lt;/span&gt; &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="n"&gt;w18mr1151641ljd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;86.1488298192253&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;Tue&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt; &lt;span class="n"&gt;Feb&lt;/span&gt; &lt;span class="mi"&gt;2017&lt;/span&gt; &lt;span class="mi"&gt;08&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;09&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;52&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;0800&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PST&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;Return&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Path&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="o"&gt;*********&amp;gt;&lt;/span&gt;
+&lt;span class="n"&gt;Received&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="o"&gt;*********&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*********.&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;**.**.**.**&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+        &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="n"&gt;mx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;google&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt; &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;ESMTPS&lt;/span&gt; &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="n"&gt;x14si1225569lfd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;155.2017&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;02.28&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;08.09&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;51&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;samael500&lt;/span&gt;&lt;span class="nd"&gt;@gmail.com&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;TLS1_2&lt;/span&gt; &lt;span class="n"&gt;cipher&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ECDHE&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;RSA&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;AES128&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;GCM&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;SHA256&lt;/span&gt; &lt;span class="n"&gt;bits&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;128&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;128&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;Tue&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt; &lt;span class="n"&gt;Feb&lt;/span&gt; &lt;span class="mi"&gt;2017&lt;/span&gt; &lt;span class="mi"&gt;08&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;09&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;52&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;0800&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PST&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;Received&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;SPF&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;pass&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;google&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;domain&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="o"&gt;*********&lt;/span&gt; &lt;span class="n"&gt;designates&lt;/span&gt; &lt;span class="o"&gt;**.**.**.**&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;permitted&lt;/span&gt; &lt;span class="n"&gt;sender&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ip&lt;/span&gt;&lt;span class="o"&gt;=**.**.**.**&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;Authentication&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Results&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;mx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;google&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+       &lt;span class="n"&gt;dkim&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;pass&lt;/span&gt; &lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=*********&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+       &lt;span class="n"&gt;spf&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;pass&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;google&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;domain&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="o"&gt;*********&lt;/span&gt; &lt;span class="n"&gt;designates&lt;/span&gt; &lt;span class="o"&gt;**.**.**.**&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;permitted&lt;/span&gt; &lt;span class="n"&gt;sender&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;smtp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mailfrom&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="o"&gt;*********&lt;/span&gt;
+&lt;span class="n"&gt;Received&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="o"&gt;*********&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;localhost&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mf"&gt;127.0&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;0.1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="o"&gt;*********&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Postfix&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;ESMTP&lt;/span&gt; &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="n"&gt;D9ED0452AB&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;samael500&lt;/span&gt;&lt;span class="nd"&gt;@gmail.com&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;Tue&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt; &lt;span class="n"&gt;Feb&lt;/span&gt; &lt;span class="mi"&gt;2017&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;09&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;53&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mo"&gt;0000&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;UTC&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;DKIM&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Filter&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;OpenDKIM&lt;/span&gt; &lt;span class="n"&gt;Filter&lt;/span&gt; &lt;span class="n"&gt;v2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;9.2&lt;/span&gt; &lt;span class="o"&gt;*********&lt;/span&gt; &lt;span class="n"&gt;D9ED0452AB&lt;/span&gt;
+&lt;span class="n"&gt;DKIM&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Signature&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rsa&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;sha256&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;relaxed&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;relaxed&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;=*********&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;mail&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1488298193&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;bh&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;juRoCRHzIAJJ4fKO8VlXEyxNddxTS8ftBnWmLxjdAik&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;Subject&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;From&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;To&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;Date&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;From&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;G0Z6uXOV0LQHscdUOwMg5rjuJA&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;KWZ7x6Iqx3Z2x01nZ2kD&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;E1OgyP4zEfqS9XDiS&lt;/span&gt;
+     &lt;span class="n"&gt;fG04P0qpIJyGEmO8hgRDIlH1d5FIDGjGPMAFDynwZ9j7pG1h88yLHThdtesUN7Fjib&lt;/span&gt;
+     &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="n"&gt;yL1xxiyw2dZbtfvgXwhj0Nb9RXpphrY&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;c9v2fW4&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+&lt;span class="n"&gt;Content&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Type&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;multipart&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;alternative&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+ &lt;span class="n"&gt;boundary&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;===============3211535685628593130==&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;MIME&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Version&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;
+&lt;span class="n"&gt;Subject&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Hello&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;Earth&lt;/span&gt;
+&lt;span class="n"&gt;From&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="o"&gt;*********&lt;/span&gt;
+&lt;span class="n"&gt;To&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;samael500&lt;/span&gt;&lt;span class="nd"&gt;@gmail.com&lt;/span&gt;
+&lt;span class="n"&gt;Message&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mf"&gt;20170228160953.&lt;/span&gt;&lt;span class="n"&gt;D9ED0452AB&lt;/span&gt;&lt;span class="o"&gt;*********&amp;gt;&lt;/span&gt;
+&lt;span class="n"&gt;Date&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Tue&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt; &lt;span class="n"&gt;Feb&lt;/span&gt; &lt;span class="mi"&gt;2017&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;09&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;53&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mo"&gt;0000&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;UTC&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="o"&gt;--===============&lt;/span&gt;&lt;span class="mi"&gt;3211535685628593130&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;
+&lt;span class="n"&gt;Content&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Type&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;plain&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;charset&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;us-ascii&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;MIME&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Version&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;
+&lt;span class="n"&gt;Content&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Transfer&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Encoding&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;
+
+&lt;span class="n"&gt;There&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="n"&gt;mail&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;
+&lt;span class="o"&gt;--===============&lt;/span&gt;&lt;span class="mi"&gt;3211535685628593130&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;
+&lt;span class="n"&gt;Content&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Type&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;charset&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;us-ascii&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;MIME&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Version&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;
+&lt;span class="n"&gt;Content&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Transfer&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Encoding&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;
+
+
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;h1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;Hello&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;Earth&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;h1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;There&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="n"&gt;mail&lt;/span&gt; &lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="o"&gt;.&amp;lt;/&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;color:red&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;have&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;good&lt;/span&gt; &lt;span class="n"&gt;day&lt;/span&gt; &lt;span class="p"&gt;;)&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class="o"&gt;--===============&lt;/span&gt;&lt;span class="mi"&gt;3211535685628593130&lt;/span&gt;&lt;span class="o"&gt;==--&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;/details&gt;&lt;/p&gt;
+&lt;h2 id="django-settings"&gt;&lt;a class="toclink" href="#django-settings"&gt;Django&amp;nbsp;settings&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Теперь можно подключить отправку писем через наш &lt;code&gt;smtp&lt;/code&gt; в&amp;nbsp;джанго.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;EMAIL_HOST&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;EMAIL_PORT&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;25&lt;/span&gt;
+&lt;span class="n"&gt;EMAIL_HOST_USER&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;EMAIL_HOST_PASSWORD&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;EMAIL_USE_TLS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+&lt;span class="n"&gt;EMAIL_BACKEND&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;django.core.mail.backends.smtp.EmailBackend&amp;#39;&lt;/span&gt;
+
+&lt;span class="n"&gt;DEFAULT_FROM_EMAIL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;info@example.com&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="postfix"></category><category term="email"></category><category term="python"></category><category term="dkim"></category><category term="spf"></category></entry><entry><title>Три года в команде</title><link href="https://samael500.github.io/articles/drugoe/tri-goda-v-komande/" rel="alternate"></link><published>2017-01-18T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2017-01-18:articles/drugoe/tri-goda-v-komande/</id><summary type="html">&lt;p&gt;Кажется ещё только вчера я был студентом, но вот уже пролетело три года
 как я работаю в дружной и слаженной команде &lt;a href="http://wbtech.pro"&gt;Вебтек&lt;/a&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;img alt="wbt team" class="center" src="/media/wbt3/team.jpg" /&gt;
