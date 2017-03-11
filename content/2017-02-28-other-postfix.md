@@ -140,9 +140,9 @@ tls_high_cipherlist=EDH+CAMELLIA:EDH+aRSA:EECDH+aRSA+AESGCM:EECDH+aRSA+SHA384:EE
 tls_random_source = dev:/dev/urandom
 ```
 
-Здесь нам понадобятся сертификаты, можно сгенерировать их самостоятельно,
+Здесь нам понадобятся сертификаты, можно подписать их самостоятельно,
 но проще и надежнее использовать бесплатные сертификаты от [Let’s Encrypt](https://letsencrypt.org/).
-Как их получить можно причтать в статье [Давайте шифровать](|filename|/2016-01-15-secure-letsencrypt.md).
+Подробнее о том как их получать в статье [Давайте шифровать](|filename|/2016-01-15-secure-letsencrypt.md).
 
 После настройки перезапускаем `postfix` и проверяем доступность `tls`.
 
