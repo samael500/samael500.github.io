@@ -253,9 +253,9 @@ $ sudo service postfix reload
 </pre></div>
 
 
-<p>Здесь нам понадобятся сертификаты, можно сгенерировать их самостоятельно,
+<p>Здесь нам понадобятся сертификаты, можно подписать их самостоятельно,
 но проще и надежнее использовать бесплатные сертификаты от <a href="https://letsencrypt.org/">Let’s Encrypt</a>.
-Как их получить можно причтать в статье <a href="https://samael500.github.io/articles/secure/davaite-shifrovat/">Давайте шифровать</a>.</p>
+Подробнее о том как их получать в статье <a href="https://samael500.github.io/articles/secure/davaite-shifrovat/">Давайте шифровать</a>.</p>
 <p>После настройки перезапускаем <code>postfix</code> и проверяем доступность <code>tls</code>.</p>
 <div class="highlight"><pre><span></span>$ openssl s_client -starttls smtp -showcerts -connect localhost:25
 
