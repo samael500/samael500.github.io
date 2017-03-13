@@ -14,7 +14,7 @@ PATH = 'content'
 # languages settings
 TIMEZONE = 'Europe/Moscow'
 DEFAULT_LANG = 'en'
-LOCALE = ('en_US', )
+LOCALE = ('en_US.UTF-8', )
 
 # ARCHIVES_TEXT = u'Архив'
 # ARTICLESCATEGORY_TEXT = u'Статьи в категории'
