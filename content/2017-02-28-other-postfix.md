@@ -217,30 +217,30 @@ DONE
 <!--
 Установим авториазацию с помощью [SASL](https://tools.ietf.org/html/rfc2222).
 
-```bash
+bash
 $ sudo apt-get install sasl2-bin
-```
+
 
 Укажим доступные пары логин\пароль в файле `/etc/postfix/sasl_passwd`.
 
-```bash
+bash
 # домен        логин:хеш пароля
 example.com    testuser:59de1412ec33fd96ac4a4bfc793f1133
-```
+
 
 Дадим доступ на чтение этого файла только администратору и сгенерируем таблицу.
 
-```bash
+bash
 $ sudo chown root:root /etc/postfix/sasl_passwd && chmod 600 /etc/postfix/sasl_passwd
 $ postmap hash:/etc/postfix/sasl_passwd
 $ ls -all /etc/postfix/sasl_passwd*
 -rw------- 1 root root    59 фев  28 18:31 /etc/postfix/sasl_passwd
 -rw------- 1 root root 12288 фев  28 18:37 /etc/postfix/sasl_passwd.db
-```
+
 
 Разрешим доступ только аутентифицированным пользователям, добавив в `/etc/postfix/main.cf`
 
-```Lighttpd
+Lighttpd
 smtpd_sasl_auth_enable = yes
 smtpd_sasl_security_options = noanonymous
 smtpd_sasl_local_domain = $myhostname
@@ -248,11 +248,11 @@ broken_sasl_auth_clients = yes
 smtpd_recipient_restrictions =
    permit_sasl_authenticated, permit_mynetworks, check_relay_domains
 smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
-```
+
 
 Перезапускаем `postfix` и проверяем `SMTP` авторизацию по `telnet`.
 
-```telnet
+telnet
 EHLO example.com
 250-example.com
 250-PIPELINING
@@ -265,21 +265,21 @@ EHLO example.com
 250-8BITMIME
 250 DSN
 quit
-```
+
 
 Следующие строки указывают на наличие аутентификации.
 
-```telnet
+telnet
 250-AUTH DIGEST-MD5 CRAM-MD5 NTLM LOGIN PLAIN
 250-AUTH=DIGEST-MD5 CRAM-MD5 NTLM LOGIN PLAIN
-```
+
 
 Проверяем отправку письма добавив авторизацию.
 
-```python
+python
 conn = smtplib.SMTP(host)
 conn.login('testuser', 'testpasswd')
-```
+
 -->
 ## Подписываюсь под каждым словом...
 
