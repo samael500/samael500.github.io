@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -110,22 +110,22 @@
         <header>
 <h4>
     <a href="https://samael500.github.io/articles/drugoe/sam-sebe-pochtalon/" title="Сам себе почтальон">Сам себе&nbsp;почтальон</a>
-    Фев 28, 2017
+    Feb 28, 2017
 </h4>
 
 <div class="footer art-info">
 
-        Автор: <a class="url fn" href="https://samael500.github.io/author/maks/">Maks</a> |
+        Author: <a class="url fn" href="https://samael500.github.io/author/maks/">Maks</a> |
 
-    Категория: <a href="https://samael500.github.io/category/drugoe.html">Другое</a>
+    Category: <a href="https://samael500.github.io/category/drugoe.html">Другое</a>
 
 
-        | <a href="https://samael500.github.io/articles/drugoe/sam-sebe-pochtalon/#disqus_thread">Комментарии</a>
+        | <a href="https://samael500.github.io/articles/drugoe/sam-sebe-pochtalon/#disqus_thread">Comments</a>
 
     
 
         <br />
-        Теги:         <a href="https://samael500.github.io/tag/postfix/">postfix</a>
+        Tags:         <a href="https://samael500.github.io/tag/postfix/">postfix</a>
         <a href="https://samael500.github.io/tag/email/">email</a>
         <a href="https://samael500.github.io/tag/python/">python</a>
         <a href="https://samael500.github.io/tag/dkim/">dkim</a>
@@ -325,48 +325,73 @@ SSL-Session:
 </pre></div>
 
 
-<!--
+<!&#8212;
 Установим авториазацию с помощью [SASL](https://tools.ietf.org/html/rfc2222).
 
-wzxhzdk:6
+bash
+$ sudo apt-get install sasl2-bin
 
 
 Укажим доступные пары логин\пароль в файле `/etc/postfix/sasl_passwd`.
 
-
-wzxhzdk:7
+bash
+# домен        логин:хеш пароля
+example.com    testuser:59de1412ec33fd96ac4a4bfc793f1133
 
 
 Дадим доступ на чтение этого файла только администратору и сгенерируем таблицу.
 
-
-wzxhzdk:8
+bash
+$ sudo chown root:root /etc/postfix/sasl_passwd && chmod 600 /etc/postfix/sasl_passwd
+$ postmap hash:/etc/postfix/sasl_passwd
+$ ls -all /etc/postfix/sasl_passwd*
+-rw&#8212;&#8212;&#8212;- 1 root root    59 фев  28 18:31 /etc/postfix/sasl_passwd
+-rw&#8212;&#8212;&#8212;- 1 root root 12288 фев  28 18:37 /etc/postfix/sasl_passwd.db
 
 
 Разрешим доступ только аутентифицированным пользователям, добавив в `/etc/postfix/main.cf`
 
-
-wzxhzdk:9
+Lighttpd
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_local_domain = $myhostname
+broken_sasl_auth_clients = yes
+smtpd_recipient_restrictions =
+   permit_sasl_authenticated, permit_mynetworks, check_relay_domains
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
 
 
 Перезапускаем `postfix` и проверяем `SMTP` авторизацию по `telnet`.
 
-
-wzxhzdk:10
+telnet
+EHLO example.com
+250-example.com
+250-PIPELINING
+250-SIZE 10240000
+250-VRFY
+250-ETRN
+250-AUTH DIGEST-MD5 CRAM-MD5 NTLM LOGIN PLAIN
+250-AUTH=DIGEST-MD5 CRAM-MD5 NTLM LOGIN PLAIN
+250-ENHANCEDSTATUSCODES
+250-8BITMIME
+250 DSN
+quit
 
 
 Следующие строки указывают на наличие аутентификации.
 
-
-wzxhzdk:11
+telnet
+250-AUTH DIGEST-MD5 CRAM-MD5 NTLM LOGIN PLAIN
+250-AUTH=DIGEST-MD5 CRAM-MD5 NTLM LOGIN PLAIN
 
 
 Проверяем отправку письма добавив авторизацию.
 
+python
+conn = smtplib.SMTP(host)
+conn.login(&#8216;testuser&#8217;, &#8216;testpasswd&#8217;)
 
-wzxhzdk:12
-
--->
+&#8212;>
 
 <h2 id="podpisyvaius-pod-kazhdym-slovom"><a class="toclink" href="#podpisyvaius-pod-kazhdym-slovom">Подписываюсь под каждым&nbsp;словом&#8230;</a></h2>
 <p>На сегодняшний день, считается обязательной подпись электронных писем
