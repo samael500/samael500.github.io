@@ -13,30 +13,33 @@ PATH = 'content'
 
 # languages settings
 TIMEZONE = 'Europe/Moscow'
-DEFAULT_LANG = u'ru'
+DEFAULT_LANG = 'en'
+LOCALE = ('en_US', )
 
-ARCHIVES_TEXT = u'Архив'
-ARTICLESCATEGORY_TEXT = u'Статьи в категории'
-ARTICLESTAG_TEXT = u'Статьи с тегом'
-AUTHOR_TEXT = u'Автор'
-AUTHORS_TEXT = u'Авторы'
-CATEGORIES_TEXT = u'Категории'
-CATEGORY_TEXT = u'Категория'
-TAGS_TEXT = u'Теги'
-COMMENTS_TEXT = u'Комментарии'
-CONTENT_TEXT = u'Содержимое'
-FIRST_TEXT = u'первая'
-LAST_TEXT = u'последняя'
-READMORE_TEXT = u'далее...'
+# ARCHIVES_TEXT = u'Архив'
+# ARTICLESCATEGORY_TEXT = u'Статьи в категории'
+# ARTICLESTAG_TEXT = u'Статьи с тегом'
+# AUTHOR_TEXT = u'Автор'
+# AUTHORS_TEXT = u'Авторы'
+# CATEGORIES_TEXT = u'Категории'
+# CATEGORY_TEXT = u'Категория'
+# TAGS_TEXT = u'Теги'
+# COMMENTS_TEXT = u'Комментарии'
+# CONTENT_TEXT = u'Содержимое'
+# FIRST_TEXT = u'первая'
+# LAST_TEXT = u'последняя'
+# READMORE_TEXT = u'далее...'
 
 # Feed generation is usually not desired when developing
 FEED_DOMAIN = SITEURL
 
 # Blogroll
 LINKS = (
-    ('Pelican', 'http://getpelican.com/'),
-    ('Python.org', 'http://python.org/'),
+    ('Pelican', 'https://getpelican.com/'),
+    ('Python.org', 'https://python.org/'),
     ('Jinja2', 'http://jinja.pocoo.org/'),
+    ('re9ulus blog', 'https://re9ulus.github.io/'),
+    ('dizballanze blog', 'https://dizballanze.github.io/'),
     # ('You can modify those links in your config file', '#'),
 )
 
