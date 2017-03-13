@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
+import datetime
 
 AUTHOR = u'Maks'
 SITENAME = u'Maks blog'
@@ -124,3 +125,6 @@ from slugify import slugify
 MD_EXTENSIONS = [
     'codehilite(css_class=highlight)', 'extra',
     TocExtension(anchorlink=True, slugify=slugify), ]
+
+
+CURRENT_YEAR = datetime.date.today().year
