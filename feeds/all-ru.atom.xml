@@ -227,8 +227,8 @@ SSL-Session:
 --&gt;
 
 &lt;h2 id="podpisyvaius-pod-kazhdym-slovom"&gt;&lt;a class="toclink" href="#podpisyvaius-pod-kazhdym-slovom"&gt;Подписываюсь под каждым&amp;nbsp;словом&amp;#8230;&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;На сегодняшний день, считается обязательным подпись электронных писем
-с помощью &lt;a href="http://www.dkim.org/"&gt;&lt;span class="caps"&gt;DKIM&lt;/span&gt;&lt;/a&gt; для того чтобы почтовый сервер
+&lt;p&gt;На сегодняшний день, считается обязательной подпись электронных писем
+с помощью &lt;a href="http://www.dkim.org/"&gt;&lt;span class="caps"&gt;DKIM&lt;/span&gt;&lt;/a&gt;. Это делается для того, чтобы почтовый сервер
 получателя мог удостоверится в том, что почта отправлена именно с сервера
 указанного в поле &lt;code&gt;From&lt;/code&gt;.&lt;/p&gt;
 &lt;h3 id="ustanovka-i-nastroika-opendkim"&gt;&lt;a class="toclink" href="#ustanovka-i-nastroika-opendkim"&gt;Установка и настройка&amp;nbsp;OpenDKIM&lt;/a&gt;&lt;/h3&gt;
@@ -247,7 +247,7 @@ $ sudo gpasswd -a postfix opendkim
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Теперь указываем &lt;code&gt;opendkim&lt;/code&gt;где находятся ключи, для этого дописываем
+&lt;p&gt;Теперь указываем &lt;code&gt;opendkim&lt;/code&gt; где находятся ключи. Для этого дописываем
 в конфигурационный файл &lt;code&gt;/etc/opendkim.conf&lt;/code&gt; следующие&amp;nbsp;строки.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;Canonicalization&lt;/span&gt; &lt;span class="k"&gt;relaxed&lt;/span&gt;&lt;span class="n"&gt;/relaxed&lt;/span&gt;
 &lt;span class="k"&gt;SyslogSuccess&lt;/span&gt; &lt;span class="k"&gt;yes&lt;/span&gt;
@@ -319,7 +319,7 @@ $ sudo service opendkim restart
 &lt;p&gt;Сегодня мы живем в далеком и почти светлом будущем, когда по бескрайним
 просторам сети широко распространяется &lt;code&gt;ipv6&lt;/code&gt; адресация. Но, оказывается,
 абсолютно все письма отправленные с &lt;code&gt;ipv6&lt;/code&gt; всегда воспринимаются гуглом как спам.
-Даже пройдя верефикацию по &lt;code&gt;dkim&lt;/code&gt; и &lt;code&gt;spf&lt;/code&gt; записям, уходят в нежелательную&amp;nbsp;почту.&lt;/p&gt;
+Даже пройдя верификацию по &lt;code&gt;dkim&lt;/code&gt; и &lt;code&gt;spf&lt;/code&gt; записям, всеравно уходят в нежелательную&amp;nbsp;почту.&lt;/p&gt;
 &lt;p&gt;Так что укажем в конфигурации &lt;code&gt;postfix&lt;/code&gt; отправку только с использованием &lt;code&gt;ipv4&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo postconf -e &lt;span class="nv"&gt;inet_protocols&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;ipv4
 &lt;/pre&gt;&lt;/div&gt;
