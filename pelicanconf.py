@@ -101,9 +101,17 @@ TAG_URL = u'tag/{slug}/'
 TAG_SAVE_AS = u'tag/{slug}/index.html'
 
 # plugins and extensions
-PLUGINS = ['plugins.sitemap', ]
+PLUGINS = [
+    'plugins.sitemap',
+    'minify',
+]
 READERS = {'html': None}
 TYPOGRIFY = True
+MINIFY = {
+  'remove_comments': True,
+  'remove_all_empty_space': True,
+  'remove_optional_attribute_quotes': False
+}
 
 # sitemap settings
 SITEMAP = {
