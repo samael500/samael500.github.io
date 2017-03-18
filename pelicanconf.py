@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import datetime
 
 AUTHOR = u'Maks'
-SITENAME = u'Maks blog'
+SITENAME = u'Maks live'
 # SITESUBTITLE = u'Samael500'
 SITEURL = 'https://samael500.github.io'
 KEYWORDS = u'Samael500 personal blog'
