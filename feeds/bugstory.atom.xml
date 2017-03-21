@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks blog</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/bugstory.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2015-09-06T15:00:00+03:00</updated><entry><title>Вот это поворот…</title><link href="https://samael500.github.io/articles/bugstory/vot-eto-povorot/" rel="alternate"></link><published>2015-09-06T15:00:00+03:00</published><author><name>Maks</name></author><id>tag:samael500.github.io,2015-09-06:articles/bugstory/vot-eto-povorot/</id><summary type="html">&lt;p&gt;Однажды столкнулся с магическим багом, причину возникновения которого,
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks live</title><link href="https://samael500.github.io/" rel="alternate"></link><link href="https://samael500.github.io/feeds/bugstory.atom.xml" rel="self"></link><id>https://samael500.github.io/</id><updated>2015-09-06T15:00:00+03:00</updated><entry><title>Вот это поворот…</title><link href="https://samael500.github.io/articles/bugstory/vot-eto-povorot/" rel="alternate"></link><published>2015-09-06T15:00:00+03:00</published><updated>2015-09-06T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:samael500.github.io,2015-09-06:articles/bugstory/vot-eto-povorot/</id><summary type="html">&lt;p&gt;Однажды столкнулся с магическим багом, причину возникновения которого,
 не удавалось отыскать почти на протяжении месяца. Да что там причину,
 его даже воспроизвести никак не удавалось. Заказчик постоянно жаловался
 что изображения обрезаются неправильно, да при том ещё непредсказуемо&amp;nbsp;поворачиваются&amp;#8230;&lt;/p&gt;
@@ -101,9 +101,9 @@
 &lt;span class="p"&gt;{&lt;/span&gt;   &lt;span class="s1"&gt;&amp;#39;ApertureValue&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4281&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1441&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;ColorSpace&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;ComponentsConfiguration&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\x01\x02\x03\x00&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="s1"&gt;&amp;#39;DateTime&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;2012:09:08 18:10:40&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="s1"&gt;&amp;#39;DateTimeDigitized&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;2012:09:08 18:10:40&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="s1"&gt;&amp;#39;DateTimeOriginal&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;2012:09:08 18:10:40&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;DateTime&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;2012:09:08 18:10:40&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;DateTimeDigitized&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;2012:09:08 18:10:40&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;DateTimeOriginal&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;2012:09:08 18:10:40&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;ExifImageHeight&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1536&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;ExifImageWidth&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;2048&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;ExifOffset&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;206&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -115,25 +115,25 @@
     &lt;span class="s1"&gt;&amp;#39;Flash&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;FlashPixVersion&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;0100&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;FocalLength&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;77&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-    &lt;span class="s1"&gt;&amp;#39;GPSInfo&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;   &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;N&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;GPSInfo&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;   &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;N&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
                    &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;****&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;****&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
-                   &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;E&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                   &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;E&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
                    &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;****&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;****&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
                    &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\x00&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
                    &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;25453&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;182&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
                    &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3588&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
-                   &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;M&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                   &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;M&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
                    &lt;span class="mi"&gt;17&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;44274&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;191&lt;/span&gt;&lt;span class="p"&gt;)},&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;ISOSpeedRatings&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="s1"&gt;&amp;#39;Make&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;Apple&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;Make&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Apple&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;MeteringMode&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="s1"&gt;&amp;#39;Model&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;iPhone 3GS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;Model&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;iPhone 3GS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;Orientation&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;ResolutionUnit&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;SceneCaptureType&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;SensingMethod&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;Sharpness&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="s1"&gt;&amp;#39;Software&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;5.1.1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;Software&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;5.1.1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;SubjectLocation&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1023&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;767&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;614&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;614&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;WhiteBalance&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;XResolution&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;72&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
@@ -229,33 +229,33 @@
 &lt;p&gt;&lt;img alt="lenna default" class="center" src="/media/wrong-exif/lenna_default.jpg" title="Исходное изображение, Orientation: 0." /&gt;&lt;/p&gt;
 &lt;p&gt;Отобразим метаинформацию в данном&amp;nbsp;изображении.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ exiftool lenna_default.jpg
-ExifTool Version Number         : 9.46
+ExifTool Version Number         : &lt;span class="m"&gt;9&lt;/span&gt;.46
 File Name                       : lenna_default.jpg
 Directory                       : .
 File Size                       : &lt;span class="m"&gt;79&lt;/span&gt; kB
-File Modification Date/Time     : 2015:09:06 10:40:30+03:00
-File Access Date/Time           : 2015:09:06 10:49:37+03:00
-File Inode Change Date/Time     : 2015:09:06 10:49:12+03:00
+File Modification Date/Time     : &lt;span class="m"&gt;2015&lt;/span&gt;:09:06 &lt;span class="m"&gt;10&lt;/span&gt;:40:30+03:00
+File Access Date/Time           : &lt;span class="m"&gt;2015&lt;/span&gt;:09:06 &lt;span class="m"&gt;10&lt;/span&gt;:49:37+03:00
+File Inode Change Date/Time     : &lt;span class="m"&gt;2015&lt;/span&gt;:09:06 &lt;span class="m"&gt;10&lt;/span&gt;:49:12+03:00
 File Permissions                : rw-rw-r--
 File Type                       : JPEG
 MIME Type                       : image/jpeg
-JFIF Version                    : 1.01
+JFIF Version                    : &lt;span class="m"&gt;1&lt;/span&gt;.01
 Exif Byte Order                 : Little-endian &lt;span class="o"&gt;(&lt;/span&gt;Intel, II&lt;span class="o"&gt;)&lt;/span&gt;
 Orientation                     : Horizontal &lt;span class="o"&gt;(&lt;/span&gt;normal&lt;span class="o"&gt;)&lt;/span&gt;
-X Resolution                    : 72
-Y Resolution                    : 72
+X Resolution                    : &lt;span class="m"&gt;72&lt;/span&gt;
+Y Resolution                    : &lt;span class="m"&gt;72&lt;/span&gt;
 Resolution Unit                 : inches
-Exif Version                    : 0210
-Flashpix Version                : 0100
+Exif Version                    : &lt;span class="m"&gt;0210&lt;/span&gt;
+Flashpix Version                : &lt;span class="m"&gt;0100&lt;/span&gt;
 Color Space                     : Uncalibrated
-Exif Image Width                : 463
-Exif Image Height               : 584
-Image Width                     : 584
-Image Height                    : 463
+Exif Image Width                : &lt;span class="m"&gt;463&lt;/span&gt;
+Exif Image Height               : &lt;span class="m"&gt;584&lt;/span&gt;
+Image Width                     : &lt;span class="m"&gt;584&lt;/span&gt;
+Image Height                    : &lt;span class="m"&gt;463&lt;/span&gt;
 Encoding Process                : Baseline DCT, Huffman coding
-Bits Per Sample                 : 8
-Color Components                : 3
-Y Cb Cr Sub Sampling            : YCbCr4:2:0 &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt; 2&lt;span class="o"&gt;)&lt;/span&gt;
+Bits Per Sample                 : &lt;span class="m"&gt;8&lt;/span&gt;
+Color Components                : &lt;span class="m"&gt;3&lt;/span&gt;
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
 Image Size                      : 584x463
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -271,33 +271,33 @@ $ exiftool -n -Orientation&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"
 Чтобы увидеть поворот откройте изображение в новой&amp;nbsp;вкладке.&lt;/p&gt;
 &lt;p&gt;Теперь посмотрим какая метаинформация содержится в этом&amp;nbsp;изображении.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ exiftool lenna_exif_6.jpg
-ExifTool Version Number         : 9.46
+ExifTool Version Number         : &lt;span class="m"&gt;9&lt;/span&gt;.46
 File Name                       : lenna_exif_6.jpg
 Directory                       : .
 File Size                       : &lt;span class="m"&gt;79&lt;/span&gt; kB
-File Modification Date/Time     : 2015:09:06 10:41:52+03:00
-File Access Date/Time           : 2015:09:06 10:49:25+03:00
-File Inode Change Date/Time     : 2015:09:06 10:49:18+03:00
+File Modification Date/Time     : &lt;span class="m"&gt;2015&lt;/span&gt;:09:06 &lt;span class="m"&gt;10&lt;/span&gt;:41:52+03:00
+File Access Date/Time           : &lt;span class="m"&gt;2015&lt;/span&gt;:09:06 &lt;span class="m"&gt;10&lt;/span&gt;:49:25+03:00
+File Inode Change Date/Time     : &lt;span class="m"&gt;2015&lt;/span&gt;:09:06 &lt;span class="m"&gt;10&lt;/span&gt;:49:18+03:00
 File Permissions                : rw-rw-r--
 File Type                       : JPEG
 MIME Type                       : image/jpeg
-JFIF Version                    : 1.01
+JFIF Version                    : &lt;span class="m"&gt;1&lt;/span&gt;.01
 Exif Byte Order                 : Little-endian &lt;span class="o"&gt;(&lt;/span&gt;Intel, II&lt;span class="o"&gt;)&lt;/span&gt;
 Orientation                     : Rotate &lt;span class="m"&gt;90&lt;/span&gt; CW
-X Resolution                    : 72
-Y Resolution                    : 72
+X Resolution                    : &lt;span class="m"&gt;72&lt;/span&gt;
+Y Resolution                    : &lt;span class="m"&gt;72&lt;/span&gt;
 Resolution Unit                 : inches
-Exif Version                    : 0210
-Flashpix Version                : 0100
+Exif Version                    : &lt;span class="m"&gt;0210&lt;/span&gt;
+Flashpix Version                : &lt;span class="m"&gt;0100&lt;/span&gt;
 Color Space                     : Uncalibrated
-Exif Image Width                : 463
-Exif Image Height               : 584
-Image Width                     : 584
-Image Height                    : 463
+Exif Image Width                : &lt;span class="m"&gt;463&lt;/span&gt;
+Exif Image Height               : &lt;span class="m"&gt;584&lt;/span&gt;
+Image Width                     : &lt;span class="m"&gt;584&lt;/span&gt;
+Image Height                    : &lt;span class="m"&gt;463&lt;/span&gt;
 Encoding Process                : Baseline DCT, Huffman coding
-Bits Per Sample                 : 8
-Color Components                : 3
-Y Cb Cr Sub Sampling            : YCbCr4:2:0 &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt; 2&lt;span class="o"&gt;)&lt;/span&gt;
+Bits Per Sample                 : &lt;span class="m"&gt;8&lt;/span&gt;
+Color Components                : &lt;span class="m"&gt;3&lt;/span&gt;
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
 Image Size                      : 584x463
 &lt;/pre&gt;&lt;/div&gt;
 

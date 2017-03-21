@@ -1,61 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#00aeff" />
-    <meta name="msapplication-navbutton-color" content="#00aeff" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="#00aeff" />
-
-    <meta name="author" content="Maks" />
-    <meta name="robots" content="index, follow"/>
-    <meta name="keywords" content="article, python, github, django, vagrant, wb-tech, falstart, best" />
-
-    <meta property="og:title" content="Быстрый старт на Джанго"/>
-    <meta property="og:url" content="https://samael500.github.io/articles/python/bystryi-start-na-dzhango/"/>
-    <meta property="og:site_name" content="Maks blog"/>
-    <meta property="og:type" content="article"/>
-    <meta property="og:image" content="https://samael500.github.io/media/falstart/falstart.png" />
-    <meta property="og:description" content="Новый проект это всегда интересно, новые задачи, новый опыт, новые знания. Начиная новый проект хочется сразу броситься “в бой”. Но перед этим приходится тратить время на первоначальную настройку окружения, подключения и установку зависимостей, создания структуры, инициализацию проекта. Порой это может занимать целый день. Рутинная, и во многом однообразная задача написания fab скриптов для запуска виртуального окружения — охлаждает пыл и отвлекает. Для того чтобы пропускать этот шаг, и сразу приступать к разработке, был написан простенький fab скрипт для фальстарта нового проекта. Так что теперь, достаточно написать falstart <название проекта>, выпить чашечку чая и приступать к работе над новым проектом." />
-<meta property="og:image:width" content="1280" />
-<meta property="og:image:height" content="791" />
-
-    <link rel="canonical" href="https://samael500.github.io/articles/python/bystryi-start-na-dzhango/" />
-
-    <title>Быстрый старт на Джанго | Maks blog</title>
-
-    <link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/social-likes_flat.css" />
-
-    <script type="text/javascript" src="/theme/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/theme/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/theme/js/social-likes.min.js"></script>
-
-
-    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/tree.css" />
-    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/anchorific.css" />
-    <script type="text/javascript" src="https://samael500.github.io/theme/js/anchorific.js"></script>
-</head>
-<body id="index">
-    <a class="forkmegithub" href="https://github.com/Samael500">
-        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png">
-    </a>
-<div class="header">  
-    <div class="container">
-        <div class="logo">
-            <a href="https://samael500.github.io/">
-                MAKS BLOG            </a>
-        </div>
-
-        <div class="top-menu">
-
-            <div class="search">
-
-<script>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#00aeff"><meta name="msapplication-navbutton-color" content="#00aeff"><meta name="apple-mobile-web-app-status-bar-style" content="#00aeff"><meta name="author" content="Maks"><meta name="robots" content="index, follow"><meta name="keywords" content="article, python, github, django, vagrant, wb-tech, falstart, best"><meta property="og:title" content="Быстрый старт на Джанго"><meta property="og:url" content="https://samael500.github.io/articles/python/bystryi-start-na-dzhango/"><meta property="og:site_name" content="Maks live"><meta property="og:type" content="article"><meta property="og:image" content="https://samael500.github.io/media/falstart/falstart.png"><meta property="og:description" content="Новый проект это всегда интересно, новые задачи, новый опыт, новые знания. Начиная новый проект хочется сразу броситься “в бой”. Но перед этим приходится тратить время на первоначальную настройку окружения, подключения и установку зависимостей, создания структуры, инициализацию проекта. Порой это может занимать целый день. Рутинная, и во многом однообразная задача написания fab скриптов для запуска виртуального окружения — охлаждает пыл и отвлекает. Для того чтобы пропускать этот шаг, и сразу приступать к разработке, был написан простенький fab скрипт для фальстарта нового проекта. Так что теперь, достаточно написать falstart <название проекта>, выпить чашечку чая и приступать к работе над новым проектом."><meta property="og:image:width" content="1280"><meta property="og:image:height" content="791"><link rel="canonical" href="https://samael500.github.io/articles/python/bystryi-start-na-dzhango/"><title>Быстрый старт на Джанго | Maks live</title><link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css"><link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css"><link rel="stylesheet" type="text/css" href="/theme/css/style.css"><link rel="stylesheet" type="text/css" href="/theme/css/pygment.css"><link rel="stylesheet" type="text/css" href="/theme/css/social-likes_flat.css"><script type="text/javascript" src="/theme/js/jquery.min.js"></script><script type="text/javascript" src="/theme/js/bootstrap.min.js"></script><script type="text/javascript" src="/theme/js/social-likes.min.js"></script><link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/tree.css"><link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/anchorific.css"><script type="text/javascript" src="https://samael500.github.io/theme/js/anchorific.js"></script></head><body id="index"><a class="forkmegithub" href="https://github.com/Samael500"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a><div class="header"><div class="container"><div class="logo"><a href="https://samael500.github.io/"> MAKS LIVE </a></div><div class="top-menu"><div class="search"><script>
   (function() {
     var cx = '006263355362628034990:cuxoisonrno';
     var gcse = document.createElement('script');
@@ -66,108 +10,16 @@
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(gcse, s);
   })();
-</script>
-
-<form id="searchbox_006263355362628034990:cuxoisonrno" action="https://www.google.com/">
-    <input value="006263355362628034990:cuxoisonrno" name="cx" type="hidden" />
-    <input value="FORID:11" name="cof" type="hidden" />
-    <input id="q" name="q" type="text" required />
-    <input type="submit" value="">
-</form>
-
-            </div>
-
-            <span class="menu"> </span>
-                <ul>
-                        <li >
-                            <a href="/">HOME</a></li>
-                        <li >
-                            <a href="/tag/best/">BEST</a></li>
-                            <li ><a href="https://samael500.github.io/about/">ABOUT</a></li>
-
-                    <div class="clearfix"></div>
-                </ul>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <script>
+</script><form id="searchbox_006263355362628034990:cuxoisonrno" action="https://www.google.com/"><input value="006263355362628034990:cuxoisonrno" name="cx" type="hidden"><input value="FORID:11" name="cof" type="hidden"><input id="q" name="q" type="text" required><input type="submit" value></form></div><span class="menu"></span><ul><li><a href="/">HOME</a></li><li><a href="/tag/best/">BEST</a></li><li><a href="https://samael500.github.io/about/">ABOUT</a></li><div class="clearfix"></div></ul></div><div class="clearfix"></div><script>
                 $("span.menu").click(function(){
                     $(".top-menu ul").slideToggle("slow" , function(){
                     });
                 });
-            </script>
-        </div>
-    </div>
-</div>
-    <div class="content">
-        <div class="container">
-                <div class="content-grids">
-<div class="single-main">
-
-    <div class="col-md-9 single-grid">
-
-        <header>
-<h4>
-    <a href="https://samael500.github.io/articles/python/bystryi-start-na-dzhango/" title="Быстрый старт на Джанго">Быстрый старт на&nbsp;Джанго</a>
-    Oct 10, 2016
-</h4>
-
-<div class="footer art-info">
-
-        Author: <a class="url fn" href="https://samael500.github.io/author/maks/">Maks</a> |
-
-    Category: <a href="https://samael500.github.io/category/python.html">Python</a>
-
-
-        | <a href="https://samael500.github.io/articles/python/bystryi-start-na-dzhango/#disqus_thread">Comments</a>
-
-    
-
-        <br />
-        Tags:         <a href="https://samael500.github.io/tag/python/">python</a>
-        <a href="https://samael500.github.io/tag/github/">github</a>
-        <a href="https://samael500.github.io/tag/django/">django</a>
-        <a href="https://samael500.github.io/tag/vagrant/">vagrant</a>
-        <a href="https://samael500.github.io/tag/wb-tech/">wb-tech</a>
-        <a href="https://samael500.github.io/tag/falstart/">falstart</a>
-        <a href="https://samael500.github.io/tag/best/">best</a>
-
-</div><div class="social-likes">
-    <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>
-    <div class="twitter" data-via="samael500" title="Поделиться ссылкой в Твиттере">Twitter</div>
-    <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div>
-    <div class="plusone" title="Поделиться ссылкой в Google+">Google+</div>
-</div>        </header>
-
-        <article class="content">
-
-
-            <p>Новый проект это всегда интересно, новые задачи, новый опыт, новые знания.
-Начиная новый проект хочется сразу броситься &#8220;в бой&#8221;. Но перед этим приходится
-тратить время на первоначальную настройку окружения, подключения и установку
-зависимостей, создания структуры, инициализацию проекта. Порой это может
-занимать целый день. Рутинная и во многом однообразная задача написания <code>fab</code>
-скриптов для запуска виртуального окружения &#8212; охлаждает пыл и отвлекает.
-Для того чтобы пропускать этот шаг, и сразу приступать к разработке.
-Был написан простенький <code>fab</code> скрипт для фальстарта нового проекта.
-Так что теперь, достаточно написать <code>falstart &lt;название проекта&gt;</code>,
-выпить чашечку чая и приступать к работе над новым&nbsp;проектом.</p>
-<p>Мы, в <a href="http://wbtech.pro/"><span class="caps">WB</span>&#8212;Tech</a> в основном используем следующий стек:
-<a href="https://www.python.org/">Python 3.x</a> + <a href="https://www.djangoproject.com/">Django</a> +
-<a href="https://www.postgresql.org/">PostgreSQL</a> + <a href="http://www.celeryproject.org/">Celery</a> +
-<a href="http://redis.io/">Redis</a>.</p>
-<p>А саму разработку ведем в виртуальном окружении <a href="vagrantup.com">Vagrant</a> +
-<a href="https://www.virtualbox.org/">VirtualBox</a> под управлением
-<a href="https://www.debian.org/index.html"><span class="caps">OS</span> Debian</a>.</p>
-<p><img alt="falstart" class="center" src="/media/falstart/fs-logo.png" /></p>
-<p><a href="https://github.com/Samael500/falstart">Falstart</a> позволяет быстро развернуть
-виртуальное окружение и приступить к работе ответив на десяток простых&nbsp;вопросов.</p>
-<div class="highlight"><pre><span></span>$ falstart awesome
-&gt; Django version <span class="o">[</span><span class="s1">&#39;1.9.5&#39;</span><span class="o">]</span> 1.10.2
+            </script></div></div></div><div class="content"><div class="container"><div class="content-grids"><div class="single-main"><div class="col-md-9 single-grid"><header><h4><a href="https://samael500.github.io/articles/python/bystryi-start-na-dzhango/" title="Быстрый старт на Джанго">Быстрый старт на&nbsp;Джанго</a> Oct 10, 2016 </h4><div class="footer art-info"> Author: <a class="url fn" href="https://samael500.github.io/author/maks/">Maks</a> | Category: <a href="https://samael500.github.io/category/python.html">Python</a> | <a href="https://samael500.github.io/articles/python/bystryi-start-na-dzhango/#disqus_thread">Comments</a><br> Tags: <a href="https://samael500.github.io/tag/python/">python</a><a href="https://samael500.github.io/tag/github/">github</a><a href="https://samael500.github.io/tag/django/">django</a><a href="https://samael500.github.io/tag/vagrant/">vagrant</a><a href="https://samael500.github.io/tag/wb-tech/">wb-tech</a><a href="https://samael500.github.io/tag/falstart/">falstart</a><a href="https://samael500.github.io/tag/best/">best</a></div><div class="social-likes"><div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div><div class="twitter" data-via="samael500" title="Поделиться ссылкой в Твиттере">Twitter</div><div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div><div class="plusone" title="Поделиться ссылкой в Google+">Google+</div></div></header><article class="content"><p>Новый проект это всегда интересно, новые задачи, новый опыт, новые знания. Начиная новый проект хочется сразу броситься &#8220;в бой&#8221;. Но перед этим приходится тратить время на первоначальную настройку окружения, подключения и установку зависимостей, создания структуры, инициализацию проекта. Порой это может занимать целый день. Рутинная и во многом однообразная задача написания <code>fab</code> скриптов для запуска виртуального окружения &#8212; охлаждает пыл и отвлекает. Для того чтобы пропускать этот шаг, и сразу приступать к разработке. Был написан простенький <code>fab</code> скрипт для фальстарта нового проекта. Так что теперь, достаточно написать <code>falstart &lt;название проекта&gt;</code>, выпить чашечку чая и приступать к работе над новым&nbsp;проектом.</p><p>Мы, в <a href="http://wbtech.pro/"><span class="caps">WB</span>&#8212;Tech</a> в основном используем следующий стек: <a href="https://www.python.org/">Python 3.x</a> + <a href="https://www.djangoproject.com/">Django</a> + <a href="https://www.postgresql.org/">PostgreSQL</a> + <a href="http://www.celeryproject.org/">Celery</a> + <a href="http://redis.io/">Redis</a>.</p><p>А саму разработку ведем в виртуальном окружении <a href="vagrantup.com">Vagrant</a> + <a href="https://www.virtualbox.org/">VirtualBox</a> под управлением <a href="https://www.debian.org/index.html"><span class="caps">OS</span> Debian</a>.</p><p><img alt="falstart" class="center" src="/media/falstart/fs-logo.png"></p><p><a href="https://github.com/Samael500/falstart">Falstart</a> позволяет быстро развернуть виртуальное окружение и приступить к работе ответив на десяток простых&nbsp;вопросов.</p><div class="highlight"><pre><span></span>$ falstart awesome
+&gt; Django version <span class="o">[</span><span class="s1">&#39;1.9.5&#39;</span><span class="o">]</span> <span class="m">1</span>.10.2
 &gt; Debian version <span class="o">(</span><span class="k">for</span> vagrant box<span class="o">)</span> <span class="o">[</span><span class="s1">&#39;jessie64&#39;</span><span class="o">]</span>
-&gt; Python version <span class="o">[</span><span class="s1">&#39;3.5.1&#39;</span><span class="o">]</span> 3.5.2
-&gt; Vagrant box IP-addr <span class="o">[</span><span class="s1">&#39;10.1.1.123&#39;</span><span class="o">]</span> 10.1.1.111
+&gt; Python version <span class="o">[</span><span class="s1">&#39;3.5.1&#39;</span><span class="o">]</span> <span class="m">3</span>.5.2
+&gt; Vagrant box IP-addr <span class="o">[</span><span class="s1">&#39;10.1.1.123&#39;</span><span class="o">]</span> <span class="m">10</span>.1.1.111
 &gt; Do you nead a POSTGRES? <span class="o">[</span>Y/n<span class="o">]</span>
 &gt; Do you nead a CELERY? <span class="o">[</span>y/N<span class="o">]</span> y
 &gt; Do you nead a REDIS? <span class="o">[</span>y/N<span class="o">]</span> y
@@ -175,23 +27,8 @@
 &gt; Database name <span class="o">[</span><span class="s1">&#39;awesome_db&#39;</span><span class="o">]</span>
 &gt; Database user <span class="o">[</span><span class="s1">&#39;awesome_user&#39;</span><span class="o">]</span>
 &gt; Database pass <span class="o">[</span><span class="s1">&#39;vFeH1uJVN&#39;</span><span class="o">]</span>
-</pre></div>
-
-
-<p>После чего выполняются скрипты и через 10-15 минут будет готова структура&nbsp;проекта.</p>
-<h3 id="pred-zavisimosti"><a class="toclink" href="#pred-zavisimosti">Пред&nbsp;зависимости</a></h3>
-<p>Для работы фальстарта необходим <a href="vagrantup.com">Vagrant</a> и <a href="https://www.virtualbox.org/">VirtualBox</a></p>
-<h3 id="ustanovka"><a class="toclink" href="#ustanovka">Установка</a></h3>
-<p>Фальстарт доступен для установки через <code>pip</code></p>
-<div class="highlight"><pre><span></span>$ pip install falstart
-</pre></div>
-
-
-<h3 id="rezultat"><a class="toclink" href="#rezultat">Результат</a></h3>
-<p>Пример результата: <a href="https://github.com/Samael500/falstart-example">falstart-example</a>.</p>
-<p><details>
-    <summary>Пример итоговой структуры проекта</summary></p>
-<div class="highlight"><pre><span></span>$ tree
+</pre></div><p>После чего выполняются скрипты и через 10-15 минут будет готова структура&nbsp;проекта.</p><h3 id="pred-zavisimosti"><a class="toclink" href="#pred-zavisimosti">Пред&nbsp;зависимости</a></h3><p>Для работы фальстарта необходим <a href="vagrantup.com">Vagrant</a> и <a href="https://www.virtualbox.org/">VirtualBox</a></p><h3 id="ustanovka"><a class="toclink" href="#ustanovka">Установка</a></h3><p>Фальстарт доступен для установки через <code>pip</code></p><div class="highlight"><pre><span></span>$ pip install falstart
+</pre></div><h3 id="rezultat"><a class="toclink" href="#rezultat">Результат</a></h3><p>Пример результата: <a href="https://github.com/Samael500/falstart-example">falstart-example</a>.</p><p><details><summary>Пример итоговой структуры проекта</summary></p><div class="highlight"><pre><span></span>$ tree
 .
 ├── awesome
 │   ├── celery.py
@@ -316,13 +153,7 @@
     ├── pylama-7.0.7-py2.py3-none-any.whl
     ├── pytz-2016.7-py2.py3-none-any.whl
     └── redis-2.10.5-py2.py3-none-any.whl
-</pre></div>
-
-
-<p></details></p>
-<p>Теперь можно перейти по адресу указанному в приветственном сообщении <code>Vagrant</code>а
-и увидеть начальную страницу&nbsp;Джанго.</p>
-<div class="highlight"><pre><span></span><span class="o">==</span>&gt; awesome_vagrant: Machine <span class="s1">&#39;awesome_vagrant&#39;</span> has a post <span class="sb">`</span>vagrant up<span class="sb">`</span> message. This is a <span class="nv">message</span>
+</pre></div><p></details></p><p>Теперь можно перейти по адресу указанному в приветственном сообщении <code>Vagrant</code>а и увидеть начальную страницу&nbsp;Джанго.</p><div class="highlight"><pre><span></span><span class="o">==</span>&gt; awesome_vagrant: Machine <span class="s1">&#39;awesome_vagrant&#39;</span> has a post <span class="sb">`</span>vagrant up<span class="sb">`</span> message. This is a <span class="nv">message</span>
 <span class="o">==</span>&gt; awesome_vagrant: from the creator of the Vagrantfile, and not from Vagrant itself:
 <span class="o">==</span>&gt; awesome_vagrant:
 <span class="o">==</span>&gt; awesome_vagrant: awesome dev server successfuly started.
@@ -334,51 +165,14 @@
 <span class="o">==</span>&gt; awesome_vagrant:       login: <span class="nv">root</span>
 <span class="o">==</span>&gt; awesome_vagrant:       password: <span class="nv">123123</span>
 <span class="o">==</span>&gt; awesome_vagrant:
-</pre></div>
-
-
-<p><img alt="init app" class="center" src="/media/falstart/init_app.png" /></p>
-
-        </article>
-
-            <div class="comments">
-                <div id="disqus_thread"></div>
-                <script type="text/javascript">
+</pre></div><p><img alt="init app" class="center" src="/media/falstart/init_app.png"></p></article><div class="comments"><div id="disqus_thread"></div><script type="text/javascript">
                     var disqus_identifier = "articles/python/bystryi-start-na-dzhango/";
                     (function() {
                     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                     dsq.src = '//samael500.disqus.com/embed.js';
                     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
                     })();
-                </script>
-            </div>
-    </div>
-    <div class="col-md-3 content-right">
-        <div class='anchorific'></div>
-    </div>
-</div>
-                </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <div class="container">
-            <p>This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.</p>
-            <p><a href="http://github.com/samael500/w3-personal-blog/">W3 Personal Blog</a> is a flat <a href="http://getbootstrap.com/">bootstrap</a> responsive theme designed by <a href="https://w3layouts.com/personal-blog-a-blogging-category-flat-bootstrap-responsive-web-template/">W3layouts</a> ported to a pelican by <a href="http://samael500.github.io/">Samael500</a>.<p>
-            <p>Copyrights &copy; 2015&mdash;2017 Maks blog All rights reserved.</p>
-            
-<p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-<img alt="Creative Commons License"
-    style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
-This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-Creative Commons Attribution 4.0 International License</a>.</p>
-        </div>
-    </div>
-
-
-<script type="text/javascript" src="https://www.l2.io/ip.js?var=userip"></script>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
+                </script></div></div><div class="col-md-3 content-right"><div class="anchorific"></div></div></div></div></div></div><div class="footer"><div class="container"><p>This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.</p><p><a href="http://github.com/samael500/w3-personal-blog/">W3 Personal Blog</a> is a flat <a href="http://getbootstrap.com/">bootstrap</a> responsive theme designed by <a href="https://w3layouts.com/personal-blog-a-blogging-category-flat-bootstrap-responsive-web-template/">W3layouts</a> ported to a pelican by <a href="http://samael500.github.io/">Samael500</a>.<p><p>Copyrights &copy; 2015&mdash;2017 Maks live All rights reserved.</p><p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"> Creative Commons Attribution 4.0 International License</a>.</p></div></div><script type="text/javascript" src="https://www.l2.io/ip.js?var=userip"></script><script type="text/javascript">
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {
             try {
@@ -404,10 +198,7 @@ Creative Commons Attribution 4.0 International License</a>.</p>
             d.addEventListener("DOMContentLoaded", f, false);
         } else { f(); }
     })(document, window, "yandex_metrika_callbacks");
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-<script type="text/javascript">
+</script><noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt></div></noscript><script type="text/javascript">
     var disqus_shortname = 'samael500';
     (function () {
         var s = document.createElement('script'); s.async = true;
@@ -415,6 +206,4 @@ Creative Commons Attribution 4.0 International License</a>.</p>
         s.src = '//' + disqus_shortname + '.disqus.com/count.js';
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
-</script>
-</body>
-</html>
+</script></body></html>

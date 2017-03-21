@@ -1,59 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#00aeff" />
-    <meta name="msapplication-navbutton-color" content="#00aeff" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="#00aeff" />
-
-    <meta name="author" content="Maks" />
-    <meta name="robots" content="index, follow"/>
-    <meta name="keywords" content="article, python, artlebedev, typograf, django" />
-
-    <meta property="og:title" content="Это Типограф!"/>
-    <meta property="og:url" content="https://samael500.github.io/articles/python/eto-tipograf/"/>
-    <meta property="og:site_name" content="Maks blog"/>
-    <meta property="og:type" content="article"/>
-    <meta property="og:image" content="https://samael500.github.io/media/typograf/typo.png" />
-    <meta property="og:description" content="В одном из проектов была поставлена задача типографировать текст перед публикацией. Для этой задачи было решено использовать «Типограф» Лебедева. У студии Лебедева есть сервис типографирования текста, который так и называется типограф. Как заявляют сами разработчики, никто не напишет «Типограф» лучше них, в связи с чем они предлагают готовые клиенты для работы c api данного сервиса…" />
-
-    <link rel="canonical" href="https://samael500.github.io/articles/python/eto-tipograf/" />
-
-    <title>Это Типограф! | Maks blog</title>
-
-    <link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/social-likes_flat.css" />
-
-    <script type="text/javascript" src="/theme/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/theme/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/theme/js/social-likes.min.js"></script>
-
-
-    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/tree.css" />
-    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/anchorific.css" />
-    <script type="text/javascript" src="https://samael500.github.io/theme/js/anchorific.js"></script>
-</head>
-<body id="index">
-    <a class="forkmegithub" href="https://github.com/Samael500">
-        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png">
-    </a>
-<div class="header">  
-    <div class="container">
-        <div class="logo">
-            <a href="https://samael500.github.io/">
-                MAKS BLOG            </a>
-        </div>
-
-        <div class="top-menu">
-
-            <div class="search">
-
-<script>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#00aeff"><meta name="msapplication-navbutton-color" content="#00aeff"><meta name="apple-mobile-web-app-status-bar-style" content="#00aeff"><meta name="author" content="Maks"><meta name="robots" content="index, follow"><meta name="keywords" content="article, python, artlebedev, typograf, django"><meta property="og:title" content="Это Типограф!"><meta property="og:url" content="https://samael500.github.io/articles/python/eto-tipograf/"><meta property="og:site_name" content="Maks live"><meta property="og:type" content="article"><meta property="og:image" content="https://samael500.github.io/media/typograf/typo.png"><meta property="og:description" content="В одном из проектов была поставлена задача типографировать текст перед публикацией. Для этой задачи было решено использовать «Типограф» Лебедева. У студии Лебедева есть сервис типографирования текста, который так и называется типограф. Как заявляют сами разработчики, никто не напишет «Типограф» лучше них, в связи с чем они предлагают готовые клиенты для работы c api данного сервиса…"><link rel="canonical" href="https://samael500.github.io/articles/python/eto-tipograf/"><title>Это Типограф! | Maks live</title><link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css"><link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css"><link rel="stylesheet" type="text/css" href="/theme/css/style.css"><link rel="stylesheet" type="text/css" href="/theme/css/pygment.css"><link rel="stylesheet" type="text/css" href="/theme/css/social-likes_flat.css"><script type="text/javascript" src="/theme/js/jquery.min.js"></script><script type="text/javascript" src="/theme/js/bootstrap.min.js"></script><script type="text/javascript" src="/theme/js/social-likes.min.js"></script><link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/tree.css"><link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/anchorific.css"><script type="text/javascript" src="https://samael500.github.io/theme/js/anchorific.js"></script></head><body id="index"><a class="forkmegithub" href="https://github.com/Samael500"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a><div class="header"><div class="container"><div class="logo"><a href="https://samael500.github.io/"> MAKS LIVE </a></div><div class="top-menu"><div class="search"><script>
   (function() {
     var cx = '006263355362628034990:cuxoisonrno';
     var gcse = document.createElement('script');
@@ -64,142 +10,22 @@
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(gcse, s);
   })();
-</script>
-
-<form id="searchbox_006263355362628034990:cuxoisonrno" action="https://www.google.com/">
-    <input value="006263355362628034990:cuxoisonrno" name="cx" type="hidden" />
-    <input value="FORID:11" name="cof" type="hidden" />
-    <input id="q" name="q" type="text" required />
-    <input type="submit" value="">
-</form>
-
-            </div>
-
-            <span class="menu"> </span>
-                <ul>
-                        <li >
-                            <a href="/">HOME</a></li>
-                        <li >
-                            <a href="/tag/best/">BEST</a></li>
-                            <li ><a href="https://samael500.github.io/about/">ABOUT</a></li>
-
-                    <div class="clearfix"></div>
-                </ul>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <script>
+</script><form id="searchbox_006263355362628034990:cuxoisonrno" action="https://www.google.com/"><input value="006263355362628034990:cuxoisonrno" name="cx" type="hidden"><input value="FORID:11" name="cof" type="hidden"><input id="q" name="q" type="text" required><input type="submit" value></form></div><span class="menu"></span><ul><li><a href="/">HOME</a></li><li><a href="/tag/best/">BEST</a></li><li><a href="https://samael500.github.io/about/">ABOUT</a></li><div class="clearfix"></div></ul></div><div class="clearfix"></div><script>
                 $("span.menu").click(function(){
                     $(".top-menu ul").slideToggle("slow" , function(){
                     });
                 });
-            </script>
-        </div>
-    </div>
-</div>
-    <div class="content">
-        <div class="container">
-                <div class="content-grids">
-<div class="single-main">
-
-    <div class="col-md-9 single-grid">
-
-        <header>
-<h4>
-    <a href="https://samael500.github.io/articles/python/eto-tipograf/" title="Это Типограф!">Это&nbsp;Типограф!</a>
-    Oct 13, 2015
-</h4>
-
-<div class="footer art-info">
-
-        Author: <a class="url fn" href="https://samael500.github.io/author/maks/">Maks</a> |
-
-    Category: <a href="https://samael500.github.io/category/python.html">Python</a>
-
-
-        | <a href="https://samael500.github.io/articles/python/eto-tipograf/#disqus_thread">Comments</a>
-
-    
-
-        <br />
-        Tags:         <a href="https://samael500.github.io/tag/python/">python</a>
-        <a href="https://samael500.github.io/tag/artlebedev/">artlebedev</a>
-        <a href="https://samael500.github.io/tag/typograf/">typograf</a>
-        <a href="https://samael500.github.io/tag/django/">django</a>
-
-</div><div class="social-likes">
-    <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>
-    <div class="twitter" data-via="samael500" title="Поделиться ссылкой в Твиттере">Twitter</div>
-    <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div>
-    <div class="plusone" title="Поделиться ссылкой в Google+">Google+</div>
-</div>        </header>
-
-        <article class="content">
-
-
-            <p>В одном из проектов была поставлена задача типографировать текст
-перед публикацией. Для этой задачи было решено использовать
-&laquo;Типограф&raquo;&nbsp;Лебедева.</p>
-<p>У студии Лебедева есть сервис типографирования текста, который
-так и называется <a href="http://www.artlebedev.ru/tools/typograf/">типограф</a>.
-Как заявляют сами разработчики, никто не напишет &laquo;Типограф&raquo;
-лучше них, в связи с чем они предлагают готовые
-<a href="http://www.artlebedev.ru/tools/typograf/webservice/">клиенты</a>
-для работы c <code>api</code> данного&nbsp;сервиса.</p>
-<h3 id="tipograf-klient"><a class="toclink" href="#tipograf-klient">Типограф&nbsp;клиент</a></h3>
-<p>Я не смотрел клиенты для других языков, но клиент для <code>Python</code>, который
-студия Лебедева предлагает, откровенно сказать &#8212; ужасен. В нем <code>xml</code> запрос
-создается с помощью простой конкатенации строк и сомнительно экранирует
-входные данные, <code>socket</code> подключается без таймлимита, что приводит к
-бесконечно длительному ожиданию ответа, в случае если сервер недоступен.
-Что уж говорить о рекомендациях <code>pep8</code>, которые там впринципе не соблюдаются.
-Но самым существенным было то, что последнее изменение было сделано не вчера,
-и даже не на прошлой неделе, а всего-ничего, от 24 мая 2007 года,
-еще до релиза <code>Python 3.0</code>. Соответсвенно данный клиент не поддерживает
-<code>Python 3.x</code>.</p>
-<p>Проект был на <code>Python 3.4.2</code>, в связи с чем пришлось написать собсвтенный
-клиент для работы с &laquo;Типографом&raquo;. Поскольку адекватного описания
-<code>api</code> взаимодействия клиент-сервер в &laquo;Типографе&raquo; не приводится.
-Так что все было сделано по аналогии со старым клиентом, вплоть до
-наименований методов, лишь за исключением, что ненавистный мне
-верблюжийРегистр был заменен&nbsp;змеиным_регистром.</p>
-<p>Получившийся клиент для типографа доступен в <code>pypi</code>
-<a href="https://pypi.python.org/pypi/typograf"><img alt="typograf version" src="https://badge.fury.io/py/typograf.svg" /></a></p>
-<h4 id="sovmestimost-python-2-x-i-3-x"><a class="toclink" href="#sovmestimost-python-2-x-i-3-x">Совместимость python 2.x и&nbsp;3.x</a></h4>
-<p>Поскольку клиет типографа предельно простой, не хотелось нагружать его
-дополнительными зависимостями, вроде <a href="https://pypi.python.org/pypi/six">six</a>
-для реализации совместимости версий <code>python</code>а, так что было использовано
-<code>sys.version.startswith</code>.</p>
-<div class="highlight"><pre><span></span><span class="n">PY3</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;3.&#39;</span><span class="p">)</span>
-</pre></div>
-
-
-<p>Единственными различиями между <code>py 2.x</code> и <code>py 3.x</code>, с которыми пришлось
-столкнутся при написании клиента,&nbsp;это:</p>
-<ol>
-<li>Во втором питоне, в сокет и из него отправляются строковые объекты,
-а в третьем&nbsp;байтовые.</li>
-<li>Файлы в памяти во втором питоне представлены объектами <code>StringIO.StringIO</code>,
-а в третьем <code>io.BytesIO</code>.</li>
-</ol>
-<p>Так что вся совместимость версий, свелась к двум-трем условиям&nbsp;вида:</p>
-<div class="highlight"><pre><span></span><span class="c1"># ... import memory file stream</span>
+            </script></div></div></div><div class="content"><div class="container"><div class="content-grids"><div class="single-main"><div class="col-md-9 single-grid"><header><h4><a href="https://samael500.github.io/articles/python/eto-tipograf/" title="Это Типограф!">Это&nbsp;Типограф!</a> Oct 13, 2015 </h4><div class="footer art-info"> Author: <a class="url fn" href="https://samael500.github.io/author/maks/">Maks</a> | Category: <a href="https://samael500.github.io/category/python.html">Python</a> | <a href="https://samael500.github.io/articles/python/eto-tipograf/#disqus_thread">Comments</a><br> Tags: <a href="https://samael500.github.io/tag/python/">python</a><a href="https://samael500.github.io/tag/artlebedev/">artlebedev</a><a href="https://samael500.github.io/tag/typograf/">typograf</a><a href="https://samael500.github.io/tag/django/">django</a></div><div class="social-likes"><div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div><div class="twitter" data-via="samael500" title="Поделиться ссылкой в Твиттере">Twitter</div><div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div><div class="plusone" title="Поделиться ссылкой в Google+">Google+</div></div></header><article class="content"><p>В одном из проектов была поставлена задача типографировать текст перед публикацией. Для этой задачи было решено использовать &laquo;Типограф&raquo;&nbsp;Лебедева.</p><p>У студии Лебедева есть сервис типографирования текста, который так и называется <a href="http://www.artlebedev.ru/tools/typograf/">типограф</a>. Как заявляют сами разработчики, никто не напишет &laquo;Типограф&raquo; лучше них, в связи с чем они предлагают готовые <a href="http://www.artlebedev.ru/tools/typograf/webservice/">клиенты</a> для работы c <code>api</code> данного&nbsp;сервиса.</p><h3 id="tipograf-klient"><a class="toclink" href="#tipograf-klient">Типограф&nbsp;клиент</a></h3><p>Я не смотрел клиенты для других языков, но клиент для <code>Python</code>, который студия Лебедева предлагает, откровенно сказать &#8212; ужасен. В нем <code>xml</code> запрос создается с помощью простой конкатенации строк и сомнительно экранирует входные данные, <code>socket</code> подключается без таймлимита, что приводит к бесконечно длительному ожиданию ответа, в случае если сервер недоступен. Что уж говорить о рекомендациях <code>pep8</code>, которые там впринципе не соблюдаются. Но самым существенным было то, что последнее изменение было сделано не вчера, и даже не на прошлой неделе, а всего-ничего, от 24 мая 2007 года, еще до релиза <code>Python 3.0</code>. Соответсвенно данный клиент не поддерживает <code>Python 3.x</code>.</p><p>Проект был на <code>Python 3.4.2</code>, в связи с чем пришлось написать собсвтенный клиент для работы с &laquo;Типографом&raquo;. Поскольку адекватного описания <code>api</code> взаимодействия клиент-сервер в &laquo;Типографе&raquo; не приводится. Так что все было сделано по аналогии со старым клиентом, вплоть до наименований методов, лишь за исключением, что ненавистный мне верблюжийРегистр был заменен&nbsp;змеиным_регистром.</p><p>Получившийся клиент для типографа доступен в <code>pypi</code><a href="https://pypi.python.org/pypi/typograf"><img alt="typograf version" src="https://badge.fury.io/py/typograf.svg"></a></p><h4 id="sovmestimost-python-2-x-i-3-x"><a class="toclink" href="#sovmestimost-python-2-x-i-3-x">Совместимость python 2.x и&nbsp;3.x</a></h4><p>Поскольку клиет типографа предельно простой, не хотелось нагружать его дополнительными зависимостями, вроде <a href="https://pypi.python.org/pypi/six">six</a> для реализации совместимости версий <code>python</code>а, так что было использовано <code>sys.version.startswith</code>.</p><div class="highlight"><pre><span></span><span class="n">PY3</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;3.&#39;</span><span class="p">)</span>
+</pre></div><p>Единственными различиями между <code>py 2.x</code> и <code>py 3.x</code>, с которыми пришлось столкнутся при написании клиента,&nbsp;это:</p><ol><li>Во втором питоне, в сокет и из него отправляются строковые объекты, а в третьем&nbsp;байтовые.</li><li>Файлы в памяти во втором питоне представлены объектами <code>StringIO.StringIO</code>, а в третьем <code>io.BytesIO</code>.</li></ol><p>Так что вся совместимость версий, свелась к двум-трем условиям&nbsp;вида:</p><div class="highlight"><pre><span></span><span class="c1"># ... import memory file stream</span>
 
 <span class="k">if</span> <span class="n">PY3</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span> <span class="k">as</span> <span class="n">Container</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">StringIO</span> <span class="kn">import</span> <span class="n">StringIO</span> <span class="k">as</span> <span class="n">Container</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="c1"># ... calculate a length of request</span>
+</pre></div><div class="highlight"><pre><span></span><span class="c1"># ... calculate a length of request</span>
 
 <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">soap_body</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span> <span class="k">if</span> <span class="n">PY3</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">soap_body</span><span class="p">)</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="c1"># ... convert to and from bytes for socket connection in py3</span>
+</pre></div><div class="highlight"><pre><span></span><span class="c1"># ... convert to and from bytes for socket connection in py3</span>
 
 <span class="k">if</span> <span class="n">PY3</span><span class="p">:</span>  <span class="c1"># convert to bytes</span>
     <span class="n">soap_request</span> <span class="o">=</span> <span class="n">soap_request</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
@@ -210,50 +36,27 @@
 
 <span class="k">if</span> <span class="n">PY3</span><span class="p">:</span>  <span class="c1"># convert to str</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
-</pre></div>
-
-
-<h4 id="socket-timeout"><a class="toclink" href="#socket-timeout">Socket&nbsp;timeout</a></h4>
-<p>Библиотека <a href="https://docs.python.org/library/socket.html">socket</a>
-предусматривает возможность установки максимального времени ожидания ответа
-от сервера. Делается это с помощью метода <code>settimeout</code>.</p>
-<div class="highlight"><pre><span></span><span class="c1"># send request use soket</span>
+</pre></div><h4 id="socket-timeout"><a class="toclink" href="#socket-timeout">Socket&nbsp;timeout</a></h4><p>Библиотека <a href="https://docs.python.org/library/socket.html">socket</a> предусматривает возможность установки максимального времени ожидания ответа от сервера. Делается это с помощью метода <code>settimeout</code>.</p><div class="highlight"><pre><span></span><span class="c1"># send request use soket</span>
 <span class="n">connector</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
 <span class="n">connector</span><span class="o">.</span><span class="n">settimeout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span><span class="p">)</span>
 <span class="n">connector</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">HOST</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
 <span class="n">connector</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">soap_request</span><span class="p">)</span>
 <span class="c1"># call for response</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">b</span><span class="s1">&#39;&#39;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
 <span class="n">buf</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
 <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">buf</span><span class="p">):</span>
     <span class="n">buf</span> <span class="o">=</span> <span class="n">connector</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">8192</span><span class="p">)</span>
     <span class="n">response</span> <span class="o">+=</span> <span class="n">buf</span>
 <span class="n">connector</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</pre></div>
-
-
-<p>В случае, если время ожидания превысит установленый таймаут, соединение будет
-разорвано с вызовом исключения <code>socket.timeout: timed out</code>.</p>
-<h3 id="django-tipograf"><a class="toclink" href="#django-tipograf">Django&nbsp;Типограф</a></h3>
-<p>После реализации совместимого с <code>python 3.x</code> клиента было необходимо
-прикрутить его к&nbsp;джанге.</p>
-<h4 id="bystroe-reshenie"><a class="toclink" href="#bystroe-reshenie">Быстрое&nbsp;решение</a></h4>
-<p>Так как проект был уже запущен в продакшен, нужно было быстро подключить
-типографирование. Типографировать нужно было всего две модели, поэтому была
-создана простая функция <code>make_typograf</code>, вызов которой был повешен на сигнал
-сохранения&nbsp;моделей.</p>
-<div class="highlight"><pre><span></span><span class="c1"># helpers/service.py</span>
+</pre></div><p>В случае, если время ожидания превысит установленый таймаут, соединение будет разорвано с вызовом исключения <code>socket.timeout: timed out</code>.</p><h3 id="django-tipograf"><a class="toclink" href="#django-tipograf">Django&nbsp;Типограф</a></h3><p>После реализации совместимого с <code>python 3.x</code> клиента было необходимо прикрутить его к&nbsp;джанге.</p><h4 id="bystroe-reshenie"><a class="toclink" href="#bystroe-reshenie">Быстрое&nbsp;решение</a></h4><p>Так как проект был уже запущен в продакшен, нужно было быстро подключить типографирование. Типографировать нужно было всего две модели, поэтому была создана простая функция <code>make_typograf</code>, вызов которой был повешен на сигнал сохранения&nbsp;моделей.</p><div class="highlight"><pre><span></span><span class="c1"># helpers/service.py</span>
 
 <span class="k">def</span> <span class="nf">make_typograf</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; For each instance.field in fields - make typograf &quot;&quot;&quot;</span>
     <span class="n">typograf</span> <span class="o">=</span> <span class="n">RemoteTypograf</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="n">typograf</span><span class="o">.</span><span class="n">try_process_text</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">field</span><span class="p">])</span>
+        <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="n">typograf</span><span class="o">.</span><span class="n">try_process_text</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">field</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">instance</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="c1"># articles/signals.py</span>
+</pre></div><div class="highlight"><pre><span></span><span class="c1"># articles/signals.py</span>
 
 <span class="kn">from</span> <span class="nn">django.db.models.signals</span> <span class="kn">import</span> <span class="n">pre_save</span>
 <span class="kn">from</span> <span class="nn">articles.models</span> <span class="kn">import</span> <span class="n">Article</span>
@@ -263,10 +66,7 @@
     <span class="n">make_typograf</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;subtitle&#39;</span><span class="p">,</span> <span class="p">))</span>
 
 <span class="n">pre_save</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">typograf</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">Article</span><span class="p">)</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="c1"># cards/signals.py</span>
+</pre></div><div class="highlight"><pre><span></span><span class="c1"># cards/signals.py</span>
 
 <span class="kn">from</span> <span class="nn">django.db.models.signals</span> <span class="kn">import</span> <span class="n">pre_save</span>
 <span class="kn">from</span> <span class="nn">cards.models</span> <span class="kn">import</span> <span class="n">Card</span>
@@ -276,119 +76,42 @@
     <span class="n">make_typograf</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;person_profession&#39;</span><span class="p">,</span> <span class="s1">&#39;soldier_rank&#39;</span><span class="p">,</span> <span class="s1">&#39;history&#39;</span><span class="p">,</span> <span class="p">))</span>
 
 <span class="n">pre_save</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">typograf</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">Card</span><span class="p">)</span>
-</pre></div>
-
-
-<p>Данный подход имел ряд&nbsp;недостатков:</p>
-<ol>
-<li>В случае если бы было неоходимо добавить новую модель,
-то потребовалось бы дописывать ещё один&nbsp;сигнал.</li>
-<li>Модель &#8220;типографировалась&#8221; при каждом сохранении, не зависимо от изменения
-самого текста, что приводило к лишним запросам на сервис Лебедева при каждом&nbsp;сохранении.</li>
-<li>Наиболее существенный недостаток. Модераторы начали жаловаться на то,
-что текст становится невозможно проверять, из за <code>html</code> сущностей,
-которые затрудняют чтение. (см. пример&nbsp;ниже)</li>
-</ol>
-<p>Пример исходного&nbsp;текста:</p>
-<div class="highlight"><pre><span></span>&quot;Вы все еще кое-как верстаете в &quot;Ворде&quot;? - Тогда мы идем к вам!&quot;
-</pre></div>
-
-
-<p>Пример типографированного&nbsp;текста:</p>
-<div class="highlight"><pre><span></span><span class="nt">&lt;p&gt;</span><span class="ni">&amp;laquo;</span>Вы<span class="ni">&amp;nbsp;</span>все еще кое-как верстаете в<span class="ni">&amp;nbsp;&amp;bdquo;</span>Ворде<span class="ni">&amp;ldquo;</span>?
+</pre></div><p>Данный подход имел ряд&nbsp;недостатков:</p><ol><li>В случае если бы было неоходимо добавить новую модель, то потребовалось бы дописывать ещё один&nbsp;сигнал.</li><li>Модель &#8220;типографировалась&#8221; при каждом сохранении, не зависимо от изменения самого текста, что приводило к лишним запросам на сервис Лебедева при каждом&nbsp;сохранении.</li><li>Наиболее существенный недостаток. Модераторы начали жаловаться на то, что текст становится невозможно проверять, из за <code>html</code> сущностей, которые затрудняют чтение. (см. пример&nbsp;ниже)</li></ol><p>Пример исходного&nbsp;текста:</p><div class="highlight"><pre><span></span>&quot;Вы все еще кое-как верстаете в &quot;Ворде&quot;? - Тогда мы идем к вам!&quot;
+</pre></div><p>Пример типографированного&nbsp;текста:</p><div class="highlight"><pre><span></span><span class="nt">&lt;p&gt;</span><span class="ni">&amp;laquo;</span>Вы<span class="ni">&amp;nbsp;</span>все еще кое-как верстаете в<span class="ni">&amp;nbsp;&amp;bdquo;</span>Ворде<span class="ni">&amp;ldquo;</span>?
 <span class="ni">&amp;mdash;&amp;nbsp;</span>Тогда мы<span class="ni">&amp;nbsp;</span>идем к<span class="ni">&amp;nbsp;</span>вам!<span class="ni">&amp;raquo;</span><span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
 <span class="nt">&lt;/p&gt;</span>
-</pre></div>
-
-
-<p>Пример&nbsp;результата:</p>
-<blockquote>
-<p><p>&laquo;Вы&nbsp;все еще кое-как верстаете в&nbsp;&bdquo;Ворде&ldquo;?
-&mdash;&nbsp;Тогда мы&nbsp;идем к&nbsp;вам!&raquo;<br />
-</p></p>
-</blockquote>
-<h4 id="nenaviazchivyi-tipograf"><a class="toclink" href="#nenaviazchivyi-tipograf">Ненавязчивый&nbsp;типограф</a></h4>
-<p>Для решения указанных недостатков было решено создать пакет <code>django-typograf</code>
-<a href="https://pypi.python.org/pypi/django-typograf"><img alt="django-typograf version" src="https://badge.fury.io/py/django-typograf.svg" /></a>, который позволил бы
-автоматически типографировать указанные поля в моделях, делал это только
-вслучае необходимости и не влиял на отображение исходного текста в
-административном&nbsp;интефейсе.</p>
-<p>Для того чтобы не влиять на исходный текст, будем использовать
-дополнительные поля, которые будут хранить в себе оттипографированный текст.
-Для того чтобы не отправлять на типографирование текст каждый раз, без
-явной на то необходимости, будем хранить хешированное значение исходного
-текста и сравнивать его&nbsp;изменения.</p>
-<h5 id="kheshsumma"><a class="toclink" href="#kheshsumma">Хешсумма</a></h5>
-<p>Поскольку нам не важно какой вид будет иметь хешсумма, сравним
-производительность различных алгоритмов хеширования с целью выбора&nbsp;оптимального.</p>
-<p>Затраты времени для <code>md5</code> суммы:</p>
-<div class="highlight"><pre><span></span>$ <span class="nb">time</span> python -c <span class="s1">&#39;from hashlib import md5</span>
+</pre></div><p>Пример&nbsp;результата:</p><blockquote><p><p>&laquo;Вы&nbsp;все еще кое-как верстаете в&nbsp;&bdquo;Ворде&ldquo;? &mdash;&nbsp;Тогда мы&nbsp;идем к&nbsp;вам!&raquo;<br></p></p></blockquote><h4 id="nenaviazchivyi-tipograf"><a class="toclink" href="#nenaviazchivyi-tipograf">Ненавязчивый&nbsp;типограф</a></h4><p>Для решения указанных недостатков было решено создать пакет <code>django-typograf</code><a href="https://pypi.python.org/pypi/django-typograf"><img alt="django-typograf version" src="https://badge.fury.io/py/django-typograf.svg"></a>, который позволил бы автоматически типографировать указанные поля в моделях, делал это только вслучае необходимости и не влиял на отображение исходного текста в административном&nbsp;интефейсе.</p><p>Для того чтобы не влиять на исходный текст, будем использовать дополнительные поля, которые будут хранить в себе оттипографированный текст. Для того чтобы не отправлять на типографирование текст каждый раз, без явной на то необходимости, будем хранить хешированное значение исходного текста и сравнивать его&nbsp;изменения.</p><h5 id="kheshsumma"><a class="toclink" href="#kheshsumma">Хешсумма</a></h5><p>Поскольку нам не важно какой вид будет иметь хешсумма, сравним производительность различных алгоритмов хеширования с целью выбора&nbsp;оптимального.</p><p>Затраты времени для <code>md5</code> суммы:</p><div class="highlight"><pre><span></span>$ <span class="nb">time</span> python -c <span class="s1">&#39;from hashlib import md5</span>
 <span class="s1">for i in xrange(int(1e+6)): md5(str(i)).hexdigest()&#39;</span>
 
 real    0m1.015s
 user    0m1.006s
 sys 0m0.008s
-</pre></div>
-
-
-<p>Затраты времени для <code>sha1</code> суммы:</p>
-<div class="highlight"><pre><span></span>$ <span class="nb">time</span> python -c <span class="s1">&#39;from hashlib import sha1</span>
+</pre></div><p>Затраты времени для <code>sha1</code> суммы:</p><div class="highlight"><pre><span></span>$ <span class="nb">time</span> python -c <span class="s1">&#39;from hashlib import sha1</span>
 <span class="s1">for i in xrange(int(1e+6)): sha1(str(i)).hexdigest()&#39;</span>
 
 real    0m1.095s
 user    0m1.090s
 sys 0m0.004s
-</pre></div>
-
-
-<p>Затраты времени для <code>crc32</code> суммы:</p>
-<div class="highlight"><pre><span></span>$ <span class="nb">time</span> python -c <span class="s1">&#39;from binascii import crc32</span>
+</pre></div><p>Затраты времени для <code>crc32</code> суммы:</p><div class="highlight"><pre><span></span>$ <span class="nb">time</span> python -c <span class="s1">&#39;from binascii import crc32</span>
 <span class="s1">for i in xrange(int(1e+6)): crc32(str(i))&#39;</span>
 
 real    0m0.473s
 user    0m0.472s
 sys 0m0.000s
-</pre></div>
-
-
-<p>Затрат времени на стравнение&nbsp;строк:</p>
-<div class="highlight"><pre><span></span>$ <span class="nb">time</span> python -c <span class="s1">&#39;for i in xrange(int(1e+6)): &quot;123&quot; == &quot;321&quot;&#39;</span>
+</pre></div><p>Затрат времени на стравнение&nbsp;строк:</p><div class="highlight"><pre><span></span>$ <span class="nb">time</span> python -c <span class="s1">&#39;for i in xrange(int(1e+6)): &quot;123&quot; == &quot;321&quot;&#39;</span>
 
 real    0m0.092s
 user    0m0.087s
 sys 0m0.008s
-</pre></div>
-
-
-<p>Затрат времени на стравнение целых&nbsp;чисел:</p>
-<div class="highlight"><pre><span></span>$ <span class="nb">time</span> python -c <span class="s1">&#39;for i in xrange(int(1e+6)): 123 == 321&#39;</span>
+</pre></div><p>Затрат времени на стравнение целых&nbsp;чисел:</p><div class="highlight"><pre><span></span>$ <span class="nb">time</span> python -c <span class="s1">&#39;for i in xrange(int(1e+6)): 123 == 321&#39;</span>
 
 real    0m0.088s
 user    0m0.080s
 sys 0m0.008s
-</pre></div>
-
-
-<p>Таким образом, для хеширования используем алгоритм <code>crc32</code> из библиотеки
-<a href="https://docs.python.org/library/binascii.html">binascii</a>, так как это очень
-быстрая хешсумма, а также результат вычислений можно сохранить в
-целочисленное поле базы данных, что выгоднее чем строка, как с точки зрения
-затрат памяти, так и с точки зрения времени&nbsp;сравнения.</p>
-<p>Несмотря на то, что целочисленные значения дают дополнительное преимущество в
-затратах скорости и памяти, на практике всеравно будем использовать строковое
-представлениет. Так как, в <code>python 3.x</code> алгоритм <code>crc32</code> возвращает результат
-в диапазоне <code>unsigned int: 0 .. 4294967295</code>, а в <code>python 2.x</code> в диапазоне
-<code>int: -2147483648 .. 2147483647</code>. Целочисленное поле <code>PostgreSQL</code> способно
-разместить только диапазон <code>int</code>, даже джанговское поле <code>PositiveIntegerField</code>
-не расширяет диапазон до <code>2 ** 32 - 1</code>, а сокращает его ровно в половину до
-<code>0 .. 2147483647</code>.</p>
-<h5 id="skrytye-polia"><a class="toclink" href="#skrytye-polia">Скрытые&nbsp;поля</a></h5>
-<p>Служебные поля для типографированного текста и хешсуммы будут создаваться
-автоматически с помощью метода метакласса&nbsp;предка.</p>
-<div class="highlight"><pre><span></span>    <span class="c1"># ...</span>
+</pre></div><p>Таким образом, для хеширования используем алгоритм <code>crc32</code> из библиотеки <a href="https://docs.python.org/library/binascii.html">binascii</a>, так как это очень быстрая хешсумма, а также результат вычислений можно сохранить в целочисленное поле базы данных, что выгоднее чем строка, как с точки зрения затрат памяти, так и с точки зрения времени&nbsp;сравнения.</p><p>Несмотря на то, что целочисленные значения дают дополнительное преимущество в затратах скорости и памяти, на практике всеравно будем использовать строковое представлениет. Так как, в <code>python 3.x</code> алгоритм <code>crc32</code> возвращает результат в диапазоне <code>unsigned int: 0 .. 4294967295</code>, а в <code>python 2.x</code> в диапазоне <code>int: -2147483648 .. 2147483647</code>. Целочисленное поле <code>PostgreSQL</code> способно разместить только диапазон <code>int</code>, даже джанговское поле <code>PositiveIntegerField</code> не расширяет диапазон до <code>2 ** 32 - 1</code>, а сокращает его ровно в половину до <code>0 .. 2147483647</code>.</p><h5 id="skrytye-polia"><a class="toclink" href="#skrytye-polia">Скрытые&nbsp;поля</a></h5><p>Служебные поля для типографированного текста и хешсуммы будут создаваться автоматически с помощью метода метакласса&nbsp;предка.</p><div class="highlight"><pre><span></span>    <span class="c1"># ...</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">create_typograf_fields</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">local_typograf_fields</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">create_typograf_fields</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">local_typograf_fields</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create helpers to the local typografed fields &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">local_typograf_fields</span><span class="p">:</span>
             <span class="c1"># check is text field</span>
@@ -411,16 +134,7 @@ sys 0m0.008s
                 <span class="n">typograf_field_hash_name</span><span class="p">:</span> <span class="n">typograf_field_hash</span><span class="p">})</span>
 
         <span class="k">return</span> <span class="n">attrs</span>
-</pre></div>
-
-
-<p>В данном методе для каждого поля из спика <code>local_typograf_fields</code>,
-который задается в атрибутах метакласса модели наследника, создается по два
-служебных поля, вида <code>typograf_{field}</code> и <code>typograf_{field}_hash</code>.</p>
-<p>Для того чтобы эти служебные поля были недоступны в административном
-интерфейсе, добавим внутренний метод <code>_exclude</code>, который будет возвращать
-списки скрытых&nbsp;полей.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+</pre></div><p>В данном методе для каждого поля из спика <code>local_typograf_fields</code>, который задается в атрибутах метакласса модели наследника, создается по два служебных поля, вида <code>typograf_{field}</code> и <code>typograf_{field}_hash</code>.</p><p>Для того чтобы эти служебные поля были недоступны в административном интерфейсе, добавим внутренний метод <code>_exclude</code>, который будет возвращать списки скрытых&nbsp;полей.</p><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
 <span class="kn">from</span> <span class="nn">django_typograf.utils</span> <span class="kn">import</span> <span class="n">get_typograf_field_name</span><span class="p">,</span> <span class="n">get_typograf_hash_field_name</span>
 
 <span class="k">class</span> <span class="nc">TypografAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
@@ -442,14 +156,7 @@ sys 0m0.008s
         <span class="n">exclude</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exclude</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="n">exclude</span><span class="p">))</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_form</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</pre></div>
-
-
-<h4 id="ispolzovaniia-tipografa"><a class="toclink" href="#ispolzovaniia-tipografa">Использования&nbsp;типографа</a></h4>
-<p>Теперь, для автоматического типографирования текста, достаточно установить
-пакет <code>django_typograf</code> из <code>pypi</code>, наследовать модель от <code>TypografModel</code>
-и указать поля, которые необходимо&nbsp;типографировать.</p>
-<div class="highlight"><pre><span></span><span class="c1"># articles/models.py</span>
+</pre></div><h4 id="ispolzovaniia-tipografa"><a class="toclink" href="#ispolzovaniia-tipografa">Использования&nbsp;типографа</a></h4><p>Теперь, для автоматического типографирования текста, достаточно установить пакет <code>django_typograf</code> из <code>pypi</code>, наследовать модель от <code>TypografModel</code> и указать поля, которые необходимо&nbsp;типографировать.</p><div class="highlight"><pre><span></span><span class="c1"># articles/models.py</span>
 
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">django_typograf.models</span> <span class="kn">import</span> <span class="n">TypografModel</span>
@@ -466,54 +173,16 @@ sys 0m0.008s
         <span class="n">typograf</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;subtitle&#39;</span><span class="p">,</span> <span class="p">)</span>
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="s1">&#39;статья&#39;</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s1">&#39;статьи&#39;</span>
-</pre></div>
-
-
-<p>А также, в шаблоне, не забыть работать с &#8220;типографированными&#8221;&nbsp;полями.</p>
-<div class="highlight"><pre><span></span><span class="nt">&lt;h1&gt;</span><span class="cp">{{</span> <span class="nv">article.typograf_title</span><span class="o">|</span><span class="nf">default_if_none</span><span class="o">:</span><span class="nv">article.title</span><span class="o">|</span><span class="nf">safe</span> <span class="cp">}}</span><span class="nt">&lt;/h1&gt;</span>
+</pre></div><p>А также, в шаблоне, не забыть работать с &#8220;типографированными&#8221;&nbsp;полями.</p><div class="highlight"><pre><span></span><span class="nt">&lt;h1&gt;</span><span class="cp">{{</span> <span class="nv">article.typograf_title</span><span class="o">|</span><span class="nf">default_if_none</span><span class="o">:</span><span class="nv">article.title</span><span class="o">|</span><span class="nf">safe</span> <span class="cp">}}</span><span class="nt">&lt;/h1&gt;</span>
 <span class="nt">&lt;h2&gt;</span><span class="cp">{{</span> <span class="nv">article.typograf_subtitle</span><span class="o">|</span><span class="nf">default_if_none</span><span class="o">:</span><span class="nv">article.subtitle</span><span class="o">|</span><span class="nf">safe</span> <span class="cp">}}</span><span class="nt">&lt;/h2&gt;</span>
-</pre></div>
-
-        </article>
-
-            <div class="comments">
-                <div id="disqus_thread"></div>
-                <script type="text/javascript">
+</pre></div></article><div class="comments"><div id="disqus_thread"></div><script type="text/javascript">
                     var disqus_identifier = "articles/python/eto-tipograf/";
                     (function() {
                     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                     dsq.src = '//samael500.disqus.com/embed.js';
                     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
                     })();
-                </script>
-            </div>
-    </div>
-    <div class="col-md-3 content-right">
-        <div class='anchorific'></div>
-    </div>
-</div>
-                </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <div class="container">
-            <p>This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.</p>
-            <p><a href="http://github.com/samael500/w3-personal-blog/">W3 Personal Blog</a> is a flat <a href="http://getbootstrap.com/">bootstrap</a> responsive theme designed by <a href="https://w3layouts.com/personal-blog-a-blogging-category-flat-bootstrap-responsive-web-template/">W3layouts</a> ported to a pelican by <a href="http://samael500.github.io/">Samael500</a>.<p>
-            <p>Copyrights &copy; 2015&mdash;2017 Maks blog All rights reserved.</p>
-            
-<p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-<img alt="Creative Commons License"
-    style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
-This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-Creative Commons Attribution 4.0 International License</a>.</p>
-        </div>
-    </div>
-
-
-<script type="text/javascript" src="https://www.l2.io/ip.js?var=userip"></script>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
+                </script></div></div><div class="col-md-3 content-right"><div class="anchorific"></div></div></div></div></div></div><div class="footer"><div class="container"><p>This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.</p><p><a href="http://github.com/samael500/w3-personal-blog/">W3 Personal Blog</a> is a flat <a href="http://getbootstrap.com/">bootstrap</a> responsive theme designed by <a href="https://w3layouts.com/personal-blog-a-blogging-category-flat-bootstrap-responsive-web-template/">W3layouts</a> ported to a pelican by <a href="http://samael500.github.io/">Samael500</a>.<p><p>Copyrights &copy; 2015&mdash;2017 Maks live All rights reserved.</p><p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"> Creative Commons Attribution 4.0 International License</a>.</p></div></div><script type="text/javascript" src="https://www.l2.io/ip.js?var=userip"></script><script type="text/javascript">
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {
             try {
@@ -539,10 +208,7 @@ Creative Commons Attribution 4.0 International License</a>.</p>
             d.addEventListener("DOMContentLoaded", f, false);
         } else { f(); }
     })(document, window, "yandex_metrika_callbacks");
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-<script type="text/javascript">
+</script><noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt></div></noscript><script type="text/javascript">
     var disqus_shortname = 'samael500';
     (function () {
         var s = document.createElement('script'); s.async = true;
@@ -550,6 +216,4 @@ Creative Commons Attribution 4.0 International License</a>.</p>
         s.src = '//' + disqus_shortname + '.disqus.com/count.js';
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
-</script>
-</body>
-</html>
+</script></body></html>

@@ -1,61 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#00aeff" />
-    <meta name="msapplication-navbutton-color" content="#00aeff" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="#00aeff" />
-
-    <meta name="author" content="Maks" />
-    <meta name="robots" content="index, follow"/>
-    <meta name="keywords" content="article, vagrant, lua, nginx, self-hosted, wb-tech, best" />
-
-    <meta property="og:title" content="Собственное хранилище версированных Vagrant боксов с помощью Nginx и Lua"/>
-    <meta property="og:url" content="https://samael500.github.io/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/"/>
-    <meta property="og:site_name" content="Maks blog"/>
-    <meta property="og:type" content="article"/>
-    <meta property="og:image" content="https://samael500.github.io/media/lua-vagrant/lua-vagrant.png" />
-    <meta property="og:description" content="Для удобного процесса разработки, быстрого переключения между проектами и эффективного взаимодействия бэкенд и фронтенд команд. Мы, в WB—Tech, работаем в виртуальном окружении Vagrant + VirtualBox. Vagrant — прекрасный менеджер окружения, а для ускорения развертывания виртуальной машины можно использовать компилированные, версированные боксы. Хостить их можно на родном сервере, но триал Vagrant enterprise у нас закончился, в связи с чем было решено хостить боксы самостоятельно. А сделали мы это с помощью Lua." />
-<meta property="og:image:width" content="1280" />
-<meta property="og:image:height" content="791" />
-
-    <link rel="canonical" href="https://samael500.github.io/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/" />
-
-    <title>Собственное хранилище версированных Vagrant боксов с помощью Nginx и Lua | Maks blog</title>
-
-    <link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/social-likes_flat.css" />
-
-    <script type="text/javascript" src="/theme/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/theme/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/theme/js/social-likes.min.js"></script>
-
-
-    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/tree.css" />
-    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/anchorific.css" />
-    <script type="text/javascript" src="https://samael500.github.io/theme/js/anchorific.js"></script>
-</head>
-<body id="index">
-    <a class="forkmegithub" href="https://github.com/Samael500">
-        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png">
-    </a>
-<div class="header">  
-    <div class="container">
-        <div class="logo">
-            <a href="https://samael500.github.io/">
-                MAKS BLOG            </a>
-        </div>
-
-        <div class="top-menu">
-
-            <div class="search">
-
-<script>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#00aeff"><meta name="msapplication-navbutton-color" content="#00aeff"><meta name="apple-mobile-web-app-status-bar-style" content="#00aeff"><meta name="author" content="Maks"><meta name="robots" content="index, follow"><meta name="keywords" content="article, vagrant, lua, nginx, self-hosted, wb-tech, best"><meta property="og:title" content="Собственное хранилище версированных Vagrant боксов с помощью Nginx и Lua"><meta property="og:url" content="https://samael500.github.io/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/"><meta property="og:site_name" content="Maks live"><meta property="og:type" content="article"><meta property="og:image" content="https://samael500.github.io/media/lua-vagrant/lua-vagrant.png"><meta property="og:description" content="Для удобного процесса разработки, быстрого переключения между проектами и эффективного взаимодействия бэкенд и фронтенд команд. Мы, в WB—Tech, работаем в виртуальном окружении Vagrant + VirtualBox. Vagrant — прекрасный менеджер окружения, а для ускорения развертывания виртуальной машины можно использовать компилированные, версированные боксы. Хостить их можно на родном сервере, но триал Vagrant enterprise у нас закончился, в связи с чем было решено хостить боксы самостоятельно. А сделали мы это с помощью Lua."><meta property="og:image:width" content="1280"><meta property="og:image:height" content="791"><link rel="canonical" href="https://samael500.github.io/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/"><title>Собственное хранилище версированных Vagrant боксов с помощью Nginx и Lua | Maks live</title><link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css"><link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css"><link rel="stylesheet" type="text/css" href="/theme/css/style.css"><link rel="stylesheet" type="text/css" href="/theme/css/pygment.css"><link rel="stylesheet" type="text/css" href="/theme/css/social-likes_flat.css"><script type="text/javascript" src="/theme/js/jquery.min.js"></script><script type="text/javascript" src="/theme/js/bootstrap.min.js"></script><script type="text/javascript" src="/theme/js/social-likes.min.js"></script><link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/tree.css"><link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/anchorific.css"><script type="text/javascript" src="https://samael500.github.io/theme/js/anchorific.js"></script></head><body id="index"><a class="forkmegithub" href="https://github.com/Samael500"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a><div class="header"><div class="container"><div class="logo"><a href="https://samael500.github.io/"> MAKS LIVE </a></div><div class="top-menu"><div class="search"><script>
   (function() {
     var cx = '006263355362628034990:cuxoisonrno';
     var gcse = document.createElement('script');
@@ -66,94 +10,12 @@
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(gcse, s);
   })();
-</script>
-
-<form id="searchbox_006263355362628034990:cuxoisonrno" action="https://www.google.com/">
-    <input value="006263355362628034990:cuxoisonrno" name="cx" type="hidden" />
-    <input value="FORID:11" name="cof" type="hidden" />
-    <input id="q" name="q" type="text" required />
-    <input type="submit" value="">
-</form>
-
-            </div>
-
-            <span class="menu"> </span>
-                <ul>
-                        <li >
-                            <a href="/">HOME</a></li>
-                        <li >
-                            <a href="/tag/best/">BEST</a></li>
-                            <li ><a href="https://samael500.github.io/about/">ABOUT</a></li>
-
-                    <div class="clearfix"></div>
-                </ul>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <script>
+</script><form id="searchbox_006263355362628034990:cuxoisonrno" action="https://www.google.com/"><input value="006263355362628034990:cuxoisonrno" name="cx" type="hidden"><input value="FORID:11" name="cof" type="hidden"><input id="q" name="q" type="text" required><input type="submit" value></form></div><span class="menu"></span><ul><li><a href="/">HOME</a></li><li><a href="/tag/best/">BEST</a></li><li><a href="https://samael500.github.io/about/">ABOUT</a></li><div class="clearfix"></div></ul></div><div class="clearfix"></div><script>
                 $("span.menu").click(function(){
                     $(".top-menu ul").slideToggle("slow" , function(){
                     });
                 });
-            </script>
-        </div>
-    </div>
-</div>
-    <div class="content">
-        <div class="container">
-                <div class="content-grids">
-<div class="single-main">
-
-    <div class="col-md-9 single-grid">
-
-        <header>
-<h4>
-    <a href="https://samael500.github.io/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/" title="Собственное хранилище версированных Vagrant боксов с помощью Nginx и Lua">Собственное хранилище версированных Vagrant боксов с помощью Nginx и&nbsp;Lua</a>
-    Oct 25, 2016
-</h4>
-
-<div class="footer art-info">
-
-        Author: <a class="url fn" href="https://samael500.github.io/author/maks/">Maks</a> |
-
-    Category: <a href="https://samael500.github.io/category/drugoe.html">Другое</a>
-
-
-        | <a href="https://samael500.github.io/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/#disqus_thread">Comments</a>
-
-    
-
-        <br />
-        Tags:         <a href="https://samael500.github.io/tag/vagrant/">vagrant</a>
-        <a href="https://samael500.github.io/tag/lua/">lua</a>
-        <a href="https://samael500.github.io/tag/nginx/">nginx</a>
-        <a href="https://samael500.github.io/tag/self-hosted/">self-hosted</a>
-        <a href="https://samael500.github.io/tag/wb-tech/">wb-tech</a>
-        <a href="https://samael500.github.io/tag/best/">best</a>
-
-</div><div class="social-likes">
-    <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>
-    <div class="twitter" data-via="samael500" title="Поделиться ссылкой в Твиттере">Twitter</div>
-    <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div>
-    <div class="plusone" title="Поделиться ссылкой в Google+">Google+</div>
-</div>        </header>
-
-        <article class="content">
-
-
-            <p>Для удобного процесса разработки, быстрого переключения между проектами и
-эффективного взаимодействия бэкенд и фронтенд команд. Мы, в
-<a href="http://wbtech.pro/"><span class="caps">WB</span>&#8212;Tech</a>, работаем в виртуальном окружении
-<a href="https://www.vagrantup.com/">Vagrant</a> + <a href="https://www.virtualbox.org/">VirtualBox</a>.
-<code>Vagrant</code> &#8212; прекрасный менеджер окружения, а для ускорения развертывания
-виртуальной машины можно использовать компилированные, версированные боксы.
-Хостить их можно на <a href="https://atlas.hashicorp.com/boxes/search">родном сервере</a>,
-но триал <code>Vagrant enterprise</code> у нас закончился, в связи с чем было решено
-хостить боксы самостоятельно. А сделали мы это с помощью <a href="https://www.lua.org/">Lua</a>.</p>
-<p>Версийность боксов в <code>Vagrant</code> описывается при помощи <code>json</code>
-<a href="https://www.vagrantup.com/docs/boxes/format.html">документа</a>.</p>
-<div class="highlight"><pre><span></span><span class="p">{</span>
+            </script></div></div></div><div class="content"><div class="container"><div class="content-grids"><div class="single-main"><div class="col-md-9 single-grid"><header><h4><a href="https://samael500.github.io/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/" title="Собственное хранилище версированных Vagrant боксов с помощью Nginx и Lua">Собственное хранилище версированных Vagrant боксов с помощью Nginx и&nbsp;Lua</a> Oct 25, 2016 </h4><div class="footer art-info"> Author: <a class="url fn" href="https://samael500.github.io/author/maks/">Maks</a> | Category: <a href="https://samael500.github.io/category/drugoe.html">Другое</a> | <a href="https://samael500.github.io/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/#disqus_thread">Comments</a><br> Tags: <a href="https://samael500.github.io/tag/vagrant/">vagrant</a><a href="https://samael500.github.io/tag/lua/">lua</a><a href="https://samael500.github.io/tag/nginx/">nginx</a><a href="https://samael500.github.io/tag/self-hosted/">self-hosted</a><a href="https://samael500.github.io/tag/wb-tech/">wb-tech</a><a href="https://samael500.github.io/tag/best/">best</a></div><div class="social-likes"><div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div><div class="twitter" data-via="samael500" title="Поделиться ссылкой в Твиттере">Twitter</div><div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div><div class="plusone" title="Поделиться ссылкой в Google+">Google+</div></div></header><article class="content"><p>Для удобного процесса разработки, быстрого переключения между проектами и эффективного взаимодействия бэкенд и фронтенд команд. Мы, в <a href="http://wbtech.pro/"><span class="caps">WB</span>&#8212;Tech</a>, работаем в виртуальном окружении <a href="https://www.vagrantup.com/">Vagrant</a> + <a href="https://www.virtualbox.org/">VirtualBox</a>. <code>Vagrant</code>&#8212; прекрасный менеджер окружения, а для ускорения развертывания виртуальной машины можно использовать компилированные, версированные боксы. Хостить их можно на <a href="https://atlas.hashicorp.com/boxes/search">родном сервере</a>, но триал <code>Vagrant enterprise</code> у нас закончился, в связи с чем было решено хостить боксы самостоятельно. А сделали мы это с помощью <a href="https://www.lua.org/">Lua</a>.</p><p>Версийность боксов в <code>Vagrant</code> описывается при помощи <code>json</code><a href="https://www.vagrantup.com/docs/boxes/format.html">документа</a>.</p><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;box_name&quot;</span><span class="p">,</span>
     <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;This box description.&quot;</span><span class="p">,</span>
     <span class="nt">&quot;versions&quot;</span><span class="p">:</span> <span class="p">[</span>
@@ -170,68 +32,17 @@
         <span class="p">}</span>
     <span class="p">]</span>
 <span class="p">}</span>
-</pre></div>
-
-
-<p>Далее, в самом <code>Vagrantfile</code> нужно указывать путь к метаданным в атрибуте <code>config.vm.box_url</code>:</p>
-<div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&quot;box_name&quot;</span>
+</pre></div><p>Далее, в самом <code>Vagrantfile</code> нужно указывать путь к метаданным в атрибуте <code>config.vm.box_url</code>:</p><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&quot;box_name&quot;</span>
 <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_version</span> <span class="o">=</span> <span class="s2">&quot;42.0&quot;</span>
 <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&quot;http://somewhere.com/path/to/metadata.json&quot;</span>
-</pre></div>
-
-
-<p>Каждый раз при обновлении версии бокса, описывать данный документ вручную, а
-потом загружать на сервер вместе с новым боксом, было бы слишком скучно.
-Делать для этого какой либо бэкенд нецелесообразно. Когда можно обойтись одним
-лишь <code>Nginx</code> с дополнительным <a href="https://www.nginx.com/resources/wiki/modules/lua/">модулем</a>.
-Так что формирование метаданных сделано при помощи простого скрипта на <code>Lua</code>.</p>
-<h3 id="daleko-li-do-luny"><a class="toclink" href="#daleko-li-do-luny">Далеко ли до&nbsp;Луны?</a></h3>
-<p><code>Lua</code> (с порт. — &#8221;луна&#8221;) — скриптовый язык программирования,
-разработанный в подразделении <code>Tecgraf</code> Католического университета
-Рио-де-Жанейро. Интерпретатор языка является свободно
-распространяемым, с открытыми исходными текстами на языке&nbsp;Си.</p>
-<p>По возможностям, идеологии и реализации язык ближе всего к <code>JavaScript</code>,
-однако <code>Lua</code> отличается более мощными и гораздо более гибкими конструкциями.
-Хотя <code>Lua</code> не содержит понятия класса и объекта в явном виде,
-механизмы объектно-ориентированного программирования, включая множественное
-наследование, легко реализуются с использованием метатаблиц, которые также
-отвечают за перегрузку операций и т. п. Реализуемая модель
-объектно-ориентированного программирования — прототипная (как и в <code>JavaScript</code>).</p>
-<h3 id="ustanovka-i-zavisimosti"><a class="toclink" href="#ustanovka-i-zavisimosti">Установка и&nbsp;зависимости</a></h3>
-<p>Описание приведено для операционных систем семейства <code>Debian</code>.</p>
-<ul>
-<li>Прежде всего нам потребуется <code>Nginx</code> с модулем
-<a href="https://github.com/openresty/lua-nginx-module">lua-nginx-module</a>.
-Собрать его можно вручную, но проще установить готовый пакет
-<a href="https://packages.debian.org/ru/sid/nginx-extras">nginx-extras</a>,
-который содержит множество полезных&nbsp;модулей.</li>
-<li>Также не будет лишним интерпретатор <code>Lua</code>, чтобы оттестировать скрипт
-в интерактивной&nbsp;консоли.</li>
-<li>Для компиляции модулей, потребуется утилита <code>make</code>.</li>
-<li>Время собирать лунные камни, нам будет нужен менеджер пакетов <a href="https://luarocks.org/">luarocks</a>.<ul>
-<li>Для поиска файлов в директории, будем использовать модуль <a href="http://luaposix.github.io/luaposix/">luaposix</a>.</li>
-<li>Ну и для конвертации словаря в <code>JSON</code> установим <a href="http://json.luaforge.net/">JSON4Lua</a>.</li>
-</ul>
-</li>
-</ul>
-<div class="highlight"><pre><span></span>$ sudo apt-get -y install make nginx-extras lua5.1 luarocks
+</pre></div><p>Каждый раз при обновлении версии бокса, описывать данный документ вручную, а потом загружать на сервер вместе с новым боксом, было бы слишком скучно. Делать для этого какой либо бэкенд нецелесообразно. Когда можно обойтись одним лишь <code>Nginx</code> с дополнительным <a href="https://www.nginx.com/resources/wiki/modules/lua/">модулем</a>. Так что формирование метаданных сделано при помощи простого скрипта на <code>Lua</code>.</p><h3 id="daleko-li-do-luny"><a class="toclink" href="#daleko-li-do-luny">Далеко ли до&nbsp;Луны?</a></h3><p><code>Lua</code> (с порт. — &#8221;луна&#8221;) — скриптовый язык программирования, разработанный в подразделении <code>Tecgraf</code> Католического университета Рио-де-Жанейро. Интерпретатор языка является свободно распространяемым, с открытыми исходными текстами на языке&nbsp;Си.</p><p>По возможностям, идеологии и реализации язык ближе всего к <code>JavaScript</code>, однако <code>Lua</code> отличается более мощными и гораздо более гибкими конструкциями. Хотя <code>Lua</code> не содержит понятия класса и объекта в явном виде, механизмы объектно-ориентированного программирования, включая множественное наследование, легко реализуются с использованием метатаблиц, которые также отвечают за перегрузку операций и т. п. Реализуемая модель объектно-ориентированного программирования — прототипная (как и в <code>JavaScript</code>).</p><h3 id="ustanovka-i-zavisimosti"><a class="toclink" href="#ustanovka-i-zavisimosti">Установка и&nbsp;зависимости</a></h3><p>Описание приведено для операционных систем семейства <code>Debian</code>.</p><ul><li>Прежде всего нам потребуется <code>Nginx</code> с модулем <a href="https://github.com/openresty/lua-nginx-module">lua-nginx-module</a>. Собрать его можно вручную, но проще установить готовый пакет <a href="https://packages.debian.org/ru/sid/nginx-extras">nginx-extras</a>, который содержит множество полезных&nbsp;модулей.</li><li>Также не будет лишним интерпретатор <code>Lua</code>, чтобы оттестировать скрипт в интерактивной&nbsp;консоли.</li><li>Для компиляции модулей, потребуется утилита <code>make</code>.</li><li>Время собирать лунные камни, нам будет нужен менеджер пакетов <a href="https://luarocks.org/">luarocks</a>.<ul><li>Для поиска файлов в директории, будем использовать модуль <a href="http://luaposix.github.io/luaposix/">luaposix</a>.</li><li>Ну и для конвертации словаря в <code>JSON</code> установим <a href="http://json.luaforge.net/">JSON4Lua</a>.</li></ul></li></ul><div class="highlight"><pre><span></span>$ sudo apt-get -y install make nginx-extras lua5.1 luarocks
 $ <span class="c1"># install lua modules</span>
 $ sudo luarocks install luaposix
 $ sudo luarocks install JSON4Lua
-</pre></div>
-
-
-<h3 id="zdravstvui-podlunnyi-mir"><a class="toclink" href="#zdravstvui-podlunnyi-mir">Здравствуй, подлунный&nbsp;мир!</a></h3>
-<p><span class="dquo">&#8220;</span>Здравствуй, мир!&#8221; на <code>Lua</code>, так же прост и прекрасен, как и на <code>Python</code>.</p>
-<div class="highlight"><pre><span></span><span class="n">Lua</span> <span class="mf">5.1.5</span>  <span class="n">Copyright</span> <span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="mi">1994</span><span class="o">-</span><span class="mi">2012</span> <span class="n">Lua</span><span class="p">.</span><span class="n">org</span><span class="p">,</span> <span class="n">PUC</span><span class="o">-</span><span class="n">Rio</span>
-<span class="o">&gt;</span> <span class="nb">print</span> <span class="s2">&quot;</span><span class="s">Hello world!&quot;</span>
+</pre></div><h3 id="zdravstvui-podlunnyi-mir"><a class="toclink" href="#zdravstvui-podlunnyi-mir">Здравствуй, подлунный&nbsp;мир!</a></h3><p><span class="dquo">&#8220;</span>Здравствуй, мир!&#8221; на <code>Lua</code>, так же прост и прекрасен, как и на <code>Python</code>.</p><div class="highlight"><pre><span></span><span class="n">Lua</span> <span class="mf">5.1.5</span>  <span class="n">Copyright</span> <span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="mi">1994</span><span class="o">-</span><span class="mi">2012</span> <span class="n">Lua</span><span class="p">.</span><span class="n">org</span><span class="p">,</span> <span class="n">PUC</span><span class="o">-</span><span class="n">Rio</span>
+<span class="o">&gt;</span> <span class="nb">print</span> <span class="s2">&quot;Hello world!&quot;</span>
 <span class="n">Hello</span> <span class="n">world</span><span class="err">!</span>
-</pre></div>
-
-
-<p>Теперь попробуем тоже самое при помощи полнофункционального
-<a href="https://github.com/openresty/lua-nginx-module#nginx-api-for-lua">Nginx Lua <span class="caps">API</span></a>.</p>
-<div class="highlight"><pre><span></span><span class="k">server</span> <span class="p">{</span>
+</pre></div><p>Теперь попробуем тоже самое при помощи полнофункционального <a href="https://github.com/openresty/lua-nginx-module#nginx-api-for-lua">Nginx Lua <span class="caps">API</span></a>.</p><div class="highlight"><pre><span></span><span class="k">server</span> <span class="p">{</span>
     <span class="kn">listen</span>    <span class="mi">80</span><span class="p">;</span>
 
     <span class="kn">location</span> <span class="s">/hello-world</span> <span class="p">{</span>
@@ -241,25 +52,9 @@ $ sudo luarocks install JSON4Lua
         <span class="s">&#39;</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>$ curl http://10.1.1.111/hello-world
+</pre></div><div class="highlight"><pre><span></span>$ curl http://10.1.1.111/hello-world
 Hello world!
-</pre></div>
-
-
-<p>Для исполнения <code>Lua</code> скрипта, служит директива <code>content_by_lua</code>,
-для которого <code>Nginx</code> ожидает получить ответ через <code>API</code>. Если скрипт большой,
-то не обязательно описывать его внутри конфига, достаточно лишь подключить
-через директиву <code>content_by_lua_file</code>.</p>
-<h3 id="vagrant-metadannye"><a class="toclink" href="#vagrant-metadannye">Vagrant&nbsp;метаданные</a></h3>
-<h4 id="nastroika-nginx"><a class="toclink" href="#nastroika-nginx">Настройка&nbsp;Nginx</a></h4>
-<p>На сервере мы складываем боксы в директорию <code>hosted</code>, создавая поддиректорию
-для каждого проекта. Сами боксы в которой хранятся файлами со строго указанным
-форматом имени <code>{provider}-{version.subversion}.box</code>.</p>
-<p>Формируя примерно такое&nbsp;дерево:</p>
-<div class="highlight"><pre><span></span>$ tree hosted/
+</pre></div><p>Для исполнения <code>Lua</code> скрипта, служит директива <code>content_by_lua</code>, для которого <code>Nginx</code> ожидает получить ответ через <code>API</code>. Если скрипт большой, то не обязательно описывать его внутри конфига, достаточно лишь подключить через директиву <code>content_by_lua_file</code>.</p><h3 id="vagrant-metadannye"><a class="toclink" href="#vagrant-metadannye">Vagrant&nbsp;метаданные</a></h3><h4 id="nastroika-nginx"><a class="toclink" href="#nastroika-nginx">Настройка&nbsp;Nginx</a></h4><p>На сервере мы складываем боксы в директорию <code>hosted</code>, создавая поддиректорию для каждого проекта. Сами боксы в которой хранятся файлами со строго указанным форматом имени <code>{provider}-{version.subversion}.box</code>.</p><p>Формируя примерно такое&nbsp;дерево:</p><div class="highlight"><pre><span></span>$ tree hosted/
 hosted/
 ├── foo
 │   ├── docker-1.0.box
@@ -273,12 +68,7 @@ hosted/
     └── virtualbox-1.2.box
 
 <span class="m">2</span> directories, <span class="m">8</span> files
-</pre></div>
-
-
-<p>Настроим <code>nginx</code> так, чтобы для любого бокса &#8212; начиналось непосредственное скачивание,
-а для имени проекта, возвращались вычисленные&nbsp;метаданные.</p>
-<div class="highlight"><pre><span></span><span class="k">server</span> <span class="p">{</span>
+</pre></div><p>Настроим <code>nginx</code> так, чтобы для любого бокса &#8212; начиналось непосредственное скачивание, а для имени проекта, возвращались вычисленные&nbsp;метаданные.</p><div class="highlight"><pre><span></span><span class="k">server</span> <span class="p">{</span>
     <span class="kn">listen</span>    <span class="mi">80</span><span class="p">;</span>
 
     <span class="kn">set</span> <span class="nv">$box_url</span> <span class="s">&#39;http://10.1.1.111/%s/%s-%s.box&#39;</span><span class="p">;</span>
@@ -293,78 +83,48 @@ hosted/
         <span class="kn">content_by_lua_file</span> <span class="s">/home/vagrant/proj/app/handler.lua</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</pre></div>
-
-
-<p>Переменные <code>$box_url</code> и <code>$box_prefix</code> будут использовать при формировании&nbsp;метаданных.</p>
-<h4 id="vychislenie-metadannykh-s-pomoshchiu-lua"><a class="toclink" href="#vychislenie-metadannykh-s-pomoshchiu-lua">Вычисление метаданных с помощью&nbsp;Lua</a></h4>
-<p>Приступим теперь непосредственно к формированию метаданных
-для версирования <code>Vagrant</code> боксов.</p>
-<p>Идея будет заключаться в том, что по запросу, <code>Lua</code> будет осуществлять поиск
-сохраненных боксов в заданной директории на сервере, вычислять их хешсуммы,
-и формировать ответ в формате метаданных <code>vagrant</code>а.</p>
-<p>Используя <a href="https://luaposix.github.io/luaposix/modules/posix.glob.html">glob</a>
-из библиотеки <code>posix</code> найдем все&nbsp;боксы.</p>
-<div class="highlight"><pre><span></span><span class="kd">local</span> <span class="n">box_root</span> <span class="o">=</span> <span class="n">ngx</span><span class="p">.</span><span class="n">var</span><span class="p">.</span><span class="n">box_prefix</span> <span class="o">..</span> <span class="n">ngx</span><span class="p">.</span><span class="n">var</span><span class="p">.</span><span class="n">box_name</span> <span class="o">..</span> <span class="s1">&#39;</span><span class="s">/&#39;</span>
-<span class="kd">local</span> <span class="n">posix</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">&quot;</span><span class="s">posix&quot;</span>
-<span class="kd">local</span> <span class="n">glob</span> <span class="o">=</span> <span class="n">posix</span><span class="p">.</span><span class="n">glob</span> <span class="p">(</span><span class="n">box_root</span> <span class="o">..</span> <span class="s1">&#39;</span><span class="s">*.box&#39;</span><span class="p">)</span>
+</pre></div><p>Переменные <code>$box_url</code> и <code>$box_prefix</code> будут использовать при формировании&nbsp;метаданных.</p><h4 id="vychislenie-metadannykh-s-pomoshchiu-lua"><a class="toclink" href="#vychislenie-metadannykh-s-pomoshchiu-lua">Вычисление метаданных с помощью&nbsp;Lua</a></h4><p>Приступим теперь непосредственно к формированию метаданных для версирования <code>Vagrant</code> боксов.</p><p>Идея будет заключаться в том, что по запросу, <code>Lua</code> будет осуществлять поиск сохраненных боксов в заданной директории на сервере, вычислять их хешсуммы, и формировать ответ в формате метаданных <code>vagrant</code>а.</p><p>Используя <a href="https://luaposix.github.io/luaposix/modules/posix.glob.html">glob</a> из библиотеки <code>posix</code> найдем все&nbsp;боксы.</p><div class="highlight"><pre><span></span><span class="kd">local</span> <span class="n">box_root</span> <span class="o">=</span> <span class="n">ngx</span><span class="p">.</span><span class="n">var</span><span class="p">.</span><span class="n">box_prefix</span> <span class="o">..</span> <span class="n">ngx</span><span class="p">.</span><span class="n">var</span><span class="p">.</span><span class="n">box_name</span> <span class="o">..</span> <span class="s1">&#39;/&#39;</span>
+<span class="kd">local</span> <span class="n">posix</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">&quot;posix&quot;</span>
+<span class="kd">local</span> <span class="n">glob</span> <span class="o">=</span> <span class="n">posix</span><span class="p">.</span><span class="n">glob</span> <span class="p">(</span><span class="n">box_root</span> <span class="o">..</span> <span class="s1">&#39;*.box&#39;</span><span class="p">)</span>
 
 <span class="c1">-- Если боксы не найдены, можно сразу возвращать 404</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">glob</span> <span class="k">then</span>
+<span class="kr">if</span> <span class="ow">not</span> <span class="n">glob</span> <span class="kr">then</span>
     <span class="n">ngx</span><span class="p">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">ngx</span><span class="p">.</span><span class="n">HTTP_NOT_FOUND</span>
-    <span class="k">return</span> <span class="n">ngx</span><span class="p">.</span><span class="n">exit</span> <span class="p">(</span><span class="n">ngx</span><span class="p">.</span><span class="n">HTTP_NOT_FOUND</span><span class="p">)</span>
-<span class="k">end</span>
-</pre></div>
-
-
-<p>Итеративно пройдем по найденным боксам, и сформируем словарь с найденными&nbsp;версиями.</p>
-<div class="highlight"><pre><span></span><span class="kd">local</span> <span class="n">versions</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="kr">return</span> <span class="n">ngx</span><span class="p">.</span><span class="n">exit</span> <span class="p">(</span><span class="n">ngx</span><span class="p">.</span><span class="n">HTTP_NOT_FOUND</span><span class="p">)</span>
+<span class="kr">end</span>
+</pre></div><p>Итеративно пройдем по найденным боксам, и сформируем словарь с найденными&nbsp;версиями.</p><div class="highlight"><pre><span></span><span class="kd">local</span> <span class="n">versions</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="c1">-- Discover the boxes</span>
-<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">box</span> <span class="k">in</span> <span class="nb">ipairs</span> <span class="p">(</span><span class="n">glob</span><span class="p">)</span> <span class="k">do</span>
+<span class="kr">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">box</span> <span class="kr">in</span> <span class="nb">ipairs</span> <span class="p">(</span><span class="n">glob</span><span class="p">)</span> <span class="kr">do</span>
     <span class="c1">-- Обрабатываем найденый бокс, определяя версию и формируя описание</span>
     <span class="kd">local</span> <span class="n">provider</span><span class="p">,</span> <span class="n">version</span> <span class="o">=</span> <span class="n">make_provider</span> <span class="p">(</span><span class="n">box</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">version</span> <span class="k">then</span>
-        <span class="k">if</span> <span class="n">versions</span><span class="p">[</span><span class="n">version</span><span class="p">]</span> <span class="o">==</span> <span class="kc">nil</span> <span class="k">then</span>
+    <span class="kr">if</span> <span class="n">version</span> <span class="kr">then</span>
+        <span class="kr">if</span> <span class="n">versions</span><span class="p">[</span><span class="n">version</span><span class="p">]</span> <span class="o">==</span> <span class="kc">nil</span> <span class="kr">then</span>
             <span class="c1">-- Если версия встречается впервые, создаем запись для новой версии</span>
             <span class="n">versions</span><span class="p">[</span><span class="n">version</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="n">version</span> <span class="o">=</span> <span class="n">version</span><span class="p">,</span>
                 <span class="n">providers</span> <span class="o">=</span> <span class="p">{</span><span class="n">provider</span><span class="p">}</span>
             <span class="p">}</span>
-        <span class="k">else</span>
+        <span class="kr">else</span>
             <span class="c1">-- Если версия уже была описана, обновляем список провайдеров</span>
-            <span class="nb">table.insert</span> <span class="p">(</span><span class="n">versions</span><span class="p">[</span><span class="n">version</span><span class="p">][</span><span class="s1">&#39;</span><span class="s">providers&#39;</span><span class="p">],</span> <span class="n">provider</span><span class="p">)</span>
-        <span class="k">end</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-</pre></div>
+            <span class="nb">table.insert</span> <span class="p">(</span><span class="n">versions</span><span class="p">[</span><span class="n">version</span><span class="p">][</span><span class="s1">&#39;providers&#39;</span><span class="p">],</span> <span class="n">provider</span><span class="p">)</span>
+        <span class="kr">end</span>
+    <span class="kr">end</span>
+<span class="kr">end</span>
+</pre></div><p>Для вычисления хешсуммы больших файлов боксов воспользуемся утилитами операционной системы. Такими как <code>sha1sum</code>, <code>sha256sum</code>, <code>md5sum</code>&#8230; Делается это с помощью вызова процесса через <code>io.popen</code>:</p><div class="highlight"><pre><span></span><span class="kd">local</span> <span class="n">hash</span> <span class="o">=</span> <span class="s1">&#39;sha1&#39;</span>
 
-
-<p>Для вычисления хешсуммы больших файлов боксов воспользуемся утилитами операционной системы.
-Такими как <code>sha1sum</code>, <code>sha256sum</code>, <code>md5sum</code>&#8230;
-Делается это с помощью вызова процесса через <code>io.popen</code>:</p>
-<div class="highlight"><pre><span></span><span class="kd">local</span> <span class="n">hash</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">sha1&#39;</span>
-
-<span class="k">function</span> <span class="nf">get_hash</span> <span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+<span class="kr">function</span> <span class="nf">get_hash</span> <span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
     <span class="c1">-- Вычисляем хешсумму используя вызов консольной утилиты sha1sum</span>
-    <span class="kd">local</span> <span class="n">command</span> <span class="o">=</span> <span class="nb">string.format</span> <span class="p">(</span><span class="s1">&#39;</span><span class="s">%ssum %s | cut -d &quot; &quot; -f1&#39;</span><span class="p">,</span> <span class="n">hash</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
-    <span class="kd">local</span> <span class="n">hashsum</span> <span class="o">=</span> <span class="nb">assert</span> <span class="p">(</span><span class="nb">io.popen</span> <span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="s1">&#39;</span><span class="s">r&#39;</span><span class="p">))</span>
-    <span class="kd">local</span> <span class="n">result</span> <span class="o">=</span> <span class="nb">string.gsub</span> <span class="p">(</span><span class="n">hashsum</span><span class="p">:</span><span class="n">read</span> <span class="p">(</span><span class="s1">&#39;</span><span class="s">*a&#39;</span><span class="p">),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="s">&#39;</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">command</span> <span class="o">=</span> <span class="nb">string.format</span> <span class="p">(</span><span class="s1">&#39;%ssum %s | cut -d &quot; &quot; -f1&#39;</span><span class="p">,</span> <span class="n">hash</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">hashsum</span> <span class="o">=</span> <span class="nb">assert</span> <span class="p">(</span><span class="nb">io.popen</span> <span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">))</span>
+    <span class="kd">local</span> <span class="n">result</span> <span class="o">=</span> <span class="nb">string.gsub</span> <span class="p">(</span><span class="n">hashsum</span><span class="p">:</span><span class="n">read</span> <span class="p">(</span><span class="s1">&#39;*a&#39;</span><span class="p">),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">hashsum</span><span class="p">:</span><span class="n">close</span> <span class="p">()</span>
-    <span class="k">return</span> <span class="n">result</span>
-<span class="k">end</span>
-</pre></div>
-
-
-<p>Функция <code>make_provider</code> выполняется для каждого найденного бокса.
-Подразумевается, что боксы хранятся на сервере со строго заданным форматом имени:
-<code>{provider}-{version.subversion}.box</code></p>
-<p>Разбираем версию и имя провайдера, регуляркой, после чего формируем словарь,
-описывающий данный&nbsp;бокс.</p>
-<div class="highlight"><pre><span></span><span class="kd">local</span> <span class="k">function</span> <span class="nf">make_provider</span> <span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="kr">return</span> <span class="n">result</span>
+<span class="kr">end</span>
+</pre></div><p>Функция <code>make_provider</code> выполняется для каждого найденного бокса. Подразумевается, что боксы хранятся на сервере со строго заданным форматом имени: <code>{provider}-{version.subversion}.box</code></p><p>Разбираем версию и имя провайдера, регуляркой, после чего формируем словарь, описывающий данный&nbsp;бокс.</p><div class="highlight"><pre><span></span><span class="kd">local</span> <span class="kr">function</span> <span class="nf">make_provider</span> <span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
     <span class="c1">-- Make vagrant provider from given file</span>
     <span class="kd">local</span> <span class="n">box_provider</span><span class="p">,</span> <span class="n">box_version</span> <span class="o">=</span> <span class="nb">string.match</span> <span class="p">(</span>
-        <span class="n">filepath</span><span class="p">,</span> <span class="nb">string.format</span> <span class="p">(</span><span class="s1">&#39;</span><span class="s">%s(%%a+)-(.+).box&#39;</span><span class="p">,</span> <span class="n">box_root</span><span class="p">))</span>
-    <span class="k">return</span> <span class="p">{</span>
+        <span class="n">filepath</span><span class="p">,</span> <span class="nb">string.format</span> <span class="p">(</span><span class="s1">&#39;%s(%%a+)-(.+).box&#39;</span><span class="p">,</span> <span class="n">box_root</span><span class="p">))</span>
+    <span class="kr">return</span> <span class="p">{</span>
         <span class="c1">-- Название провайдера virtualbox или docker</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">box_provider</span><span class="p">,</span>
         <span class="c1">-- Прямая ссылка на бокс, которую будет запрашивать vagrant</span>
@@ -374,40 +134,24 @@ hosted/
         <span class="c1">-- Строка со значением хешсуммы</span>
         <span class="n">checksum</span> <span class="o">=</span> <span class="n">get_hash</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
     <span class="p">},</span> <span class="n">box_version</span>
-<span class="k">end</span>
-</pre></div>
-
-
-<p>Обработав все боксы и сформировав список версий, обернем всё в дополнительный&nbsp;словарь.</p>
-<div class="highlight"><pre><span></span><span class="c1">-- Make result response</span>
+<span class="kr">end</span>
+</pre></div><p>Обработав все боксы и сформировав список версий, обернем всё в дополнительный&nbsp;словарь.</p><div class="highlight"><pre><span></span><span class="c1">-- Make result response</span>
 <span class="kd">local</span> <span class="n">vagrant</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">ngx</span><span class="p">.</span><span class="n">var</span><span class="p">.</span><span class="n">box_name</span><span class="p">,</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="nb">string.format</span> <span class="p">(</span><span class="s2">&quot;</span><span class="s">Boxes for %s proj&quot;</span><span class="p">,</span> <span class="n">ngx</span><span class="p">.</span><span class="n">var</span><span class="p">.</span><span class="n">box_name</span><span class="p">),</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="nb">string.format</span> <span class="p">(</span><span class="s2">&quot;Boxes for %s proj&quot;</span><span class="p">,</span> <span class="n">ngx</span><span class="p">.</span><span class="n">var</span><span class="p">.</span><span class="n">box_name</span><span class="p">),</span>
     <span class="n">versions</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="p">}</span>
-<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">version</span> <span class="k">in</span> <span class="nb">pairs</span> <span class="p">(</span><span class="n">versions</span><span class="p">)</span> <span class="k">do</span>
-    <span class="nb">table.insert</span> <span class="p">(</span><span class="n">vagrant</span><span class="p">[</span><span class="s1">&#39;</span><span class="s">versions&#39;</span><span class="p">],</span> <span class="n">version</span><span class="p">)</span>
-<span class="k">end</span>
-</pre></div>
-
-
-<p>Ответ сервера <code>JSON</code> с найденными&nbsp;версиями.</p>
-<div class="highlight"><pre><span></span><span class="n">ngx</span><span class="p">.</span><span class="n">header</span><span class="p">.</span><span class="n">content_type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">application/json; charset=utf-8&quot;</span>
-<span class="kd">local</span> <span class="n">json</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">&quot;</span><span class="s">json&quot;</span>
+<span class="kr">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">version</span> <span class="kr">in</span> <span class="nb">pairs</span> <span class="p">(</span><span class="n">versions</span><span class="p">)</span> <span class="kr">do</span>
+    <span class="nb">table.insert</span> <span class="p">(</span><span class="n">vagrant</span><span class="p">[</span><span class="s1">&#39;versions&#39;</span><span class="p">],</span> <span class="n">version</span><span class="p">)</span>
+<span class="kr">end</span>
+</pre></div><p>Ответ сервера <code>JSON</code> с найденными&nbsp;версиями.</p><div class="highlight"><pre><span></span><span class="n">ngx</span><span class="p">.</span><span class="n">header</span><span class="p">.</span><span class="n">content_type</span> <span class="o">=</span> <span class="s2">&quot;application/json; charset=utf-8&quot;</span>
+<span class="kd">local</span> <span class="n">json</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">&quot;json&quot;</span>
 <span class="n">ngx</span><span class="p">.</span><span class="n">say</span> <span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">encode</span> <span class="p">(</span><span class="n">vagrant</span><span class="p">))</span>
-</pre></div>
-
-
-<h3 id="lunnoe-zatmenie-vmesto-zakliucheniia"><a class="toclink" href="#lunnoe-zatmenie-vmesto-zakliucheniia">Лунное затмение (вместо&nbsp;заключения)</a></h3>
-<p>Полученный скрипт формирует <code>JSON</code> ответ содержащий метаинформацию о&nbsp;боксах.</p>
-<div class="highlight"><pre><span></span>$ curl http://10.1.1.111/example <span class="p">|</span> jq
+</pre></div><h3 id="lunnoe-zatmenie-vmesto-zakliucheniia"><a class="toclink" href="#lunnoe-zatmenie-vmesto-zakliucheniia">Лунное затмение (вместо&nbsp;заключения)</a></h3><p>Полученный скрипт формирует <code>JSON</code> ответ содержащий метаинформацию о&nbsp;боксах.</p><div class="highlight"><pre><span></span>$ curl http://10.1.1.111/example <span class="p">|</span> jq
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-<span class="m">100</span>   <span class="m">943</span>    <span class="m">0</span>   <span class="m">943</span>    <span class="m">0</span>     <span class="m">0</span>  <span class="m">13412</span>      <span class="m">0</span> --:--:-- --:--:-- --:--:-- 13471
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="m">100</span>   <span class="m">943</span>    <span class="m">0</span>   <span class="m">943</span>    <span class="m">0</span>     <span class="m">0</span>  <span class="m">13412</span>      <span class="m">0</span> --:--:-- --:--:-- --:--:-- <span class="m">13471</span>
+</pre></div><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="nt">&quot;versions&quot;</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
       <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.7&quot;</span><span class="p">,</span>
@@ -463,55 +207,14 @@ hosted/
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;example&quot;</span><span class="p">,</span>
   <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Boxes for example proj&quot;</span>
 <span class="p">}</span>
-</pre></div>
-
-
-<p>Полный пример скрипта можно посмотреть в репозитории на <code>github</code>
-<a href="https://github.com/Samael500/ngx-vagrant">Samael500/ngx-vagrant</a>. А при желании
-поиграться запустив настроенный <code>Vagrant</code>.</p>
-<p>О том, как ещё можно интересно использовать связку <code>Nginx</code> и <code>Lua</code>, можно
-прочитать в статье <a href="http://dizballanze.com/drugoe/primenenie-nginx-lua-dlia-obrabotki-prostykh-form/">Применение Nginx + Lua для обработки контактной&nbsp;формы</a></p>
-
-        </article>
-
-            <div class="comments">
-                <div id="disqus_thread"></div>
-                <script type="text/javascript">
+</pre></div><p>Полный пример скрипта можно посмотреть в репозитории на <code>github</code><a href="https://github.com/Samael500/ngx-vagrant">Samael500/ngx-vagrant</a>. А при желании поиграться запустив настроенный <code>Vagrant</code>.</p><p>О том, как ещё можно интересно использовать связку <code>Nginx</code> и <code>Lua</code>, можно прочитать в статье <a href="http://dizballanze.com/drugoe/primenenie-nginx-lua-dlia-obrabotki-prostykh-form/">Применение Nginx + Lua для обработки контактной&nbsp;формы</a></p></article><div class="comments"><div id="disqus_thread"></div><script type="text/javascript">
                     var disqus_identifier = "articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/";
                     (function() {
                     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                     dsq.src = '//samael500.disqus.com/embed.js';
                     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
                     })();
-                </script>
-            </div>
-    </div>
-    <div class="col-md-3 content-right">
-        <div class='anchorific'></div>
-    </div>
-</div>
-                </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <div class="container">
-            <p>This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.</p>
-            <p><a href="http://github.com/samael500/w3-personal-blog/">W3 Personal Blog</a> is a flat <a href="http://getbootstrap.com/">bootstrap</a> responsive theme designed by <a href="https://w3layouts.com/personal-blog-a-blogging-category-flat-bootstrap-responsive-web-template/">W3layouts</a> ported to a pelican by <a href="http://samael500.github.io/">Samael500</a>.<p>
-            <p>Copyrights &copy; 2015&mdash;2017 Maks blog All rights reserved.</p>
-            
-<p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-<img alt="Creative Commons License"
-    style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
-This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-Creative Commons Attribution 4.0 International License</a>.</p>
-        </div>
-    </div>
-
-
-<script type="text/javascript" src="https://www.l2.io/ip.js?var=userip"></script>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
+                </script></div></div><div class="col-md-3 content-right"><div class="anchorific"></div></div></div></div></div></div><div class="footer"><div class="container"><p>This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.</p><p><a href="http://github.com/samael500/w3-personal-blog/">W3 Personal Blog</a> is a flat <a href="http://getbootstrap.com/">bootstrap</a> responsive theme designed by <a href="https://w3layouts.com/personal-blog-a-blogging-category-flat-bootstrap-responsive-web-template/">W3layouts</a> ported to a pelican by <a href="http://samael500.github.io/">Samael500</a>.<p><p>Copyrights &copy; 2015&mdash;2017 Maks live All rights reserved.</p><p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"> Creative Commons Attribution 4.0 International License</a>.</p></div></div><script type="text/javascript" src="https://www.l2.io/ip.js?var=userip"></script><script type="text/javascript">
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {
             try {
@@ -537,10 +240,7 @@ Creative Commons Attribution 4.0 International License</a>.</p>
             d.addEventListener("DOMContentLoaded", f, false);
         } else { f(); }
     })(document, window, "yandex_metrika_callbacks");
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-<script type="text/javascript">
+</script><noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt></div></noscript><script type="text/javascript">
     var disqus_shortname = 'samael500';
     (function () {
         var s = document.createElement('script'); s.async = true;
@@ -548,6 +248,4 @@ Creative Commons Attribution 4.0 International License</a>.</p>
         s.src = '//' + disqus_shortname + '.disqus.com/count.js';
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
-</script>
-</body>
-</html>
+</script></body></html>

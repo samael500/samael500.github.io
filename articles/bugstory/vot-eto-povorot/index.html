@@ -1,59 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#00aeff" />
-    <meta name="msapplication-navbutton-color" content="#00aeff" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="#00aeff" />
-
-    <meta name="author" content="Maks" />
-    <meta name="robots" content="index, follow"/>
-    <meta name="keywords" content="article, python, exif, bug, magic, crop, jpg, thumbnail, pil, image, lenna, best" />
-
-    <meta property="og:title" content="Вот это поворот…"/>
-    <meta property="og:url" content="https://samael500.github.io/articles/bugstory/vot-eto-povorot/"/>
-    <meta property="og:site_name" content="Maks blog"/>
-    <meta property="og:type" content="article"/>
-    <meta property="og:image" content="https://samael500.github.io/media/wrong-exif/wrong_exif.png" />
-    <meta property="og:description" content="Однажды столкнулся с магическим багом, причину возникновения которого, не удавалось отыскать почти на протяжении месяца. Да что там причину, его даже воспроизвести никак не удавалось. Заказчик постоянно жаловался что изображения обрезаются неправильно, да при том ещё непредсказуемо поворачиваются…" />
-
-    <link rel="canonical" href="https://samael500.github.io/articles/bugstory/vot-eto-povorot/" />
-
-    <title>Вот это поворот… | Maks blog</title>
-
-    <link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/social-likes_flat.css" />
-
-    <script type="text/javascript" src="/theme/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/theme/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/theme/js/social-likes.min.js"></script>
-
-
-    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/tree.css" />
-    <link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/anchorific.css" />
-    <script type="text/javascript" src="https://samael500.github.io/theme/js/anchorific.js"></script>
-</head>
-<body id="index">
-    <a class="forkmegithub" href="https://github.com/Samael500">
-        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png">
-    </a>
-<div class="header">  
-    <div class="container">
-        <div class="logo">
-            <a href="https://samael500.github.io/">
-                MAKS BLOG            </a>
-        </div>
-
-        <div class="top-menu">
-
-            <div class="search">
-
-<script>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#00aeff"><meta name="msapplication-navbutton-color" content="#00aeff"><meta name="apple-mobile-web-app-status-bar-style" content="#00aeff"><meta name="author" content="Maks"><meta name="robots" content="index, follow"><meta name="keywords" content="article, python, exif, bug, magic, crop, jpg, thumbnail, pil, image, lenna, best"><meta property="og:title" content="Вот это поворот…"><meta property="og:url" content="https://samael500.github.io/articles/bugstory/vot-eto-povorot/"><meta property="og:site_name" content="Maks live"><meta property="og:type" content="article"><meta property="og:image" content="https://samael500.github.io/media/wrong-exif/wrong_exif.png"><meta property="og:description" content="Однажды столкнулся с магическим багом, причину возникновения которого, не удавалось отыскать почти на протяжении месяца. Да что там причину, его даже воспроизвести никак не удавалось. Заказчик постоянно жаловался что изображения обрезаются неправильно, да при том ещё непредсказуемо поворачиваются…"><link rel="canonical" href="https://samael500.github.io/articles/bugstory/vot-eto-povorot/"><title>Вот это поворот… | Maks live</title><link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css"><link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css"><link rel="stylesheet" type="text/css" href="/theme/css/style.css"><link rel="stylesheet" type="text/css" href="/theme/css/pygment.css"><link rel="stylesheet" type="text/css" href="/theme/css/social-likes_flat.css"><script type="text/javascript" src="/theme/js/jquery.min.js"></script><script type="text/javascript" src="/theme/js/bootstrap.min.js"></script><script type="text/javascript" src="/theme/js/social-likes.min.js"></script><link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/tree.css"><link rel="stylesheet" type="text/css" href="https://samael500.github.io/theme/css/anchorific.css"><script type="text/javascript" src="https://samael500.github.io/theme/js/anchorific.js"></script></head><body id="index"><a class="forkmegithub" href="https://github.com/Samael500"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a><div class="header"><div class="container"><div class="logo"><a href="https://samael500.github.io/"> MAKS LIVE </a></div><div class="top-menu"><div class="search"><script>
   (function() {
     var cx = '006263355362628034990:cuxoisonrno';
     var gcse = document.createElement('script');
@@ -64,126 +10,12 @@
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(gcse, s);
   })();
-</script>
-
-<form id="searchbox_006263355362628034990:cuxoisonrno" action="https://www.google.com/">
-    <input value="006263355362628034990:cuxoisonrno" name="cx" type="hidden" />
-    <input value="FORID:11" name="cof" type="hidden" />
-    <input id="q" name="q" type="text" required />
-    <input type="submit" value="">
-</form>
-
-            </div>
-
-            <span class="menu"> </span>
-                <ul>
-                        <li >
-                            <a href="/">HOME</a></li>
-                        <li >
-                            <a href="/tag/best/">BEST</a></li>
-                            <li ><a href="https://samael500.github.io/about/">ABOUT</a></li>
-
-                    <div class="clearfix"></div>
-                </ul>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <script>
+</script><form id="searchbox_006263355362628034990:cuxoisonrno" action="https://www.google.com/"><input value="006263355362628034990:cuxoisonrno" name="cx" type="hidden"><input value="FORID:11" name="cof" type="hidden"><input id="q" name="q" type="text" required><input type="submit" value></form></div><span class="menu"></span><ul><li><a href="/">HOME</a></li><li><a href="/tag/best/">BEST</a></li><li><a href="https://samael500.github.io/about/">ABOUT</a></li><div class="clearfix"></div></ul></div><div class="clearfix"></div><script>
                 $("span.menu").click(function(){
                     $(".top-menu ul").slideToggle("slow" , function(){
                     });
                 });
-            </script>
-        </div>
-    </div>
-</div>
-    <div class="content">
-        <div class="container">
-                <div class="content-grids">
-<div class="single-main">
-
-    <div class="col-md-9 single-grid">
-
-        <header>
-<h4>
-    <a href="https://samael500.github.io/articles/bugstory/vot-eto-povorot/" title="Вот это поворот…">Вот это&nbsp;поворот&#8230;</a>
-    Sep 06, 2015
-</h4>
-
-<div class="footer art-info">
-
-        Author: <a class="url fn" href="https://samael500.github.io/author/maks/">Maks</a> |
-
-    Category: <a href="https://samael500.github.io/category/bugstory.html">Bugstory</a>
-
-
-        | <a href="https://samael500.github.io/articles/bugstory/vot-eto-povorot/#disqus_thread">Comments</a>
-
-    
-
-        <br />
-        Tags:         <a href="https://samael500.github.io/tag/python/">python</a>
-        <a href="https://samael500.github.io/tag/exif/">exif</a>
-        <a href="https://samael500.github.io/tag/bug/">bug</a>
-        <a href="https://samael500.github.io/tag/magic/">magic</a>
-        <a href="https://samael500.github.io/tag/crop/">crop</a>
-        <a href="https://samael500.github.io/tag/jpg/">jpg</a>
-        <a href="https://samael500.github.io/tag/thumbnail/">thumbnail</a>
-        <a href="https://samael500.github.io/tag/pil/">pil</a>
-        <a href="https://samael500.github.io/tag/image/">image</a>
-        <a href="https://samael500.github.io/tag/lenna/">lenna</a>
-        <a href="https://samael500.github.io/tag/best/">best</a>
-
-</div><div class="social-likes">
-    <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>
-    <div class="twitter" data-via="samael500" title="Поделиться ссылкой в Твиттере">Twitter</div>
-    <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div>
-    <div class="plusone" title="Поделиться ссылкой в Google+">Google+</div>
-</div>        </header>
-
-        <article class="content">
-
-
-            <p>Однажды столкнулся с магическим багом, причину возникновения которого,
-не удавалось отыскать почти на протяжении месяца. Да что там причину,
-его даже воспроизвести никак не удавалось. Заказчик постоянно жаловался
-что изображения обрезаются неправильно, да при том ещё непредсказуемо&nbsp;поворачиваются&#8230;</p>
-<h2 id="neulovimaia-oshibka"><a class="toclink" href="#neulovimaia-oshibka">Неуловимая&nbsp;ошибка</a></h2>
-<p>Суть проекта заключалась в том, что пользователи выкладывают фотографии,
-сопровождая их коротенькими историями, далее модераторы проверяют контент
-на соответствие тематике ресурса, обрезают фотографии по необходимому
-соотношению сторон и публикуют эти&nbsp;истории.</p>
-<p>Буквально с первых же дней выхода проекта в продакшн, начали поступать жалобы
-от модераторов. Жаловались на то, что фотографии обрезаются не так как это
-ожидается, иногда появляются черные полоски, иногда фотографии внезапно
-поворачиваются, иногда вообще не происходит каких либо изменений после&nbsp;обрезки.</p>
-<p>Для обрезки изображений использовалась библиотека
-<a href="https://pypi.python.org/pypi/django-image-cropping">django-image-cropping</a>,
-которая позволяет в админке джанго обрезать изображения при помощи <code>jQuery</code>
-плагина <a href="http://deepliquid.com/content/Jcrop.html">Jcrop</a>.</p>
-<h2 id="lozhnye-obvineniia"><a class="toclink" href="#lozhnye-obvineniia">Ложные&nbsp;обвинения</a></h2>
-<p>Поскольку ошибку никак не удавалось воспроизвести, стали полагать, что причина
-прячется где то в клиентской части. За две с половиной недели поиска ошибки,
-были перепробованы чуть менее чем все комбинации различных браузеров и
-операционных систем, включая устаревшие версии браузеров. Но воспроизвести
-ошибку все никак не&nbsp;удавалось.</p>
-<p>Тем неменее, усердное тестирование обрезки изображения в различных браузерах
-выявило сопутствующую ошибку. От браузера, кстати, независящую. Продакшен
-сервер был оптимизирован под большое количество посетителей. Сам проект
-представлял из себя регенерируемый, статический сайт, кешированный <code>nginx</code>ом;
-небольшое <code>api</code> для добавления и поиска историй; и административный интерфейс
-для премодерации историй и перегенерации статического&nbsp;контента.</p>
-<p>Так получилось, что <code>nginx</code> слишком усердно справлялся с кешированием,
-и достаточно часто после обрезки изображения в админке показывал <strong>старое</strong>
-(не обрезанное изображение), после чего модератор снова и снова <em>обрезал</em>
-картинку, а в результате исходное изображение резалось по несуществующим
-координатам. Соответственно на выходе получалось изкромсаное изображение с
-черными полосками и когда кеш обновлялся то это становилось&nbsp;заметно.</p>
-<p>Данную ошибку с кеширование легко исправить введя случайный <code>GET</code> параметр в
-адресе изображения перед выводом его в админке.
-Примерно&nbsp;так:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+            </script></div></div></div><div class="content"><div class="container"><div class="content-grids"><div class="single-main"><div class="col-md-9 single-grid"><header><h4><a href="https://samael500.github.io/articles/bugstory/vot-eto-povorot/" title="Вот это поворот…">Вот это&nbsp;поворот&#8230;</a> Sep 06, 2015 </h4><div class="footer art-info"> Author: <a class="url fn" href="https://samael500.github.io/author/maks/">Maks</a> | Category: <a href="https://samael500.github.io/category/bugstory.html">Bugstory</a> | <a href="https://samael500.github.io/articles/bugstory/vot-eto-povorot/#disqus_thread">Comments</a><br> Tags: <a href="https://samael500.github.io/tag/python/">python</a><a href="https://samael500.github.io/tag/exif/">exif</a><a href="https://samael500.github.io/tag/bug/">bug</a><a href="https://samael500.github.io/tag/magic/">magic</a><a href="https://samael500.github.io/tag/crop/">crop</a><a href="https://samael500.github.io/tag/jpg/">jpg</a><a href="https://samael500.github.io/tag/thumbnail/">thumbnail</a><a href="https://samael500.github.io/tag/pil/">pil</a><a href="https://samael500.github.io/tag/image/">image</a><a href="https://samael500.github.io/tag/lenna/">lenna</a><a href="https://samael500.github.io/tag/best/">best</a></div><div class="social-likes"><div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div><div class="twitter" data-via="samael500" title="Поделиться ссылкой в Твиттере">Twitter</div><div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div><div class="plusone" title="Поделиться ссылкой в Google+">Google+</div></div></header><article class="content"><p>Однажды столкнулся с магическим багом, причину возникновения которого, не удавалось отыскать почти на протяжении месяца. Да что там причину, его даже воспроизвести никак не удавалось. Заказчик постоянно жаловался что изображения обрезаются неправильно, да при том ещё непредсказуемо&nbsp;поворачиваются&#8230;</p><h2 id="neulovimaia-oshibka"><a class="toclink" href="#neulovimaia-oshibka">Неуловимая&nbsp;ошибка</a></h2><p>Суть проекта заключалась в том, что пользователи выкладывают фотографии, сопровождая их коротенькими историями, далее модераторы проверяют контент на соответствие тематике ресурса, обрезают фотографии по необходимому соотношению сторон и публикуют эти&nbsp;истории.</p><p>Буквально с первых же дней выхода проекта в продакшн, начали поступать жалобы от модераторов. Жаловались на то, что фотографии обрезаются не так как это ожидается, иногда появляются черные полоски, иногда фотографии внезапно поворачиваются, иногда вообще не происходит каких либо изменений после&nbsp;обрезки.</p><p>Для обрезки изображений использовалась библиотека <a href="https://pypi.python.org/pypi/django-image-cropping">django-image-cropping</a>, которая позволяет в админке джанго обрезать изображения при помощи <code>jQuery</code> плагина <a href="http://deepliquid.com/content/Jcrop.html">Jcrop</a>.</p><h2 id="lozhnye-obvineniia"><a class="toclink" href="#lozhnye-obvineniia">Ложные&nbsp;обвинения</a></h2><p>Поскольку ошибку никак не удавалось воспроизвести, стали полагать, что причина прячется где то в клиентской части. За две с половиной недели поиска ошибки, были перепробованы чуть менее чем все комбинации различных браузеров и операционных систем, включая устаревшие версии браузеров. Но воспроизвести ошибку все никак не&nbsp;удавалось.</p><p>Тем неменее, усердное тестирование обрезки изображения в различных браузерах выявило сопутствующую ошибку. От браузера, кстати, независящую. Продакшен сервер был оптимизирован под большое количество посетителей. Сам проект представлял из себя регенерируемый, статический сайт, кешированный <code>nginx</code>ом; небольшое <code>api</code> для добавления и поиска историй; и административный интерфейс для премодерации историй и перегенерации статического&nbsp;контента.</p><p>Так получилось, что <code>nginx</code> слишком усердно справлялся с кешированием, и достаточно часто после обрезки изображения в админке показывал <strong>старое</strong> (не обрезанное изображение), после чего модератор снова и снова <em>обрезал</em> картинку, а в результате исходное изображение резалось по несуществующим координатам. Соответственно на выходе получалось изкромсаное изображение с черными полосками и когда кеш обновлялся то это становилось&nbsp;заметно.</p><p>Данную ошибку с кеширование легко исправить введя случайный <code>GET</code> параметр в адресе изображения перед выводом его в админке. Примерно&nbsp;так:</p><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
 <span class="n">rand_url</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">url</span><span class="p">:</span> <span class="s1">&#39;{url}?{num}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">randint</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">99999</span><span class="p">))</span>
 
 <span class="c1"># ...</span>
@@ -193,41 +25,10 @@
     <span class="s1">&#39;data-thumbnail-url&#39;</span><span class="p">:</span> <span class="n">rand_url</span><span class="p">(</span><span class="n">thumbnail</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
     <span class="c1"># ...</span>
 <span class="p">}</span>
-</pre></div>
-
-
-<p>Вследствии чего, проблема отображения <strong>старого</strong> изображения после обрезки
-исчезла. В админке выводился следующий <code>html</code> код отображения&nbsp;изображения:</p>
-<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">img</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;id_cropping-image&quot;</span>
+</pre></div><p>Вследствии чего, проблема отображения <strong>старого</strong> изображения после обрезки исчезла. В админке выводился следующий <code>html</code> код отображения&nbsp;изображения:</p><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">img</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;id_cropping-image&quot;</span>
     <span class="na">src</span><span class="o">=</span><span class="s">&quot;/src/img/9b/c6/9bc62cfaaf70be365de538b415cbb8df.jpg.800x800_q85_detail_upscale.jpg?80339&quot;</span>
     <span class="na">style</span><span class="o">=</span><span class="s">&quot;width: 800px; height: 634px;&quot;</span><span class="p">&gt;</span>
-</pre></div>
-
-
-<p>Ошибка найдена и ликвидирована. Больше повторятся не должна.
-Можно торжествовать&nbsp;победу.</p>
-<h2 id="nachinaem-snachala"><a class="toclink" href="#nachinaem-snachala">Начинаем&nbsp;сначала</a></h2>
-<p>Буквально через неделю, после сабмита изменений в продакшн, от модераторов
-вновь поступила жалоба на некорректную обрезку изображения. К счастью,
-на этот раз они явно указали на каком именно изображении воспроизводится
-некорректная обрезка и переслали данное изображение по электронной&nbsp;почте.</p>
-<p>Открыв письмо, я открыл картинку в новой вкладке и сохранил её. Начал
-тестировать в <code>vagrant</code>е &#8212; ошибка не воспроизводится, изображение обрезается
-как нужно, ничего не поворачивается и не возникают черные полосы. Проверил
-эту же картинку на продакшн сервере &#8212; не воспроизводится.
-Хитрость оказалась в том, что нужно было картинку именно <strong>скачать</strong>, а не
-<strong>сохранить</strong> из письма. Получив исходное изображение, ошибка стала регулярно&nbsp;воспроизводится.</p>
-<h3 id="exif-metadannye"><a class="toclink" href="#exif-metadannye">Exif&nbsp;метаданные</a></h3>
-<p>Поскольку существенную разницу поведения изображения вызывало <strong>сохранение</strong>
-и <strong>скачивание</strong>, а так же &#8212; тот факт, что после сохранения изображения в
-графическом редакторе ошибка прекращала воспроизводится. Натолкнуло на мысль,
-о том, что в данном изображении содержится дополнительная информация,
-которая при сохранении&nbsp;теряется.</p>
-<p>В графических изображениях дополнительную метаинформацию можно сохранять
-в формате <a href="http://www.exif.org/"><span class="caps">EXIF</span></a>. Где среди прочего может содержаться
-информация об ориентации изображения. Выведя <code>exif</code> данного файла,
-сразу стало понятно почему ошибка воспроизводится именно на&nbsp;нем.</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+</pre></div><p>Ошибка найдена и ликвидирована. Больше повторятся не должна. Можно торжествовать&nbsp;победу.</p><h2 id="nachinaem-snachala"><a class="toclink" href="#nachinaem-snachala">Начинаем&nbsp;сначала</a></h2><p>Буквально через неделю, после сабмита изменений в продакшн, от модераторов вновь поступила жалоба на некорректную обрезку изображения. К счастью, на этот раз они явно указали на каком именно изображении воспроизводится некорректная обрезка и переслали данное изображение по электронной&nbsp;почте.</p><p>Открыв письмо, я открыл картинку в новой вкладке и сохранил её. Начал тестировать в <code>vagrant</code>е &#8212; ошибка не воспроизводится, изображение обрезается как нужно, ничего не поворачивается и не возникают черные полосы. Проверил эту же картинку на продакшн сервере &#8212; не воспроизводится. Хитрость оказалась в том, что нужно было картинку именно <strong>скачать</strong>, а не <strong>сохранить</strong> из письма. Получив исходное изображение, ошибка стала регулярно&nbsp;воспроизводится.</p><h3 id="exif-metadannye"><a class="toclink" href="#exif-metadannye">Exif&nbsp;метаданные</a></h3><p>Поскольку существенную разницу поведения изображения вызывало <strong>сохранение</strong> и <strong>скачивание</strong>, а так же &#8212; тот факт, что после сохранения изображения в графическом редакторе ошибка прекращала воспроизводится. Натолкнуло на мысль, о том, что в данном изображении содержится дополнительная информация, которая при сохранении&nbsp;теряется.</p><p>В графических изображениях дополнительную метаинформацию можно сохранять в формате <a href="http://www.exif.org/"><span class="caps">EXIF</span></a>. Где среди прочего может содержаться информация об ориентации изображения. Выведя <code>exif</code> данного файла, сразу стало понятно почему ошибка воспроизводится именно на&nbsp;нем.</p><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">PIL.ExifTags</span> <span class="kn">import</span> <span class="n">TAGS</span>
 <span class="o">&gt;&gt;&gt;</span> 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;photo.jpg&#39;</span><span class="p">)</span>
@@ -247,9 +48,9 @@
 <span class="p">{</span>   <span class="s1">&#39;ApertureValue&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4281</span><span class="p">,</span> <span class="mi">1441</span><span class="p">),</span>
     <span class="s1">&#39;ColorSpace&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="s1">&#39;ComponentsConfiguration&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\x01\x02\x03\x00</span><span class="s1">&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;DateTime&#39;</span><span class="p">:</span> <span class="s1">u&#39;2012:09:08 18:10:40&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;DateTimeDigitized&#39;</span><span class="p">:</span> <span class="s1">u&#39;2012:09:08 18:10:40&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;DateTimeOriginal&#39;</span><span class="p">:</span> <span class="s1">u&#39;2012:09:08 18:10:40&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DateTime&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;2012:09:08 18:10:40&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DateTimeDigitized&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;2012:09:08 18:10:40&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DateTimeOriginal&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;2012:09:08 18:10:40&#39;</span><span class="p">,</span>
     <span class="s1">&#39;ExifImageHeight&#39;</span><span class="p">:</span> <span class="mi">1536</span><span class="p">,</span>
     <span class="s1">&#39;ExifImageWidth&#39;</span><span class="p">:</span> <span class="mi">2048</span><span class="p">,</span>
     <span class="s1">&#39;ExifOffset&#39;</span><span class="p">:</span> <span class="mi">206</span><span class="p">,</span>
@@ -261,70 +62,46 @@
     <span class="s1">&#39;Flash&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
     <span class="s1">&#39;FlashPixVersion&#39;</span><span class="p">:</span> <span class="s1">&#39;0100&#39;</span><span class="p">,</span>
     <span class="s1">&#39;FocalLength&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">77</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
-    <span class="s1">&#39;GPSInfo&#39;</span><span class="p">:</span> <span class="p">{</span>   <span class="mi">1</span><span class="p">:</span> <span class="s1">u&#39;N&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;GPSInfo&#39;</span><span class="p">:</span> <span class="p">{</span>   <span class="mi">1</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;N&#39;</span><span class="p">,</span>
                    <span class="mi">2</span><span class="p">:</span> <span class="p">((</span><span class="o">**</span><span class="p">,</span> <span class="o">**</span><span class="p">),</span> <span class="p">(</span><span class="o">****</span><span class="p">,</span> <span class="o">****</span><span class="p">),</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)),</span>
-                   <span class="mi">3</span><span class="p">:</span> <span class="s1">u&#39;E&#39;</span><span class="p">,</span>
+                   <span class="mi">3</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;E&#39;</span><span class="p">,</span>
                    <span class="mi">4</span><span class="p">:</span> <span class="p">((</span><span class="o">**</span><span class="p">,</span> <span class="o">**</span><span class="p">),</span> <span class="p">(</span><span class="o">****</span><span class="p">,</span> <span class="o">****</span><span class="p">),</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)),</span>
                    <span class="mi">5</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
                    <span class="mi">6</span><span class="p">:</span> <span class="p">(</span><span class="mi">25453</span><span class="p">,</span> <span class="mi">182</span><span class="p">),</span>
                    <span class="mi">7</span><span class="p">:</span> <span class="p">((</span><span class="mi">11</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">3588</span><span class="p">,</span> <span class="mi">100</span><span class="p">)),</span>
-                   <span class="mi">16</span><span class="p">:</span> <span class="s1">u&#39;M&#39;</span><span class="p">,</span>
+                   <span class="mi">16</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;M&#39;</span><span class="p">,</span>
                    <span class="mi">17</span><span class="p">:</span> <span class="p">(</span><span class="mi">44274</span><span class="p">,</span> <span class="mi">191</span><span class="p">)},</span>
     <span class="s1">&#39;ISOSpeedRatings&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s1">&#39;Make&#39;</span><span class="p">:</span> <span class="s1">u&#39;Apple&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Make&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;Apple&#39;</span><span class="p">,</span>
     <span class="s1">&#39;MeteringMode&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s1">&#39;Model&#39;</span><span class="p">:</span> <span class="s1">u&#39;iPhone 3GS&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Model&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;iPhone 3GS&#39;</span><span class="p">,</span>
     <span class="s1">&#39;Orientation&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
     <span class="s1">&#39;ResolutionUnit&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
     <span class="s1">&#39;SceneCaptureType&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
     <span class="s1">&#39;SensingMethod&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
     <span class="s1">&#39;Sharpness&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s1">&#39;Software&#39;</span><span class="p">:</span> <span class="s1">u&#39;5.1.1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Software&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;5.1.1&#39;</span><span class="p">,</span>
     <span class="s1">&#39;SubjectLocation&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1023</span><span class="p">,</span> <span class="mi">767</span><span class="p">,</span> <span class="mi">614</span><span class="p">,</span> <span class="mi">614</span><span class="p">),</span>
     <span class="s1">&#39;WhiteBalance&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
     <span class="s1">&#39;XResolution&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
     <span class="s1">&#39;YCbCrPositioning&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="s1">&#39;YResolution&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">1</span><span class="p">)}</span>
 <span class="o">&gt;&gt;&gt;</span>
-</pre></div>
-
-
-<p>Как видно из <code>exif</code> данных, изображением является фотография сделанная на
-<code>iPhone 3GS</code> в сентябре 2012 года. Но это совершенно не важно,
-главным является информация об ориентации изображения: <code>Orientation 6</code>.</p>
-<p><code>Exif Orientation</code> тег описывает ориентацию изображения при отображении,
-используя значения от 1 до&nbsp;8:</p>
-<div class="highlight"><pre><span></span>  1        2       3      4         5            6           7          8
+</pre></div><p>Как видно из <code>exif</code> данных, изображением является фотография сделанная на <code>iPhone 3GS</code> в сентябре 2012 года. Но это совершенно не важно, главным является информация об ориентации изображения: <code>Orientation 6</code>.</p><p><code>Exif Orientation</code> тег описывает ориентацию изображения при отображении, используя значения от 1 до&nbsp;8:</p><div class="highlight"><pre><span></span>  1        2       3      4         5            6           7          8
 
 ######  ######      ##  ##      ##########  ##                  ##  ##########
 ##          ##      ##  ##      ##  ##      ##  ##          ##  ##      ##  ##
 ####      ####    ####  ####    ##          ##########  ##########          ##
 ##          ##      ##  ##
 ##          ##  ######  ######
-</pre></div>
-
-
-<p>Наглядно на примере фотокамеры, могут возникать 4 варианта тега&nbsp;ориентации:</p>
-<p><img alt="exif orient" class="center" src="/media/wrong-exif/orient.gif" /></p>
-<h3 id="pil-exif"><a class="toclink" href="#pil-exif"><span class="caps">PIL</span> <span class="amp">&amp;</span>&nbsp;Exif</a></h3>
-<p>При сохранении изображения с помощью <code>PIL</code> все метаданные <code>exif</code> стираются,
-поэтому сохраненная картинка без метаинформации уже не поворачивается при
-отображении, а остается такая как есть. Тоесть с точки зрения пользователя
-&#8212; <em>непредсказуемо поворачиваются</em>.</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="c1"># ...</span>
+</pre></div><p>Наглядно на примере фотокамеры, могут возникать 4 варианта тега&nbsp;ориентации:</p><p><img alt="exif orient" class="center" src="/media/wrong-exif/orient.gif"></p><h3 id="pil-exif"><a class="toclink" href="#pil-exif"><span class="caps">PIL</span><span class="amp">&amp;</span>&nbsp;Exif</a></h3><p>При сохранении изображения с помощью <code>PIL</code> все метаданные <code>exif</code> стираются, поэтому сохраненная картинка без метаинформации уже не поворачивается при отображении, а остается такая как есть. Тоесть с точки зрения пользователя &#8212;<em>непредсказуемо поворачиваются</em>.</p><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="c1"># ...</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">im</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;saved.jpg&#39;</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">im_saved</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;saved.jpg&#39;</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">exif</span> <span class="o">=</span> <span class="n">im_saved</span><span class="o">.</span><span class="n">_getexif</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">exif</span> <span class="ow">is</span> <span class="bp">None</span>
 <span class="bp">True</span>
 <span class="o">&gt;&gt;&gt;</span>
-</pre></div>
-
-
-<h3 id="povorot-pered-sokhraneniem"><a class="toclink" href="#povorot-pered-sokhraneniem">Поворот перед&nbsp;сохранением</a></h3>
-<p>Поскольку <code>PIL</code> стирает метаинформацию при сохранении изображения, то
-будем поворачивать изображение при наличии тега ориентации&nbsp;самостоятельно.</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">orient</span><span class="p">(</span><span class="n">image_path</span><span class="p">):</span>
+</pre></div><h3 id="povorot-pered-sokhraneniem"><a class="toclink" href="#povorot-pered-sokhraneniem">Поворот перед&nbsp;сохранением</a></h3><p>Поскольку <code>PIL</code> стирает метаинформацию при сохранении изображения, то будем поворачивать изображение при наличии тега ориентации&nbsp;самостоятельно.</p><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">orient</span><span class="p">(</span><span class="n">image_path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Check are this img oriented &quot;&quot;&quot;</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
     <span class="c1"># check is has exif data</span>
@@ -336,185 +113,75 @@
     <span class="k">if</span> <span class="n">orientation</span> <span class="ow">in</span> <span class="n">rotate_values</span><span class="p">:</span>
         <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">rotate_values</span><span class="p">[</span><span class="n">orientation</span><span class="p">])</span>
     <span class="n">img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-</pre></div>
-
-
-<p>Данная функция проверяет наличие информации о повороте изображения, и если она
-присутствует, поворачивает картинку на соответствующий угол. Сохраняя
-изображение метаинформация стирается, и поэтому, если даже <code>exif orientation</code>
-тег был не <em>фотоаппаратный</em> (3, 6, 8), а <em>отраженный</em> (2, 4, 5, 7). То картинка
-будет такой как и есть в действительности, и в случае необходимости,
-модераторы смогут её повернуть как им&nbsp;нужно.</p>
-<p>Вот такой простой функцией решилась эта коварная&nbsp;ошибка.</p>
-<h2 id="nagliadnyi-primer"><a class="toclink" href="#nagliadnyi-primer">Наглядный&nbsp;пример</a></h2>
-<p>Для большей наглядности, приведем пример неправильной обрезки изображения из-за
-кеширования, а так же различного поведения изображения с <code>exif</code> ориентацией
-и без. В качестве исходного изображения будем использовать
-знаменитую <a href="http://lenna.org/">Лену</a>, но для более заметных изменений, не её
-канонический вариант 512x512, а прямоугольное изображение. Для работы с <code>exif</code>
-информацией воспользуемся консольной утилитой
-<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">exiftool</a>.</p>
-<h3 id="oshibka-keshirovaniia"><a class="toclink" href="#oshibka-keshirovaniia">Ошибка&nbsp;кеширования</a></h3>
-<p>Возьмем портретно ориентированное изображение, и попробуем его дважды обрезать
-на одном и том же превью&nbsp;изображении.</p>
-<p><img alt="lenna" class="center" src="/media/wrong-exif/lenna.jpg" title="Исходное изображение." /></p>
-<p>Модератор обрезает изображение, затем после обновления страницы повторно
-загружается тоже-самое превью. Модератор обрезает изображение второй раз,
-думая при этом, что изменения по какой либо причине не&nbsp;сохранились.</p>
-<p><img alt="lenna" class="center" src="/media/wrong-exif/lenna_cut.png" title="Превью обрезки изображения." /></p>
-<p>Но, на самом деле, изображение в первый раз обрезалось&nbsp;корректно.</p>
-<p><img alt="lenna" class="center" src="/media/wrong-exif/lenna_cache_crop_1.jpg" title="Правильно обрезанное изображение." /></p>
-<p>Получив повторные координаты для обрезки изображения, происходит&nbsp;следующее.</p>
-<p><img alt="lenna" class="center" src="/media/wrong-exif/lenna_cache_crop_2.jpg" title="Дважды обрезанное изображение." /></p>
-<p>И так далее, при каждой последующей обрезки исходное изображение будет
-продолжать кромсаться. Поэтому случайный <code>GET</code> параметр позволяет бороться с
-кешированием и загружать необходимое превью для правильной обработки&nbsp;изображения.</p>
-<h3 id="exif-orientatsiia"><a class="toclink" href="#exif-orientatsiia">Exif&nbsp;ориентация</a></h3>
-<p>Создадим исходное изображение, с ландшафтным соотношение сторон,
-без заданного тега&nbsp;ориентации.</p>
-<p><img alt="lenna default" class="center" src="/media/wrong-exif/lenna_default.jpg" title="Исходное изображение, Orientation: 0." /></p>
-<p>Отобразим метаинформацию в данном&nbsp;изображении.</p>
-<div class="highlight"><pre><span></span>$ exiftool lenna_default.jpg
-ExifTool Version Number         : 9.46
+</pre></div><p>Данная функция проверяет наличие информации о повороте изображения, и если она присутствует, поворачивает картинку на соответствующий угол. Сохраняя изображение метаинформация стирается, и поэтому, если даже <code>exif orientation</code> тег был не <em>фотоаппаратный</em> (3, 6, 8), а <em>отраженный</em> (2, 4, 5, 7). То картинка будет такой как и есть в действительности, и в случае необходимости, модераторы смогут её повернуть как им&nbsp;нужно.</p><p>Вот такой простой функцией решилась эта коварная&nbsp;ошибка.</p><h2 id="nagliadnyi-primer"><a class="toclink" href="#nagliadnyi-primer">Наглядный&nbsp;пример</a></h2><p>Для большей наглядности, приведем пример неправильной обрезки изображения из-за кеширования, а так же различного поведения изображения с <code>exif</code> ориентацией и без. В качестве исходного изображения будем использовать знаменитую <a href="http://lenna.org/">Лену</a>, но для более заметных изменений, не её канонический вариант 512x512, а прямоугольное изображение. Для работы с <code>exif</code> информацией воспользуемся консольной утилитой <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">exiftool</a>.</p><h3 id="oshibka-keshirovaniia"><a class="toclink" href="#oshibka-keshirovaniia">Ошибка&nbsp;кеширования</a></h3><p>Возьмем портретно ориентированное изображение, и попробуем его дважды обрезать на одном и том же превью&nbsp;изображении.</p><p><img alt="lenna" class="center" src="/media/wrong-exif/lenna.jpg" title="Исходное изображение."></p><p>Модератор обрезает изображение, затем после обновления страницы повторно загружается тоже-самое превью. Модератор обрезает изображение второй раз, думая при этом, что изменения по какой либо причине не&nbsp;сохранились.</p><p><img alt="lenna" class="center" src="/media/wrong-exif/lenna_cut.png" title="Превью обрезки изображения."></p><p>Но, на самом деле, изображение в первый раз обрезалось&nbsp;корректно.</p><p><img alt="lenna" class="center" src="/media/wrong-exif/lenna_cache_crop_1.jpg" title="Правильно обрезанное изображение."></p><p>Получив повторные координаты для обрезки изображения, происходит&nbsp;следующее.</p><p><img alt="lenna" class="center" src="/media/wrong-exif/lenna_cache_crop_2.jpg" title="Дважды обрезанное изображение."></p><p>И так далее, при каждой последующей обрезки исходное изображение будет продолжать кромсаться. Поэтому случайный <code>GET</code> параметр позволяет бороться с кешированием и загружать необходимое превью для правильной обработки&nbsp;изображения.</p><h3 id="exif-orientatsiia"><a class="toclink" href="#exif-orientatsiia">Exif&nbsp;ориентация</a></h3><p>Создадим исходное изображение, с ландшафтным соотношение сторон, без заданного тега&nbsp;ориентации.</p><p><img alt="lenna default" class="center" src="/media/wrong-exif/lenna_default.jpg" title="Исходное изображение, Orientation: 0."></p><p>Отобразим метаинформацию в данном&nbsp;изображении.</p><div class="highlight"><pre><span></span>$ exiftool lenna_default.jpg
+ExifTool Version Number         : <span class="m">9</span>.46
 File Name                       : lenna_default.jpg
 Directory                       : .
 File Size                       : <span class="m">79</span> kB
-File Modification Date/Time     : 2015:09:06 10:40:30+03:00
-File Access Date/Time           : 2015:09:06 10:49:37+03:00
-File Inode Change Date/Time     : 2015:09:06 10:49:12+03:00
+File Modification Date/Time     : <span class="m">2015</span>:09:06 <span class="m">10</span>:40:30+03:00
+File Access Date/Time           : <span class="m">2015</span>:09:06 <span class="m">10</span>:49:37+03:00
+File Inode Change Date/Time     : <span class="m">2015</span>:09:06 <span class="m">10</span>:49:12+03:00
 File Permissions                : rw-rw-r--
 File Type                       : JPEG
 MIME Type                       : image/jpeg
-JFIF Version                    : 1.01
+JFIF Version                    : <span class="m">1</span>.01
 Exif Byte Order                 : Little-endian <span class="o">(</span>Intel, II<span class="o">)</span>
 Orientation                     : Horizontal <span class="o">(</span>normal<span class="o">)</span>
-X Resolution                    : 72
-Y Resolution                    : 72
+X Resolution                    : <span class="m">72</span>
+Y Resolution                    : <span class="m">72</span>
 Resolution Unit                 : inches
-Exif Version                    : 0210
-Flashpix Version                : 0100
+Exif Version                    : <span class="m">0210</span>
+Flashpix Version                : <span class="m">0100</span>
 Color Space                     : Uncalibrated
-Exif Image Width                : 463
-Exif Image Height               : 584
-Image Width                     : 584
-Image Height                    : 463
+Exif Image Width                : <span class="m">463</span>
+Exif Image Height               : <span class="m">584</span>
+Image Width                     : <span class="m">584</span>
+Image Height                    : <span class="m">463</span>
 Encoding Process                : Baseline DCT, Huffman coding
-Bits Per Sample                 : 8
-Color Components                : 3
-Y Cb Cr Sub Sampling            : YCbCr4:2:0 <span class="o">(</span><span class="m">2</span> 2<span class="o">)</span>
+Bits Per Sample                 : <span class="m">8</span>
+Color Components                : <span class="m">3</span>
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 <span class="o">(</span><span class="m">2</span> <span class="m">2</span><span class="o">)</span>
 Image Size                      : 584x463
-</pre></div>
-
-
-<p>Скопируем изображение и установим тег ориентации&nbsp;6.</p>
-<div class="highlight"><pre><span></span>$ cp lenna_default.jpg lenna_exif_6.jpg
+</pre></div><p>Скопируем изображение и установим тег ориентации&nbsp;6.</p><div class="highlight"><pre><span></span>$ cp lenna_default.jpg lenna_exif_6.jpg
 $ exiftool -n -Orientation<span class="o">=</span><span class="m">6</span> lenna_exif_6.jpg
     <span class="m">1</span> image files updated
-</pre></div>
-
-
-<p><img alt="lenna exif rotate" class="center" src="/media/wrong-exif/lenna_exif_6.jpg" title="Повернутое изображение, Orientation: 6." />
-Чтобы увидеть поворот откройте изображение в новой&nbsp;вкладке.</p>
-<p>Теперь посмотрим какая метаинформация содержится в этом&nbsp;изображении.</p>
-<div class="highlight"><pre><span></span>$ exiftool lenna_exif_6.jpg
-ExifTool Version Number         : 9.46
+</pre></div><p><img alt="lenna exif rotate" class="center" src="/media/wrong-exif/lenna_exif_6.jpg" title="Повернутое изображение, Orientation: 6."> Чтобы увидеть поворот откройте изображение в новой&nbsp;вкладке.</p><p>Теперь посмотрим какая метаинформация содержится в этом&nbsp;изображении.</p><div class="highlight"><pre><span></span>$ exiftool lenna_exif_6.jpg
+ExifTool Version Number         : <span class="m">9</span>.46
 File Name                       : lenna_exif_6.jpg
 Directory                       : .
 File Size                       : <span class="m">79</span> kB
-File Modification Date/Time     : 2015:09:06 10:41:52+03:00
-File Access Date/Time           : 2015:09:06 10:49:25+03:00
-File Inode Change Date/Time     : 2015:09:06 10:49:18+03:00
+File Modification Date/Time     : <span class="m">2015</span>:09:06 <span class="m">10</span>:41:52+03:00
+File Access Date/Time           : <span class="m">2015</span>:09:06 <span class="m">10</span>:49:25+03:00
+File Inode Change Date/Time     : <span class="m">2015</span>:09:06 <span class="m">10</span>:49:18+03:00
 File Permissions                : rw-rw-r--
 File Type                       : JPEG
 MIME Type                       : image/jpeg
-JFIF Version                    : 1.01
+JFIF Version                    : <span class="m">1</span>.01
 Exif Byte Order                 : Little-endian <span class="o">(</span>Intel, II<span class="o">)</span>
 Orientation                     : Rotate <span class="m">90</span> CW
-X Resolution                    : 72
-Y Resolution                    : 72
+X Resolution                    : <span class="m">72</span>
+Y Resolution                    : <span class="m">72</span>
 Resolution Unit                 : inches
-Exif Version                    : 0210
-Flashpix Version                : 0100
+Exif Version                    : <span class="m">0210</span>
+Flashpix Version                : <span class="m">0100</span>
 Color Space                     : Uncalibrated
-Exif Image Width                : 463
-Exif Image Height               : 584
-Image Width                     : 584
-Image Height                    : 463
+Exif Image Width                : <span class="m">463</span>
+Exif Image Height               : <span class="m">584</span>
+Image Width                     : <span class="m">584</span>
+Image Height                    : <span class="m">463</span>
 Encoding Process                : Baseline DCT, Huffman coding
-Bits Per Sample                 : 8
-Color Components                : 3
-Y Cb Cr Sub Sampling            : YCbCr4:2:0 <span class="o">(</span><span class="m">2</span> 2<span class="o">)</span>
+Bits Per Sample                 : <span class="m">8</span>
+Color Components                : <span class="m">3</span>
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 <span class="o">(</span><span class="m">2</span> <span class="m">2</span><span class="o">)</span>
 Image Size                      : 584x463
-</pre></div>
-
-
-<p>Как видно, в тег ориентации установлено значение <code>Rotate 90 CW</code>.</p>
-<p>Загрузив данные изображения на сервис - можно увидеть различное&nbsp;поведение:</p>
-<p>Изображение без тега ориентации не поворачивается и отображается <strong>как есть</strong>,
-с ландшафтным соотношением&nbsp;сторон.</p>
-<p><img alt="lenna on service default" class="center" src="/media/wrong-exif/lenna_service_default.png" title="Изображение без тега ориентации отображается как есть." /></p>
-<p>Изображение с тегом ориентации при отображении поворачивается в портретное
-соотношение&nbsp;сторон.</p>
-<p><img alt="lenna on service exif" class="center" src="/media/wrong-exif/lenna_service_exif_6.png" title="Изображение с тегом ориентации &quot;поворачивается&quot;." /></p>
-<p>Второе изображение выглядит как нужно и модератор без сомнений обрезает&nbsp;изображение.</p>
-<p><img alt="lenna crop" class="center" src="/media/wrong-exif/lenna_crop.png" title="Обрезка изображения с помощью Jcrop." /></p>
-<p>Обрезая изображение как показано на рисунке сверху, модератор ожидает получить
-следующий&nbsp;результат.</p>
-<p><img alt="lenna correct crop" class="center" src="/media/wrong-exif/lenna_crop_correct.jpg" title="Правильно обрезанное изображение." /></p>
-<p>Однако, поскольку координаты заданы для портретной ориентации, а само
-изображение имеет размеры альбомной ориентации, результат получается
-неожиданным. Картинка поворачивается, и возникает черная полоса снизу&nbsp;изображения.</p>
-<p><img alt="lenna wrong crop" class="center" src="/media/wrong-exif/lenna_crop_wrong.jpg" title="Не правильно обрезанное изображение." /></p>
-<p>После использования предварительного поворота изображения, и удаления
-метаинформации, данное неожиданное поведение исчезает, изображение отображается
-таким какое оно есть на самом деле. Загружая картинку с тегом ориентации,
-при сохранении на сервере она сразу сохраняется&nbsp;поворачивается.</p>
-<p>Тоесть в случае, если модератор обрезает портретное&nbsp;изображение.</p>
-<p><img alt="lenna on service exif" class="center" src="/media/wrong-exif/lenna_service_exif_6.png" title="Правильное отображение исходного изображения." /></p>
-<p><img alt="lenna crop" class="center" src="/media/wrong-exif/lenna_crop.png" title="Обрезка изображения с помощью Jcrop." /></p>
-<p>Он получает, правильный портретный&nbsp;результат.</p>
-<p><img alt="lenna correct crop" class="center" src="/media/wrong-exif/lenna_crop_correct.jpg" title="Правильно обрезанное изображение." /></p>
-
-        </article>
-
-            <div class="comments">
-                <div id="disqus_thread"></div>
-                <script type="text/javascript">
+</pre></div><p>Как видно, в тег ориентации установлено значение <code>Rotate 90 CW</code>.</p><p>Загрузив данные изображения на сервис - можно увидеть различное&nbsp;поведение:</p><p>Изображение без тега ориентации не поворачивается и отображается <strong>как есть</strong>, с ландшафтным соотношением&nbsp;сторон.</p><p><img alt="lenna on service default" class="center" src="/media/wrong-exif/lenna_service_default.png" title="Изображение без тега ориентации отображается как есть."></p><p>Изображение с тегом ориентации при отображении поворачивается в портретное соотношение&nbsp;сторон.</p><p><img alt="lenna on service exif" class="center" src="/media/wrong-exif/lenna_service_exif_6.png" title="Изображение с тегом ориентации &#34;поворачивается&#34;."></p><p>Второе изображение выглядит как нужно и модератор без сомнений обрезает&nbsp;изображение.</p><p><img alt="lenna crop" class="center" src="/media/wrong-exif/lenna_crop.png" title="Обрезка изображения с помощью Jcrop."></p><p>Обрезая изображение как показано на рисунке сверху, модератор ожидает получить следующий&nbsp;результат.</p><p><img alt="lenna correct crop" class="center" src="/media/wrong-exif/lenna_crop_correct.jpg" title="Правильно обрезанное изображение."></p><p>Однако, поскольку координаты заданы для портретной ориентации, а само изображение имеет размеры альбомной ориентации, результат получается неожиданным. Картинка поворачивается, и возникает черная полоса снизу&nbsp;изображения.</p><p><img alt="lenna wrong crop" class="center" src="/media/wrong-exif/lenna_crop_wrong.jpg" title="Не правильно обрезанное изображение."></p><p>После использования предварительного поворота изображения, и удаления метаинформации, данное неожиданное поведение исчезает, изображение отображается таким какое оно есть на самом деле. Загружая картинку с тегом ориентации, при сохранении на сервере она сразу сохраняется&nbsp;поворачивается.</p><p>Тоесть в случае, если модератор обрезает портретное&nbsp;изображение.</p><p><img alt="lenna on service exif" class="center" src="/media/wrong-exif/lenna_service_exif_6.png" title="Правильное отображение исходного изображения."></p><p><img alt="lenna crop" class="center" src="/media/wrong-exif/lenna_crop.png" title="Обрезка изображения с помощью Jcrop."></p><p>Он получает, правильный портретный&nbsp;результат.</p><p><img alt="lenna correct crop" class="center" src="/media/wrong-exif/lenna_crop_correct.jpg" title="Правильно обрезанное изображение."></p></article><div class="comments"><div id="disqus_thread"></div><script type="text/javascript">
                     var disqus_identifier = "articles/bugstory/vot-eto-povorot/";
                     (function() {
                     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                     dsq.src = '//samael500.disqus.com/embed.js';
                     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
                     })();
-                </script>
-            </div>
-    </div>
-    <div class="col-md-3 content-right">
-        <div class='anchorific'></div>
-    </div>
-</div>
-                </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <div class="container">
-            <p>This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.</p>
-            <p><a href="http://github.com/samael500/w3-personal-blog/">W3 Personal Blog</a> is a flat <a href="http://getbootstrap.com/">bootstrap</a> responsive theme designed by <a href="https://w3layouts.com/personal-blog-a-blogging-category-flat-bootstrap-responsive-web-template/">W3layouts</a> ported to a pelican by <a href="http://samael500.github.io/">Samael500</a>.<p>
-            <p>Copyrights &copy; 2015&mdash;2017 Maks blog All rights reserved.</p>
-            
-<p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-<img alt="Creative Commons License"
-    style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
-This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-Creative Commons Attribution 4.0 International License</a>.</p>
-        </div>
-    </div>
-
-
-<script type="text/javascript" src="https://www.l2.io/ip.js?var=userip"></script>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
+                </script></div></div><div class="col-md-3 content-right"><div class="anchorific"></div></div></div></div></div></div><div class="footer"><div class="container"><p>This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.</p><p><a href="http://github.com/samael500/w3-personal-blog/">W3 Personal Blog</a> is a flat <a href="http://getbootstrap.com/">bootstrap</a> responsive theme designed by <a href="https://w3layouts.com/personal-blog-a-blogging-category-flat-bootstrap-responsive-web-template/">W3layouts</a> ported to a pelican by <a href="http://samael500.github.io/">Samael500</a>.<p><p>Copyrights &copy; 2015&mdash;2017 Maks live All rights reserved.</p><p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"> Creative Commons Attribution 4.0 International License</a>.</p></div></div><script type="text/javascript" src="https://www.l2.io/ip.js?var=userip"></script><script type="text/javascript">
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {
             try {
@@ -540,10 +207,7 @@ Creative Commons Attribution 4.0 International License</a>.</p>
             d.addEventListener("DOMContentLoaded", f, false);
         } else { f(); }
     })(document, window, "yandex_metrika_callbacks");
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-<script type="text/javascript">
+</script><noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt></div></noscript><script type="text/javascript">
     var disqus_shortname = 'samael500';
     (function () {
         var s = document.createElement('script'); s.async = true;
@@ -551,6 +215,4 @@ Creative Commons Attribution 4.0 International License</a>.</p>
         s.src = '//' + disqus_shortname + '.disqus.com/count.js';
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
-</script>
-</body>
-</html>
+</script></body></html>
