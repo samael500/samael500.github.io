@@ -4,168 +4,168 @@ xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitem
 xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-<loc>https://samael500.github.io/</loc>
-<lastmod>2017-03-21T14:06:51-00:00</lastmod>
+<loc>https://maks.live/</loc>
+<lastmod>2017-03-21T14:11:44-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/archives.html</loc>
-<lastmod>2017-03-21T14:06:51-00:00</lastmod>
+<loc>https://maks.live/archives.html</loc>
+<lastmod>2017-03-21T14:11:44-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/tags.html</loc>
-<lastmod>2017-03-21T14:06:51-00:00</lastmod>
+<loc>https://maks.live/tags.html</loc>
+<lastmod>2017-03-21T14:11:44-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/categories.html</loc>
-<lastmod>2017-03-21T14:06:51-00:00</lastmod>
+<loc>https://maks.live/categories.html</loc>
+<lastmod>2017-03-21T14:11:44-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/about/</loc>
+<loc>https://maks.live/about/</loc>
 <lastmod>2016-04-13T15:00:00+03:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/drugoe/sam-sebe-pochtalon/</loc>
+<loc>https://maks.live/articles/drugoe/sam-sebe-pochtalon/</loc>
 <lastmod>2017-02-28T15:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/drugoe/tri-goda-v-komande/</loc>
+<loc>https://maks.live/articles/drugoe/tri-goda-v-komande/</loc>
 <lastmod>2017-01-18T15:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/</loc>
+<loc>https://maks.live/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/</loc>
 <lastmod>2016-10-25T15:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/python/bystryi-start-na-dzhango/</loc>
+<loc>https://maks.live/articles/python/bystryi-start-na-dzhango/</loc>
 <lastmod>2016-10-10T15:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/drugoe/otchety-coverage-v-teamcity/</loc>
+<loc>https://maks.live/articles/drugoe/otchety-coverage-v-teamcity/</loc>
 <lastmod>2016-09-26T15:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/python/zaklinatel-zmei/</loc>
+<loc>https://maks.live/articles/python/zaklinatel-zmei/</loc>
 <lastmod>2016-04-17T15:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/github/full-year-streak/</loc>
+<loc>https://maks.live/articles/github/full-year-streak/</loc>
 <lastmod>2016-01-21T20:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/secure/davaite-shifrovat/</loc>
+<loc>https://maks.live/articles/secure/davaite-shifrovat/</loc>
 <lastmod>2016-01-15T15:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/github/trekhsotochka/</loc>
+<loc>https://maks.live/articles/github/trekhsotochka/</loc>
 <lastmod>2015-11-16T18:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/python/eto-tipograf/</loc>
+<loc>https://maks.live/articles/python/eto-tipograf/</loc>
 <lastmod>2015-10-15T15:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/drugoe/opredelenie-ip-adresa-posetitelia-v-otchetakh-yandex-metrika/</loc>
+<loc>https://maks.live/articles/drugoe/opredelenie-ip-adresa-posetitelia-v-otchetakh-yandex-metrika/</loc>
 <lastmod>2015-09-22T15:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/bugstory/vot-eto-povorot/</loc>
+<loc>https://maks.live/articles/bugstory/vot-eto-povorot/</loc>
 <lastmod>2015-09-06T15:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/drugoe/avtomaticheskoe-soderzhanie-v-pelican/</loc>
+<loc>https://maks.live/articles/drugoe/avtomaticheskoe-soderzhanie-v-pelican/</loc>
 <lastmod>2015-09-02T15:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/python/zagruzka-video-na-youtube/</loc>
+<loc>https://maks.live/articles/python/zagruzka-video-na-youtube/</loc>
 <lastmod>2015-08-26T18:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/github/200-dnei-kriadu/</loc>
+<loc>https://maks.live/articles/github/200-dnei-kriadu/</loc>
 <lastmod>2015-08-08T18:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/github/pervyi-stodnevnyi-streak/</loc>
+<loc>https://maks.live/articles/github/pervyi-stodnevnyi-streak/</loc>
 <lastmod>2015-04-30T21:50:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/python/ralli-na-brauzerakh/</loc>
+<loc>https://maks.live/articles/python/ralli-na-brauzerakh/</loc>
 <lastmod>2015-04-05T19:30:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/articles/drugoe/ura-menia-v-gugle-zabanili/</loc>
+<loc>https://maks.live/articles/drugoe/ura-menia-v-gugle-zabanili/</loc>
 <lastmod>2015-01-30T15:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://samael500.github.io/author/maks/</loc>
+<loc>https://maks.live/author/maks/</loc>
 <lastmod>2017-02-28T15:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
