@@ -6,7 +6,7 @@ import datetime
 AUTHOR = u'Maks'
 SITENAME = u'Maks live'
 # SITESUBTITLE = u'Samael500'
-SITEURL = 'https://samael500.github.io'
+SITEURL = 'https://maks.live'
 KEYWORDS = u'Samael500 personal blog'
 
 PATH = 'content'
