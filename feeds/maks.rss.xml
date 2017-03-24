@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Maks live</title><link>https://maks.live/</link><description></description><lastBuildDate>Tue, 28 Feb 2017 15:00:00 +0300</lastBuildDate><item><title>Сам себе почтальон</title><link>https://maks.live/articles/drugoe/sam-sebe-pochtalon/</link><description>&lt;p&gt;Каждый раз при запуске проекта в продакшн, встает вопрос, как
+<rss version="2.0"><channel><title>Maks live</title><link>https://maks.live/</link><description>&lt;small&gt;samael500 blog&lt;/small&gt;</description><lastBuildDate>Tue, 28 Feb 2017 15:00:00 +0300</lastBuildDate><item><title>Сам себе почтальон</title><link>https://maks.live/articles/drugoe/sam-sebe-pochtalon/</link><description>&lt;p&gt;Каждый раз при запуске проекта в продакшн, встает вопрос, как
 отправлять письма с боевого сервера. Есть множество удобных сервисов, таких как
 &lt;a href="https://www.mailgun.com/"&gt;mailgun&lt;/a&gt; или &lt;a href="https://www.mailjet.com/"&gt;mailjet&lt;/a&gt;,
 можно отправлять письма со своего домена через &lt;code&gt;smtp&lt;/code&gt;
