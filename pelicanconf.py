@@ -5,7 +5,7 @@ import datetime
 
 AUTHOR = u'Maks'
 SITENAME = u'Maks live'
-# SITESUBTITLE = u'Samael500'
+SITESUBTITLE = u'<small>samael500 blog</small>'
 SITEURL = 'https://maks.live'
 KEYWORDS = u'Samael500 personal blog'
 
