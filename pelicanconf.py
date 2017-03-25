@@ -104,6 +104,7 @@ TAG_SAVE_AS = u'tag/{slug}/index.html'
 PLUGINS = [
     'plugins.sitemap',
     'minify',
+    'advthumbnailer',
 ]
 READERS = {'html': None}
 TYPOGRIFY = True
