@@ -32,7 +32,7 @@ $ sudo service postfix reload
 
 
 &lt;p&gt;По умолчанию у &lt;code&gt;postfix&lt;/code&gt; открыт 25 порт из внешнего мира, закроем его,
-отредактировав &lt;code&gt;etc/postfix/master.cf&lt;/code&gt;.&lt;/p&gt;
+отредактировав &lt;code&gt;/etc/postfix/master.cf&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gd"&gt;--- /etc/postfix/master.cf&lt;/span&gt;
 &lt;span class="gi"&gt;+++ /etc/postfix/master.cf&lt;/span&gt;
 &lt;span class="gu"&gt;@@ -10,7 +10,7 @@&lt;/span&gt;

@@ -22,7 +22,7 @@ $ <span class="nb">echo</span> <span class="s2">&quot;</span>
 <span class="s2">mydestination = localhost</span>
 <span class="s2">&quot;</span> <span class="p">|</span> sudo tee -a /etc/postfix/main.cf
 $ sudo service postfix reload
-</pre></div> <p>По умолчанию у <code>postfix</code> открыт 25 порт из внешнего мира, закроем его, отредактировав <code>etc/postfix/master.cf</code>.</p> <div class="highlight"><pre><span></span><span class="gd">--- /etc/postfix/master.cf</span>
+</pre></div> <p>По умолчанию у <code>postfix</code> открыт 25 порт из внешнего мира, закроем его, отредактировав <code>/etc/postfix/master.cf</code>.</p> <div class="highlight"><pre><span></span><span class="gd">--- /etc/postfix/master.cf</span>
 <span class="gi">+++ /etc/postfix/master.cf</span>
 <span class="gu">@@ -10,7 +10,7 @@</span>
  #               (yes)   (yes)   (yes)   (never) (100)
