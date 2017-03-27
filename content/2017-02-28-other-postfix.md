@@ -56,7 +56,7 @@ $ sudo service postfix reload
 ```
 
 По умолчанию у `postfix` открыт 25 порт из внешнего мира, закроем его,
-отредактировав `etc/postfix/master.cf`.
+отредактировав `/etc/postfix/master.cf`.
 
 ```diff
 --- /etc/postfix/master.cf
