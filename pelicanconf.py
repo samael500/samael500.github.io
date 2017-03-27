@@ -5,9 +5,13 @@ import datetime
 
 AUTHOR = u'Maks'
 SITENAME = u'Maks live'
-SITESUBTITLE = u'<small>samael500 blog</small>'
+SITESUBTITLE = u'samael500 blog'
 SITEURL = 'https://maks.live'
-KEYWORDS = u'Samael500 personal blog'
+DESCRIPTION = u'''\
+Hello from my blog, my name is Maks (samael500).
+I obtained a master’s degree in information security.
+Currently Python backend developer at small but strong company.'''
+KEYWORDS = u'Samael500 personal blog Maks live'
 
 PATH = 'content'
 
@@ -109,9 +113,9 @@ PLUGINS = [
 READERS = {'html': None}
 TYPOGRIFY = True
 MINIFY = {
-  'remove_comments': True,
-  'remove_empty_space': False,
-  'remove_optional_attribute_quotes': False
+    'remove_comments': True,
+    'remove_empty_space': False,
+    'remove_optional_attribute_quotes': False
 }
 
 # sitemap settings
@@ -146,3 +150,9 @@ LICENSE_ROW = '''
     style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
 This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
 Creative Commons Attribution 4.0 International License</a>.</p>'''
+
+if 'advthumbnailer' not in PLUGINS:
+    # fallback if no thumbnail are used
+    JINJA_FILTERS = {
+        'thumbnail': lambda value, *args: value,
+    }
