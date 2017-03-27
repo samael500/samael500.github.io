@@ -5,35 +5,35 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://maks.live/</loc>
-<lastmod>2017-03-25T12:58:27-00:00</lastmod>
+<lastmod>2017-03-27T12:11:13-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://maks.live/archives.html</loc>
-<lastmod>2017-03-25T12:58:27-00:00</lastmod>
+<lastmod>2017-03-27T12:11:13-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://maks.live/tags.html</loc>
-<lastmod>2017-03-25T12:58:27-00:00</lastmod>
+<lastmod>2017-03-27T12:11:13-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://maks.live/categories.html</loc>
-<lastmod>2017-03-25T12:58:27-00:00</lastmod>
+<lastmod>2017-03-27T12:11:13-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://maks.live/about/</loc>
-<lastmod>2016-04-13T15:00:00+03:00</lastmod>
+<lastmod>2017-03-27T15:00:00+03:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
