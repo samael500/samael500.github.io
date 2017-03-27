@@ -35,7 +35,7 @@ Summary:
 [PostgreSQL](https://www.postgresql.org/) + [Celery](http://www.celeryproject.org/) +
 [Redis](http://redis.io/).
 
-А саму разработку ведем в виртуальном окружении [Vagrant](vagrantup.com) +
+А саму разработку ведем в виртуальном окружении [Vagrant](https://www.vagrantup.com/) +
 [VirtualBox](https://www.virtualbox.org/) под управлением
 [OS Debian](https://www.debian.org/index.html).
 
@@ -62,7 +62,7 @@ $ falstart awesome
 После чего выполняются скрипты и через 10-15 минут будет готова структура проекта.
 
 ### Пред зависимости
-Для работы фальстарта необходим [Vagrant](vagrantup.com) и [VirtualBox](https://www.virtualbox.org/)
+Для работы фальстарта необходим [Vagrant](https://www.vagrantup.com/) и [VirtualBox](https://www.virtualbox.org/)
 
 ### Установка
 Фальстарт доступен для установки через `pip`
