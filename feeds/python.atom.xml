@@ -13,7 +13,7 @@
 &lt;a href="https://www.python.org/"&gt;Python 3.x&lt;/a&gt; + &lt;a href="https://www.djangoproject.com/"&gt;Django&lt;/a&gt; +
 &lt;a href="https://www.postgresql.org/"&gt;PostgreSQL&lt;/a&gt; + &lt;a href="http://www.celeryproject.org/"&gt;Celery&lt;/a&gt; +
 &lt;a href="http://redis.io/"&gt;Redis&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;А саму разработку ведем в виртуальном окружении &lt;a href="vagrantup.com"&gt;Vagrant&lt;/a&gt; +
+&lt;p&gt;А саму разработку ведем в виртуальном окружении &lt;a href="https://www.vagrantup.com/"&gt;Vagrant&lt;/a&gt; +
 &lt;a href="https://www.virtualbox.org/"&gt;VirtualBox&lt;/a&gt; под управлением
 &lt;a href="https://www.debian.org/index.html"&gt;&lt;span class="caps"&gt;OS&lt;/span&gt; Debian&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="falstart" class="center" src="/media/falstart/fs-logo.png" /&gt;&lt;/p&gt;
@@ -36,7 +36,7 @@
 
 &lt;p&gt;После чего выполняются скрипты и через 10-15 минут будет готова структура&amp;nbsp;проекта.&lt;/p&gt;
 &lt;h3 id="pred-zavisimosti"&gt;&lt;a class="toclink" href="#pred-zavisimosti"&gt;Пред&amp;nbsp;зависимости&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Для работы фальстарта необходим &lt;a href="vagrantup.com"&gt;Vagrant&lt;/a&gt; и &lt;a href="https://www.virtualbox.org/"&gt;VirtualBox&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Для работы фальстарта необходим &lt;a href="https://www.vagrantup.com/"&gt;Vagrant&lt;/a&gt; и &lt;a href="https://www.virtualbox.org/"&gt;VirtualBox&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id="ustanovka"&gt;&lt;a class="toclink" href="#ustanovka"&gt;Установка&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Фальстарт доступен для установки через &lt;code&gt;pip&lt;/code&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ pip install falstart
