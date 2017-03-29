@@ -17,7 +17,7 @@ PATH = 'content'
 
 # languages settings
 TIMEZONE = 'Europe/Moscow'
-DEFAULT_LANG = 'en'
+DEFAULT_LANG = 'ru'
 LOCALE = ('en_US.UTF-8', )
 
 # ARCHIVES_TEXT = u'Архив'
