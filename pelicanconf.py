@@ -108,6 +108,7 @@ TAG_SAVE_AS = u'tag/{slug}/index.html'
 PLUGINS = [
     'plugins.sitemap',
     'plugins.yuicompressor',
+    'plugins.article_thumb',
     'minify',
 ]
 READERS = {'html': None}
