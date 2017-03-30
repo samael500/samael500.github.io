@@ -1,0 +1,1413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>Maks live</title><link>https://maks.live/</link><description>samael500 blog</description><lastBuildDate>Tue, 28 Feb 2017 15:00:00 +0300</lastBuildDate><item><title>Сам себе почтальон</title><link>https://maks.live/articles/drugoe/sam-sebe-pochtalon/</link><description>&lt;p&gt;Каждый раз при запуске проекта в продакшн, встает вопрос, как
+отправлять письма с боевого сервера. Есть множество удобных сервисов, таких как
+&lt;a href="https://www.mailgun.com/"&gt;mailgun&lt;/a&gt; или &lt;a href="https://www.mailjet.com/"&gt;mailjet&lt;/a&gt;,
+можно отправлять письма со своего домена через &lt;code&gt;smtp&lt;/code&gt;
+&lt;a href="https://pdd.yandex.ru/"&gt;Яндекса&lt;/a&gt;. Но иногда нужно организовать свой почтовый
+сервер и рассылать письма через&amp;nbsp;него.&lt;/p&gt;
+&lt;p&gt;На этапе разработки проекта в качестве почтового сервера мы используем
+&lt;a href="https://debugmail.io"&gt;DebugMail&lt;/a&gt; сервис, который позволяет без настройки
+своего &lt;code&gt;smtp&lt;/code&gt; сервера отправлять тестовые
+&lt;a href="https://debugmail.io/mails/ec14ea018ee2944ff36776c9f1ba1b186984df8a"&gt;письма&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Debug Mail" class="center" src="/media/postfix/dm.png" /&gt;&lt;/p&gt;
+&lt;h2 id="pisma-pisma-lichno-na-pochtu-noshu"&gt;&lt;a class="toclink" href="#pisma-pisma-lichno-na-pochtu-noshu"&gt;Письма, письма лично на почту&amp;nbsp;ношу&amp;#8230;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Установим свой почтовый сервер, будем использовать простой и удобный
+&lt;a href="http://www.postfix.org/"&gt;PostFix&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo apt-get install postfix
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;В интерактивном режиме указываем тип и домен нашего&amp;nbsp;сервера.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Configure Postfix" class="center" src="/media/postfix/ps-configure.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Postfix domain" class="center" src="/media/postfix/ps-domain.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Для дальнейшей настройки скопируем базовый конфигурационный файл для &lt;code&gt;debian&lt;/code&gt;.
+И добавим доступ только из локального&amp;nbsp;хоста.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo cp /usr/share/postfix/main.cf.debian /etc/postfix/main.cf
+$ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128&lt;/span&gt;
+&lt;span class="s2"&gt;mydestination = localhost&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sudo tee -a /etc/postfix/main.cf
+$ sudo service postfix reload
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;По умолчанию у &lt;code&gt;postfix&lt;/code&gt; открыт 25 порт из внешнего мира, закроем его,
+отредактировав &lt;code&gt;/etc/postfix/master.cf&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gd"&gt;--- /etc/postfix/master.cf&lt;/span&gt;
+&lt;span class="gi"&gt;+++ /etc/postfix/master.cf&lt;/span&gt;
+&lt;span class="gu"&gt;@@ -10,7 +10,7 @@&lt;/span&gt;
+ #               (yes)   (yes)   (yes)   (never) (100)
+ # ==========================================================================
+ # smtp      inet  n       -       -       -       -       smtpd
+&lt;span class="gd"&gt;-smtp               inet  n       -       n       -       -       smtpd&lt;/span&gt;
+&lt;span class="gi"&gt;+127.0.0.1:smtp     inet  n       -       n       -       -       smtpd&lt;/span&gt;
+ #smtp      inet  n       -       -       -       1       postscreen
+ #smtpd     pass  -       -       -       -       -       smtpd
+ #dnsblog   unix  -       -       -       -       0       dnsblog
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь можем попробовать отправить свое первое письмо с собственного сервера.
+Воспользуемся для этого стандартной библиотекой &lt;code&gt;python&lt;/code&gt;
+&lt;a href="https://docs.python.org/3.6/library/smtplib.html"&gt;SMTPLib&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;smtplib&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;email.mime.text&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MIMEText&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;email.mime.multipart&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MIMEMultipart&lt;/span&gt;
+
+&lt;span class="n"&gt;text_part&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MIMEText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;There are test mail text content&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;plain&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;html_part&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MIMEText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class="s1"&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;  &amp;lt;head&amp;gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;  &amp;lt;body&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;    &amp;lt;h1&amp;gt;Hello from Earth&amp;lt;h1&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;    &amp;lt;p&amp;gt;There are test mail html content.&amp;lt;/p&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;    &amp;lt;p style=&amp;quot;color:red&amp;quot;&amp;gt;have a good day ;)&amp;lt;/p&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;  &amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;span class="s1"&gt;&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;from_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;to_&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;from@some.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;to@other.org&amp;#39;&lt;/span&gt;
+
+&lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MIMEMultipart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alternative&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Subject&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Hello from Earth&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;From&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;from_&lt;/span&gt;
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;To&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;to_&lt;/span&gt;
+
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text_part&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;html_part&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;host&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;smtplib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SMTP&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sendmail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;from_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;to_&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;as_string&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;quit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Письмо успешно отправляется и обязательно попадает в спам, т.к. выглядит
+очень подозрительно и отправлено с неподтвержденного&amp;nbsp;адреса.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="gmail spam" class="center shadow" src="/media/postfix/gmail.png" /&gt;&lt;/p&gt;
+&lt;!-- ### Немного безопасности --&gt;
+
+&lt;p&gt;Подключим &lt;code&gt;tls&lt;/code&gt; шифрование писем, добавив следующие строки в &lt;code&gt;/etc/postfix/main.cf&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;smtpd_tls_security_level&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;may&lt;/span&gt;
+&lt;span class="k"&gt;smtp_tls_security_level&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;may&lt;/span&gt;
+&lt;span class="k"&gt;smtp_tls_loglevel&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="k"&gt;smtpd_tls_loglevel&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+
+&lt;span class="k"&gt;smtpd_tls_CAfile&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;/etc/letsencrypt/live/example.com/chain.pem&lt;/span&gt;
+&lt;span class="k"&gt;smtpd_tls_cert_file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;/etc/letsencrypt/live/example.com/cert.pem&lt;/span&gt;
+&lt;span class="k"&gt;smtpd_tls_key_file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;/etc/letsencrypt/live/example.com/privkey.pem&lt;/span&gt;
+
+&lt;span class="k"&gt;smtp_tls_session_cache_database&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;btree&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="n"&gt;/var/lib/postfix/smtp_scache&lt;/span&gt;
+
+&lt;span class="k"&gt;smtp_tls_mandatory_exclude_ciphers&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;aNULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;MD&lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;DES&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;ADH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;RC&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;PSD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;SRP&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="k"&gt;DES&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;eNULL&lt;/span&gt;
+&lt;span class="k"&gt;smtp_tls_mandatory_protocols&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;SSLv&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;SSLv&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;TLSv&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;TLSv&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="k"&gt;.&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="k"&gt;smtp_tls_protocols&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;SSLv&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;SSLv&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;TLSv&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;!&lt;/span&gt;&lt;span class="k"&gt;TLSv&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="k"&gt;.&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="k"&gt;smtp_tls_mandatory_ciphers&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;high&lt;/span&gt;
+&lt;span class="k"&gt;tls_high_cipherlist&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;EDH&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;CAMELLIA&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;EDH&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;aRSA&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;EECDH&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;aRSA&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;AESGCM&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;EECDH&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;aRSA&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;SHA&lt;/span&gt;&lt;span class="m"&gt;384&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;EECDH&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;aRSA&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;SHA&lt;/span&gt;&lt;span class="m"&gt;256&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;EECDH&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;CAMELLIA&lt;/span&gt;&lt;span class="m"&gt;256&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;AES&lt;/span&gt;&lt;span class="m"&gt;256&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;CAMELLIA&lt;/span&gt;&lt;span class="m"&gt;128&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;AES&lt;/span&gt;&lt;span class="m"&gt;128&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;SSLv&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;aNULL&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;eNULL&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;LOW&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="k"&gt;DES&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;MD&lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;EXP&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;PSK&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;DSS&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;RC&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;SEED&lt;/span&gt;&lt;span class="err"&gt;:!&lt;/span&gt;&lt;span class="k"&gt;ECDSA&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;CAMELLIA&lt;/span&gt;&lt;span class="m"&gt;256&lt;/span&gt;&lt;span class="k"&gt;-SHA&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;AES&lt;/span&gt;&lt;span class="m"&gt;256&lt;/span&gt;&lt;span class="k"&gt;-SHA&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;CAMELLIA&lt;/span&gt;&lt;span class="m"&gt;128&lt;/span&gt;&lt;span class="k"&gt;-SHA&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="k"&gt;AES&lt;/span&gt;&lt;span class="m"&gt;128&lt;/span&gt;&lt;span class="k"&gt;-SHA&lt;/span&gt;
+&lt;span class="k"&gt;tls_random_source&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;dev&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="n"&gt;/dev/urandom&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Здесь нам понадобятся сертификаты, можно подписать их самостоятельно,
+но проще и надежнее использовать бесплатные сертификаты от &lt;a href="https://letsencrypt.org/"&gt;Let’s Encrypt&lt;/a&gt;.
+Подробнее о том как их получать в статье &lt;a href="https://maks.live/articles/secure/davaite-shifrovat/"&gt;Давайте шифровать&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;После настройки перезапускаем &lt;code&gt;postfix&lt;/code&gt; и проверяем доступность &lt;code&gt;tls&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ openssl s_client -starttls smtp -showcerts -connect localhost:25
+
+CONNECTED&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;00000003&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nv"&gt;depth&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="nv"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; US, &lt;span class="nv"&gt;O&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; Let&lt;span class="s1"&gt;&amp;#39;s Encrypt, CN = Let&amp;#39;&lt;/span&gt;s Encrypt Authority X3
+verify error:num&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;20&lt;/span&gt;:unable to get &lt;span class="nb"&gt;local&lt;/span&gt; issuer certificate
+---
+Certificate chain
+ &lt;span class="m"&gt;0&lt;/span&gt; s:/CN&lt;span class="o"&gt;=&lt;/span&gt;example.com
+   i:/C&lt;span class="o"&gt;=&lt;/span&gt;US/O&lt;span class="o"&gt;=&lt;/span&gt;Let&lt;span class="s1"&gt;&amp;#39;s Encrypt/CN=Let&amp;#39;&lt;/span&gt;s Encrypt Authority X3
+-----BEGIN CERTIFICATE-----
+&amp;lt;cert content&amp;gt;
+-----END CERTIFICATE-----
+ &lt;span class="m"&gt;1&lt;/span&gt; s:/C&lt;span class="o"&gt;=&lt;/span&gt;US/O&lt;span class="o"&gt;=&lt;/span&gt;Let&lt;span class="s1"&gt;&amp;#39;s Encrypt/CN=Let&amp;#39;&lt;/span&gt;s Encrypt Authority X3
+   i:/O&lt;span class="o"&gt;=&lt;/span&gt;Digital Signature Trust Co./CN&lt;span class="o"&gt;=&lt;/span&gt;DST Root CA X3
+-----BEGIN CERTIFICATE-----
+&amp;lt;cert content&amp;gt;
+-----END CERTIFICATE-----
+---
+Server certificate
+&lt;span class="nv"&gt;subject&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/CN&lt;span class="o"&gt;=&lt;/span&gt;example.com
+&lt;span class="nv"&gt;issuer&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/C&lt;span class="o"&gt;=&lt;/span&gt;US/O&lt;span class="o"&gt;=&lt;/span&gt;Let&lt;span class="s1"&gt;&amp;#39;s Encrypt/CN=Let&amp;#39;&lt;/span&gt;s Encrypt Authority X3
+---
+No client certificate CA names sent
+Peer signing digest: SHA512
+Server Temp Key: ECDH, P-256, &lt;span class="m"&gt;256&lt;/span&gt; bits
+---
+SSL handshake has &lt;span class="nb"&gt;read&lt;/span&gt; &lt;span class="m"&gt;3884&lt;/span&gt; bytes and written &lt;span class="m"&gt;468&lt;/span&gt; bytes
+---
+New, TLSv1/SSLv3, Cipher is ECDHE-RSA-AES256-GCM-SHA384
+Server public key is &lt;span class="m"&gt;4096&lt;/span&gt; bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+SSL-Session:
+    Protocol  : TLSv1.2
+    Cipher    : ECDHE-RSA-AES256-GCM-SHA384
+    Session-ID: 9C05050D143CE1474438AEC0A57BD8303953053608ECD5775B565A26455EDADB
+    Session-ID-ctx: 
+    Master-Key: D6A09F3AC016E489542EAA11E9EFF7B56118D24F849FD480B26E219322E8D97D43DE7C537E9B928A67DDCAD3F9397EC6
+    Key-Arg   : None
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: &lt;span class="m"&gt;7200&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;seconds&lt;span class="o"&gt;)&lt;/span&gt;
+    TLS session ticket:
+    &lt;span class="m"&gt;0000&lt;/span&gt; - &lt;span class="nb"&gt;cd&lt;/span&gt; a5 c1 &lt;span class="m"&gt;43&lt;/span&gt; &lt;span class="m"&gt;13&lt;/span&gt; c9 2c 4b-7e &lt;span class="m"&gt;14&lt;/span&gt; f6 &lt;span class="m"&gt;53&lt;/span&gt; &lt;span class="m"&gt;92&lt;/span&gt; &lt;span class="m"&gt;86&lt;/span&gt; &lt;span class="m"&gt;89&lt;/span&gt; &lt;span class="m"&gt;29&lt;/span&gt;   ...C..,K~..S...&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="m"&gt;0010&lt;/span&gt; - &lt;span class="m"&gt;88&lt;/span&gt; dc ae cc d4 &lt;span class="m"&gt;61&lt;/span&gt; a1 4c-ec &lt;span class="m"&gt;05&lt;/span&gt; b1 &lt;span class="m"&gt;61&lt;/span&gt; &lt;span class="m"&gt;94&lt;/span&gt; 0c b1 6c   .....a.L...a...l
+    &lt;span class="m"&gt;0020&lt;/span&gt; - &lt;span class="m"&gt;13&lt;/span&gt; &lt;span class="m"&gt;57&lt;/span&gt; &lt;span class="m"&gt;84&lt;/span&gt; &lt;span class="m"&gt;63&lt;/span&gt; 0f e4 6a d7-da &lt;span class="m"&gt;08&lt;/span&gt; &lt;span class="m"&gt;45&lt;/span&gt; 7e &lt;span class="m"&gt;80&lt;/span&gt; 3e fd d7   .W.c..j...E~.&amp;gt;..
+    &lt;span class="m"&gt;0030&lt;/span&gt; - &lt;span class="m"&gt;16&lt;/span&gt; &lt;span class="m"&gt;82&lt;/span&gt; &lt;span class="m"&gt;70&lt;/span&gt; d5 e4 8a bd ba-6f 9d b9 6f d9 &lt;span class="m"&gt;49&lt;/span&gt; &lt;span class="m"&gt;56&lt;/span&gt; b7   ..p.....o..o.IV.
+    &lt;span class="m"&gt;0040&lt;/span&gt; - d4 &lt;span class="m"&gt;41&lt;/span&gt; 5a c7 &lt;span class="m"&gt;27&lt;/span&gt; &lt;span class="m"&gt;53&lt;/span&gt; &lt;span class="m"&gt;82&lt;/span&gt; b5-8d 5d &lt;span class="m"&gt;22&lt;/span&gt; &lt;span class="m"&gt;08&lt;/span&gt; &lt;span class="m"&gt;38&lt;/span&gt; 3c a5 &lt;span class="m"&gt;59&lt;/span&gt;   .AZ.&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;S...&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.8&amp;lt;.Y&lt;/span&gt;
+&lt;span class="s2"&gt;    0050 - 6b 06 e7 5f ba 36 2f 91-44 85 7a 5d 1c e4 da d9   k.._.6/.D.z]....&lt;/span&gt;
+&lt;span class="s2"&gt;    0060 - 90 78 64 10 63 6a df c9-79 8d d9 10 66 dc 24 74   .xd.cj..y...f.&lt;/span&gt;&lt;span class="nv"&gt;$t&lt;/span&gt;&lt;span class="s2"&gt;&lt;/span&gt;
+&lt;span class="s2"&gt;    0070 - fb 5a f6 f5 02 14 c5 d5-b0 b3 65 57 24 01 f2 bd   .Z........eW&lt;/span&gt;$&lt;span class="s2"&gt;...&lt;/span&gt;
+&lt;span class="s2"&gt;    0080 - 06 31 f9 a9 e3 32 42 ad-f0 3b b5 3d 39 77 2c 95   .1...2B..;.=9w,.&lt;/span&gt;
+&lt;span class="s2"&gt;    0090 - 8f fd e9 4f c9 4c 1d 77-8e 23 e4 ca 48 e8 9f ed   ...O.L.w.#..H...&lt;/span&gt;
+
+&lt;span class="s2"&gt;    Start Time: 1489229346&lt;/span&gt;
+&lt;span class="s2"&gt;    Timeout   : 300 (sec)&lt;/span&gt;
+&lt;span class="s2"&gt;    Verify return code: 20 (unable to get local issuer certificate)&lt;/span&gt;
+&lt;span class="s2"&gt;---&lt;/span&gt;
+&lt;span class="s2"&gt;250 DSN&lt;/span&gt;
+
+&lt;span class="s2"&gt;QUIT&lt;/span&gt;
+&lt;span class="s2"&gt;DONE&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;!&amp;#8212;
+Установим авториазацию с помощью [SASL](https://tools.ietf.org/html/rfc2222).
+
+bash
+$ sudo apt-get install sasl2-bin
+
+
+Укажим доступные пары логин\пароль в файле `/etc/postfix/sasl_passwd`.
+
+bash
+# домен        логин:хеш пароля
+example.com    testuser:59de1412ec33fd96ac4a4bfc793f1133
+
+
+Дадим доступ на чтение этого файла только администратору и сгенерируем таблицу.
+
+bash
+$ sudo chown root:root /etc/postfix/sasl_passwd &amp;&amp; chmod 600 /etc/postfix/sasl_passwd
+$ postmap hash:/etc/postfix/sasl_passwd
+$ ls -all /etc/postfix/sasl_passwd*
+-rw&amp;#8212;&amp;#8212;&amp;#8212;- 1 root root    59 фев  28 18:31 /etc/postfix/sasl_passwd
+-rw&amp;#8212;&amp;#8212;&amp;#8212;- 1 root root 12288 фев  28 18:37 /etc/postfix/sasl_passwd.db
+
+
+Разрешим доступ только аутентифицированным пользователям, добавив в `/etc/postfix/main.cf`
+
+Lighttpd
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_local_domain = $myhostname
+broken_sasl_auth_clients = yes
+smtpd_recipient_restrictions =
+   permit_sasl_authenticated, permit_mynetworks, check_relay_domains
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+
+
+Перезапускаем `postfix` и проверяем `SMTP` авторизацию по `telnet`.
+
+telnet
+EHLO example.com
+250-example.com
+250-PIPELINING
+250-SIZE 10240000
+250-VRFY
+250-ETRN
+250-AUTH DIGEST-MD5 CRAM-MD5 NTLM LOGIN PLAIN
+250-AUTH=DIGEST-MD5 CRAM-MD5 NTLM LOGIN PLAIN
+250-ENHANCEDSTATUSCODES
+250-8BITMIME
+250 DSN
+quit
+
+
+Следующие строки указывают на наличие аутентификации.
+
+telnet
+250-AUTH DIGEST-MD5 CRAM-MD5 NTLM LOGIN PLAIN
+250-AUTH=DIGEST-MD5 CRAM-MD5 NTLM LOGIN PLAIN
+
+
+Проверяем отправку письма добавив авторизацию.
+
+python
+conn = smtplib.SMTP(host)
+conn.login(&amp;#8216;testuser&amp;#8217;, &amp;#8216;testpasswd&amp;#8217;)
+
+&amp;#8212;&gt;
+
+&lt;h2 id="podpisyvaius-pod-kazhdym-slovom"&gt;&lt;a class="toclink" href="#podpisyvaius-pod-kazhdym-slovom"&gt;Подписываюсь под каждым&amp;nbsp;словом&amp;#8230;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;На сегодняшний день, считается обязательной подпись электронных писем
+с помощью &lt;a href="http://www.dkim.org/"&gt;&lt;span class="caps"&gt;DKIM&lt;/span&gt;&lt;/a&gt;. Это делается для того, чтобы почтовый сервер
+получателя мог удостоверится в том, что почта отправлена именно с сервера
+указанного в поле &lt;code&gt;From&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id="ustanovka-i-nastroika-opendkim"&gt;&lt;a class="toclink" href="#ustanovka-i-nastroika-opendkim"&gt;Установка и настройка&amp;nbsp;OpenDKIM&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Устанавливаем необходимые пакеты, &lt;a href="http://www.opendkim.org/"&gt;OpenDKIM&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo apt-get install opendkim opendkim-tools
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Генерируем ключи и сохраняем их доступными для чтения группе &lt;code&gt;opendkim&lt;/code&gt;,
+а также добавляем в эту группу &lt;code&gt;postfix&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo mkdir /etc/opendkim
+$ sudo opendkim-genkey -D /etc/opendkim -d &lt;span class="k"&gt;$(&lt;/span&gt;hostname -d&lt;span class="k"&gt;)&lt;/span&gt; -s &lt;span class="k"&gt;$(&lt;/span&gt;hostname&lt;span class="k"&gt;)&lt;/span&gt;
+$ sudo chgrp opendkim /etc/opendkim/*
+$ sudo chmod g+r /etc/opendkim/*
+$ sudo gpasswd -a postfix opendkim
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь указываем &lt;code&gt;opendkim&lt;/code&gt; где находятся ключи. Для этого дописываем
+в конфигурационный файл &lt;code&gt;/etc/opendkim.conf&lt;/code&gt; следующие&amp;nbsp;строки.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;Canonicalization&lt;/span&gt; &lt;span class="k"&gt;relaxed&lt;/span&gt;&lt;span class="n"&gt;/relaxed&lt;/span&gt;
+&lt;span class="k"&gt;SyslogSuccess&lt;/span&gt; &lt;span class="k"&gt;yes&lt;/span&gt;
+&lt;span class="k"&gt;RequireSafeKeys&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="k"&gt;KeyTable&lt;/span&gt; &lt;span class="k"&gt;file&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="n"&gt;/etc/opendkim/keytable&lt;/span&gt;
+&lt;span class="k"&gt;SigningTable&lt;/span&gt; &lt;span class="k"&gt;file&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="n"&gt;/etc/opendkim/signingtable&lt;/span&gt;
+&lt;span class="k"&gt;X-Header&lt;/span&gt; &lt;span class="k"&gt;yes&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Подробнее ознакомится с возможными параметрами можно в
+&lt;a href="http://www.opendkim.org/opendkim.conf.5.html"&gt;документации&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Теперь заполним таблицы ключей в файлах &lt;code&gt;/etc/opendkim/keytable&lt;/code&gt; и &lt;code&gt;/etc/opendkim/signingtable&lt;/code&gt;.
+Они указывают соответсвие между доменом и ключем, которым необходимо подписывать&amp;nbsp;письмо.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# /etc/opendkim/keytable&lt;/span&gt;
+ключ домен:селектор:/путь/до/ключа
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# /etc/opendkim/signingtable&lt;/span&gt;
+домен ключ
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Например:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# /etc/opendkim/keytable&lt;/span&gt;
+mail._domainkey.example.com example.com:mail:/etc/opendkim/mail.private
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# /etc/opendkim/signingtable&lt;/span&gt;
+example.com    mail._domainkey.example.com
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="nastroika-postfix-dlia-raboty-s-opendkim"&gt;&lt;a class="toclink" href="#nastroika-postfix-dlia-raboty-s-opendkim"&gt;Настройка Postfix для работы с&amp;nbsp;OpenDKIM&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Указываем о необходимости подписывать все письма с помощью &lt;code&gt;dkim&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo postconf -e &lt;span class="nv"&gt;milter_default_action&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;accept
+$ sudo postconf -e &lt;span class="nv"&gt;milter_protocol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
+$ sudo postconf -e &lt;span class="nv"&gt;smtpd_milters&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;unix:/var/run/opendkim/opendkim.sock
+$ sudo postconf -e &lt;span class="nv"&gt;non_smtpd_milters&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;unix:/var/run/opendkim/opendkim.sock
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Перезапускаем службы и отправляем подписанное&amp;nbsp;письмо.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo service postfix restart
+$ sudo service opendkim restart
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2 id="nastroiiki-domennoi-zony"&gt;&lt;a class="toclink" href="#nastroiiki-domennoi-zony"&gt;Настроийки доменной&amp;nbsp;зоны&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Чтобы сервер мог удостовериться в корректности подписи,
+нужно добавить &lt;code&gt;TXT&lt;/code&gt; запись содежащую ключ. Сделать это нужно в контрольной
+панели регистратора. Проверим, что &lt;code&gt;dns&lt;/code&gt; зоны&amp;nbsp;обновились.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ dig +short TXT mail._domainkey.example.com
+&lt;span class="s2"&gt;&amp;quot;v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCvfTJ37Gqs06fhG0YYj/6HbojCrDp&lt;/span&gt;
+&lt;span class="s2"&gt;F8X6u20YUaOax+jrvO0KtItfWYUi6hkCJeKbGTAOmqhWLu1T/DMt0XaICAJ7Q8525Z4ghwfvc5LgYyNSDEODeF&lt;/span&gt;
+&lt;span class="s2"&gt;LNPlXgn3IP5o6Og2We/SnO4QCv8drKGf0N2xm5IIzIT8CjsbM6gPQIHTQIDAQAB&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Также хорошо указать разрешенные &lt;code&gt;ip&lt;/code&gt; адреса для исходящих писем в запись &lt;code&gt;spf&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ dig +short TXT example.com
+&lt;span class="s2"&gt;&amp;quot;v=spf1 a:example.com ip4:&amp;lt;ip v4 addr&amp;gt; ip6:&amp;lt;ip v6 addr&amp;gt; ~all&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2 id="vse-ne-kak-u-liudei"&gt;&lt;a class="toclink" href="#vse-ne-kak-u-liudei"&gt;Все не как у&amp;nbsp;людей&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Сегодня мы живем в далеком и почти светлом будущем, когда по бескрайним
+просторам сети широко распространяется &lt;code&gt;ipv6&lt;/code&gt; адресация. Но, оказывается,
+абсолютно все письма отправленные с &lt;code&gt;ipv6&lt;/code&gt; всегда воспринимаются гуглом как спам.
+Даже пройдя верификацию по &lt;code&gt;dkim&lt;/code&gt; и &lt;code&gt;spf&lt;/code&gt; записям, всеравно уходят в нежелательную&amp;nbsp;почту.&lt;/p&gt;
+&lt;p&gt;Так что укажем в конфигурации &lt;code&gt;postfix&lt;/code&gt; отправку только с использованием &lt;code&gt;ipv4&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo postconf -e &lt;span class="nv"&gt;inet_protocols&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;ipv4
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь письма успешно доставляются и проходят все&amp;nbsp;валидации.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="gmail ok" class="center shadow" src="/media/postfix/gmail_ok.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;details&gt;
+    &lt;summary&gt;Пример письма&lt;/summary&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Delivered&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;To&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;samael500&lt;/span&gt;&lt;span class="nd"&gt;@gmail.com&lt;/span&gt;
+&lt;span class="n"&gt;Received&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="mf"&gt;10.182&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;174.67&lt;/span&gt; &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;SMTP&lt;/span&gt; &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="n"&gt;bq3csp1452226obc&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;Tue&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt; &lt;span class="n"&gt;Feb&lt;/span&gt; &lt;span class="mi"&gt;2017&lt;/span&gt; &lt;span class="mi"&gt;08&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;09&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;52&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;0800&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PST&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Received&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="mf"&gt;10.46&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;22.18&lt;/span&gt; &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;SMTP&lt;/span&gt; &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="n"&gt;w18mr1151641ljd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;86.1488298192253&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;Tue&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt; &lt;span class="n"&gt;Feb&lt;/span&gt; &lt;span class="mi"&gt;2017&lt;/span&gt; &lt;span class="mi"&gt;08&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;09&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;52&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;0800&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PST&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;Return&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Path&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="o"&gt;*********&amp;gt;&lt;/span&gt;
+&lt;span class="n"&gt;Received&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="o"&gt;*********&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*********.&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;**.**.**.**&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+        &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="n"&gt;mx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;google&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt; &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;ESMTPS&lt;/span&gt; &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="n"&gt;x14si1225569lfd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;155.2017&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;02.28&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;08.09&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;51&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;samael500&lt;/span&gt;&lt;span class="nd"&gt;@gmail.com&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;TLS1_2&lt;/span&gt; &lt;span class="n"&gt;cipher&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ECDHE&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;RSA&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;AES128&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;GCM&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;SHA256&lt;/span&gt; &lt;span class="n"&gt;bits&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;128&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;128&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;Tue&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt; &lt;span class="n"&gt;Feb&lt;/span&gt; &lt;span class="mi"&gt;2017&lt;/span&gt; &lt;span class="mi"&gt;08&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;09&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;52&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;0800&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PST&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;Received&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;SPF&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;pass&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;google&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;domain&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="o"&gt;*********&lt;/span&gt; &lt;span class="n"&gt;designates&lt;/span&gt; &lt;span class="o"&gt;**.**.**.**&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;permitted&lt;/span&gt; &lt;span class="n"&gt;sender&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ip&lt;/span&gt;&lt;span class="o"&gt;=**.**.**.**&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;Authentication&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Results&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;mx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;google&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+       &lt;span class="n"&gt;dkim&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;pass&lt;/span&gt; &lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=*********&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+       &lt;span class="n"&gt;spf&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;pass&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;google&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;domain&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="o"&gt;*********&lt;/span&gt; &lt;span class="n"&gt;designates&lt;/span&gt; &lt;span class="o"&gt;**.**.**.**&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;permitted&lt;/span&gt; &lt;span class="n"&gt;sender&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;smtp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mailfrom&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="o"&gt;*********&lt;/span&gt;
+&lt;span class="n"&gt;Received&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="o"&gt;*********&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;localhost&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mf"&gt;127.0&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;0.1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="o"&gt;*********&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Postfix&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;ESMTP&lt;/span&gt; &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="n"&gt;D9ED0452AB&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;samael500&lt;/span&gt;&lt;span class="nd"&gt;@gmail.com&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;Tue&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt; &lt;span class="n"&gt;Feb&lt;/span&gt; &lt;span class="mi"&gt;2017&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;09&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;53&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mo"&gt;0000&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;UTC&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;DKIM&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Filter&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;OpenDKIM&lt;/span&gt; &lt;span class="n"&gt;Filter&lt;/span&gt; &lt;span class="n"&gt;v2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;9.2&lt;/span&gt; &lt;span class="o"&gt;*********&lt;/span&gt; &lt;span class="n"&gt;D9ED0452AB&lt;/span&gt;
+&lt;span class="n"&gt;DKIM&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Signature&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rsa&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;sha256&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;relaxed&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;relaxed&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;=*********&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;mail&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1488298193&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;bh&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;juRoCRHzIAJJ4fKO8VlXEyxNddxTS8ftBnWmLxjdAik&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;Subject&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;From&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;To&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;Date&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;From&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;G0Z6uXOV0LQHscdUOwMg5rjuJA&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;KWZ7x6Iqx3Z2x01nZ2kD&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;E1OgyP4zEfqS9XDiS&lt;/span&gt;
+     &lt;span class="n"&gt;fG04P0qpIJyGEmO8hgRDIlH1d5FIDGjGPMAFDynwZ9j7pG1h88yLHThdtesUN7Fjib&lt;/span&gt;
+     &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="n"&gt;yL1xxiyw2dZbtfvgXwhj0Nb9RXpphrY&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;c9v2fW4&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+&lt;span class="n"&gt;Content&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Type&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;multipart&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;alternative&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+ &lt;span class="n"&gt;boundary&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;===============3211535685628593130==&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;MIME&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Version&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;
+&lt;span class="n"&gt;Subject&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Hello&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;Earth&lt;/span&gt;
+&lt;span class="n"&gt;From&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="o"&gt;*********&lt;/span&gt;
+&lt;span class="n"&gt;To&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;samael500&lt;/span&gt;&lt;span class="nd"&gt;@gmail.com&lt;/span&gt;
+&lt;span class="n"&gt;Message&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mf"&gt;20170228160953.&lt;/span&gt;&lt;span class="n"&gt;D9ED0452AB&lt;/span&gt;&lt;span class="o"&gt;*********&amp;gt;&lt;/span&gt;
+&lt;span class="n"&gt;Date&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Tue&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt; &lt;span class="n"&gt;Feb&lt;/span&gt; &lt;span class="mi"&gt;2017&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;09&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;53&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mo"&gt;0000&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;UTC&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="o"&gt;--===============&lt;/span&gt;&lt;span class="mi"&gt;3211535685628593130&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;
+&lt;span class="n"&gt;Content&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Type&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;plain&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;charset&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;us-ascii&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;MIME&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Version&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;
+&lt;span class="n"&gt;Content&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Transfer&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Encoding&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;
+
+&lt;span class="n"&gt;There&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="n"&gt;mail&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;
+&lt;span class="o"&gt;--===============&lt;/span&gt;&lt;span class="mi"&gt;3211535685628593130&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;
+&lt;span class="n"&gt;Content&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Type&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;charset&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;us-ascii&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;MIME&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Version&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;
+&lt;span class="n"&gt;Content&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Transfer&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Encoding&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;
+
+
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;h1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;Hello&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;Earth&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;h1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;There&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="n"&gt;mail&lt;/span&gt; &lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="o"&gt;.&amp;lt;/&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;color:red&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;have&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;good&lt;/span&gt; &lt;span class="n"&gt;day&lt;/span&gt; &lt;span class="p"&gt;;)&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class="o"&gt;--===============&lt;/span&gt;&lt;span class="mi"&gt;3211535685628593130&lt;/span&gt;&lt;span class="o"&gt;==--&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;/details&gt;&lt;/p&gt;
+&lt;h2 id="django-settings"&gt;&lt;a class="toclink" href="#django-settings"&gt;Django&amp;nbsp;settings&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Теперь можно подключить отправку писем через наш &lt;code&gt;smtp&lt;/code&gt; в&amp;nbsp;джанго.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;EMAIL_HOST&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;EMAIL_PORT&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;25&lt;/span&gt;
+&lt;span class="n"&gt;EMAIL_HOST_USER&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;EMAIL_HOST_PASSWORD&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;EMAIL_USE_TLS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+&lt;span class="n"&gt;EMAIL_BACKEND&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;django.core.mail.backends.smtp.EmailBackend&amp;#39;&lt;/span&gt;
+
+&lt;span class="n"&gt;DEFAULT_FROM_EMAIL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;info@example.com&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Tue, 28 Feb 2017 15:00:00 +0300</pubDate><guid isPermaLink="false">tag:maks.live,2017-02-28:articles/drugoe/sam-sebe-pochtalon/</guid><category>postfix</category><category>email</category><category>python</category><category>dkim</category><category>spf</category></item><item><title>Три года в команде</title><link>https://maks.live/articles/drugoe/tri-goda-v-komande/</link><description>&lt;p&gt;Кажется ещё только вчера я был студентом, но вот уже пролетело три года
+как я работаю в дружной и слаженной команде &lt;a href="http://wbtech.pro"&gt;Вебтек&lt;/a&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;img alt="wbt team" class="center" src="/media/wbt3/team.jpg" /&gt;
+Встреча &lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech в Севастополе. Февраль 2016&amp;nbsp;г.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="kak-ia-popal-v-wbt"&gt;&lt;a class="toclink" href="#kak-ia-popal-v-wbt"&gt;Как я попал в &lt;span class="caps"&gt;WBT&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Началось всё в конце 2013 года, я тогда учился на 1-м курсе магистратуры,
+а знания &lt;code&gt;python&lt;/code&gt; были весьма поверхностными. Скажи мне кто тогда, что я буду
+веб-разработчиком, ни за что не поверил бы. Тогда я воспринимал программный
+продукт как единую алгоритмическую структуру с четко ограниченными точками
+входа и выхода. Идея независимых обработчиков с различными точками входа,
+решающих конкретные подзадачи, казалась мне&amp;nbsp;чуждой.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#8212; Почему обезьяна может программировать на &lt;span class="caps"&gt;PHP&lt;/span&gt;?&lt;br /&gt;
+&amp;#8212; Потому что она всю жизнь прыгает с ветки на ветку, с лианы на лиану,
+независимые обработчики с различными точками входа &amp;#8212; это её повседневное&amp;nbsp;окружение.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Мне предложили пройти стажировку в вебтек, а для поступления выполнить
+простое тестовое задание: создать сайт на &lt;code&gt;django&lt;/code&gt; с парой моделей и
+несколькими вьюхами. Даже сохранился репозиторий с этим заданием
+&lt;a href="https://github.com/Samael500/todo-test-task"&gt;github.com:Samael500/todo-test-task&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Заканчивался семестр, нужно было сдавать зачеты, впереди предстояли
+новогодние каникулы, на которые я уехал из города, а по возвращению
+пошел на практику в &lt;a href="http://rarus.ru/"&gt;1С-Рарус&lt;/a&gt;, где занятия проходили
+с утра до вечера. Так что выполнение тестового задания слегка затянулось&amp;#8230;
+более чем на месяц. Примерно на третий день в рарусе я вспомнил о тестовом
+задании и наконец решил его сделать, к тому же срок уже&amp;nbsp;поджимал.&lt;/p&gt;
+&lt;p&gt;В то время, я плохо знал &lt;code&gt;python&lt;/code&gt;, не сталкивался с &lt;code&gt;django&lt;/code&gt;, не было опыта
+работы с &lt;code&gt;linux&lt;/code&gt; и &lt;code&gt;git&lt;/code&gt;. Но взяв за основу
+&lt;a href="https://docs.djangoproject.com/en/1.10/intro/tutorial01/"&gt;django tutorial&lt;/a&gt;,
+за несколько дней тестовое задание было полностью готово.
+За одним исключением: не было произведено ни одного коммита.
+Пришло время закоммитить результаты работы и как говорится, ничто не предвещало&amp;nbsp;беды.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ git add .
+$ git status
+$ &lt;span class="c1"&gt;# тут оказался длинный список не нужных файлов, т.к. я забыл доавить .gitignore&lt;/span&gt;
+$ &lt;span class="c1"&gt;# я решил удалить лишнее, но вместо git reset, я совершил ошибку&lt;/span&gt;
+$ git rm -rf
+$ git add .
+$ git status
+$ &lt;span class="c1"&gt;# всё пропало, всё что нажито непосильным трудом...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Было и смешно, и грустно одновременно, но ничего, пришлось сделать
+тестовое задание с нуля, заново. Во второй раз я справился всего за полдня.
+И уже более аккуратно подходил к контролю версий. После проверки тестового
+задания, меня взяли на испытательный срок, а в дальнейшем и на постоянную&amp;nbsp;работу.&lt;/p&gt;
+&lt;h2 id="3-goda-v-komande"&gt;&lt;a class="toclink" href="#3-goda-v-komande"&gt;3 года в&amp;nbsp;команде&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;За эти три года работы в &lt;a href="http://wbtech.pro"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; я узнал много нового
+и получил практический опыт разработки. Мы делаем аутсорс крупным заказчикам,
+так что приходилось сталкиваться с интересными и сложными задачами
+в высоконагруженных проектах. С шардированием больших баз данных.
+Порой встречалось &lt;code&gt;legacy&lt;/code&gt; слепленное из говна и палок,
+без автоматических тестов и документации. Но были и простые, но не менее
+интересные задачи.
+За это время, я поучаствовал в создании и поддержке многих&amp;nbsp;проектов.&lt;/p&gt;
+&lt;p&gt;&lt;details open&gt;
+    &lt;summary&gt;Некоторые из которых не ограничены &lt;code&gt;NDA&lt;/code&gt; представлены ниже:&lt;/summary&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Каталог реалитишоу Мир&amp;nbsp;реалити.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://mirreality.ru/"&gt;
+        &lt;img src="/media/wbt3/thumb/mirreality.png" class="center" alt="mirreality"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Площадка для купли-продажи запчастей для автомобилей в&amp;nbsp;Казани.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://autokazan.ru/"&gt;
+        &lt;img src="/media/wbt3/thumb/autokazan.png" class="center" alt="autokazan"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Сервис создания скришотов вебстраниц&amp;nbsp;Coment.me.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Flask&lt;/code&gt;, &lt;code&gt;PhantomJS&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://coment.me/"&gt;
+        &lt;img src="/media/wbt3/thumb/coment.png" class="center" alt="coment"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Спецпроект Ленты к юбилею победы в Великой Отечественной войне. Победа&amp;nbsp;70.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://pobeda70.lenta.ru/"&gt;
+        &lt;img src="/media/wbt3/thumb/may9.png" class="center" alt="pobeda70"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Сервис проектирования каркасных&amp;nbsp;домов.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Flask&lt;/code&gt;, &lt;code&gt;MongoDB&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="#"&gt;
+        &lt;img src="/media/wbt3/thumb/fhouse.png" class="center" alt="fhouse"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Визуализация науки от команды&amp;nbsp;Visual-Science.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Yii&lt;/code&gt;, &lt;code&gt;MySQL&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://visual-science.com/"&gt;
+        &lt;img src="/media/wbt3/thumb/visual.png" class="center" alt="visual"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Геоинформационная система поиска оптимальной точки размещения коммерческого&amp;nbsp;объекта.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;, &lt;code&gt;PostGIS&lt;/code&gt;, &lt;code&gt;Geoserver&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="https://arendohod.ru/"&gt;
+        &lt;img src="/media/wbt3/thumb/arend.png" class="center" alt="arend"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Увлекательные путешествия по России и миру. Pro&amp;nbsp;Adventure.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="https://pro-adventure.ru/"&gt;
+        &lt;img src="/media/wbt3/thumb/pro.png" class="center" alt="pro"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Площадка для купли-продаже брендовой одежды.&amp;nbsp;Preloved.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="#"&gt;
+        &lt;img src="/media/wbt3/thumb/plvd.png" class="center" alt="plvd"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;/details&gt;&lt;/p&gt;
+&lt;p&gt;&lt;details open&gt;
+    &lt;summary&gt;Пару проектов сделал для себя:&lt;/summary&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Я &amp;#8212; первооткрыватель. Сотри белые пятна с&amp;nbsp;карты.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://underground-maze.github.io/insta-map/"&gt;
+        &lt;img src="/media/wbt3/thumb/revealer.png" class="center" alt="revealer"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Мой свадебный информационный&amp;nbsp;сайт.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="https://olya-maks.ru/"&gt;
+        &lt;img src="/media/wbt3/thumb/om.png" class="center" alt="om"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Сайт-портфолио.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://elenaskorokhod.ru/"&gt;
+        &lt;img src="/media/wbt3/thumb/helena.png" class="center" alt="helena"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Вебстраница кафедры информационной безопасности&amp;nbsp;СевГУ.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;gh-pages&lt;/code&gt;, &lt;code&gt;static html&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="http://isev.su/"&gt;
+        &lt;img src="/media/wbt3/thumb/isev.png" class="center" alt="isev"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Мой блог&amp;nbsp;;).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;gh-pages&lt;/code&gt;, &lt;code&gt;Pelican&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="/"&gt;
+        &lt;img src="/media/wbt3/thumb/log.png" class="center" alt="log"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;/details&gt;&lt;/p&gt;
+&lt;p&gt;Вебтек &amp;#8212; небольшая компания. Мы работаем удаленно из разных точек планеты.
+Нас объединяет трудолюбие и&amp;nbsp;энтузиазм.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;img alt="sip" class="center" src="/media/wbt3/sip.jpg" /&gt;
+Мы можем работать в любом месте, в любое время, из любого&amp;nbsp;города.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Удалёнка позволяет максимально эффективно работать на результат
+ведь не важно сколько часов потрачено на
+задачу, главное, что она решена качественно и в срок.
+Это даёт возможность свободно
+организовывать своё время, не нанося ущерба рабочему процессу. Мы легко
+работаем в выходные и праздничные дни, запускаем деплои боевых серверов
+глубокими ночами с минимизированным&amp;nbsp;доунтаймом.&lt;/p&gt;
+&lt;p&gt;А самое главное, что это нам нравится. Как сказал&amp;nbsp;Конфуций:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Выбери себе работу по душе и тебе не придется работать
+ни одного дня в своей&amp;nbsp;жизни.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Безусловно подтверждаю эти слова.
+За выбор профессионального пути, я хотел бы&amp;nbsp;поблагодарить:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;img alt="sip" class="center" src="/media/wbt3/ss-team.jpg" /&gt;
+&lt;span class="caps"&gt;SS&lt;/span&gt; Team, Севастополь. Первая летняя школа. Август 2010&amp;nbsp;г.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Михнева Сергея Сергеевича &amp;#8212; преподаватель и тренер по спортивному
+программированию. Ведь именно он увидел мой потенциал и направил в нужное&amp;nbsp;русло.&lt;/li&gt;
+&lt;li&gt;Пешкурова Романа &amp;#8212; друг и наставник по алгоритмам, который поверил в меня
+раньше, чем я&amp;nbsp;сам.&lt;/li&gt;
+&lt;li&gt;Гришанина Кирилла и Шиканова Юрия &amp;#8212; сооснователи вебтек,
+спасибо за практический опыт и работу в интересной&amp;nbsp;команде.&lt;/li&gt;
+&lt;li&gt;Землянова Василия и Захарова Андрея &amp;#8212; школьные друзья, а затем и однокурсники,
+которые выбрали тот же&amp;nbsp;путь.&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Wed, 18 Jan 2017 15:00:00 +0300</pubDate><guid isPermaLink="false">tag:maks.live,2017-01-18:articles/drugoe/tri-goda-v-komande/</guid><category>wb-tech</category></item><item><title>Собственное хранилище версированных Vagrant боксов с помощью Nginx и Lua</title><link>https://maks.live/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/</link><description>&lt;p&gt;Для удобного процесса разработки, быстрого переключения между проектами и
+эффективного взаимодействия бэкенд и фронтенд команд. Мы, в
+&lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt;, работаем в виртуальном окружении
+&lt;a href="https://www.vagrantup.com/"&gt;Vagrant&lt;/a&gt; + &lt;a href="https://www.virtualbox.org/"&gt;VirtualBox&lt;/a&gt;.
+&lt;code&gt;Vagrant&lt;/code&gt; &amp;#8212; прекрасный менеджер окружения, а для ускорения развертывания
+виртуальной машины можно использовать компилированные, версированные боксы.
+Хостить их можно на &lt;a href="https://atlas.hashicorp.com/boxes/search"&gt;родном сервере&lt;/a&gt;,
+но триал &lt;code&gt;Vagrant enterprise&lt;/code&gt; у нас закончился, в связи с чем было решено
+хостить боксы самостоятельно. А сделали мы это с помощью &lt;a href="https://www.lua.org/"&gt;Lua&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Версийность боксов в &lt;code&gt;Vagrant&lt;/code&gt; описывается при помощи &lt;code&gt;json&lt;/code&gt;
+&lt;a href="https://www.vagrantup.com/docs/boxes/format.html"&gt;документа&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;box_name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;description&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;This box description.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;versions&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;42.0&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;quot;providers&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+                &lt;span class="p"&gt;{&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;virtualbox&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://somewhere.com/precise64_010_virtualbox.box&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;quot;checksum_type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sha1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;quot;checksum&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;
+                &lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Далее, в самом &lt;code&gt;Vagrantfile&lt;/code&gt; нужно указывать путь к метаданным в атрибуте &lt;code&gt;config.vm.box_url&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;box_name&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_version&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;42.0&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://somewhere.com/path/to/metadata.json&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Каждый раз при обновлении версии бокса, описывать данный документ вручную, а
+потом загружать на сервер вместе с новым боксом, было бы слишком скучно.
+Делать для этого какой либо бэкенд нецелесообразно. Когда можно обойтись одним
+лишь &lt;code&gt;Nginx&lt;/code&gt; с дополнительным &lt;a href="https://www.nginx.com/resources/wiki/modules/lua/"&gt;модулем&lt;/a&gt;.
+Так что формирование метаданных сделано при помощи простого скрипта на &lt;code&gt;Lua&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id="daleko-li-do-luny"&gt;&lt;a class="toclink" href="#daleko-li-do-luny"&gt;Далеко ли до&amp;nbsp;Луны?&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;Lua&lt;/code&gt; (с порт. — &amp;#8221;луна&amp;#8221;) — скриптовый язык программирования,
+разработанный в подразделении &lt;code&gt;Tecgraf&lt;/code&gt; Католического университета
+Рио-де-Жанейро. Интерпретатор языка является свободно
+распространяемым, с открытыми исходными текстами на языке&amp;nbsp;Си.&lt;/p&gt;
+&lt;p&gt;По возможностям, идеологии и реализации язык ближе всего к &lt;code&gt;JavaScript&lt;/code&gt;,
+однако &lt;code&gt;Lua&lt;/code&gt; отличается более мощными и гораздо более гибкими конструкциями.
+Хотя &lt;code&gt;Lua&lt;/code&gt; не содержит понятия класса и объекта в явном виде,
+механизмы объектно-ориентированного программирования, включая множественное
+наследование, легко реализуются с использованием метатаблиц, которые также
+отвечают за перегрузку операций и т. п. Реализуемая модель
+объектно-ориентированного программирования — прототипная (как и в &lt;code&gt;JavaScript&lt;/code&gt;).&lt;/p&gt;
+&lt;h3 id="ustanovka-i-zavisimosti"&gt;&lt;a class="toclink" href="#ustanovka-i-zavisimosti"&gt;Установка и&amp;nbsp;зависимости&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Описание приведено для операционных систем семейства &lt;code&gt;Debian&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Прежде всего нам потребуется &lt;code&gt;Nginx&lt;/code&gt; с модулем
+&lt;a href="https://github.com/openresty/lua-nginx-module"&gt;lua-nginx-module&lt;/a&gt;.
+Собрать его можно вручную, но проще установить готовый пакет
+&lt;a href="https://packages.debian.org/ru/sid/nginx-extras"&gt;nginx-extras&lt;/a&gt;,
+который содержит множество полезных&amp;nbsp;модулей.&lt;/li&gt;
+&lt;li&gt;Также не будет лишним интерпретатор &lt;code&gt;Lua&lt;/code&gt;, чтобы оттестировать скрипт
+в интерактивной&amp;nbsp;консоли.&lt;/li&gt;
+&lt;li&gt;Для компиляции модулей, потребуется утилита &lt;code&gt;make&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Время собирать лунные камни, нам будет нужен менеджер пакетов &lt;a href="https://luarocks.org/"&gt;luarocks&lt;/a&gt;.&lt;ul&gt;
+&lt;li&gt;Для поиска файлов в директории, будем использовать модуль &lt;a href="http://luaposix.github.io/luaposix/"&gt;luaposix&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Ну и для конвертации словаря в &lt;code&gt;JSON&lt;/code&gt; установим &lt;a href="http://json.luaforge.net/"&gt;JSON4Lua&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo apt-get -y install make nginx-extras lua5.1 luarocks
+$ &lt;span class="c1"&gt;# install lua modules&lt;/span&gt;
+$ sudo luarocks install luaposix
+$ sudo luarocks install JSON4Lua
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="zdravstvui-podlunnyi-mir"&gt;&lt;a class="toclink" href="#zdravstvui-podlunnyi-mir"&gt;Здравствуй, подлунный&amp;nbsp;мир!&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;Здравствуй, мир!&amp;#8221; на &lt;code&gt;Lua&lt;/code&gt;, так же прост и прекрасен, как и на &lt;code&gt;Python&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Lua&lt;/span&gt; &lt;span class="mf"&gt;5.1.5&lt;/span&gt;  &lt;span class="n"&gt;Copyright&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1994&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2012&lt;/span&gt; &lt;span class="n"&gt;Lua&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PUC&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Rio&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Hello world!&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;Hello&lt;/span&gt; &lt;span class="n"&gt;world&lt;/span&gt;&lt;span class="err"&gt;!&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь попробуем тоже самое при помощи полнофункционального
+&lt;a href="https://github.com/openresty/lua-nginx-module#nginx-api-for-lua"&gt;Nginx Lua &lt;span class="caps"&gt;API&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;server&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kn"&gt;listen&lt;/span&gt;    &lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="kn"&gt;location&lt;/span&gt; &lt;span class="s"&gt;/hello-world&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kn"&gt;content_by_lua&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
+            &lt;span class="s"&gt;ngx.header.content_type&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;text/plain&amp;quot;&lt;/span&gt;
+            &lt;span class="s"&gt;ngx.say(&amp;quot;Hello&lt;/span&gt; &lt;span class="s"&gt;world!&amp;quot;)&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ curl http://10.1.1.111/hello-world
+Hello world!
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Для исполнения &lt;code&gt;Lua&lt;/code&gt; скрипта, служит директива &lt;code&gt;content_by_lua&lt;/code&gt;,
+для которого &lt;code&gt;Nginx&lt;/code&gt; ожидает получить ответ через &lt;code&gt;API&lt;/code&gt;. Если скрипт большой,
+то не обязательно описывать его внутри конфига, достаточно лишь подключить
+через директиву &lt;code&gt;content_by_lua_file&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id="vagrant-metadannye"&gt;&lt;a class="toclink" href="#vagrant-metadannye"&gt;Vagrant&amp;nbsp;метаданные&lt;/a&gt;&lt;/h3&gt;
+&lt;h4 id="nastroika-nginx"&gt;&lt;a class="toclink" href="#nastroika-nginx"&gt;Настройка&amp;nbsp;Nginx&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;На сервере мы складываем боксы в директорию &lt;code&gt;hosted&lt;/code&gt;, создавая поддиректорию
+для каждого проекта. Сами боксы в которой хранятся файлами со строго указанным
+форматом имени &lt;code&gt;{provider}-{version.subversion}.box&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Формируя примерно такое&amp;nbsp;дерево:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ tree hosted/
+hosted/
+├── foo
+│   ├── docker-1.0.box
+│   ├── docker-1.3.box
+│   ├── virtualbox-1.0.box
+│   ├── virtualbox-1.4.box
+│   └── virtualbox-1.7.box
+└── bar
+    ├── virtualbox-1.0.box
+    ├── virtualbox-1.1.box
+    └── virtualbox-1.2.box
+
+&lt;span class="m"&gt;2&lt;/span&gt; directories, &lt;span class="m"&gt;8&lt;/span&gt; files
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Настроим &lt;code&gt;nginx&lt;/code&gt; так, чтобы для любого бокса &amp;#8212; начиналось непосредственное скачивание,
+а для имени проекта, возвращались вычисленные&amp;nbsp;метаданные.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;server&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kn"&gt;listen&lt;/span&gt;    &lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="kn"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;$box_url&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;http://10.1.1.111/%s/%s-%s.box&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;$box_prefix&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;/home/vagrant/proj/hosted/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="kn"&gt;location&lt;/span&gt; &lt;span class="p"&gt;~&lt;/span&gt; &lt;span class="sr"&gt;/*\.box$&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kn"&gt;root&lt;/span&gt; &lt;span class="s"&gt;/home/vagrant/proj/hosted&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="c1"&gt;# just return box&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="kn"&gt;location&lt;/span&gt; &lt;span class="p"&gt;~&lt;/span&gt; &lt;span class="sr"&gt;/(?&amp;lt;box_name&amp;gt;\w+)/?$&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kn"&gt;content_by_lua_file&lt;/span&gt; &lt;span class="s"&gt;/home/vagrant/proj/app/handler.lua&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Переменные &lt;code&gt;$box_url&lt;/code&gt; и &lt;code&gt;$box_prefix&lt;/code&gt; будут использовать при формировании&amp;nbsp;метаданных.&lt;/p&gt;
+&lt;h4 id="vychislenie-metadannykh-s-pomoshchiu-lua"&gt;&lt;a class="toclink" href="#vychislenie-metadannykh-s-pomoshchiu-lua"&gt;Вычисление метаданных с помощью&amp;nbsp;Lua&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Приступим теперь непосредственно к формированию метаданных
+для версирования &lt;code&gt;Vagrant&lt;/code&gt; боксов.&lt;/p&gt;
+&lt;p&gt;Идея будет заключаться в том, что по запросу, &lt;code&gt;Lua&lt;/code&gt; будет осуществлять поиск
+сохраненных боксов в заданной директории на сервере, вычислять их хешсуммы,
+и формировать ответ в формате метаданных &lt;code&gt;vagrant&lt;/code&gt;а.&lt;/p&gt;
+&lt;p&gt;Используя &lt;a href="https://luaposix.github.io/luaposix/modules/posix.glob.html"&gt;glob&lt;/a&gt;
+из библиотеки &lt;code&gt;posix&lt;/code&gt; найдем все&amp;nbsp;боксы.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;box_root&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_prefix&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_name&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt;
+&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;posix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;posix&amp;quot;&lt;/span&gt;
+&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;glob&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;posix&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;glob&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;box_root&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;*.box&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- Если боксы не найдены, можно сразу возвращать 404&lt;/span&gt;
+&lt;span class="kr"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;glob&lt;/span&gt; &lt;span class="kr"&gt;then&lt;/span&gt;
+    &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTTP_NOT_FOUND&lt;/span&gt;
+    &lt;span class="kr"&gt;return&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTTP_NOT_FOUND&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Итеративно пройдем по найденным боксам, и сформируем словарь с найденными&amp;nbsp;версиями.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;versions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+&lt;span class="c1"&gt;-- Discover the boxes&lt;/span&gt;
+&lt;span class="kr"&gt;for&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;box&lt;/span&gt; &lt;span class="kr"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;ipairs&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;glob&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kr"&gt;do&lt;/span&gt;
+    &lt;span class="c1"&gt;-- Обрабатываем найденый бокс, определяя версию и формируя описание&lt;/span&gt;
+    &lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;provider&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;make_provider&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;box&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="kr"&gt;if&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="kr"&gt;then&lt;/span&gt;
+        &lt;span class="kr"&gt;if&lt;/span&gt; &lt;span class="n"&gt;versions&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="kc"&gt;nil&lt;/span&gt; &lt;span class="kr"&gt;then&lt;/span&gt;
+            &lt;span class="c1"&gt;-- Если версия встречается впервые, создаем запись для новой версии&lt;/span&gt;
+            &lt;span class="n"&gt;versions&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="n"&gt;providers&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;provider&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="kr"&gt;else&lt;/span&gt;
+            &lt;span class="c1"&gt;-- Если версия уже была описана, обновляем список провайдеров&lt;/span&gt;
+            &lt;span class="nb"&gt;table.insert&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;versions&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;providers&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;provider&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="kr"&gt;end&lt;/span&gt;
+    &lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Для вычисления хешсуммы больших файлов боксов воспользуемся утилитами операционной системы.
+Такими как &lt;code&gt;sha1sum&lt;/code&gt;, &lt;code&gt;sha256sum&lt;/code&gt;, &lt;code&gt;md5sum&lt;/code&gt;&amp;#8230;
+Делается это с помощью вызова процесса через &lt;code&gt;io.popen&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sha1&amp;#39;&lt;/span&gt;
+
+&lt;span class="kr"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;get_hash&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filepath&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c1"&gt;-- Вычисляем хешсумму используя вызов консольной утилиты sha1sum&lt;/span&gt;
+    &lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;command&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;string.format&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%ssum %s | cut -d &amp;quot; &amp;quot; -f1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;filepath&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;hashsum&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;assert&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;io.popen&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;r&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;string.gsub&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hashsum&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;*a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;hashsum&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="kr"&gt;return&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;
+&lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Функция &lt;code&gt;make_provider&lt;/code&gt; выполняется для каждого найденного бокса.
+Подразумевается, что боксы хранятся на сервере со строго заданным форматом имени:
+&lt;code&gt;{provider}-{version.subversion}.box&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Разбираем версию и имя провайдера, регуляркой, после чего формируем словарь,
+описывающий данный&amp;nbsp;бокс.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="kr"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;make_provider&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filepath&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c1"&gt;-- Make vagrant provider from given file&lt;/span&gt;
+    &lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;box_provider&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;box_version&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;string.match&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;filepath&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;string.format&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%s(%%a+)-(.+).box&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;box_root&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="kr"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;-- Название провайдера virtualbox или docker&lt;/span&gt;
+        &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;box_provider&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="c1"&gt;-- Прямая ссылка на бокс, которую будет запрашивать vagrant&lt;/span&gt;
+        &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;string.format&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;box_provider&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;box_version&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+        &lt;span class="c1"&gt;-- Алгоритм хешсуммы sha1, sha256, md5&lt;/span&gt;
+        &lt;span class="n"&gt;checksum_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="c1"&gt;-- Строка со значением хешсуммы&lt;/span&gt;
+        &lt;span class="n"&gt;checksum&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_hash&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filepath&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="n"&gt;box_version&lt;/span&gt;
+&lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Обработав все боксы и сформировав список версий, обернем всё в дополнительный&amp;nbsp;словарь.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;-- Make result response&lt;/span&gt;
+&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;vagrant&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;description&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;string.format&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Boxes for %s proj&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box_name&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="n"&gt;versions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="kr"&gt;for&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="kr"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;pairs&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;versions&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kr"&gt;do&lt;/span&gt;
+    &lt;span class="nb"&gt;table.insert&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;vagrant&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;versions&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ответ сервера &lt;code&gt;JSON&lt;/code&gt; с найденными&amp;nbsp;версиями.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;content_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;application/json; charset=utf-8&amp;quot;&lt;/span&gt;
+&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;json&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;say&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;vagrant&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="lunnoe-zatmenie-vmesto-zakliucheniia"&gt;&lt;a class="toclink" href="#lunnoe-zatmenie-vmesto-zakliucheniia"&gt;Лунное затмение (вместо&amp;nbsp;заключения)&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Полученный скрипт формирует &lt;code&gt;JSON&lt;/code&gt; ответ содержащий метаинформацию о&amp;nbsp;боксах.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ curl http://10.1.1.111/example &lt;span class="p"&gt;|&lt;/span&gt; jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+&lt;span class="m"&gt;100&lt;/span&gt;   &lt;span class="m"&gt;943&lt;/span&gt;    &lt;span class="m"&gt;0&lt;/span&gt;   &lt;span class="m"&gt;943&lt;/span&gt;    &lt;span class="m"&gt;0&lt;/span&gt;     &lt;span class="m"&gt;0&lt;/span&gt;  &lt;span class="m"&gt;13412&lt;/span&gt;      &lt;span class="m"&gt;0&lt;/span&gt; --:--:-- --:--:-- --:--:-- &lt;span class="m"&gt;13471&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;versions&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;1.7&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;providers&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://10.1.1.111/example/virtualbox-1.7.box&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;3221c0fd58a4b2430efc5eeaf09cb8eaf877f3a9&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;virtualbox&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum_type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sha1&amp;quot;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;1.3&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;providers&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://10.1.1.111/example/docker-1.3.box&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;def7148aa7ded879dbf5944af4785c2b09aba97a&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;docker&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum_type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sha1&amp;quot;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;1.4&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;providers&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://10.1.1.111/example/virtualbox-1.4.box&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;63b06d8c065f5c2522c356d4d6ceb718ec3f8198&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;virtualbox&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum_type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sha1&amp;quot;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;1.0&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;providers&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://10.1.1.111/example/docker-1.0.box&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;65cb550765d251604dcfeedc36ea61f66ce205c4&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;docker&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum_type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sha1&amp;quot;&lt;/span&gt;
+        &lt;span class="p"&gt;},&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://10.1.1.111/example/virtualbox-1.0.box&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;c0a9d5c3d6679cfcc4b1374e3ad42465f3dd596e&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;virtualbox&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;checksum_type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sha1&amp;quot;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="p"&gt;],&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;example&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;description&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Boxes for example proj&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Полный пример скрипта можно посмотреть в репозитории на &lt;code&gt;github&lt;/code&gt;
+&lt;a href="https://github.com/Samael500/ngx-vagrant"&gt;Samael500/ngx-vagrant&lt;/a&gt;. А при желании
+поиграться запустив настроенный &lt;code&gt;Vagrant&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;О том, как ещё можно интересно использовать связку &lt;code&gt;Nginx&lt;/code&gt; и &lt;code&gt;Lua&lt;/code&gt;, можно
+прочитать в статье &lt;a href="http://dizballanze.com/drugoe/primenenie-nginx-lua-dlia-obrabotki-prostykh-form/"&gt;Применение Nginx + Lua для обработки контактной&amp;nbsp;формы&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Tue, 25 Oct 2016 15:00:00 +0300</pubDate><guid isPermaLink="false">tag:maks.live,2016-10-25:articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/</guid><category>vagrant</category><category>lua</category><category>nginx</category><category>self-hosted</category><category>wb-tech</category><category>best</category></item><item><title>Отчеты coverage в TeamCity</title><link>https://maks.live/articles/drugoe/otchety-coverage-v-teamcity/</link><description>&lt;p&gt;Мы, в &lt;a href="http://wbtech.pro/"&gt;&lt;span class="caps"&gt;WB&lt;/span&gt;&amp;#8212;Tech&lt;/a&gt; в качестве системы непрерывной
+интеграции используем &lt;a href="https://www.jetbrains.com/teamcity/"&gt;TeamCity&lt;/a&gt;.
+А саму разработку ведем в приватных репозиториях
+на &lt;a href="https://github.com/"&gt;github&lt;/a&gt;. С задачей запуска тестов и публикации
+статуса выполнения в ветку на &lt;code&gt;github&lt;/code&gt; &lt;code&gt;TeamCity&lt;/code&gt; справляется отлично. Но
+выводить отчет по покрытию кода
+&lt;a href="https://confluence.jetbrains.com/display/TCD9/Code+Coverage"&gt;из коробки&lt;/a&gt;
+умеет только для &lt;code&gt;Java&lt;/code&gt; и &lt;code&gt;.NET&lt;/code&gt;, а это не наш профиль.
+Хотелось получить собственную систему, похожую на
+&lt;a href="https://coveralls.io/github/Samael500"&gt;Coveralls&lt;/a&gt; работающую с &lt;code&gt;python&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;В результате в пулреквест выводится показатель покрытия кода тестами,
+учитывая необходимый минимум &lt;code&gt;85%&lt;/code&gt;, а также предоставляет ссылку на&amp;nbsp;отчет.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="pending" class="center" src="/media/teamcity-coverage/github_pending.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="failure" class="center" src="/media/teamcity-coverage/github_failure.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="success" class="center" src="/media/teamcity-coverage/github_success.png" /&gt;&lt;/p&gt;
+&lt;h2 id="formirovanie-otcheta"&gt;&lt;a class="toclink" href="#formirovanie-otcheta"&gt;Формирование&amp;nbsp;отчета&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Первым делом, необходимо сформировать данные о покрытии кода. Делаем это
+с помощью утилиты &lt;a href="https://coverage.readthedocs.io/"&gt;Coverage.py&lt;/a&gt;.
+Т.к. для удобства работы с проектом, мы используем &lt;code&gt;Makefile&lt;/code&gt;,
+то пропишем в нем дополнительные команды, для запуска тестов с покрытием кода,
+и формирования&amp;nbsp;отчета.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;VENV_PATH&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;HOME&lt;span class="k"&gt;)&lt;/span&gt;/venv/bin
+&lt;span class="nv"&gt;PROJ_NAME&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; my_awesome_project
+
+&lt;span class="c"&gt;# ...&lt;/span&gt;
+
+&lt;span class="nf"&gt;ci_test&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;cover_test&lt;/span&gt; &lt;span class="n"&gt;cover_report&lt;/span&gt;
+
+&lt;span class="nf"&gt;cover_test&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;$(&lt;/span&gt;VENV_PATH&lt;span class="k"&gt;)&lt;/span&gt;/coverage run --source&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;PROJ_NAME&lt;span class="k"&gt;)&lt;/span&gt; manage.py &lt;span class="nb"&gt;test&lt;/span&gt; -v &lt;span class="m"&gt;2&lt;/span&gt; --noinput
+
+&lt;span class="nf"&gt;cover_report&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;$(&lt;/span&gt;VENV_PATH&lt;span class="k"&gt;)&lt;/span&gt;/coverage report -m
+    &lt;span class="k"&gt;$(&lt;/span&gt;VENV_PATH&lt;span class="k"&gt;)&lt;/span&gt;/coverage html
+    &lt;span class="k"&gt;$(&lt;/span&gt;VENV_PATH&lt;span class="k"&gt;)&lt;/span&gt;/coverage-badge &amp;gt; htmlcov/coverage.svg
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Команда &lt;code&gt;cover_test&lt;/code&gt; запускает джанговские тесты, и замеряет покрытие кода.
+Команда &lt;code&gt;cover_report&lt;/code&gt; выводит в консоль отчет о покрытии, а также формирует
+&lt;code&gt;html&lt;/code&gt; отчет и, при помощи утилиты
+&lt;a href="https://github.com/dbrgn/coverage-badge"&gt;coverage-badge&lt;/a&gt; формирует красивый
+бейджик со статусом покрытия кода &lt;img alt="badge" src="/media/teamcity-coverage/badge.svg" /&gt;.&lt;/p&gt;
+&lt;p&gt;После того, как исходные данные для отчета подготовлены, мы можем отображать
+результат. Для этого нужно сконфигурировать сбор артефактов в &lt;code&gt;teamcity&lt;/code&gt;.
+Делается это на вкладке &lt;code&gt;General Settings&lt;/code&gt; в настройках проекта. Мы копируем в
+артефакты папку &lt;code&gt;htmlcov&lt;/code&gt; содержащую отчет и&amp;nbsp;бейджик.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="General Settings" class="center shadow" src="/media/teamcity-coverage/artifacts.png" /&gt;&lt;/p&gt;
+&lt;p&gt;После следующего запуска тестов, перейдя во вкладку &lt;code&gt;Artifacts&lt;/code&gt;, можно увидеть
+дерево артефактов данного&amp;nbsp;билда.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Artifacts tree" class="center shadow" src="/media/teamcity-coverage/artifacts_tree.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Сами артефакты также доступны авторизованным пользователям &lt;code&gt;TeamCity&lt;/code&gt;
+напрямую по ссылкам&amp;nbsp;вида:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;/repository/download/%teamcity.project.id%/%teamcity.build.id%:id/htmlcov/index.html&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/repository/download/%teamcity.project.id%/.lastFinished/htmlcov/index.html&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Более подробно о доступе к артефактам в &lt;a href="https://confluence.jetbrains.com/display/TCD9/Patterns+For+Accessing+Build+Artifacts"&gt;документации&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="uvedomleniia-statusa-na-github"&gt;&lt;a class="toclink" href="#uvedomleniia-statusa-na-github"&gt;Уведомления статуса на&amp;nbsp;Github&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Имея готовый отчет будем отправлять вебхуки на &lt;code&gt;github&lt;/code&gt; с указанием статуса
+покрытия кода. Для этого добавим простые &lt;code&gt;build steps&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Build steps" class="center shadow" src="/media/teamcity-coverage/build_steps.png" /&gt;&lt;/p&gt;
+&lt;h4 id="coverage-pending-hook"&gt;&lt;a class="toclink" href="#coverage-pending-hook"&gt;Coverage pending&amp;nbsp;hook&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Заставляем гитхаб ждать отчета по покрытию&amp;nbsp;кода.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Runner type&lt;/strong&gt; &lt;em&gt;Command&amp;nbsp;Line&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Execute step&lt;/strong&gt; &lt;em&gt;Even if some of the previous steps&amp;nbsp;failed&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Custom&amp;nbsp;script&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;OWNER&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;lt;GITHUB OWNER&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;REPO&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;lt;REPO NAME&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;SHA&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;%build.vcs.number%&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+curl &lt;span class="s2"&gt;&amp;quot;https://api.github.com/repos/&lt;/span&gt;&lt;span class="nv"&gt;$OWNER&lt;/span&gt;&lt;span class="s2"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;$REPO&lt;/span&gt;&lt;span class="s2"&gt;/statuses/&lt;/span&gt;&lt;span class="nv"&gt;$SHA&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    -X POST &lt;span class="se"&gt;\&lt;/span&gt;
+    -H &lt;span class="s2"&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    -H &lt;span class="s2"&gt;&amp;quot;Authorization: token &amp;lt;GITHUB API TOKEN&amp;gt;&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    -d &lt;span class="s1"&gt;&amp;#39;{&lt;/span&gt;
+&lt;span class="s1"&gt;        &amp;quot;state&amp;quot;: &amp;quot;pending&amp;quot;,&lt;/span&gt;
+&lt;span class="s1"&gt;        &amp;quot;description&amp;quot;: &amp;quot;Coverage pending.&amp;quot;,&lt;/span&gt;
+&lt;span class="s1"&gt;        &amp;quot;context&amp;quot;: &amp;quot;continuous-integration/coverage&amp;quot;&lt;/span&gt;
+&lt;span class="s1"&gt;    }&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4 id="badge-copy"&gt;&lt;a class="toclink" href="#badge-copy"&gt;Badge&amp;nbsp;copy&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Копируем сформированный бейджик, в папку доступную напрямую через вебсервер.
+Для того, чтобы &lt;code&gt;github&lt;/code&gt; имел доступ к бейджику без аутентификации в &lt;code&gt;teamcity&lt;/code&gt;.
+Если у вас разрешен гостевой доступ - то этот шаг выполнять не&amp;nbsp;обязательно.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Runner type&lt;/strong&gt; &lt;em&gt;Command&amp;nbsp;Line&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Execute step&lt;/strong&gt; &lt;em&gt;Even if some of the previous steps&amp;nbsp;failed&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Custom&amp;nbsp;script&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;BADGE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/path/to/public/dir/badges/%teamcity.project.id%/%teamcity.build.branch%-coverage.svg&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;DIR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;dirname &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;BADGE&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+mkdir -p &lt;span class="nv"&gt;$DIR&lt;/span&gt;
+cp -f htmlcov/coverage.svg &lt;span class="nv"&gt;$BADGE&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4 id="coverage-finish-hook"&gt;&lt;a class="toclink" href="#coverage-finish-hook"&gt;Coverage finish&amp;nbsp;hook&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;По окончанию тестов, отправляем отчет на&amp;nbsp;гитхаб.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Runner type&lt;/strong&gt; &lt;em&gt;Command&amp;nbsp;Line&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Execute step&lt;/strong&gt; &lt;em&gt;Even if some of the previous steps&amp;nbsp;failed&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Custom&amp;nbsp;script&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;OWNER&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;lt;GITHUB OWNER&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;REPO&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;lt;REPO NAME&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;SHA&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;%build.vcs.number%&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="nv"&gt;REPORT_URL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;http://&amp;lt;YOU TEAMCITY DOMAIN&amp;gt;/repository/download/%teamcity.project.id%/%teamcity.build.id%:id/htmlcov/index.html&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="nv"&gt;COVERAGE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;cat ./htmlcov/index.html &lt;span class="p"&gt;|&lt;/span&gt; grep &lt;span class="s1"&gt;&amp;#39;&amp;lt;span class=&amp;quot;pc_cov&amp;quot;&amp;gt;&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep -o &lt;span class="s1"&gt;&amp;#39;[0-9]\+&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$COVERAGE&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -ge &lt;span class="s2"&gt;&amp;quot;85&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="nv"&gt;STATUS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;success&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="nv"&gt;STATUS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;failure&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+curl &lt;span class="s2"&gt;&amp;quot;https://api.github.com/repos/&lt;/span&gt;&lt;span class="nv"&gt;$OWNER&lt;/span&gt;&lt;span class="s2"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;$REPO&lt;/span&gt;&lt;span class="s2"&gt;/statuses/&lt;/span&gt;&lt;span class="nv"&gt;$SHA&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    -X POST &lt;span class="se"&gt;\&lt;/span&gt;
+    -H &lt;span class="s2"&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    -H &lt;span class="s2"&gt;&amp;quot;Authorization: token &amp;lt;GITHUB API TOKEN&amp;gt;&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    -d &lt;span class="s1"&gt;&amp;#39;{&lt;/span&gt;
+&lt;span class="s1"&gt;        &amp;quot;state&amp;quot;: &amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;$STATUS&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;quot;,&lt;/span&gt;
+&lt;span class="s1"&gt;        &amp;quot;target_url&amp;quot;: &amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;$REPORT_URL&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;quot;,&lt;/span&gt;
+&lt;span class="s1"&gt;        &amp;quot;description&amp;quot;: &amp;quot;Coverage &amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;$COVERAGE&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%&amp;quot;,&lt;/span&gt;
+&lt;span class="s1"&gt;        &amp;quot;context&amp;quot;: &amp;quot;continuous-integration/coverage&amp;quot;&lt;/span&gt;
+&lt;span class="s1"&gt;    }&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;В данном случае, если покрытие менее 85%, то данная проверка будет считаться
+ошибкой, и в гитхабе отметиться красным&amp;nbsp;крестиком.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="fail" class="center shadow" src="/media/teamcity-coverage/coverage_fail.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="success" class="center shadow" src="/media/teamcity-coverage/coverage_success.png" /&gt;&lt;/p&gt;
+&lt;h4 id="beidzhik-v-readme"&gt;&lt;a class="toclink" href="#beidzhik-v-readme"&gt;Бейджик в&amp;nbsp;readme&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Для отображения бейджика в &lt;code&gt;README.md&lt;/code&gt; добавим ссылку, на последний успешний&amp;nbsp;билд.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;!&lt;span class="o"&gt;[&lt;/span&gt;coverage report&lt;span class="o"&gt;](&lt;/span&gt;http://&amp;lt;TEAMCITY DOMAIN&amp;gt;/badges/&amp;lt;TEAMCITY PROJ ID&amp;gt;/master-coverage.svg&lt;span class="o"&gt;)](&lt;/span&gt;http://&amp;lt;TEAMCITY DOMAIN&amp;gt;/repository/download/&amp;lt;TEAMCITY PROJ ID&amp;gt;/.lastFinished/htmlcov/index.html&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Где &lt;code&gt;/badges/&amp;lt;TEAMCITY PROJ ID&amp;gt;/&lt;/code&gt; доступна для анонимных посетителей, чтобы &lt;code&gt;github&lt;/code&gt; мог закешировать&amp;nbsp;изображение.&lt;/p&gt;
+&lt;p&gt;Теперь в &lt;code&gt;README&lt;/code&gt; виден кликабельный бейджик с покрытием&amp;nbsp;кода.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="readme" class="center shadow" src="/media/teamcity-coverage/readme.md.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Кликнув на который, мы попадаем в отчет по покрытию&amp;nbsp;кода.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="report" class="center shadow" src="/media/teamcity-coverage/report.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Mon, 26 Sep 2016 15:00:00 +0300</pubDate><guid isPermaLink="false">tag:maks.live,2016-09-26:articles/drugoe/otchety-coverage-v-teamcity/</guid><category>ci</category><category>coverage</category><category>python</category><category>github</category><category>teamcity</category><category>wb-tech</category><category>best</category></item><item><title>Определение IP адреса посетителя в отчетах Yandex Метрика</title><link>https://maks.live/articles/drugoe/opredelenie-ip-adresa-posetitelia-v-otchetakh-yandex-metrika/</link><description>&lt;p&gt;Обновленная метрика не отображает информацию об &lt;code&gt;ip&lt;/code&gt; адресе посетителей
+сайта, сделано это с целью обезличивания статистики посещений. Данная
+&lt;a href="http://clubs.ya.ru/metrika/replies.xml?item_no=10888"&gt;новость&lt;/a&gt; была
+официально озвучена в клубе метрики. Обезличивание это здорово, но порой
+хочется узнать действительно ли в статистике отображаются различные
+посетители, или же это одно и тот же лицо, которое заходит с разных
+браузеров или устройств. А может быть у Вас несколько счетчиков метрики, и Вам
+интересно какие из посетителей ресурса &lt;em&gt;A&lt;/em&gt;, посещают также ресурсы &lt;em&gt;B&lt;/em&gt; или &lt;em&gt;C&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Также различным рекламщикам, может быть интересна информация об &lt;code&gt;ip&lt;/code&gt; адресах,
+например, с целью вычисления ботов&amp;nbsp;скликеров. &lt;/p&gt;
+&lt;p&gt;К счастью, метрика достаточно гибкая и позволяет устанавливать
+пользовательские параметры, тем самым создавать специальный
+персонализированный отчет о действиях пользователей. Благодаря чему,
+мы можем привязать информацию об &lt;code&gt;ip&lt;/code&gt; адресе к конкретному&amp;nbsp;визиту. &lt;/p&gt;
+&lt;h2 id="parametry-vizitov-yandex-metrika"&gt;&lt;a class="toclink" href="#parametry-vizitov-yandex-metrika"&gt;Параметры визитов&amp;nbsp;yandex.метрика&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Сервис &lt;a href="https://yandex.ru/support/metrika/reports/visit-params.xml"&gt;параметры визитов&lt;/a&gt;
+позволяет прикрепить к информации о посещении &lt;code&gt;json&lt;/code&gt; словарь с дополнительными
+параметрами. Для этого необходимо в конструктор счетчика добавить аргумент
+&lt;code&gt;params&lt;/code&gt; с необходимыми&amp;nbsp;значениями.&lt;/p&gt;
+&lt;p&gt;Например, если информация об &lt;code&gt;ip&lt;/code&gt; адресе будет содержаться в переменой
+&lt;code&gt;userip&lt;/code&gt;, то словарь параметры может выглядеть следующим&amp;nbsp;образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;ip&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;userip&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Конструктор счетчика, в таком случае, будет выглядеть&amp;nbsp;так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="nx"&gt;w&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;yaCounterXXXXXX&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Ya&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Metrika&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+        &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="nx"&gt;XXXXXX&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="nx"&gt;clickmap&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="nx"&gt;trackLinks&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="nx"&gt;accurateTrackBounce&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="nx"&gt;webvisor&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="nx"&gt;params&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ip&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;userip&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Где &lt;code&gt;XXXXXX&lt;/code&gt; идентификатор&amp;nbsp;счетчика.&lt;/p&gt;
+&lt;p&gt;Чтобы просмотреть полученные результаты необходимо перейти: &lt;code&gt;метрика&lt;/code&gt; &amp;rarr;
+&lt;code&gt;отчеты&lt;/code&gt; &amp;rarr; &lt;code&gt;стандартные отчеты&lt;/code&gt; &amp;rarr; &lt;code&gt;содержание&lt;/code&gt; &amp;rarr;
+&lt;code&gt;параметры визитов&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="visit params path" class="center shadow" src="/media/yametrika-ip/visit_params_path.png" title="Путь к отчету по параметрам визитов." /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="visit params detail" class="center shadow" src="/media/yametrika-ip/visit_params_detail.png" title="Отчет по параметрам визитов." /&gt;&lt;/p&gt;
+&lt;p&gt;Но, сами по себе &lt;code&gt;ip&lt;/code&gt; адреса не столь информативны, интерестнее просмотреть
+связь посещения и &lt;code&gt;ip&lt;/code&gt; адреса в вебвизоре. Для этого в вебвизор нужно добавить
+столбец&amp;nbsp;&amp;#8220;Параметры&amp;#8221;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="webvisor col params" class="center shadow" src="/media/yametrika-ip/webvisor_col_params.png" title="Добавление столбца параметры в вебвизоре." /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="webvisor ip detail" class="center shadow" src="/media/yametrika-ip/webvisor_ip_detail.png" title="Параметры визитов в вебвизоре." /&gt;&lt;/p&gt;
+&lt;h2 id="opredelenie-ip-adresa"&gt;&lt;a class="toclink" href="#opredelenie-ip-adresa"&gt;Определение &lt;span class="caps"&gt;IP&lt;/span&gt;&amp;nbsp;адреса&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Выше я упоминал о переменной в которой содержится &lt;code&gt;ip&lt;/code&gt; адрес посетителя.
+Задать эту переменную легко если Вы имеете доступ к&amp;nbsp;бэкэнду.&lt;/p&gt;
+&lt;p&gt;Например в &lt;code&gt;django&lt;/code&gt;, предварительно подключив
+&lt;code&gt;django.core.context_processors.request&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;userip&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;{{ request.META.REMOTE_ADDR }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Или, если Вы используете&amp;nbsp;проксирование:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;userip&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;{{ request.META.HTTP_X_REAL_IP }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Или, например, в &lt;code&gt;php&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;userip&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;lt;? echo $_SERVER[&amp;#39;REMOTE_ADDR&amp;#39;];?&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Но что если сайт статический и какой либо бэкэнд отсутствует? В таком случае
+можно воспользоваться сервисом &lt;a href="https://l2.io"&gt;l2.io&lt;/a&gt;, который позволяет
+получить &lt;code&gt;ip&lt;/code&gt; на клиенте. К примеру Ваш &lt;code&gt;ip&lt;/code&gt; адрес:
+&lt;strong&gt;&lt;script type="text/javascript" src="https://www.l2.io/ip.js"&gt;&lt;/script&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Чтобы задать &lt;code&gt;ip&lt;/code&gt; адрес в переменную, нужно вставить такой&amp;nbsp;скрипт:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;https://www.l2.io/ip.js?var=userip&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Полный фрагмент скрипта яндекс метрики будет выглядеть&amp;nbsp;так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!-- получаем ip адрес одним из указанных вариантов --&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;https://www.l2.io/ip.js?var=userip&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;lt;!-- Yandex.Metrika counter --&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;d&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;w&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;w&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="p"&gt;[]).&lt;/span&gt;&lt;span class="nx"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="nx"&gt;w&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;yaCounterXXXXXX&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Ya&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Metrika&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+                    &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="nx"&gt;XXXXXX&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nx"&gt;clickmap&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nx"&gt;trackLinks&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nx"&gt;accurateTrackBounce&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nx"&gt;webvisor&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="nx"&gt;params&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ip&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;userip&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+                &lt;span class="p"&gt;});&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;catch&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;e&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="p"&gt;});&lt;/span&gt;
+    &lt;span class="c1"&gt;// продолжение счетчика&lt;/span&gt;
+    &lt;span class="c1"&gt;// ...&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;lt;!-- /Yandex.Metrika counter --&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Tue, 22 Sep 2015 15:00:00 +0300</pubDate><guid isPermaLink="false">tag:maks.live,2015-09-22:articles/drugoe/opredelenie-ip-adresa-posetitelia-v-otchetakh-yandex-metrika/</guid><category>ip</category><category>javascript</category><category>yandex</category><category>metrika</category><category>watch</category></item><item><title>Автоматическое содержание в Pelican</title><link>https://maks.live/articles/drugoe/avtomaticheskoe-soderzhanie-v-pelican/</link><description>&lt;p&gt;Так получается, что некоторые статьи, например
+&lt;a href="https://maks.live/articles/python/ralli-na-brauzerakh/"&gt;ралли на браузерах&lt;/a&gt;. Содержат в себе несколько
+уровней заголовков. И в связи с этим, сделаем автоматическую навигацию
+по&amp;nbsp;статье.&lt;/p&gt;
+&lt;h2 id="iakoria-v-zagolovkakh-markdown"&gt;&lt;a class="toclink" href="#iakoria-v-zagolovkakh-markdown"&gt;Якоря в заголовках&amp;nbsp;markdown&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Для написания постов блога я использую 
+&lt;a href="http://daringfireball.net/projects/markdown/"&gt;markdown&lt;/a&gt; разметку текста.
+Для того, чтобы при генерации &lt;code&gt;html&lt;/code&gt; заголовкам присваивались якоря - необходимо
+подключить расширение
+&lt;a href="https://pythonhosted.org/Markdown/extensions/toc.html"&gt;Table of Contents&lt;/a&gt;.
+Делается это элементарно прописав в &lt;code&gt;pelicanconf.py&lt;/code&gt; следующую&amp;nbsp;строчку:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;MD_EXTENSIONS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;codehilite(css_class=highlight)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;extra&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;markdown.extensions.toc&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Теперь при генерации &lt;code&gt;html&lt;/code&gt; каждому заголовку будет присваиваться &lt;code&gt;id&lt;/code&gt;
+содержащимся текстом.&amp;nbsp;Заголовок:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;##Markdown anchors
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Будет сгенерирован в такой &lt;code&gt;html&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h2&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;markdown-anchors&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Markdown&lt;span class="ni"&gt;&amp;amp;nbsp;&lt;/span&gt;anchors&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h2&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="ssylki-v-zagolovkakh"&gt;&lt;a class="toclink" href="#ssylki-v-zagolovkakh"&gt;Ссылки в&amp;nbsp;заголовках&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Чтобы заголовки были непросто тегами &lt;code&gt;h1&lt;/code&gt; &amp;#8230; &lt;code&gt;h6&lt;/code&gt;, а содержали ссылку на
+самих себя нужно добавить аргумент &lt;code&gt;anchorlink&lt;/code&gt;. Теперь конфигурация
+&lt;code&gt;MD_EXTENSIONS&lt;/code&gt; выглядит&amp;nbsp;так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;MD_EXTENSIONS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;codehilite(css_class=highlight)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;extra&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;markdown.extensions.toc(anchorlink=True)&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Заголовок:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;##Markdown anchors
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Будет сгенерирован в такой &lt;code&gt;html&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h2&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;markdown-anchors&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;toclink&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#markdown-anchors&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Markdown&lt;span class="ni"&gt;&amp;amp;nbsp;&lt;/span&gt;anchors&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h2&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="kirillitsa-v-zagolovkakh"&gt;&lt;a class="toclink" href="#kirillitsa-v-zagolovkakh"&gt;Кириллица в&amp;nbsp;заголовках&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;К сожалению, стандартный &lt;code&gt;slugify&lt;/code&gt; который используется в &lt;code&gt;markdown toc&lt;/code&gt; не
+умеет обрабатывать кириллические символы, и поэтому&amp;nbsp;заголовок.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;##Ссылка в заголовке
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Будет сгенерирован в такой &lt;code&gt;html&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h2&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;_1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;toclink&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#_1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Ссылка в&lt;span class="ni"&gt;&amp;amp;nbsp;&lt;/span&gt;заголовке&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h2&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Что бы исправить это, можно воспользоваться библиотекой
+&lt;a href="https://pypi.python.org/pypi/python-slugify"&gt;python slugify&lt;/a&gt;, задав
+&lt;code&gt;TocExtension&lt;/code&gt; объект &lt;code&gt;slugify&lt;/code&gt;. Объект &lt;code&gt;slugify&lt;/code&gt; должен быть &lt;code&gt;callable&lt;/code&gt;
+поэтому не обойтись просто строковым указанием аргументов, придется явно
+импортировать и указывать в конструкторе аргументы для&amp;nbsp;расширения:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;markdown.extensions.toc&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;TocExtension&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;slugify&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;slugify&lt;/span&gt;
+&lt;span class="n"&gt;MD_EXTENSIONS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;codehilite(css_class=highlight)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;extra&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;TocExtension&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;anchorlink&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;slugify&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;slugify&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2 id="meniu-avto-soderzhaniia"&gt;&lt;a class="toclink" href="#meniu-avto-soderzhaniia"&gt;Меню авто&amp;nbsp;содержания&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Для навигации по заголовкам будем использовать &lt;code&gt;jQuery plugin&lt;/code&gt;
+&lt;a href="http://renaysha.me/anchorific-js/"&gt;Anchorific.js&lt;/a&gt;. Данный плагин умеет
+самостоятельно присваивать &lt;code&gt;id&lt;/code&gt; заголовкам, но поскольку заголовки уже
+сгенерированы с якорями, то создание ссылок джаваскриптом использоваться
+не будет, в конструкторе укажем &lt;code&gt;null&lt;/code&gt; значения для текста и позиции ссылки
+в&amp;nbsp;заголовке.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;article.content&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;anchorific&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+        &lt;span class="nx"&gt;anchorClass&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;anchorText&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;spy&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;position&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;anchor&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Так же пришлось немного подправить напильником этот плагин, под конкретные задачи,
+например заставить его искать не все заголовки, а только с&amp;nbsp;идентификаторами.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gd"&gt;- self.headers = self.$elem.find( &amp;#39;h1, h2, h3, h4, h5, h6&amp;#39; );&lt;/span&gt;
+&lt;span class="gi"&gt;+ self.headers = self.$elem.find( &amp;#39;h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]&amp;#39; );&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="lipuchee-meniu"&gt;&lt;a class="toclink" href="#lipuchee-meniu"&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;Липучее&amp;#8221;&amp;nbsp;меню&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Для того, что бы при скроллинге страницы меню навигации всегда оставалось
+доступным будем использовать &lt;code&gt;position: fixed;&lt;/code&gt;, но присваивать его только
+при достижении вершины объекта при&amp;nbsp;скроллинге.&lt;/p&gt;
+&lt;p&gt;Создадим класс &lt;code&gt;sticky&lt;/code&gt; и будем навешивать его по событию&amp;nbsp;скролл.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;sticky&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;position&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;fixed&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;top&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;33&lt;/span&gt;&lt;span class="kt"&gt;px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;z-index&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;999&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;$window&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;window&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="nx"&gt;$sticky&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;div.anchorific&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="nx"&gt;sticky_top&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;$sticky&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;offset&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="nx"&gt;top&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="nx"&gt;$window&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;scroll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;$sticky&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;toggleClass&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sticky&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;$window&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;scrollTop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;sticky_top&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;33&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Получилось такое авто&amp;nbsp;содержание:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nav" class="center" src="/media/md-headers/nav.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Wed, 02 Sep 2015 15:00:00 +0300</pubDate><guid isPermaLink="false">tag:maks.live,2015-09-02:articles/drugoe/avtomaticheskoe-soderzhanie-v-pelican/</guid><category>python</category><category>pelican</category><category>markdown</category><category>md</category><category>autonav</category><category>anchor</category><category>javascript</category><category>css</category></item><item><title>Ура, меня в гугле забанили…</title><link>https://maks.live/articles/drugoe/ura-menia-v-gugle-zabanili/</link><description>&lt;p&gt;&lt;img alt="google-ban" class="center" src="/media/google-ban/google_ban.png" /&gt;&lt;/p&gt;
+&lt;p&gt;В связи с наложенными западными компаниями санкциями на Крым,
+у меня перестала работать часть сервисов&amp;nbsp;гугла.&lt;/p&gt;
+&lt;p&gt;Старый анекдот про &amp;#8220;в гугле забанили&amp;#8221; начинает быть похожим на&amp;nbsp;действительность.&lt;/p&gt;
+&lt;p&gt;При попытке перейти получаем 403. Некоторые из заблокированных&amp;nbsp;ресурсов:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://code.google.com/"&gt;https://code.google.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://developers.google.com/"&gt;https://developers.google.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://console.developers.google.com/"&gt;https://console.developers.google.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://developer.android.com/"&gt;https://developer.android.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://cloud.google.com/"&gt;https://cloud.google.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://appengine.google.com/"&gt;https://appengine.google.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://golang.org/"&gt;https://golang.org/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://angularjs.org/"&gt;https://angularjs.org/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Так же не работают в целом сайты размещенные на &lt;code&gt;gae&lt;/code&gt;,
+например &lt;a href="https://www.udacity.com/"&gt;https://www.udacity.com/&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Не работает обновление &lt;code&gt;google chrome&lt;/code&gt; и приложений из плей&amp;nbsp;маркета.&lt;/p&gt;
+&lt;p&gt;Ну что ж, прокси и впн-ы никто не отменял,
+при необходимости доступ к ресурсам получить будет&amp;nbsp;можно.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Maks</dc:creator><pubDate>Fri, 30 Jan 2015 15:00:00 +0300</pubDate><guid isPermaLink="false">tag:maks.live,2015-01-30:articles/drugoe/ura-menia-v-gugle-zabanili/</guid></item></channel></rss>
