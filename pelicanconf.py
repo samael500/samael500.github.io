@@ -98,11 +98,16 @@ AUTHOR_SAVE_AS = u'author/{slug}/index.html'
 AUTHORS_URL = u'authors/'
 AUTHORS_SAVE_AS = u'authors/index.html'
 # category
-CATEGORY_URL = u'category/{slug}.html'
-CATEGORY_SAVE_AS = u'category/{slug}.html'
+CATEGORY_URL = u'category/{slug}/'
+CATEGORY_SAVE_AS = u'category/{slug}/index.html'
 # tag
 TAG_URL = u'tag/{slug}/'
 TAG_SAVE_AS = u'tag/{slug}/index.html'
+# pagination
+PAGINATION_PATTERNS = (
+    (1, '{base_name}/', '{base_name}/index.html'),
+    (2, '{base_name}/page/{number}/', '{base_name}/page/{number}/index.html'),
+)
 
 # plugins and extensions
 PLUGINS = [
