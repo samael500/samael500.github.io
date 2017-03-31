@@ -31,11 +31,14 @@ def add_thumb(content):
     if not isinstance(content, Article) or not hasattr(content, 'image'):
         return
 
+    src = os.path.abspath(content.settings['PATH'] + content.image)
+    if not os.path.exists(src):
+        return
+
     if not hasattr(content, 'thumb'):
         content.thumb = thumb_path(content.image)
         images.append(content.image)
 
-    src = os.path.abspath(content.settings['PATH'] + content.image)
     with Image.open(src) as img:
         content.image_width, content.image_height = img.size
 
