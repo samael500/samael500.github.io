@@ -12,6 +12,11 @@ from pelicanconf import *
 
 RELATIVE_URLS = False
 
+PLUGINS += [
+    'plugins.yuicompressor',
+    'minify',
+]
+
 FEED_ALL_ATOM = 'feeds/all.atom.xml'
 FEED_ALL_RSS = 'feeds/all.rss.xml'
 CATEGORY_FEED_ATOM = 'feeds/%s.atom.xml'

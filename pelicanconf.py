@@ -112,9 +112,7 @@ PAGINATION_PATTERNS = (
 # plugins and extensions
 PLUGINS = [
     'plugins.sitemap',
-    'plugins.yuicompressor',
     'plugins.article_thumb',
-    'minify',
 ]
 READERS = {'html': None}
 TYPOGRIFY = True
