@@ -18,7 +18,7 @@ Summary:
     [push](https://developer.github.com/v3/activity/events/types/#pushevent)
     событиях в репозитории.
     Но для валидации и обработки этих запросов, нужен какой-либо бекенд.
-    В этом нам помогает знакомая связка `Nginx` + `Lua`.
+    В этом мне помогает знакомая связка `Nginx` + `Lua`.
 
 После того, как принимается `pull-request` и наработки кода попадают в
 мастер. Нужно обновить сервер, выполнив на нем комманды деплоя.
@@ -31,11 +31,12 @@ Summary:
 [push](https://developer.github.com/v3/activity/events/types/#pushevent)
 событиях в репозитории.
 Но для валидации и обработки этих запросов, нужен какой-либо бекенд.
-В этом нам помогает знакомая связка `Nginx` + `Lua`.
+В этом мне помогает знакомая связка `Nginx` + `Lua`.
 
 ### Предварительная настройка
 
-Нам понадобятся `Nginx` с модулем [lua-nginx-module](https://github.com/openresty/lua-nginx-module).
+Нам понадобятся `Nginx` с модулем
+[lua-nginx-module](https://github.com/openresty/lua-nginx-module).
 И две дополнительные библиотеки для `lua`. Для того чтобы прочесть `json`
 тело запроса используем [JSON4Lua](http://json.luaforge.net/), а для
 валидации подписи [LuaCrypto](http://mkottman.github.io/luacrypto/).
@@ -46,8 +47,36 @@ $ sudo luarocks install JSON4Lua
 $ sudo luarocks install luacrypto
 ```
 
-Подробнее о том, как настроить `Nginx` и `Lua` можно прочитать в 
+Подробнее о том, как настроить `Nginx` и `Lua` можно прочитать в
 [статье](|filename|/2016-10-25-other-vagrant-lua.md#ustanovka-i-zavisimosti).
+
+#### Наш сервер
+
+Сконфигурируем локейшен для принятия вебхука.
+
+```nginx
+server {
+
+    # ...
+
+    location /deploy {
+        client_body_buffer_size 3M;
+        client_max_body_size  3M;
+        content_by_lua_file /path/to/handler.lua;
+    }
+}
+```
+
+Важно установить значения `client_body_buffer_size` и `client_max_body_size` одинаковыми.
+Для корректного чтнения тела запроса и предотвращения ошибки рабоы с временным файлом.
+
+> lua entry thread aborted: runtime error: requesty body in temp file not supported
+
+#### GitHub hooks
+
+В настройках репозитория, созданим новый вебхук и направим его на наш локейшен.
+
+![gh hook](/media/luahook/gh-hook.png){.center .shadow}
 
 ### Валидация запроса
 
@@ -177,7 +206,7 @@ end
 local function const_eq (a, b)
     -- Check is string equals, constant time exec
     local equal = string.len(a) == string.len(b)
-    for i = 1, math.min(string.len(a), string.len(b)) do
+    for i = 1, math.max(string.len(a), string.len(b)) do
         equal = (a[i] == b[i]) and equal
     end
     return equal
@@ -202,6 +231,6 @@ local function deploy ()
 end
 ```
 
-Полный пример `handler`а можно посмотреть
+Полный пример `handler.lua` можно посмотреть
 в [gist](https://gist.github.com/Samael500/5dbdf6d55838f841a08eb7847ad1c926)
 или вопросе на [StackOverflow](http://stackoverflow.com/a/43146712/4716629).
