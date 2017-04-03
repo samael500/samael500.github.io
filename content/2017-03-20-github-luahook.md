@@ -93,7 +93,7 @@ if ngx.req.get_method() ~= "POST" then
 end
 ```
 
-Следующим шагом проверим, что это запрос содержит заголовок с хук методом.
+Следующим шагом проверим, что этот запрос содержит заголовок с хук методом.
 Получив все заголовки с помощью функции
 [req.get_headers](https://github.com/openresty/lua-nginx-module#ngxreqget_headers).
 
