@@ -490,7 +490,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://mirreality.ru/"&gt;
+    &lt;a href="http://mirreality.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/mirreality.png" class="center" alt="mirreality"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -502,7 +502,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://autokazan.ru/"&gt;
+    &lt;a href="http://autokazan.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/autokazan.png" class="center" alt="autokazan"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -514,7 +514,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Flask&lt;/code&gt;, &lt;code&gt;PhantomJS&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://coment.me/"&gt;
+    &lt;a href="http://coment.me/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/coment.png" class="center" alt="coment"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -526,7 +526,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://pobeda70.lenta.ru/"&gt;
+    &lt;a href="http://pobeda70.lenta.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/may9.png" class="center" alt="pobeda70"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -538,7 +538,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Flask&lt;/code&gt;, &lt;code&gt;MongoDB&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="#"&gt;
+    &lt;a href="#" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/fhouse.png" class="center" alt="fhouse"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -550,7 +550,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Yii&lt;/code&gt;, &lt;code&gt;MySQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://visual-science.com/"&gt;
+    &lt;a href="http://visual-science.com/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/visual.png" class="center" alt="visual"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -562,7 +562,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;, &lt;code&gt;PostGIS&lt;/code&gt;, &lt;code&gt;Geoserver&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="https://arendohod.ru/"&gt;
+    &lt;a href="https://arendohod.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/arend.png" class="center" alt="arend"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -574,8 +574,21 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="https://pro-adventure.ru/"&gt;
+    &lt;a href="https://pro-adventure.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/pro.png" class="center" alt="pro"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Научно-популярный форум, посвящённый молекулярным основам современной
+биологии и практическим применениям научных достижений в&amp;nbsp;биотехнологии.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="https://biomolecula.ru/" rel="nofollow"&gt;
+        &lt;img src="/media/wbt3/thumb/biom.png" class="center" alt="biom"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
 
@@ -586,7 +599,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="#"&gt;
+    &lt;a href="https://pre-loved.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/plvd.png" class="center" alt="plvd"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -599,7 +612,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://underground-maze.github.io/insta-map/"&gt;
+    &lt;a href="http://underground-maze.github.io/insta-map/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/revealer.png" class="center" alt="revealer"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -611,7 +624,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="https://olya-maks.ru/"&gt;
+    &lt;a href="https://olya-maks.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/om.png" class="center" alt="om"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -623,7 +636,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://elenaskorokhod.ru/"&gt;
+    &lt;a href="http://elenaskorokhod.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/helena.png" class="center" alt="helena"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -635,7 +648,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;gh-pages&lt;/code&gt;, &lt;code&gt;static html&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://isev.su/"&gt;
+    &lt;a href="http://isev.su/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/isev.png" class="center" alt="isev"&gt;
     &lt;/a&gt;
 &lt;/div&gt;

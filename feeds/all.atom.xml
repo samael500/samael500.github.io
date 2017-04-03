@@ -1,5 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks live</title><link href="https://maks.live/" rel="alternate"></link><link href="https://maks.live/feeds/all.atom.xml" rel="self"></link><id>https://maks.live/</id><updated>2017-02-28T15:00:00+03:00</updated><entry><title>Сам себе почтальон</title><link href="https://maks.live/articles/drugoe/sam-sebe-pochtalon/" rel="alternate"></link><published>2017-02-28T15:00:00+03:00</published><updated>2017-02-28T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:maks.live,2017-02-28:articles/drugoe/sam-sebe-pochtalon/</id><summary type="html">&lt;p&gt;Каждый раз при запуске проекта в продакшн, встает вопрос, как
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks live</title><link href="https://maks.live/" rel="alternate"></link><link href="https://maks.live/feeds/all.atom.xml" rel="self"></link><id>https://maks.live/</id><updated>2017-03-31T15:00:00+03:00</updated><entry><title>Обработка вебхуков GitHub с помощью Nginx и Lua</title><link href="https://maks.live/articles/github/obrabotka-vebkhukov-github-s-pomoshchiu-nginx-i-lua/" rel="alternate"></link><published>2017-03-31T15:00:00+03:00</published><updated>2017-03-31T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:maks.live,2017-03-20:articles/github/obrabotka-vebkhukov-github-s-pomoshchiu-nginx-i-lua/</id><summary type="html">&lt;p&gt;После того как принимается &lt;code&gt;pull-request&lt;/code&gt; и наработки кода попадают в
+мастер, нужно обновить сервер, выполнив на нем команды деплоя.
+Обычно у нас эта обязанность возложена на сервер &lt;code&gt;CI TeamCity&lt;/code&gt;,
+который в случае успешного билда мастер ветки накатывает изменения
+на продакшен сервера. Но иногда не нужно такое взаимодействие,
+а достаточно просто знать факт пуша в мастер
+и обработать его самостоятельно.
+С помощью вебхуков &lt;code&gt;GitHub&lt;/code&gt; может уведомлять о
+&lt;a href="https://developer.github.com/v3/activity/events/types/#pushevent"&gt;push&lt;/a&gt;
+событиях в репозитории.
+Но для валидации и обработки этих запросов нужен какой-либо бекенд.
+В этом мне помогает знакомая связка &lt;code&gt;Nginx&lt;/code&gt; + &lt;code&gt;Lua&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id="predvaritelnaia-nastroika"&gt;&lt;a class="toclink" href="#predvaritelnaia-nastroika"&gt;Предварительная&amp;nbsp;настройка&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Нам понадобятся &lt;code&gt;Nginx&lt;/code&gt; с модулем
+&lt;a href="https://github.com/openresty/lua-nginx-module"&gt;lua-nginx-module&lt;/a&gt;.
+И две дополнительные библиотеки для &lt;code&gt;lua&lt;/code&gt;. Для того чтобы прочесть &lt;code&gt;json&lt;/code&gt;
+тело запроса используем &lt;a href="http://json.luaforge.net/"&gt;JSON4Lua&lt;/a&gt;, а для
+валидации подписи &lt;a href="http://mkottman.github.io/luacrypto/"&gt;LuaCrypto&lt;/a&gt;.
+Установим их через менеджер пакетов &lt;a href="https://luarocks.org/"&gt;luarocks&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo luarocks install JSON4Lua
+$ sudo luarocks install luacrypto
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Подробнее о том как настроить &lt;code&gt;Nginx&lt;/code&gt; и &lt;code&gt;Lua&lt;/code&gt; можно прочитать в
+&lt;a href="https://maks.live/articles/drugoe/sobstvennoe-khranilishche-versirovannykh-vagrant-boksov-s-pomoshchiu-nginx-i-lua/#ustanovka-i-zavisimosti"&gt;статье&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id="nash-server"&gt;&lt;a class="toclink" href="#nash-server"&gt;Наш&amp;nbsp;сервер&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Сконфигурируем локейшн для принятия&amp;nbsp;вебхука.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;server&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# ...&lt;/span&gt;
+
+    &lt;span class="kn"&gt;location&lt;/span&gt; &lt;span class="s"&gt;/deploy&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kn"&gt;client_body_buffer_size&lt;/span&gt; &lt;span class="s"&gt;3M&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="kn"&gt;client_max_body_size&lt;/span&gt;  &lt;span class="s"&gt;3M&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="kn"&gt;content_by_lua_file&lt;/span&gt; &lt;span class="s"&gt;/path/to/handler.lua&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Важно установить значения &lt;code&gt;client_body_buffer_size&lt;/code&gt; и &lt;code&gt;client_max_body_size&lt;/code&gt; одинаковыми.
+Для корректного чтения тела запроса и предотвращения ошибки работы с временным&amp;nbsp;файлом.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;lua entry thread aborted: runtime error: requesty body in temp file not&amp;nbsp;supported&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id="github-hooks"&gt;&lt;a class="toclink" href="#github-hooks"&gt;GitHub&amp;nbsp;hooks&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;В настройках репозитория создадим новый вебхук и направим его на наш&amp;nbsp;локейшн.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="gh hook" class="center shadow" src="/media/luahook/gh-hook.png" /&gt;&lt;/p&gt;
+&lt;h3 id="validatsiia-zaprosa"&gt;&lt;a class="toclink" href="#validatsiia-zaprosa"&gt;Валидация&amp;nbsp;запроса&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Проверка корректности запроса. В первую очередь
+нужно убедиться, что запрос действительно &lt;code&gt;POST&lt;/code&gt;.
+Сделаем это с помощью функции
+&lt;a href="https://github.com/openresty/lua-nginx-module#ngxreqget_method"&gt;req.get_method&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;-- should be POST method&lt;/span&gt;
+&lt;span class="kr"&gt;if&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;req&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_method&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;~=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;POST&amp;quot;&lt;/span&gt; &lt;span class="kr"&gt;then&lt;/span&gt;
+    &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ERR&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;wrong event request method: &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;req&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_method&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+    &lt;span class="kr"&gt;return&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTTP_NOT_ALLOWED&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Следующим шагом проверим, что это запрос содержит заголовок с хук методом.
+Получив все заголовки с помощью функции
+&lt;a href="https://github.com/openresty/lua-nginx-module#ngxreqget_headers"&gt;req.get_headers&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;event&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;push&amp;#39;&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- ...&lt;/span&gt;
+
+&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;headers&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;req&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_headers&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="c1"&gt;-- with correct header&lt;/span&gt;
+&lt;span class="kr"&gt;if&lt;/span&gt; &lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;X-GitHub-Event&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;~=&lt;/span&gt; &lt;span class="n"&gt;event&lt;/span&gt; &lt;span class="kr"&gt;then&lt;/span&gt;
+    &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ERR&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;wrong event type: &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;X-GitHub-Event&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="kr"&gt;return&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTTP_NOT_ACCEPTABLE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Так как мы будем слушать вебхуки в формате &lt;code&gt;json&lt;/code&gt;, проверим контент тип&amp;nbsp;запроса.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;-- should be json encoded request&lt;/span&gt;
+&lt;span class="kr"&gt;if&lt;/span&gt; &lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;~=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;application/json&amp;#39;&lt;/span&gt; &lt;span class="kr"&gt;then&lt;/span&gt;
+    &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ERR&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;wrong content type header: &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="kr"&gt;return&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTTP_NOT_ACCEPTABLE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;По первичным признакам запрос корректный. Проанализируем тело запроса.
+С помощью функций
+&lt;a href="https://github.com/openresty/lua-nginx-module#ngxreqread_body"&gt;req.read_body&lt;/a&gt; и
+&lt;a href="https://github.com/openresty/lua-nginx-module#ngxreqget_body_data"&gt;req.get_body_data&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;-- read request body&lt;/span&gt;
+&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;req&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_body&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;req&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_body_data&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="kr"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="kr"&gt;then&lt;/span&gt;
+    &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ERR&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;failed to get request body&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="kr"&gt;return&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTTP_BAD_REQUEST&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Проверим корректность подписи запроса, которая передается в заголовке
+&lt;code&gt;X-Hub-Signature&lt;/code&gt;, используя функцию &lt;a href="#proverka-podpisi"&gt;verify_signature&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;-- validate GH signature&lt;/span&gt;
+&lt;span class="kr"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;verify_signature&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;X-Hub-Signature&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kr"&gt;then&lt;/span&gt;
+    &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ERR&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;wrong webhook signature&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="kr"&gt;return&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTTP_FORBIDDEN&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Последний шаг - убедиться, что этот &lt;code&gt;push&lt;/code&gt; был в интересующей нас ветке.
+Разобрав тело запроса в таблицу &lt;code&gt;lua&lt;/code&gt; с помощью функции
+&lt;a href="http://json.luaforge.net/#json_decode"&gt;json.decode&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;branch&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;refs/heads/master&amp;#39;&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- ...&lt;/span&gt;
+
+&lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;-- on master branch&lt;/span&gt;
+&lt;span class="kr"&gt;if&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ref&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;~=&lt;/span&gt; &lt;span class="n"&gt;branch&lt;/span&gt; &lt;span class="kr"&gt;then&lt;/span&gt;
+    &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;say&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Skip branch &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ref&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="kr"&gt;return&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTTP_OK&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4 id="proverka-podpisi"&gt;&lt;a class="toclink" href="#proverka-podpisi"&gt;Проверка&amp;nbsp;подписи&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Для подтверждения корректности запроса, &lt;code&gt;GitHub&lt;/code&gt; использует &lt;code&gt;HMAC&lt;/code&gt; &lt;code&gt;SHA1&lt;/code&gt; подпись и передает её в заголовке
+&lt;code&gt;X-Hub-Signature&lt;/code&gt;, пример в &lt;a href="https://developer.github.com/webhooks/securing/#validating-payloads-from-github"&gt;документации&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Вызовем функцию &lt;a href="http://luacrypto.luaforge.net/0.1/luacrypto.html#usage-hmac"&gt;crypto.hmac.digest&lt;/a&gt;
+и сравним её результат с полученным&amp;nbsp;заголовком.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;secret&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;lt;MY SUPER SECRET&amp;gt;&amp;#39;&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- ...&lt;/span&gt;
+
+&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="kr"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;verify_signature&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hub_sign&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;sign&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sha1=&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="n"&gt;crypto&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hmac&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;digest&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sha1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;secret&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="kr"&gt;return&lt;/span&gt; &lt;span class="n"&gt;hub_sign&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;sign&lt;/span&gt;
+&lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4 id="konstantnoe-sravnenie-strok"&gt;&lt;a class="toclink" href="#konstantnoe-sravnenie-strok"&gt;Константное сравнение&amp;nbsp;строк&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Простое сравнение строк на &lt;code&gt;==&lt;/code&gt; использовать не рекомендуется, т.к.
+злоумышленник может провести &lt;a href="https://en.wikipedia.org/wiki/Timing_attack"&gt;атаку по времени&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;В &lt;code&gt;lua&lt;/code&gt; нельзя просто так взять и обратиться к строке по индексу.
+Так что для удобства внедрим данную функцию в метакласс&amp;nbsp;строки.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;getmetatable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="n"&gt;__index&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kr"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="kr"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;string.sub&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Напишем функцию сравнения строк за &amp;#8220;константное&amp;#8221; время.
+Строки равны тогда и только тогда, когда равны&amp;nbsp;посимвольно.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="kr"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;const_eq&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c1"&gt;-- Check is string equals, constant time exec&lt;/span&gt;
+    &lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;equal&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;string.len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="nb"&gt;string.len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="kr"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;math.max&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;string.len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="nb"&gt;string.len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="kr"&gt;do&lt;/span&gt;
+        &lt;span class="n"&gt;equal&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;equal&lt;/span&gt;
+    &lt;span class="kr"&gt;end&lt;/span&gt;
+    &lt;span class="kr"&gt;return&lt;/span&gt; &lt;span class="n"&gt;equal&lt;/span&gt;
+&lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="avtomaticheskii-deploi"&gt;&lt;a class="toclink" href="#avtomaticheskii-deploi"&gt;Автоматический&amp;nbsp;деплой&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;В случае, если &lt;code&gt;webhook&lt;/code&gt; прошел все валидации, можно ему доверять.
+Через системный вызов &lt;a href="https://www.lua.org/manual/5.1/manual.html#pdf-io.popen"&gt;io.popen&lt;/a&gt;
+выполним необходимые команды деплоя. В данном примере осуществляется
+простой &lt;code&gt;pull&lt;/code&gt; из&amp;nbsp;репозитория.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="kr"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;deploy&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;handle&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;io.popen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;cd /path/to/repo &amp;amp;&amp;amp; sudo -u username git pull&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;*a&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;say&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="kr"&gt;return&lt;/span&gt; &lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ngx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTTP_OK&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kr"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Полный пример &lt;code&gt;handler.lua&lt;/code&gt; можно посмотреть
+в &lt;a href="https://gist.github.com/Samael500/5dbdf6d55838f841a08eb7847ad1c926"&gt;gist&lt;/a&gt;
+или вопросе на &lt;a href="http://stackoverflow.com/a/43146712/4716629"&gt;StackOverflow&lt;/a&gt;.&lt;/p&gt;</summary><category term="github"></category><category term="lua"></category><category term="nginx"></category><category term="webhook"></category><category term="autodeploy"></category></entry><entry><title>Сам себе почтальон</title><link href="https://maks.live/articles/drugoe/sam-sebe-pochtalon/" rel="alternate"></link><published>2017-02-28T15:00:00+03:00</published><updated>2017-02-28T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:maks.live,2017-02-28:articles/drugoe/sam-sebe-pochtalon/</id><summary type="html">&lt;p&gt;Каждый раз при запуске проекта в продакшн, встает вопрос, как
 отправлять письма с боевого сервера. Есть множество удобных сервисов, таких как
 &lt;a href="https://www.mailgun.com/"&gt;mailgun&lt;/a&gt; или &lt;a href="https://www.mailjet.com/"&gt;mailjet&lt;/a&gt;,
 можно отправлять письма со своего домена через &lt;code&gt;smtp&lt;/code&gt;
@@ -490,7 +676,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://mirreality.ru/"&gt;
+    &lt;a href="http://mirreality.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/mirreality.png" class="center" alt="mirreality"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -502,7 +688,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://autokazan.ru/"&gt;
+    &lt;a href="http://autokazan.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/autokazan.png" class="center" alt="autokazan"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -514,7 +700,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Flask&lt;/code&gt;, &lt;code&gt;PhantomJS&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://coment.me/"&gt;
+    &lt;a href="http://coment.me/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/coment.png" class="center" alt="coment"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -526,7 +712,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://pobeda70.lenta.ru/"&gt;
+    &lt;a href="http://pobeda70.lenta.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/may9.png" class="center" alt="pobeda70"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -538,7 +724,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Flask&lt;/code&gt;, &lt;code&gt;MongoDB&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="#"&gt;
+    &lt;a href="#" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/fhouse.png" class="center" alt="fhouse"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -550,7 +736,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Yii&lt;/code&gt;, &lt;code&gt;MySQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://visual-science.com/"&gt;
+    &lt;a href="http://visual-science.com/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/visual.png" class="center" alt="visual"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -562,7 +748,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;, &lt;code&gt;PostGIS&lt;/code&gt;, &lt;code&gt;Geoserver&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="https://arendohod.ru/"&gt;
+    &lt;a href="https://arendohod.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/arend.png" class="center" alt="arend"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -574,8 +760,21 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="https://pro-adventure.ru/"&gt;
+    &lt;a href="https://pro-adventure.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/pro.png" class="center" alt="pro"&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Научно-популярный форум, посвящённый молекулярным основам современной
+биологии и практическим применениям научных достижений в&amp;nbsp;биотехнологии.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
+    &lt;a href="https://biomolecula.ru/" rel="nofollow"&gt;
+        &lt;img src="/media/wbt3/thumb/biom.png" class="center" alt="biom"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
 
@@ -586,7 +785,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;, &lt;code&gt;Celery&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="#"&gt;
+    &lt;a href="https://pre-loved.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/plvd.png" class="center" alt="plvd"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -599,7 +798,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://underground-maze.github.io/insta-map/"&gt;
+    &lt;a href="http://underground-maze.github.io/insta-map/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/revealer.png" class="center" alt="revealer"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -611,7 +810,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="https://olya-maks.ru/"&gt;
+    &lt;a href="https://olya-maks.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/om.png" class="center" alt="om"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -623,7 +822,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt;, &lt;code&gt;PostgreSQL&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://elenaskorokhod.ru/"&gt;
+    &lt;a href="http://elenaskorokhod.ru/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/helena.png" class="center" alt="helena"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
@@ -635,7 +834,7 @@ $ &lt;span class="c1"&gt;# всё пропало, всё что нажито н�
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;gh-pages&lt;/code&gt;, &lt;code&gt;static html&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="center browser-mockup with-tab" style="max-width:600px; width:100%"&gt;
-    &lt;a href="http://isev.su/"&gt;
+    &lt;a href="http://isev.su/" rel="nofollow"&gt;
         &lt;img src="/media/wbt3/thumb/isev.png" class="center" alt="isev"&gt;
     &lt;/a&gt;
 &lt;/div&gt;
