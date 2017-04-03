@@ -3,7 +3,7 @@ Date: 2017-03-20 15:00
 Modified: 2017-03-31 15:00
 Category: Github
 Tags: github, lua, nginx, webhook, autodeploy
-Image: /media/luahook/luahook.png
+Image: /media/luahook/lua-github.png
 Image_width: 1280
 Image_height: 791
 Summary:
