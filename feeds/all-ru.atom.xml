@@ -61,7 +61,7 @@ $ sudo luarocks install luacrypto
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Следующим шагом проверим, что это запрос содержит заголовок с хук методом.
+&lt;p&gt;Следующим шагом проверим, что этот запрос содержит заголовок с хук методом.
 Получив все заголовки с помощью функции
 &lt;a href="https://github.com/openresty/lua-nginx-module#ngxreqget_headers"&gt;req.get_headers&lt;/a&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;local&lt;/span&gt; &lt;span class="n"&gt;event&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;push&amp;#39;&lt;/span&gt;

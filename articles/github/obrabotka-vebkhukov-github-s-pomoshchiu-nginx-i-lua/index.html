@@ -32,7 +32,7 @@ $ sudo luarocks install luacrypto
     <span class="n">ngx</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">ngx</span><span class="p">.</span><span class="n">ERR</span><span class="p">,</span> <span class="s2">&quot;wrong event request method: &quot;</span><span class="p">,</span> <span class="n">ngx</span><span class="p">.</span><span class="n">req</span><span class="p">.</span><span class="n">get_method</span><span class="p">())</span>
     <span class="kr">return</span> <span class="n">ngx</span><span class="p">.</span><span class="n">exit</span> <span class="p">(</span><span class="n">ngx</span><span class="p">.</span><span class="n">HTTP_NOT_ALLOWED</span><span class="p">)</span>
 <span class="kr">end</span>
-</pre></div> <p>Следующим шагом проверим, что это запрос содержит заголовок с хук методом. Получив все заголовки с помощью функции <a href="https://github.com/openresty/lua-nginx-module#ngxreqget_headers">req.get_headers</a>.</p> <div class="highlight"><pre><span></span><span class="kd">local</span> <span class="n">event</span> <span class="o">=</span> <span class="s1">&#39;push&#39;</span>
+</pre></div> <p>Следующим шагом проверим, что этот запрос содержит заголовок с хук методом. Получив все заголовки с помощью функции <a href="https://github.com/openresty/lua-nginx-module#ngxreqget_headers">req.get_headers</a>.</p> <div class="highlight"><pre><span></span><span class="kd">local</span> <span class="n">event</span> <span class="o">=</span> <span class="s1">&#39;push&#39;</span>
 
 <span class="c1">-- ...</span>
 
