@@ -150,8 +150,8 @@ with objects.allow_sync():
 
 В качестве шаблонизатора будем использовать
 [асинхронную jinja2](http://aiohttp-jinja2.readthedocs.io/en/stable/).
-
-Конфигурируется точно также, как и синхронная версия.
+Конфигурируется через вызов метода `setup`, в который передается
+загрузчик шаблонов и список контекстных процессоров.
 
 ```python3
 import jinja2
@@ -304,7 +304,7 @@ def redirect(request, router_name, *, permanent=False, **kwargs):
 
 В `AioHTTP` реализованы вебсокеты, через `web.WebSocketResponse()`,
 работа с ними практически не отличается от обычных вьюх.
-Добавляется асинхронный цикл пока соединение активно.
+Разве что добавляется асинхронный цикл пока соединение активно.
 
 ```python3
 async def wshandler(request):
@@ -322,7 +322,7 @@ async def wshandler(request):
     return ws
 ```
 
-Для хранения текущих соединений, и разсылки бродкаст сообщений,
+Для хранения текущих соединений и разсылки бродкаст сообщений,
 будем использовать объект `app`.
 
 
@@ -481,40 +481,42 @@ class WebSocket(web.View):
 `очистить историю комнаты` и `удалить пользователя из комнаты`.
 
 ```python3
-    async def command(self, cmd):
-        """ Run chat command """
-        app = self.request.app
-        if cmd.startswith('/kill'):
-            # unconnect user from room
-            try:
-                target = cmd.split(' ')[1]
-                # Найдем пользователя по имени и отключим от чата
-                peer = app.wslist[self.room.id][target]
-                await self.disconnect(target, peer, silent=True)
-            except KeyError:
-                pass
-        elif cmd == '/clear':
-            # Удалим все сообщения из комнаты
-            count = await app.objects.execute(
-                Message.delete().where(Message.room == self.room))
-            # В бродкаст вышлем пользователям команды для очистки истории на клиенте
-            for peer in app.wslist[self.room.id].values():
-                peer.send_json({'cmd': 'empty'})
-        elif cmd == '/help':
-            # Вспомогательная команда для отображения справки
-            return {'text': dedent('''\
-                - /help - display this msg
-                - /kill {username} - remove user from room
-                - /clear - empty all messages in room
-                ''')}
-        else:
-            return {'text': 'wrong cmd {cmd}'}
+async def command(self, cmd):
+    """ Run chat command """
+    app = self.request.app
+    if cmd.startswith('/kill'):
+        # unconnect user from room
+        try:
+            target = cmd.split(' ')[1]
+            # Найдем пользователя по имени и отключим от чата
+            peer = app.wslist[self.room.id][target]
+            await self.disconnect(target, peer, silent=True)
+        except KeyError:
+            pass
+    elif cmd == '/clear':
+        # Удалим все сообщения из комнаты
+        count = await app.objects.execute(
+            Message.delete().where(Message.room == self.room))
+        # В бродкаст вышлем пользователям команды для очистки истории на клиенте
+        for peer in app.wslist[self.room.id].values():
+            peer.send_json({'cmd': 'empty'})
+    elif cmd == '/help':
+        # Вспомогательная команда для отображения справки
+        return {'text': dedent('''\
+            - /help - display this msg
+            - /kill {username} - remove user from room
+            - /clear - empty all messages in room
+            ''')}
+    else:
+        return {'text': 'wrong cmd {cmd}'}
 ```
 
 В асинхронном цикле будем сравнивать, если сообщение начинается с `/`
 значит обрабатывать его как команду.
 
 ```python3
+async for msg in ws:
+    # ...
     text = msg.data.strip()
     if text.startswith('/'):
         ans = await self.command(text)
