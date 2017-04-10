@@ -40,18 +40,18 @@ Summary:
 ### Технологии
 
 Для реализации чата будем использовать `Python 3.6` и фреймворк
-[Aiohttp](http://aiohttp.readthedocs.io/en/stable/),
+[AioHTTP](http://aiohttp.readthedocs.io/en/stable/),
 данные хранить в базе `PostgreSQL`, текущие сессии в `Redis`,
 запросы проксировать через `Nginx`.
 
 ### Асинхронный фреймворк
 
-Текущая версия `aiohttp 2.0.6`, однако оказалось что с ней не совместима
-текущая версия `aiohttp debugtoolbar`
+Текущая версия `AioHTTP 2.0.6`, однако оказалось что с ней не совместима
+текущая версия `AioHTTP debugtoolbar`
 [issue #115](https://github.com/aio-libs/aiohttp-debugtoolbar/issues/115).
-Так что будем использовать предыдущую версию `aiohttp 1.3.5`.
+Так что будем использовать предыдущую версию `AioHTTP 1.3.5`.
 
-Простейшее приложение на `aiohttp` выглядит так:
+Простейшее приложение на `AioHTTP` выглядит так:
 
 ```python3
 from aiohttp import web
@@ -425,51 +425,163 @@ class WebSocket(web.View):
 
     async def broadcast(self, message):
         """ Send messages to all in this room """
-        for _, peer in self.request.app.wslist[self.room.id]:
+        for peer in self.request.app.wslist[self.room.id].values():
             peer.send_json(message.as_dict())
 
     async def get(self):
-        self.room = await get_object_or_404(self.request, Room, name=self.request.match_info['slug'].lower())
+        self.room = await get_object_or_404(
+            self.request, Room, name=self.request.match_info['slug'].lower())
         user = self.request.user
         app = self.request.app
 
+        # При подключении создаем WebSocketResponse
         ws = web.WebSocketResponse()
         await ws.prepare(self.request)
-
         if self.room.id not in app.wslist:
-            app.wslist[self.room.id] = []
-        app.wslist[self.room.id].append((user.username, ws))
+            # Создаем пустую комнату если ещё нет
+            app.wslist[self.room.id] = {}
 
-        # Создаем новое сообщение о том, что пользователь подключился к комнате
+        # Сохраняем соединение в объекте app и создаем сервисное сообщение
+        app.wslist[self.room.id][user.username] = ws
         message = await app.objects.create(
-            Message, room=self.room, user=None, text=f'@{user.username} join chat room')
+            Message, room=self.room, user=None, text=f'{user} join chat room')
 
-        # разсылаем сообщение всем клиентам комнаты
+        # Разсылка всем подключенным клиентам
         await self.broadcast(message)
 
+        # В асинхронном цикле слушаем сообщения от текущего сокета
         async for msg in ws:
-            # в асинхронном цикле шлем и получаем сообщения
             if msg.tp == MsgType.text:
                 if msg.data == 'close':
                     await ws.close()
                 else:
-                    text = msg.data.strip()
-                    if text.startswith('/'):
-                        ans = await self.command(text)
-                        if ans is not None:
-                            ws.send_json(ans)
-                    else:
-                        message = await app.objects.create(Message, room=self.room, user=user, text=text)
-                        await self.broadcast(message)
-            elif msg.tp == MsgType.error:
-                app.logger.debug(f'Connection closed with exception {ws.exception()}')
+                    # Сохраняем сообщение в базу и шлем бродкаст
+                    message = await app.objects.create(
+                        Message, room=self.room, user=user, text=text)
+                    await self.broadcast(message)
 
-        await self.disconnect(user.username, ws)
+        # Когда соединение закрывается, удаляем пользователя из сохраненных соединений
+        app.wslist.pop(user.username, None)
+
+        # Сервисное сообщение об отключении в бродкаст
+        message = await app.objects.create(
+            Message, room=self.room, user=None, text=f'{user} left chat room')
+        await self.broadcast(message)
+
+        # возвращаем WebSocketResponse
+        return ws
 ```
 
+В качестве администрирования комнаты, добавим возможность выполнять команды
+пользователей. Возьмем две простые команды,
+`очистить историю комнаты` и `удалить пользователя из комнаты`.
 
+```python3
+    async def command(self, cmd):
+        """ Run chat command """
+        app = self.request.app
+        if cmd.startswith('/kill'):
+            # unconnect user from room
+            try:
+                target = cmd.split(' ')[1]
+                # Найдем пользователя по имени и отключим от чата
+                peer = app.wslist[self.room.id][target]
+                await self.disconnect(target, peer, silent=True)
+            except KeyError:
+                pass
+        elif cmd == '/clear':
+            # Удалим все сообщения из комнаты
+            count = await app.objects.execute(
+                Message.delete().where(Message.room == self.room))
+            # В бродкаст вышлем пользователям команды для очистки истории на клиенте
+            for peer in app.wslist[self.room.id].values():
+                peer.send_json({'cmd': 'empty'})
+        elif cmd == '/help':
+            # Вспомогательная команда для отображения справки
+            return {'text': dedent('''\
+                - /help - display this msg
+                - /kill {username} - remove user from room
+                - /clear - empty all messages in room
+                ''')}
+        else:
+            return {'text': 'wrong cmd {cmd}'}
+```
 
-### Критика
+В асинхронном цикле будем сравнивать, если сообщение начинается с `/`
+значит обрабатывать его как команду.
+
+```python3
+    text = msg.data.strip()
+    if text.startswith('/'):
+        ans = await self.command(text)
+        if ans is not None:
+            ws.send_json(ans)
+    else:
+        message = await app.objects.create(Message, room=self.room, user=user, text=text)
+        await self.broadcast(message)
+```
+
+### Клиент
+
+Браузерный клиент это простое `WebSocket` подключение, с определенными
+командами на отправку и отображение сообщений.
+
+```js
+var sock = new WebSocket('ws://' + window.location.host + WS_URL);
+
+function showMessage(message) {
+    /* Append message to chat area */
+    console.log(message);
+    var data = jQuery.parseJSON(message.data);
+    $messagesContainer.append('<li class="media">' + data.text + '</li>');
+    $chatArea.scrollTop($messagesContainer.height());
+}
+
+// ...
+
+$('#send').on('submit', function (event) {
+    event.preventDefault();
+    var $message = $(event.target).find('input[name="text"]');
+    sock.send($message.val());
+    $message.val('').focus();
+});
+
+sock.onopen = function (event) {
+    console.log(event);
+    console.log('Connection to server started');
+};
+
+sock.onclose = function (event) {
+    console.log(event);
+    if(event.wasClean){
+        console.log('Clean connection end');
+    } else {
+        console.log('Connection broken');
+    }
+    window.location.assign('/');
+};
+
+sock.onerror = function (error) {
+    console.log(error);
+};
+
+sock.onmessage = showMessage;
+
+```
+
+### Результат и критика
+
+Как выяснилось, асинхронный код в `Python 3` практически
+не отличается от синхронного. Работать с ним легко и весело. `WebSocket`
+вызывает отдельный восторг, позволяя отправлять сообщения клиентам со стороны
+сервера, без явного запроса.
+
+`AioHTTP` позволяет легко реализовать простой асинхронный сервер с `WebSocket`ами.
+Но что то большое я бы не стал на на нем писать, иначе всё начнет превращатся в рутину-корутины.
+
+Полный пример чата можно посмотреть в репозитории на `github`
+[Samael500/aiochat](https://github.com/Samael500/aiochat). А при желании
+поиграться запустив настроенный `Vagrant`.
 
 Данный чат создан исключительно в ознакомительных целях, поэтому имеет ряд допущений.
 
@@ -478,6 +590,8 @@ class WebSocket(web.View):
 Только что бы обозначить общий подход к тестированию.
 - Регистрация и авторизация пользователей, без паролей и каких либо подтверждений.
 - Каждый пользователь имеет полные права администрирования комнат.
+- Нет нормальной валидации форм на создание пользователя или комнаты.
+- Команды чата реализованы без валидации формата команды.
 - История комнаты отдается без паджинации вся полностью, при хоть сколь либо
 большом числе комнат/пользователей/сообщение, эти запросы будут выполнятся
 долго, создавая нагрузку как на сервер так и на клиент.
