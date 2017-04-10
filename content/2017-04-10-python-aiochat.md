@@ -584,6 +584,8 @@ sock.onmessage = showMessage;
 [Samael500/aiochat](https://github.com/Samael500/aiochat). А при желании
 поиграться запустив настроенный `Vagrant`.
 
+![chat](/media/aiochat/aiochat.png){.center}
+
 Данный чат создан исключительно в ознакомительных целях, поэтому имеет ряд допущений.
 
 - У меня возникла сложность с созданием тестовой базы данных через
