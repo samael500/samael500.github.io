@@ -146,6 +146,74 @@ with objects.allow_sync():
     User.create_table(True)
 ```
 
+### Шаблоны и пути
+
+В качестве шаблонизатора будем использовать
+[асинхронную jinja2](http://aiohttp-jinja2.readthedocs.io/en/stable/).
+
+Конфигурируется точно также, как и синхронная версия.
+
+```python3
+import jinja2
+import aiohttp_jinja2
+
+# ...
+
+jinja_env = aiohttp_jinja2.setup(
+    app, loader=jinja2.FileSystemLoader(settings.TEMPLATE_DIR),
+    context_processors=[aiohttp_jinja2.request_processor], )
+```
+
+Рендер шаблона, изящно спрятан в декоратор для вьюхи.
+
+```python3
+import aiohttp_jinja2
+from aiohttp import web
+
+class Index(web.View):
+
+    @aiohttp_jinja2.template('template_name.html')
+    async def get(self):
+        # return context for render
+        return {'foo': 'boo'}
+```
+
+Routes, как уже было сказано выше, конфигурируются после инициализации приложения.
+Через функциию `app.router.add_route`. Несмотря на то что статику у нас будет
+отдавать `Nginx`, задаем её специальным роутом `add_static`, чтобы в шаблонах
+иметь возможность подключать статические файлы.
+
+```python3
+# urls.py
+from accounts.urls import routes as accounts_routes
+from chat.urls import routes as chat_routes
+
+from views import Index
+
+routes = (
+    dict(method='GET', path='/', handler=Index, name='index'),
+    * accounts_routes,
+    * chat_routes,
+)
+```
+
+```python3
+# app.py
+from urls import routes
+for route in routes:
+    app.router.add_route(**route)
+app.router.add_static('/static', settings.STATIC_DIR, name='static')
+```
+
+В шаблоне получаем доступ к роутам, через объект `app`.
+
+```jinja2
+<a href="{{ app.router['index'].url_for() }}">Main page</a>
+
+<link href="{{ app.router.static.url(filename='chat.css') }}" rel="stylesheet">
+<script src="{{ app.router.static.url(filename='chat.js') }}"></script>
+```
+
 ### Сессии
 
 Для работы с сессиями будем использовать
@@ -189,34 +257,231 @@ async def request_user_middleware(app, handler):
     return middleware
 ```
 
-### Шаблоны
-
-В качестве шаблонизатора будем использовать
-[асинхронную jinja2](http://aiohttp-jinja2.readthedocs.io/en/stable/).
-
-Конфигурируется точно также, как и синхронная версия.
+Раз уж у нас есть объект пользователя в запросе, создадим декораторы
+для ограничения доступа авторизованным и анонимным пользователям.
 
 ```python3
-import jinja2
-import aiohttp_jinja2
+from aiohttp import web
+from helpres.tools import redirect
+
+def login_required(func):
+    """ Allow only auth users """
+    async def wrapped(self, *args, **kwargs):
+        if self.request.user is None:
+            redirect(self.request, 'login')
+        return await func(self, *args, **kwargs)
+    return wrapped
+
+
+def anonymous_required(func):
+    """ Allow only anonymous users """
+    async def wrapped(self, *args, **kwargs):
+        if self.request.user is not None:
+            redirect(self.request, 'index')
+        return await func(self, *args, **kwargs)
+    return wrapped
+```
+
+В данных декораторах используем функцию `redirect`, она вызывает исключение
+которое пораждает редирект. В `AioHTTP` можно вызвать лобой из
+[web исключений](https://github.com/aio-libs/aiohttp/blob/master/aiohttp/web_exceptions.py)
+это сделано круче чем в `Django`, где есть возможность вернуть только
+`404`, `403` и `400` через исключения `Http404`, `PermissionDenied`,
+`SuspiciousOperation` соответсвенно. А редирект должен быть отдан явным ответом.
+
+```python3
+from aiohttp import web
+
+def redirect(request, router_name, *, permanent=False, **kwargs):
+    """ Redirect to given URL name """
+    url = request.app.router[router_name].url(**kwargs)
+    if permanent:
+        raise web.HTTPMovedPermanently(url)
+    raise web.HTTPFound(url)
+```
+
+### WebSockets
+
+В `Aiohttp` реализованы вебсокеты, через `web.WebSocketResponse()`,
+работа с ними практически не отличается от обычных вьюх.
+Добавляется асинхронный цикл пока соединение активно.
+
+```python3
+async def wshandler(request):
+    ws = web.WebSocketResponse()
+    await ws.prepare(request)
+
+    async for msg in ws:
+        if msg.type == web.MsgType.text:
+            await ws.send_str("Hello, {}".format(msg.data))
+        elif msg.type == web.MsgType.binary:
+            await ws.send_bytes(msg.data)
+        elif msg.type == web.MsgType.close:
+            break
+
+    return ws
+```
+
+Для хранения текущих соединений, и разсылки бродкаст сообщений,
+будем использовать объект `app`.
+
+
+```python3
+ws = web.WebSocketResponse()
+await ws.prepare(self.request)
+request.app.wslist.append(ws)
 
 # ...
 
-jinja_env = aiohttp_jinja2.setup(
-    app, loader=jinja2.FileSystemLoader(settings.TEMPLATE_DIR),
-    context_processors=[aiohttp_jinja2.request_processor], )
+async def broadcast(self, message):
+    """ Send messages to all in this room """
+    for peer in self.request.app.wslist:
+        peer.send_json(message.as_dict())
 ```
 
-Рендер шаблона, изящно спрятан в декоратор для вьюхи.
+Поумолчанию `Nginx` не проксирует заголовки `Upgrade` и `Connection`,
+которые используются при переключении на `WS` запрос.
+
+```nginx
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+}
+
+server {
+    # ...
+
+    location / {
+        proxy_pass          http://localhost:8000;
+        proxy_set_header    Host $host;
+        proxy_set_header    X-Real-IP $remote_addr;
+
+        # ws support
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_read_timeout 1h;
+    }
+}
+```
+
+### Тестирование
+
+Тестировать приложение `AioHTTP` можно разными способами.
+Мне нравиться подход [Unittest](http://aiohttp.readthedocs.io/en/stable/testing.html#unittest).
+Единственная особенность, нужно добавить метод `get_application`
+и объявлять асинхронные тесты, декарируя их через `unittest_run_loop`.
 
 ```python3
-import aiohttp_jinja2
-from aiohttp import web
 
-class Index(web.View):
+from aiohttp.test_utils import AioHTTPTestCase, unittest_run_loop
+from app import create_app
 
-    @aiohttp_jinja2.template('template_name.html')
-    async def get(self):
-        # return context for render
-        return {'foo': 'boo'}
+
+class AioChatTestCase(AioHTTPTestCase):
+
+    """ Base test case for aiochat """
+
+    async def get_application(self, loop):
+        """ Return current app """
+        serv_generator, handler, app = await create_app(loop)
+        return app
+
+
+class IndexTestCase(AioChatTestCase):
+
+    """ Testing index app views """
+
+    url_name = 'index'
+
+    def setUp(self):
+        super().setUp()
+        self.url = self.app.router[self.url_name].url_for()
+
+    @unittest_run_loop
+    async def test_url_reversed(self):
+        """ Url should be / """
+        self.assertEqual(str(self.app.router[self.url_name].url_for()), '/')
+        self.assertEqual(str(self.url), '/')
+
+    @unittest_run_loop
+    async def test_index(self):
+        """ Should get 200 on index page """
+        response = await self.client.get('/')
+        self.assertEqual(response.status, 200)
+        content = await response.text()
+        self.assertIn('Simple asyncio chat', content)
 ```
+
+### Функциональная часть
+
+Основная функциональность чата - передача сообщений клиентам в пределах комнаты.
+
+```python3
+
+class WebSocket(web.View):
+
+    """ Process WS connections """
+
+    async def broadcast(self, message):
+        """ Send messages to all in this room """
+        for _, peer in self.request.app.wslist[self.room.id]:
+            peer.send_json(message.as_dict())
+
+    async def get(self):
+        self.room = await get_object_or_404(self.request, Room, name=self.request.match_info['slug'].lower())
+        user = self.request.user
+        app = self.request.app
+
+        ws = web.WebSocketResponse()
+        await ws.prepare(self.request)
+
+        if self.room.id not in app.wslist:
+            app.wslist[self.room.id] = []
+        app.wslist[self.room.id].append((user.username, ws))
+
+        # Создаем новое сообщение о том, что пользователь подключился к комнате
+        message = await app.objects.create(
+            Message, room=self.room, user=None, text=f'@{user.username} join chat room')
+
+        # разсылаем сообщение всем клиентам комнаты
+        await self.broadcast(message)
+
+        async for msg in ws:
+            # в асинхронном цикле шлем и получаем сообщения
+            if msg.tp == MsgType.text:
+                if msg.data == 'close':
+                    await ws.close()
+                else:
+                    text = msg.data.strip()
+                    if text.startswith('/'):
+                        ans = await self.command(text)
+                        if ans is not None:
+                            ws.send_json(ans)
+                    else:
+                        message = await app.objects.create(Message, room=self.room, user=user, text=text)
+                        await self.broadcast(message)
+            elif msg.tp == MsgType.error:
+                app.logger.debug(f'Connection closed with exception {ws.exception()}')
+
+        await self.disconnect(user.username, ws)
+```
+
+
+
+### Критика
+
+Данный чат создан исключительно в ознакомительных целях, поэтому имеет ряд допущений.
+
+- У меня возникла сложность с созданием тестовой базы данных через
+`pee wee async`, поэтому тесты весьма поверхностные.
+Только что бы обозначить общий подход к тестированию.
+- Регистрация и авторизация пользователей, без паролей и каких либо подтверждений.
+- Каждый пользователь имеет полные права администрирования комнат.
+- История комнаты отдается без паджинации вся полностью, при хоть сколь либо
+большом числе комнат/пользователей/сообщение, эти запросы будут выполнятся
+долго, создавая нагрузку как на сервер так и на клиент.
+- Подключения вебсокетов хранятся в едином объекте `APP`, что тоже создает
+лишние проблеммы при большом числе полдключений и комнат.
+Рационально в данном случае разпараллеливать комнаты между разными инстансами
+приложения.
