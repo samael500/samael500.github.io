@@ -3,7 +3,7 @@ Date: 2017-04-10 15:00
 Modified: 2017-04-10 15:00
 Category: Python
 Tags: python, async, asyncio, aiohttp, github, chat, tutorial
-Image: /media/aiochat/lua-github.png
+Image: /media/aiochat/aiochat.png
 Image_width: 1280
 Image_height: 791
 Summary:
@@ -15,7 +15,6 @@ Summary:
     с очередью задач выполняемых воркерами синхронно. Пришло время исправить это,
     и поближе познакомится с асинхронностью в `Python 3.5+`. Сделаем это
     на примере простого чата с комнатами.
-Status: draft
 
 В повседневной работе я тесно связан с `Python 3`, но такие его замечательные
 возможности, как асинхронность [asyncio](https://docs.python.org/3/library/asyncio.html)
@@ -591,7 +590,7 @@ sock.onmessage = showMessage;
 [Samael500/aiochat](https://github.com/Samael500/aiochat). А при желании
 поиграться запустив настроенный `Vagrant`.
 
-![chat](/media/aiochat/aiochat.png){.center .shadow}
+![chat](/media/aiochat/chat.png){.center .shadow}
 
 Данный чат создан исключительно в ознакомительных целях, поэтому имеет ряд допущений.
 
