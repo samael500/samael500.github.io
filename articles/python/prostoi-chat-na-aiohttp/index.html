@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ru"> <head><title>Простой чат на AioHTTP | Maks live</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#00aeff"><meta name="msapplication-navbutton-color" content="#00aeff"><meta name="apple-mobile-web-app-status-bar-style" content="#00aeff"><meta name="author" content="Maks"><meta name="robots" content="index, follow"><meta name="keywords" content="article, python, async, asyncio, aiohttp, github, chat, tutorial"><meta name="description" content="В повседневной работе я тесно связан с Python 3, но такие его замечательные возможности, как асинхронность asyncio и синтаксический сахар PEP 492 использовать не приходиться. Из асинхронных задач сталкиваюсь только с Celery, но это не совсем та асинхронность, скорее бэкграунд с очередью задач выполняемых воркерами синхронно. Пришло время исправить это и поближе познакомится с асинхронностью в Python 3.5+. Сделаем это на примере простого чата с комнатами."><meta property="og:title" content="Простой чат на AioHTTP"><meta property="og:url" content="https://maks.live/articles/python/prostoi-chat-na-aiohttp/"><meta property="og:site_name" content="Maks live"><meta property="og:type" content="article"><meta property="og:image" content="https://maks.live/media/aiochat/aiochat.png"><meta property="og:description" content="В повседневной работе я тесно связан с Python 3, но такие его замечательные возможности, как асинхронность asyncio и синтаксический сахар PEP 492 использовать не приходиться. Из асинхронных задач сталкиваюсь только с Celery, но это не совсем та асинхронность, скорее бэкграунд с очередью задач выполняемых воркерами синхронно. Пришло время исправить это и поближе познакомится с асинхронностью в Python 3.5+. Сделаем это на примере простого чата с комнатами."><meta property="og:image:width" content="1280"><meta property="og:image:height" content="791"><link rel="canonical" href="https://maks.live/articles/python/prostoi-chat-na-aiohttp/"><link href="https://maks.live/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Maks live Atom"><link href="https://maks.live/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Maks live RSS"><link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css"><link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css"><link rel="stylesheet" type="text/css" href="/theme/css/style.css"><link rel="stylesheet" type="text/css" href="/theme/css/pygment.css"><link rel="stylesheet" type="text/css" href="/theme/css/social-likes_flat.css"><script type="text/javascript" src="/theme/js/jquery.min.js"></script><script type="text/javascript" src="/theme/js/bootstrap.min.js"></script><script type="text/javascript" src="/theme/js/social-likes.min.js"></script><link rel="stylesheet" type="text/css" href="https://maks.live/theme/css/tree.css"><link rel="stylesheet" type="text/css" href="https://maks.live/theme/css/anchorific.css"><script type="text/javascript" src="https://maks.live/theme/js/anchorific.js"></script></head> <body id="index"> <a class="forkmegithub" href="https://github.com/Samael500"> <img style="position: absolute; top: 0; right: 0; border: 0;" src="/theme/images/forkme_right_gray.png" alt="Fork me on GitHub"> </a> <div class="header"> <div class="container"> <div class="logo"> <a href="https://maks.live/"> MAKS LIVE<br><small>samael500 blog</small> </a> </div> <div class="top-menu"> <div class="search"> <script>
+  (function() {
+    var cx = '006263355362628034990:cuxoisonrno';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script> <form id="searchbox_006263355362628034990:cuxoisonrno" action="https://www.google.com/"> <input value="006263355362628034990:cuxoisonrno" name="cx" type="hidden"> <input value="FORID:11" name="cof" type="hidden"> <input id="q" name="q" type="text" required> <input type="submit" value> </form> </div> <span class="menu"> </span> <ul> <li> <a href="/">HOME</a></li> <li> <a href="/tag/best/">BEST</a></li> <li><a href="https://maks.live/about/">ABOUT</a></li> <div class="clearfix"></div> </ul> <div class="clearfix"></div> <script>
+                $("span.menu").click(function(){
+                    $(".top-menu ul").slideToggle("slow" , function(){
+                    });
+                });
+            </script> </div> </div> </div> <div class="content"> <div class="container"> <div class="content-grids"> <div class="single-main"> <div class="col-md-9 single-grid"> <header> <h4> <a href="https://maks.live/articles/python/prostoi-chat-na-aiohttp/" title="Простой чат на AioHTTP">Простой чат на&nbsp;AioHTTP</a> Apr 10, 2017 </h4> <div class="footer art-info"> Author: <a class="url fn" href="https://maks.live/author/maks/">Maks</a> | Category: <a href="https://maks.live/category/python/">Python</a> | <a href="https://maks.live/articles/python/prostoi-chat-na-aiohttp/#disqus_thread">Comments</a> <br> Tags: <a href="https://maks.live/tag/python/">python</a> <a href="https://maks.live/tag/async/">async</a> <a href="https://maks.live/tag/asyncio/">asyncio</a> <a href="https://maks.live/tag/aiohttp/">aiohttp</a> <a href="https://maks.live/tag/github/">github</a> <a href="https://maks.live/tag/chat/">chat</a> <a href="https://maks.live/tag/tutorial/">tutorial</a> </div><div class="social-likes"> <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div> <div class="twitter" data-via="samael500" title="Поделиться ссылкой в Твиттере">Twitter</div> <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div> <div class="plusone" title="Поделиться ссылкой в Google+">Google+</div> </div> </header> <article class="content"> <p>В повседневной работе я тесно связан с <code>Python 3</code>, но такие его замечательные возможности, как асинхронность <a href="https://docs.python.org/3/library/asyncio.html">asyncio</a> и синтаксический сахар <a href="https://www.python.org/dev/peps/pep-0492/"><span class="caps">PEP</span> 492</a> использовать не приходиться. Из асинхронных задач сталкиваюсь только с <code>Celery</code>, но это не совсем та асинхронность, скорее бэкграунд с очередью задач выполняемых воркерами синхронно. Пришло время исправить это и поближе познакомится с асинхронностью в <code>Python 3.5+</code>. Сделаем это на примере простого чата с&nbsp;комнатами.</p> <h3 id="postanovka-zadachi"><a class="toclink" href="#postanovka-zadachi">Постановка&nbsp;задачи</a></h3> <p>Реализовать простой асинхронный чат с комнатами на <code>WebSocket</code>-ах.</p> <p>Необходимый&nbsp;функционал:</p> <ul> <li>Создать пользователя или авторизоваться под&nbsp;существующим.</li> <li>Создать комнату или подключиться к уже&nbsp;существующей.</li> <li>Иметь возможность видеть всю историю чат комнаты. В том числе подключения и отключения пользователей от&nbsp;комнаты.</li> <li>Администрирование&nbsp;комнаты.</li> </ul> <h3 id="tekhnologii"><a class="toclink" href="#tekhnologii">Технологии</a></h3> <p>Для реализации чата будем использовать <code>Python 3.6</code> и фреймворк <a href="http://aiohttp.readthedocs.io/en/stable/">AioHTTP</a>, данные хранить в базе <code>PostgreSQL</code>, текущие сессии в <code>Redis</code>, запросы проксировать через <code>Nginx</code>.</p> <h3 id="asinkhronnyi-freimvork"><a class="toclink" href="#asinkhronnyi-freimvork">Асинхронный&nbsp;фреймворк</a></h3> <p>Текущая версия <code>AioHTTP 2.0.6</code>, однако оказалось, что с ней несовместима текущая версия <code>AioHTTP debugtoolbar</code> <a href="https://github.com/aio-libs/aiohttp-debugtoolbar/issues/115">issue #115</a>. Так что будем использовать предыдущую версию <code>AioHTTP 1.3.5</code>.</p> <p>Простейшее приложение на <code>AioHTTP</code> выглядит&nbsp;так:</p> <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aiohttp</span> <span class="k">import</span> <span class="n">web</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">match_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s2">&quot;Anonymous&quot;</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="n">name</span>
+    <span class="k">return</span> <span class="n">web</span><span class="o">.</span><span class="n">Response</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">Application</span><span class="p">()</span>
+<span class="n">app</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">add_route</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">handler</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">add_route</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;/</span><span class="si">{name}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">handler</span><span class="p">)</span>
+
+<span class="n">web</span><span class="o">.</span><span class="n">run_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</pre></div> <p>Как можно заметить, роуты конфигурируются после инициализации приложения. <code>Url</code> аргументы задаются подобно форматированию строк <code>{slug}</code>.</p> <p>В момент создания приложения можно указать <code>middlewares</code>, передав их в конструктор&nbsp;приложения.</p> <div class="highlight"><pre><span></span><span class="n">app</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">,</span> <span class="n">middlewares</span><span class="o">=</span><span class="n">middlewares</span><span class="p">)</span>
+</pre></div> <h3 id="baza-dannykh-i-modeli"><a class="toclink" href="#baza-dannykh-i-modeli">База данных и&nbsp;модели</a></h3> <p>В качестве базы данных используем <code>PostgreSQL</code>, для работы с которой воспользуемся <a href="http://docs.peewee-orm.com/en/latest/">PeeWee <span class="caps">ORM</span></a> и асинхронным менеджером, <a href="https://peewee-async.readthedocs.io/en/latest/">PeeWee Async</a>.</p> <p>Создадим базовую модель с неинициализированной базой. Саму базу инициализируем в момент конфигурирования&nbsp;приложения.</p> <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">peewee</span>
+<span class="kn">import</span> <span class="nn">peewee_async</span>
+
+
+<span class="n">database</span> <span class="o">=</span> <span class="n">peewee_async</span><span class="o">.</span><span class="n">PostgresqlDatabase</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">BaseModel</span><span class="p">(</span><span class="n">peewee</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot; Base model with db Meta &quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">database</span> <span class="o">=</span> <span class="n">database</span>
+</pre></div> <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">peewee_async</span>
+<span class="kn">from</span> <span class="nn">helpers.models</span> <span class="k">import</span> <span class="n">database</span>
+
+<span class="n">DATABASE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;database&#39;</span><span class="p">:</span> <span class="s1">&#39;aiochat&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;password&#39;</span><span class="p">:</span> <span class="s1">&#39;supersecret&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;aiochat_user&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;host&#39;</span><span class="p">:</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># ...</span>
+
+<span class="n">database</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="o">**</span><span class="n">DATABASE</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">database</span> <span class="o">=</span> <span class="n">database</span>
+<span class="n">app</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">set_allow_sync</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">objects</span> <span class="o">=</span> <span class="n">peewee_async</span><span class="o">.</span><span class="n">Manager</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">database</span><span class="p">)</span>
+</pre></div> <p>Сама идея Менеджера базы данных взята из <code>Django</code>, но в <code>PeeWee Async</code> работает это немного по-другому и с непривычки вызывает&nbsp;недоумение.</p> <blockquote> <p>High-level <span class="caps">API</span> provides a single point for all async <span class="caps">ORM</span> calls. Meet the Manager class! The idea of Manager originally comes from Django, but it’s redesigned to meet new asyncio&nbsp;patterns.</p> </blockquote> <div class="highlight"><pre><span></span><span class="c1"># Django manager</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">username__iexact</span><span class="o">=</span><span class="s1">&#39;Alice&#39;</span><span class="p">)</span>
+
+<span class="c1"># Pee Wee manager</span>
+<span class="n">user</span> <span class="o">=</span> <span class="k">await</span> <span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">User</span><span class="o">.</span><span class="n">username</span> <span class="o">**</span> <span class="s1">&#39;Alice&#39;</span><span class="p">)</span>
+</pre></div> <p>Через менеджер вызываются асинхронные запросы, но через контекст можно провести синхронный запрос, например, создание&nbsp;таблицы.</p> <div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">objects</span><span class="o">.</span><span class="n">allow_sync</span><span class="p">():</span>
+    <span class="n">User</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div> <h3 id="shablony-i-puti"><a class="toclink" href="#shablony-i-puti">Шаблоны и&nbsp;пути</a></h3> <p>В качестве шаблонизатора будем использовать <a href="http://aiohttp-jinja2.readthedocs.io/en/stable/">асинхронную jinja2</a>. Конфигурируется через вызов метода <code>setup</code>, в который передается загрузчик шаблонов и список контекстных&nbsp;процессоров.</p> <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jinja2</span>
+<span class="kn">import</span> <span class="nn">aiohttp_jinja2</span>
+
+<span class="c1"># ...</span>
+
+<span class="n">jinja_env</span> <span class="o">=</span> <span class="n">aiohttp_jinja2</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span>
+    <span class="n">app</span><span class="p">,</span> <span class="n">loader</span><span class="o">=</span><span class="n">jinja2</span><span class="o">.</span><span class="n">FileSystemLoader</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">TEMPLATE_DIR</span><span class="p">),</span>
+    <span class="n">context_processors</span><span class="o">=</span><span class="p">[</span><span class="n">aiohttp_jinja2</span><span class="o">.</span><span class="n">request_processor</span><span class="p">],</span> <span class="p">)</span>
+</pre></div> <p>Рендер шаблона изящно спрятан в декоратор для&nbsp;вьюхи.</p> <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">aiohttp_jinja2</span>
+<span class="kn">from</span> <span class="nn">aiohttp</span> <span class="k">import</span> <span class="n">web</span>
+
+<span class="k">class</span> <span class="nc">Index</span><span class="p">(</span><span class="n">web</span><span class="o">.</span><span class="n">View</span><span class="p">):</span>
+
+    <span class="nd">@aiohttp_jinja2</span><span class="o">.</span><span class="n">template</span><span class="p">(</span><span class="s1">&#39;template_name.html&#39;</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># return context for render</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="s1">&#39;boo&#39;</span><span class="p">}</span>
+</pre></div> <p>Routes, как уже было сказано выше, конфигурируются после инициализации приложения. Через функциию <code>app.router.add_route</code>. Несмотря на то, что статику у нас будет отдавать <code>Nginx</code>, задаем её специальным роутом <code>add_static</code>, чтобы в шаблонах иметь возможность подключать статические&nbsp;файлы.</p> <div class="highlight"><pre><span></span><span class="c1"># urls.py</span>
+<span class="kn">from</span> <span class="nn">accounts.urls</span> <span class="k">import</span> <span class="n">routes</span> <span class="k">as</span> <span class="n">accounts_routes</span>
+<span class="kn">from</span> <span class="nn">chat.urls</span> <span class="k">import</span> <span class="n">routes</span> <span class="k">as</span> <span class="n">chat_routes</span>
+
+<span class="kn">from</span> <span class="nn">views</span> <span class="k">import</span> <span class="n">Index</span>
+
+<span class="n">routes</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">handler</span><span class="o">=</span><span class="n">Index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">),</span>
+    <span class="o">*</span> <span class="n">accounts_routes</span><span class="p">,</span>
+    <span class="o">*</span> <span class="n">chat_routes</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div> <div class="highlight"><pre><span></span><span class="c1"># app.py</span>
+<span class="kn">from</span> <span class="nn">urls</span> <span class="k">import</span> <span class="n">routes</span>
+<span class="k">for</span> <span class="n">route</span> <span class="ow">in</span> <span class="n">routes</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">add_route</span><span class="p">(</span><span class="o">**</span><span class="n">route</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">add_static</span><span class="p">(</span><span class="s1">&#39;/static&#39;</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">STATIC_DIR</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;static&#39;</span><span class="p">)</span>
+</pre></div> <p>В шаблоне получаем доступ к роутам, через объект <code>app</code>.</p> <div class="highlight"><pre><span></span><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">app.router</span><span class="o">[</span><span class="s1">&#39;index&#39;</span><span class="o">]</span><span class="nv">.url_for</span><span class="o">()</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>Main page<span class="nt">&lt;/a&gt;</span>
+
+<span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">app.router.static.url</span><span class="o">(</span><span class="nv">filename</span><span class="o">=</span><span class="s1">&#39;chat.css&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;script</span> <span class="na">src=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">app.router.static.url</span><span class="o">(</span><span class="nv">filename</span><span class="o">=</span><span class="s1">&#39;chat.js&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div> <h3 id="sessii"><a class="toclink" href="#sessii">Сессии</a></h3> <p>Для работы с сессиями будем использовать <a href="http://aiohttp-session.readthedocs.io/en/latest/">aiohttp session</a>. Данная библиотека позволяет на выбор работать с <code>cookies</code> или <code>redis</code> хранилищами. Мне больше нравится <code>redis</code>. Для подключения потребуется библиотека <a href="https://aioredis.readthedocs.io/en/v0.3.0/">aioredis</a>.</p> <p>Подключим сессии и&nbsp;редис.</p> <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">aioredis</span>
+
+<span class="kn">from</span> <span class="nn">aiohttp_session</span> <span class="k">import</span> <span class="n">session_middleware</span>
+<span class="kn">from</span> <span class="nn">aiohttp_session.redis_storage</span> <span class="k">import</span> <span class="n">RedisStorage</span>
+
+<span class="c1"># ...</span>
+
+<span class="n">redis_pool</span> <span class="o">=</span> <span class="k">await</span> <span class="n">aioredis</span><span class="o">.</span><span class="n">create_pool</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">REDIS_CON</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
+<span class="n">middlewares</span> <span class="o">=</span> <span class="p">[</span><span class="n">session_middleware</span><span class="p">(</span><span class="n">RedisStorage</span><span class="p">(</span><span class="n">redis_pool</span><span class="p">))]</span>
+</pre></div> <p>Чтобы получить текущюю сессию, нужно дождаться ответа из корутины <code>get_session</code>. Мне нравится подход в джанго, когда в каждом объекте Запрос есть прямой доступ к сессии и пользователю. Сделаем подобное в <code>aiohttp</code> с помощью <code>middlewares</code>.</p> <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aiohttp_session</span> <span class="k">import</span> <span class="n">get_session</span>
+<span class="kn">from</span> <span class="nn">accounts.models</span> <span class="k">import</span> <span class="n">User</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">request_user_middleware</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">handler</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">middleware</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="k">await</span> <span class="n">get_session</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">user_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">user_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">request</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="k">await</span> <span class="n">request</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">handler</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">middleware</span>
+</pre></div> <p>Раз уж у нас есть объект пользователя в запросе, создадим декораторы для ограничения доступа авторизованным и анонимным&nbsp;пользователям.</p> <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aiohttp</span> <span class="k">import</span> <span class="n">web</span>
+<span class="kn">from</span> <span class="nn">helpres.tools</span> <span class="k">import</span> <span class="n">redirect</span>
+
+<span class="k">def</span> <span class="nf">login_required</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Allow only auth users &quot;&quot;&quot;</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">wrapped</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">redirect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;login&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapped</span>
+
+
+<span class="k">def</span> <span class="nf">anonymous_required</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Allow only anonymous users &quot;&quot;&quot;</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">wrapped</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">redirect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapped</span>
+</pre></div> <p>В данных декораторах используем функцию <code>redirect</code>, она вызывает исключение, которое пораждает редирект. В <code>AioHTTP</code> можно вызвать лобой из <a href="https://github.com/aio-libs/aiohttp/blob/master/aiohttp/web_exceptions.py">web исключений</a> это сделано круче, чем в <code>Django</code>, где есть возможность вернуть только <code>404</code>, <code>403</code> и <code>400</code> через исключения <code>Http404</code>, <code>PermissionDenied</code>, <code>SuspiciousOperation</code> соответсвенно, а редирект должен быть отдан явным&nbsp;ответом.</p> <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aiohttp</span> <span class="k">import</span> <span class="n">web</span>
+
+<span class="k">def</span> <span class="nf">redirect</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">router_name</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">permanent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Redirect to given URL name &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">router</span><span class="p">[</span><span class="n">router_name</span><span class="p">]</span><span class="o">.</span><span class="n">url</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">permanent</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">web</span><span class="o">.</span><span class="n">HTTPMovedPermanently</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="n">web</span><span class="o">.</span><span class="n">HTTPFound</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre></div> <h3 id="websockets"><a class="toclink" href="#websockets">WebSockets</a></h3> <p>В <code>AioHTTP</code> реализованы вебсокеты через <code>web.WebSocketResponse()</code>, работа с ними практически не отличается от обычных вьюх, разве что добавляется асинхронный цикл пока соединение&nbsp;активно.</p> <div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span> <span class="nf">wshandler</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">ws</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">WebSocketResponse</span><span class="p">()</span>
+    <span class="k">await</span> <span class="n">ws</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">ws</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">web</span><span class="o">.</span><span class="n">MsgType</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+            <span class="k">await</span> <span class="n">ws</span><span class="o">.</span><span class="n">send_str</span><span class="p">(</span><span class="s2">&quot;Hello, </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">msg</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">web</span><span class="o">.</span><span class="n">MsgType</span><span class="o">.</span><span class="n">binary</span><span class="p">:</span>
+            <span class="k">await</span> <span class="n">ws</span><span class="o">.</span><span class="n">send_bytes</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">msg</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">web</span><span class="o">.</span><span class="n">MsgType</span><span class="o">.</span><span class="n">close</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">ws</span>
+</pre></div> <p>Для хранения текущих соединений и рассылки бродкаст сообщений, будем использовать объект <code>app</code>.</p> <div class="highlight"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">WebSocketResponse</span><span class="p">()</span>
+<span class="k">await</span> <span class="n">ws</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">)</span>
+<span class="n">request</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">wslist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span>
+
+<span class="c1"># ...</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">broadcast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Send messages to all in this room &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">peer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">wslist</span><span class="p">:</span>
+        <span class="n">peer</span><span class="o">.</span><span class="n">send_json</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">as_dict</span><span class="p">())</span>
+</pre></div> <p>По умолчанию <code>Nginx</code> не проксирует заголовки <code>Upgrade</code> и <code>Connection</code>, которые используются при переключении на <code>WS</code> запрос.</p> <div class="highlight"><pre><span></span><span class="k">map</span> <span class="nv">$http_upgrade</span> <span class="nv">$connection_upgrade</span> <span class="p">{</span>
+    <span class="kn">default</span> <span class="s">upgrade</span><span class="p">;</span>
+    <span class="kn">&#39;&#39;</span>      <span class="s">close</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">server</span> <span class="p">{</span>
+    <span class="c1"># ...</span>
+
+    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+        <span class="kn">proxy_pass</span>          <span class="s">http://localhost:8000</span><span class="p">;</span>
+        <span class="kn">proxy_set_header</span>    <span class="s">Host</span> <span class="nv">$host</span><span class="p">;</span>
+        <span class="kn">proxy_set_header</span>    <span class="s">X-Real-IP</span> <span class="nv">$remote_addr</span><span class="p">;</span>
+
+        <span class="c1"># ws support</span>
+        <span class="kn">proxy_http_version</span> <span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+        <span class="kn">proxy_set_header</span> <span class="s">Upgrade</span> <span class="nv">$http_upgrade</span><span class="p">;</span>
+        <span class="kn">proxy_set_header</span> <span class="s">Connection</span> <span class="nv">$connection_upgrade</span><span class="p">;</span>
+        <span class="kn">proxy_read_timeout</span> <span class="s">1h</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div> <h3 id="testirovanie"><a class="toclink" href="#testirovanie">Тестирование</a></h3> <p>Тестировать приложение <code>AioHTTP</code> можно разными способами. Мне нравится подход <a href="http://aiohttp.readthedocs.io/en/stable/testing.html#unittest">Unittest</a>. Единственная особенность: нужно добавить метод <code>get_application</code> и объявлять асинхронные тесты, декарируя их через <code>unittest_run_loop</code>.</p> <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aiohttp.test_utils</span> <span class="k">import</span> <span class="n">AioHTTPTestCase</span><span class="p">,</span> <span class="n">unittest_run_loop</span>
+<span class="kn">from</span> <span class="nn">app</span> <span class="k">import</span> <span class="n">create_app</span>
+
+
+<span class="k">class</span> <span class="nc">AioChatTestCase</span><span class="p">(</span><span class="n">AioHTTPTestCase</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot; Base test case for aiochat &quot;&quot;&quot;</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_application</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loop</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return current app &quot;&quot;&quot;</span>
+        <span class="n">serv_generator</span><span class="p">,</span> <span class="n">handler</span><span class="p">,</span> <span class="n">app</span> <span class="o">=</span> <span class="k">await</span> <span class="n">create_app</span><span class="p">(</span><span class="n">loop</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">app</span>
+
+
+<span class="k">class</span> <span class="nc">IndexTestCase</span><span class="p">(</span><span class="n">AioChatTestCase</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot; Testing index app views &quot;&quot;&quot;</span>
+
+    <span class="n">url_name</span> <span class="o">=</span> <span class="s1">&#39;index&#39;</span>
+
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setUp</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">router</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">url_name</span><span class="p">]</span><span class="o">.</span><span class="n">url_for</span><span class="p">()</span>
+
+    <span class="nd">@unittest_run_loop</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">test_url_reversed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Url should be / &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">router</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">url_name</span><span class="p">]</span><span class="o">.</span><span class="n">url_for</span><span class="p">()),</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">),</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span>
+
+    <span class="nd">@unittest_run_loop</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">test_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Should get 200 on index page &quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s1">&#39;Simple asyncio chat&#39;</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+</pre></div> <p>Cоздание тестовой базы данных через <code>PeeWee Async</code> оказалось не очень удобно, поэтому тесты будут весьма поверхностные, только чтобы обозначить общий подход к тестированию приложения на <code>AioHTTP</code>.</p> <h3 id="funktsionalnaia-chast"><a class="toclink" href="#funktsionalnaia-chast">Функциональная&nbsp;часть</a></h3> <p>Основная функциональность чата &#8212; передача сообщений клиентам в пределах&nbsp;комнаты.</p> <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">WebSocket</span><span class="p">(</span><span class="n">web</span><span class="o">.</span><span class="n">View</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot; Process WS connections &quot;&quot;&quot;</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">broadcast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Send messages to all in this room &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">peer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">wslist</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="o">.</span><span class="n">id</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">peer</span><span class="o">.</span><span class="n">send_json</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">as_dict</span><span class="p">())</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">room</span> <span class="o">=</span> <span class="k">await</span> <span class="n">get_object_or_404</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="n">Room</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">match_info</span><span class="p">[</span><span class="s1">&#39;slug&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">app</span>
+
+        <span class="c1"># При подключении создаем WebSocketResponse</span>
+        <span class="n">ws</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">WebSocketResponse</span><span class="p">()</span>
+        <span class="k">await</span> <span class="n">ws</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="o">.</span><span class="n">id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">app</span><span class="o">.</span><span class="n">wslist</span><span class="p">:</span>
+            <span class="c1"># Создаем пустую комнату если ещё нет</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">wslist</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Сохраняем соединение в объекте app и создаем сервисное сообщение</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">wslist</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="o">.</span><span class="n">id</span><span class="p">][</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">]</span> <span class="o">=</span> <span class="n">ws</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="k">await</span> <span class="n">app</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">Message</span><span class="p">,</span> <span class="n">room</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{user}</span><span class="s1"> join chat room&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Рассылка всем подключенным клиентам</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="c1"># В асинхронном цикле слушаем сообщения от текущего сокета</span>
+        <span class="k">async</span> <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">ws</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">tp</span> <span class="o">==</span> <span class="n">MsgType</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s1">&#39;close&#39;</span><span class="p">:</span>
+                    <span class="k">await</span> <span class="n">ws</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Сохраняем сообщение в базу и шлем бродкаст</span>
+                    <span class="n">message</span> <span class="o">=</span> <span class="k">await</span> <span class="n">app</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                        <span class="n">Message</span><span class="p">,</span> <span class="n">room</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+                    <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="c1"># Когда соединение закрывается, удаляем пользователя из сохраненных соединений</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">wslist</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Сервисное сообщение об отключении в бродкаст</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="k">await</span> <span class="n">app</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">Message</span><span class="p">,</span> <span class="n">room</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{user}</span><span class="s1"> left chat room&#39;</span><span class="p">)</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="c1"># возвращаем WebSocketResponse</span>
+        <span class="k">return</span> <span class="n">ws</span>
+</pre></div> <p>В качестве администрирования комнаты, добавим возможность выполнять команды пользователей. Возьмем две простые команды: <code>очистить историю комнаты</code> и <code>удалить пользователя из комнаты</code>.</p> <div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span> <span class="nf">command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Run chat command &quot;&quot;&quot;</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">app</span>
+    <span class="k">if</span> <span class="n">cmd</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;/kill&#39;</span><span class="p">):</span>
+        <span class="c1"># unconnect user from room</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># Найдем пользователя по имени и отключим от чата</span>
+            <span class="n">peer</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">wslist</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="o">.</span><span class="n">id</span><span class="p">][</span><span class="n">target</span><span class="p">]</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">peer</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s1">&#39;/clear&#39;</span><span class="p">:</span>
+        <span class="c1"># Удалим все сообщения из комнаты</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="k">await</span> <span class="n">app</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="n">Message</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Message</span><span class="o">.</span><span class="n">room</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="p">))</span>
+        <span class="c1"># В бродкаст вышлем пользователям команды для очистки истории на клиенте</span>
+        <span class="k">for</span> <span class="n">peer</span> <span class="ow">in</span> <span class="n">app</span><span class="o">.</span><span class="n">wslist</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="o">.</span><span class="n">id</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">peer</span><span class="o">.</span><span class="n">send_json</span><span class="p">({</span><span class="s1">&#39;cmd&#39;</span><span class="p">:</span> <span class="s1">&#39;empty&#39;</span><span class="p">})</span>
+    <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s1">&#39;/help&#39;</span><span class="p">:</span>
+        <span class="c1"># Вспомогательная команда для отображения справки</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">dedent</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span><span class="se">\</span>
+<span class="s1">            - /help - display this msg</span>
+<span class="s1">            - /kill </span><span class="si">{username}</span><span class="s1"> - remove user from room</span>
+<span class="s1">            - /clear - empty all messages in room</span>
+<span class="s1">            &#39;&#39;&#39;</span><span class="p">)}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;wrong cmd </span><span class="si">{cmd}</span><span class="s1">&#39;</span><span class="p">}</span>
+</pre></div> <p>В асинхронном цикле будем сравнивать, если сообщение начинается с <code>/</code> значит обрабатывать его как&nbsp;команду.</p> <div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">ws</span><span class="p">:</span>
+    <span class="c1"># ...</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ans</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ws</span><span class="o">.</span><span class="n">send_json</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="k">await</span> <span class="n">app</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Message</span><span class="p">,</span> <span class="n">room</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</pre></div> <h3 id="klient"><a class="toclink" href="#klient">Клиент</a></h3> <p>Браузерный клиент это простое <code>WebSocket</code> подключение с определенными командами на отправку и отображение&nbsp;сообщений.</p> <div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">sock</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebSocket</span><span class="p">(</span><span class="s1">&#39;ws://&#39;</span> <span class="o">+</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">host</span> <span class="o">+</span> <span class="nx">WS_URL</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">showMessage</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/* Append message to chat area */</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">message</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">parseJSON</span><span class="p">(</span><span class="nx">message</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+    <span class="nx">$messagesContainer</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;&lt;li class=&quot;media&quot;&gt;&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">text</span> <span class="o">+</span> <span class="s1">&#39;&lt;/li&gt;&#39;</span><span class="p">);</span>
+    <span class="nx">$chatArea</span><span class="p">.</span><span class="nx">scrollTop</span><span class="p">(</span><span class="nx">$messagesContainer</span><span class="p">.</span><span class="nx">height</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="c1">// ...</span>
+
+<span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#send&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;submit&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">$message</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;text&quot;]&#39;</span><span class="p">);</span>
+    <span class="nx">sock</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">$message</span><span class="p">.</span><span class="nx">val</span><span class="p">());</span>
+    <span class="nx">$message</span><span class="p">.</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">).</span><span class="nx">focus</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nx">sock</span><span class="p">.</span><span class="nx">onopen</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">event</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Connection to server started&#39;</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="nx">sock</span><span class="p">.</span><span class="nx">onclose</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">event</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">wasClean</span><span class="p">){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Clean connection end&#39;</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Connection broken&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="nx">sock</span><span class="p">.</span><span class="nx">onerror</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="nx">sock</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="nx">showMessage</span><span class="p">;</span>
+</pre></div> <h3 id="rezultat-i-kritika"><a class="toclink" href="#rezultat-i-kritika">Результат и&nbsp;критика</a></h3> <p>Как выяснилось, асинхронный код в <code>Python 3</code> практически не отличается от синхронного. Работать с ним легко и весело. <code>WebSocket</code> вызывает отдельный восторг, позволяя отправлять сообщения клиентам со стороны сервера без явного&nbsp;запроса.</p> <p><code>AioHTTP</code> позволяет легко реализовать простой асинхронный сервер с <code>WebSocket</code>ами, но что-то большое я бы не стал на на нем писать, иначе всё начнет превращаться в сплошную&nbsp;рутину-корутины.</p> <p>Полный пример чата можно посмотреть в репозитории на <code>github</code> <a href="https://github.com/Samael500/aiochat">Samael500/aiochat</a>, а при желании поиграться, запустив настроенный <code>Vagrant</code>.</p> <p><img alt="chat" class="center shadow" src="/media/aiochat/chat.png"></p> <p>Данный чат создан исключительно в ознакомительных целях, поэтому имеет ряд&nbsp;допущений:</p> <ul> <li>Регистрация и авторизация пользователей без паролей и каких-либо&nbsp;подтверждений.</li> <li>Каждый пользователь имеет полные права администрирования&nbsp;комнат.</li> <li>Нет нормальной валидации форм на создание пользователя или&nbsp;комнаты.</li> <li>Команды чата реализованы без валидации формата&nbsp;команды.</li> <li>История комнаты отдается без паджинации вся полностью, при хоть сколь-либо большом числе комнат/пользователей/сообщение, эти запросы будут выполнятmся долго, создавая нагрузку как на сервер, так и на&nbsp;клиент.</li> <li>Подключения вебсокетов хранятся в едином объекте <code>APP</code>, что тоже создает лишние проблеммы при большом числе полдключений и комнат. Рационально в данном случае разпараллеливать комнаты между разными инстансами&nbsp;приложения.</li> </ul> </article> <div class="comments"> <div id="disqus_thread"></div> <script type="text/javascript">
+                    var disqus_identifier = "articles/python/prostoi-chat-na-aiohttp/";
+                    (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//samael500.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script> </div> </div> <div class="col-md-3 content-right"> <div class="anchorific"></div> </div> </div> </div> </div> </div> <div class="footer"> <div class="container"> <p>This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.</p> <p><a href="http://github.com/samael500/w3-personal-blog/">W3 Personal Blog</a> is a flat <a href="http://getbootstrap.com/">bootstrap</a> responsive theme designed by <a href="https://w3layouts.com/personal-blog-a-blogging-category-flat-bootstrap-responsive-web-template/">W3layouts</a> ported to a pelican by <a href="http://samael500.github.io/">Samael500</a>.<p> <p>Copyrights &copy; 2015&mdash;2017 Maks live All rights reserved.</p> <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> <img alt="Creative Commons License" style="border-width:0" src="/media/by-nc-sa.svg"></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p> </div> </div> <script type="text/javascript" src="https://www.l2.io/ip.js?var=userip"></script> <script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter32194009 = new Ya.Metrika({
+                    id:32194009,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true,
+                    params:{'ip': userip}
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script> <noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt></div></noscript> <script type="text/javascript">
+    var disqus_shortname = 'samael500';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script> </body> </html>
