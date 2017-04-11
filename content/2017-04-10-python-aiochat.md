@@ -2,7 +2,7 @@ Title: Простой чат на AioHTTP
 Date: 2017-04-10 15:00
 Modified: 2017-04-10 15:00
 Category: Python
-Tags: python, async, asyncio, aiohttp, github, chat, tutorial
+Tags: python, async, asyncio, aiohttp, github, chat, tutorial, best
 Image: /media/aiochat/aiochat.png
 Image_width: 1280
 Image_height: 791
