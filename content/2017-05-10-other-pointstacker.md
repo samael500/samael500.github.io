@@ -19,6 +19,40 @@ Summary:
 
 Как оказалось, сделать это силами геосервара очень просто,
 но пока этот способ был найден, прешлось перерыть
-всю документацию по геосерверу и `Gis StackExchange`. В результате
+всю документацию по геосерверу и весь `Gis StackExchange`. В результате
 группировка точек в кластеры делается с помощью векторной трансформации
 [vec:PointStacker](http://docs.geoserver.org/latest/en/user/styling/ysld/reference/transforms.html#point-stacker).
+
+### Группировка точек
+
+```xml
+<Transformation>
+    <ogc:Function name="vec:PointStacker">
+        <ogc:Function name="parameter">
+            <ogc:Literal>data</ogc:Literal>
+        </ogc:Function>
+        <ogc:Function name="parameter">
+            <ogc:Literal>cellSize</ogc:Literal>
+            <ogc:Literal>99</ogc:Literal>
+        </ogc:Function>
+        <ogc:Function name="parameter">
+            <ogc:Literal>outputBBOX</ogc:Literal>
+            <ogc:Function name="env">
+                <ogc:Literal>wms_bbox</ogc:Literal>
+            </ogc:Function>
+        </ogc:Function>
+        <ogc:Function name="parameter">
+            <ogc:Literal>outputWidth</ogc:Literal>
+            <ogc:Function name="env">
+                <ogc:Literal>wms_width</ogc:Literal>
+            </ogc:Function>
+        </ogc:Function>
+        <ogc:Function name="parameter">
+            <ogc:Literal>outputHeight</ogc:Literal>
+            <ogc:Function name="env">
+                <ogc:Literal>wms_height</ogc:Literal>
+            </ogc:Function>
+        </ogc:Function>
+    </ogc:Function>
+</Transformation>
+```
