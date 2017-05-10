@@ -300,6 +300,30 @@ Summary:
 
 <div id='map-zoom'></div>
 
+Так же, кластеризация позволила значительно увеличить производительность системы.
+Рендер большого числа отдельных маркеров выполнялся медленно и существенно
+нагружал процессор. Часто соединение обрывалось по `504`.
+Объединение в кластеры работает очень быстро без нагрузки на систему.
+
+Кластеризованый результат (полная карта) загружается в среднем за 1.6 секунд.
+Тогда как отдельные маркеры грузились порядка 130 секунд.
+
+#### Загрузка кластеризированных маркеров
+
+![waterfall cluster](/media/pointstacker/waterfall-cluster.png){.center}
+
+Load Time | First Byte | Start Render | Speed Index | Interactive (beta) | Time | Requests | Bytes In
+--------- | ---------- | ------------ | ----------- | ------------------ | ---- | -------- | --------
+  1.697s  |   1.669s   |     3.780s   |     3780    |       > 3.813s     |1.697s|     1    |   9 KB
+
+#### Загрузка отдельных маркеров
+
+![waterfall points](/media/pointstacker/waterfall-points.png)
+
+Load Time | First Byte | Start Render | Speed Index | Interactive (beta) | Time | Requests | Bytes In
+--------- | ---------- | ------------ | ----------- | ------------------ | ---- | -------- | --------
+ 130.397s |   8.268s   |    21.934s   |     57691   |        8.445s      |130.397s |  1    | 960 KB
+
 <script>
 $("#map").wbtComparator({
     // direction: "horizontal",
@@ -311,27 +335,5 @@ $("#map-zoom").wbtComparator({
     src: ["/media/pointstacker/zoom-cluster.png", "/media/pointstacker/zoom-objects.png"],
     timeout: false
 });
-$('table').addClass('table');
+$('table').addClass('table table-bordered table-responsive');
 </script>
-
-Так же, кластеризация позволила значительно увеличить производительность системы.
-Рендер большого числа отдельных маркеров выполнялся медленно и существенно
-нагружал процессор. Часто соединение обрывалось по `504`.
-Объединение в кластеры работает очень быстро без нагрузки на систему.
-
-Кластеризованый результат (полная карта) загружается в среднем за 1.6 секунд.
-Тогда как отдельные маркеры грузились порядка 130 секунд.
-
-![waterfall cluster](/media/pointstacker/waterfall-cluster.png){.center}
-> Загрузка кластера
-
-Load Time | First Byte | Start Render | Speed Index | Interactive (beta) | Time | Requests | Bytes In
---------- | ---------- | ------------ | ----------- | ------------------ | ---- | -------- | --------
-  1.697s  |   1.669s   |     3.780s   |     3780    |       > 3.813s     |1.697s|     1    |   9 KB
-
-![waterfall points](/media/pointstacker/waterfall-points.png)
-> Загрузка отдельных маркеров
-
-Load Time | First Byte | Start Render | Speed Index | Interactive (beta) | Time | Requests | Bytes In
---------- | ---------- | ------------ | ----------- | ------------------ | ---- | -------- | --------
- 130.397s |   8.268s   |    21.934s   |     57691   |        8.445s      |130.397s |  1    | 960 KB
