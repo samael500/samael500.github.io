@@ -331,7 +331,7 @@ Status: draft
 
 Load Time | First Byte | Start Render | Speed Index | Interactive (beta) | Time | Requests | Bytes In
 --------- | ---------- | ------------ | ----------- | ------------------ | ---- | -------- | --------
-  1.697s  |   1.669s   |     3.780s   |     3780    |       > 3.813s     |1.697s|     1    |   9 KB
+  1.647s  |   1.557s   |     3.718s   |     3718    |       > 3.763s     |1.677s|     2    |   9 KB
 
 #### Загрузка отдельных маркеров
 
