@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru"> <head><title>Кластеризация маркеров в GeoServer | Maks live</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#00aeff"><meta name="msapplication-navbutton-color" content="#00aeff"><meta name="apple-mobile-web-app-status-bar-style" content="#00aeff"><meta name="author" content="Maks"><meta name="robots" content="index, follow"><meta name="keywords" content="article, geoserver, map, postgis, gis, geodata, sld"><meta name="description" content="На одном из текущих проектов мы строим геоинформационную систему. Работаем с геоданными через PostGIS и GeoServer. Объектов на карте достаточно много и в перспективе будет всё больше. Отрисовка всех маркеров на крупном масштабе заставляет геосервер нагружать систему на 100%. Для оптимизации работы системы, а так же — повышения наглядности для пользователя. Отдельные маркеры на карте необходимо группировать в кластеры."><meta property="og:title" content="Кластеризация маркеров в GeoServer"><meta property="og:url" content="https://maks.live/drafts/klasterizatsiia-markerov-v-geoserver.html"><meta property="og:site_name" content="Maks live"><meta property="og:type" content="article"><meta property="og:image" content="https://maks.live/media/pointstacker/banner.png"><meta property="og:description" content="На одном из текущих проектов мы строим геоинформационную систему. Работаем с геоданными через PostGIS и GeoServer. Объектов на карте достаточно много и в перспективе будет всё больше. Отрисовка всех маркеров на крупном масштабе заставляет геосервер нагружать систему на 100%. Для оптимизации работы системы, а так же — повышения наглядности для пользователя. Отдельные маркеры на карте необходимо группировать в кластеры."><meta property="og:image:width" content="1280"><meta property="og:image:height" content="791"><link rel="canonical" href="https://maks.live/drafts/klasterizatsiia-markerov-v-geoserver.html"><link href="https://maks.live/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Maks live Atom"><link href="https://maks.live/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Maks live RSS"><link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css"><link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css"><link rel="stylesheet" type="text/css" href="/theme/css/style.css"><link rel="stylesheet" type="text/css" href="/theme/css/pygment.css"><link rel="stylesheet" type="text/css" href="/theme/css/social-likes_flat.css"><script type="text/javascript" src="/theme/js/jquery.min.js"></script><script type="text/javascript" src="/theme/js/bootstrap.min.js"></script><script type="text/javascript" src="/theme/js/social-likes.min.js"></script><link rel="stylesheet" type="text/css" href="https://maks.live/theme/css/tree.css"><link rel="stylesheet" type="text/css" href="https://maks.live/theme/css/anchorific.css"><script type="text/javascript" src="https://maks.live/theme/js/anchorific.js"></script></head> <body id="index"> <a class="forkmegithub" href="https://github.com/Samael500"> <img style="position: absolute; top: 0; right: 0; border: 0;" src="/theme/images/forkme_right_gray.png" alt="Fork me on GitHub"> </a> <div class="header"> <div class="container"> <div class="logo"> <a href="https://maks.live/"> MAKS LIVE<br><small>samael500 blog</small> </a> </div> <div class="top-menu"> <div class="search"> <script>
+  (function() {
+    var cx = '006263355362628034990:cuxoisonrno';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script> <form id="searchbox_006263355362628034990:cuxoisonrno" action="https://www.google.com/"> <input value="006263355362628034990:cuxoisonrno" name="cx" type="hidden"> <input value="FORID:11" name="cof" type="hidden"> <input id="q" name="q" type="text" required> <input type="submit" value> </form> </div> <span class="menu"> </span> <ul> <li> <a href="/">HOME</a></li> <li> <a href="/tag/best/">BEST</a></li> <li><a href="https://maks.live/about/">ABOUT</a></li> <div class="clearfix"></div> </ul> <div class="clearfix"></div> <script>
+                $("span.menu").click(function(){
+                    $(".top-menu ul").slideToggle("slow" , function(){
+                    });
+                });
+            </script> </div> </div> </div> <div class="content"> <div class="container"> <div class="content-grids"> <div class="single-main"> <div class="col-md-9 single-grid"> <header> <h4> <a href="https://maks.live/drafts/klasterizatsiia-markerov-v-geoserver.html" title="Кластеризация маркеров в GeoServer">Кластеризация маркеров в&nbsp;GeoServer</a> May 10, 2017 </h4> <div class="footer art-info"> Author: <a class="url fn" href="https://maks.live/author/maks/">Maks</a> | Category: <a href="https://maks.live/category/python/">Python</a> | <a href="https://maks.live/drafts/klasterizatsiia-markerov-v-geoserver.html#disqus_thread">Comments</a> <br> Tags: <a href="https://maks.live/tag/geoserver/">geoserver</a> <a href="https://maks.live/tag/map/">map</a> <a href="https://maks.live/tag/postgis/">postgis</a> <a href="https://maks.live/tag/gis/">gis</a> <a href="https://maks.live/tag/geodata/">geodata</a> <a href="https://maks.live/tag/sld/">sld</a> </div><div class="social-likes"> <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div> <div class="twitter" data-via="samael500" title="Поделиться ссылкой в Твиттере">Twitter</div> <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div> <div class="plusone" title="Поделиться ссылкой в Google+">Google+</div> </div> </header> <article class="content"> <p>На одном из текущих проектов мы строим геоинформационную систему. Работаем с геоданными через <a href="http://postgis.net/">PostGIS</a> и <a href="http://geoserver.org/">GeoServer</a>. Объектов на карте достаточно много и в перспективе будет всё больше. Отрисовка всех маркеров на крупном масштабе заставляет геосервер нагружать систему на 100%. Для оптимизации работы системы, а так же &#8212; повышения наглядности для пользователя. Отдельные маркеры на карте необходимо группировать в&nbsp;кластеры.</p> <p>Как оказалось, сделать это силами геосервара очень просто, но пока этот способ был найден, прешлось перерыть всю документацию по геосерверу и весь <code>Gis StackExchange</code>. В результате группировка точек в кластеры делается с помощью векторной трансформации <a href="http://docs.geoserver.org/latest/en/user/styling/ysld/reference/transforms.html#point-stacker">vec:PointStacker</a>.</p> <p><link rel="stylesheet" href="/extra/wbt/comparator.css"> <script src="/extra/wbt/comparator.js"></script></p> <h3 id="klasterizatsiia-tochek"><a class="toclink" href="#klasterizatsiia-tochek">Кластеризация&nbsp;точек</a></h3> <p>Для объединения объектов в один кластер, необходимо в стиле слоя объявить векторную трансформацию <code>vec:PointStacker</code>.</p> <p>Данная трансформация принимает следующие&nbsp;параметры:</p> <ul> <li><code>cellSize</code> &#8212; Размер ячейки в пределах которой точки будут объединятся в&nbsp;кластер.</li> <li><code>outputBBOX</code> &#8212; Координаты углов результирующего&nbsp;тайла.</li> <li><code>outputWidth</code> &#8212; Ширина результирующего&nbsp;тайла.</li> <li><code>outputHeight</code> &#8212; Высота результирующего&nbsp;тайла.</li> </ul> <p>На выходе получаем кластеры с информацие о количестве&nbsp;объектов.</p> <ul> <li><code>geom</code> &#8212; геометрия&nbsp;кластера.</li> <li><code>count</code> &#8212; число объектов вошедших в&nbsp;кластер.</li> <li><code>countUnique</code> &#8212; число уникальных объектов в&nbsp;кластере.</li> </ul> <p>Размер ячейки выбираем &#8220;на глаз&#8221;, что бы объекты красиво группировались с точки зрения пользователя. Чем больше ячейка, тем меньше кластеров получается в&nbsp;результате.</p> <p>Остальные параметры передаем из исходного тайла через функцию <code>env</code> входящего <code>wms</code> запроса.</p> <div class="highlight"><pre><span></span><span class="nt">&lt;Transformation&gt;</span>
+    <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;vec:PointStacker&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;parameter&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;ogc:Literal&gt;</span>data<span class="nt">&lt;/ogc:Literal&gt;</span>
+        <span class="nt">&lt;/ogc:Function&gt;</span>
+        <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;parameter&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;ogc:Literal&gt;</span>cellSize<span class="nt">&lt;/ogc:Literal&gt;</span>
+            <span class="nt">&lt;ogc:Literal&gt;</span>99<span class="nt">&lt;/ogc:Literal&gt;</span>
+        <span class="nt">&lt;/ogc:Function&gt;</span>
+        <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;parameter&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;ogc:Literal&gt;</span>outputBBOX<span class="nt">&lt;/ogc:Literal&gt;</span>
+            <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;env&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;ogc:Literal&gt;</span>wms_bbox<span class="nt">&lt;/ogc:Literal&gt;</span>
+            <span class="nt">&lt;/ogc:Function&gt;</span>
+        <span class="nt">&lt;/ogc:Function&gt;</span>
+        <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;parameter&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;ogc:Literal&gt;</span>outputWidth<span class="nt">&lt;/ogc:Literal&gt;</span>
+            <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;env&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;ogc:Literal&gt;</span>wms_width<span class="nt">&lt;/ogc:Literal&gt;</span>
+            <span class="nt">&lt;/ogc:Function&gt;</span>
+        <span class="nt">&lt;/ogc:Function&gt;</span>
+        <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;parameter&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;ogc:Literal&gt;</span>outputHeight<span class="nt">&lt;/ogc:Literal&gt;</span>
+            <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;env&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;ogc:Literal&gt;</span>wms_height<span class="nt">&lt;/ogc:Literal&gt;</span>
+            <span class="nt">&lt;/ogc:Function&gt;</span>
+        <span class="nt">&lt;/ogc:Function&gt;</span>
+    <span class="nt">&lt;/ogc:Function&gt;</span>
+<span class="nt">&lt;/Transformation&gt;</span>
+</pre></div> <p>Далее для кластеров необходимо задать стиль отображения. Будем рисовать кластеры кругами с надписыванием количества объектов. Размер круга выбираем в зависимости от числа объектов вошедших в него, например по&nbsp;формуле:</p> <div class="highlight"><pre><span></span><span class="mi">25</span> <span class="o">+</span> <span class="n">log</span> <span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5</span>
+</pre></div> <p>Стиль состоит из описания текста <code>TextSymbolizer</code> и точки <code>PointSymbolizer</code>.</p> <div class="highlight"><pre><span></span><span class="nt">&lt;Rule&gt;</span>
+    <span class="nt">&lt;Name&gt;</span>Point group cluster<span class="nt">&lt;/Name&gt;</span>
+    <span class="nt">&lt;Title&gt;</span>Realties group<span class="nt">&lt;/Title&gt;</span>
+    <span class="nt">&lt;TextSymbolizer&gt;</span>
+        <span class="nt">&lt;Label&gt;</span>
+            <span class="nt">&lt;ogc:PropertyName&gt;</span>count<span class="nt">&lt;/ogc:PropertyName&gt;</span>
+        <span class="nt">&lt;/Label&gt;</span>
+        <span class="nt">&lt;Font&gt;</span>
+            <span class="nt">&lt;CssParameter</span> <span class="na">name=</span><span class="s">&quot;font-family&quot;</span><span class="nt">&gt;</span>Arial<span class="nt">&lt;/CssParameter&gt;</span>
+            <span class="nt">&lt;CssParameter</span> <span class="na">name=</span><span class="s">&quot;font-size&quot;</span><span class="nt">&gt;</span>12<span class="nt">&lt;/CssParameter&gt;</span>
+            <span class="nt">&lt;CssParameter</span> <span class="na">name=</span><span class="s">&quot;font-weight&quot;</span><span class="nt">&gt;</span>bold<span class="nt">&lt;/CssParameter&gt;</span>
+        <span class="nt">&lt;/Font&gt;</span>
+        <span class="nt">&lt;LabelPlacement&gt;</span>
+            <span class="nt">&lt;PointPlacement&gt;</span>
+                <span class="nt">&lt;AnchorPoint&gt;</span>
+                    <span class="nt">&lt;AnchorPointX&gt;</span>0.5<span class="nt">&lt;/AnchorPointX&gt;</span>
+                    <span class="nt">&lt;AnchorPointY&gt;</span>0.8<span class="nt">&lt;/AnchorPointY&gt;</span>
+                <span class="nt">&lt;/AnchorPoint&gt;</span>
+            <span class="nt">&lt;/PointPlacement&gt;</span>
+        <span class="nt">&lt;/LabelPlacement&gt;</span>
+        <span class="nt">&lt;Fill&gt;</span>
+            <span class="nt">&lt;CssParameter</span> <span class="na">name=</span><span class="s">&quot;fill&quot;</span><span class="nt">&gt;</span>#000<span class="nt">&lt;/CssParameter&gt;</span>
+            <span class="nt">&lt;CssParameter</span> <span class="na">name=</span><span class="s">&quot;fill-opacity&quot;</span><span class="nt">&gt;</span>1.0<span class="nt">&lt;/CssParameter&gt;</span>
+        <span class="nt">&lt;/Fill&gt;</span>
+        <span class="nt">&lt;VendorOption</span> <span class="na">name=</span><span class="s">&quot;partials&quot;</span><span class="nt">&gt;</span>true<span class="nt">&lt;/VendorOption&gt;</span>
+    <span class="nt">&lt;/TextSymbolizer&gt;</span>
+    <span class="nt">&lt;PointSymbolizer&gt;</span>
+        <span class="nt">&lt;Graphic&gt;</span>
+            <span class="nt">&lt;Mark&gt;</span>
+                <span class="nt">&lt;WellKnownName&gt;</span>circle<span class="nt">&lt;/WellKnownName&gt;</span>
+                <span class="nt">&lt;Fill&gt;</span>
+                    <span class="nt">&lt;CssParameter</span> <span class="na">name=</span><span class="s">&quot;fill&quot;</span><span class="nt">&gt;</span>#1E90FF<span class="nt">&lt;/CssParameter&gt;</span>
+                    <span class="nt">&lt;CssParameter</span> <span class="na">name=</span><span class="s">&quot;fill-opacity&quot;</span><span class="nt">&gt;</span>0.75<span class="nt">&lt;/CssParameter&gt;</span>
+                <span class="nt">&lt;/Fill&gt;</span>
+            <span class="nt">&lt;/Mark&gt;</span>
+            <span class="nt">&lt;Size&gt;</span>
+                <span class="nt">&lt;ogc:Add&gt;</span>
+                    <span class="nt">&lt;ogc:Literal&gt;</span>25<span class="nt">&lt;/ogc:Literal&gt;</span>
+                    <span class="nt">&lt;ogc:Mul&gt;</span>
+                        <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;log&quot;</span><span class="nt">&gt;</span>
+                           <span class="nt">&lt;ogc:PropertyName&gt;</span>count<span class="nt">&lt;/ogc:PropertyName&gt;</span>
+                        <span class="nt">&lt;/ogc:Function&gt;</span>
+                        <span class="nt">&lt;ogc:Literal&gt;</span>5<span class="nt">&lt;/ogc:Literal&gt;</span>
+                    <span class="nt">&lt;/ogc:Mul&gt;</span>
+                <span class="nt">&lt;/ogc:Add&gt;</span>
+            <span class="nt">&lt;/Size&gt;</span>
+        <span class="nt">&lt;/Graphic&gt;</span>
+    <span class="nt">&lt;/PointSymbolizer&gt;</span>
+<span class="nt">&lt;/Rule&gt;</span>
+</pre></div> <p>В одном слое у нас отображаются объекты разных торговых сетей, и стиль иконок должен быть различным для них. Но при кластеризации сохраняется только информация о количестве объектов, но никак не о качестве. Даже для кластера из одного объекта. Поэтому будем запускать кластеризацию начиная с некоторого масштаба. А для меньшего масштаба отображать все точки&nbsp;отдельно.</p> <p>Разделить отображения можно с помощью задания минимального и максимального масштаба&nbsp;отображения.</p> <div class="highlight"><pre><span></span><span class="c">&lt;!-- Стиль отдельного объекта --&gt;</span>
+<span class="nt">&lt;MaxScaleDenominator&gt;</span>70000<span class="nt">&lt;/MaxScaleDenominator&gt;</span>
+
+<span class="c">&lt;!-- Стиль кластера --&gt;</span>
+<span class="nt">&lt;MinScaleDenominator&gt;</span>70000<span class="nt">&lt;/MinScaleDenominator&gt;</span>
+</pre></div> <h3 id="rezultat"><a class="toclink" href="#rezultat">Результат</a></h3> <p><details> <summary>Весь стиль объектов</summary></p> <div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;StyledLayerDescriptor</span> <span class="na">version=</span><span class="s">&quot;1.0.0&quot;</span>
+    <span class="na">xmlns=</span><span class="s">&quot;http://www.opengis.net/sld&quot;</span>
+    <span class="na">xmlns:ogc=</span><span class="s">&quot;http://www.opengis.net/ogc&quot;</span>
+    <span class="na">xmlns:xlink=</span><span class="s">&quot;http://www.w3.org/1999/xlink&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;NamedLayer&gt;</span>
+        <span class="nt">&lt;Name&gt;</span>Realties<span class="nt">&lt;/Name&gt;</span>
+        <span class="nt">&lt;UserStyle&gt;</span>
+            <span class="nt">&lt;Name&gt;</span>Realties<span class="nt">&lt;/Name&gt;</span>
+            <span class="nt">&lt;Title&gt;</span>Realties objects icons<span class="nt">&lt;/Title&gt;</span>
+            <span class="nt">&lt;Abstract&gt;</span>SVG styles for realties objects<span class="nt">&lt;/Abstract&gt;</span>
+
+            <span class="nt">&lt;FeatureTypeStyle&gt;</span>
+                <span class="nt">&lt;Rule&gt;</span>
+                    <span class="nt">&lt;MaxScaleDenominator&gt;</span>70000<span class="nt">&lt;/MaxScaleDenominator&gt;</span>
+                    <span class="nt">&lt;Title&gt;</span>Realty<span class="nt">&lt;/Title&gt;</span>
+                    <span class="nt">&lt;PointSymbolizer&gt;</span>
+                        <span class="nt">&lt;Graphic&gt;</span>
+                            <span class="nt">&lt;ExternalGraphic&gt;</span>
+                                <span class="nt">&lt;OnlineResource</span>
+                                    <span class="na">xlink:type=</span><span class="s">&quot;simple&quot;</span>
+                                    <span class="na">xlink:href=</span><span class="s">&quot;./img/${logo_name}.svg&quot;</span> <span class="nt">/&gt;</span>
+                                <span class="nt">&lt;Format&gt;</span>image/svg+xml<span class="nt">&lt;/Format&gt;</span>
+                            <span class="nt">&lt;/ExternalGraphic&gt;</span>
+                            <span class="nt">&lt;Size&gt;</span>
+                                <span class="nt">&lt;ogc:Literal&gt;</span>35<span class="nt">&lt;/ogc:Literal&gt;</span>
+                            <span class="nt">&lt;/Size&gt;</span>
+                        <span class="nt">&lt;/Graphic&gt;</span>
+                    <span class="nt">&lt;/PointSymbolizer&gt;</span>
+                <span class="nt">&lt;/Rule&gt;</span>
+            <span class="nt">&lt;/FeatureTypeStyle&gt;</span>
+
+            <span class="nt">&lt;FeatureTypeStyle&gt;</span>
+                <span class="nt">&lt;Transformation&gt;</span>
+                    <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;vec:PointStacker&quot;</span><span class="nt">&gt;</span>
+                        <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;parameter&quot;</span><span class="nt">&gt;</span>
+                            <span class="nt">&lt;ogc:Literal&gt;</span>data<span class="nt">&lt;/ogc:Literal&gt;</span>
+                        <span class="nt">&lt;/ogc:Function&gt;</span>
+                        <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;parameter&quot;</span><span class="nt">&gt;</span>
+                            <span class="nt">&lt;ogc:Literal&gt;</span>cellSize<span class="nt">&lt;/ogc:Literal&gt;</span>
+                            <span class="nt">&lt;ogc:Literal&gt;</span>99<span class="nt">&lt;/ogc:Literal&gt;</span>
+                        <span class="nt">&lt;/ogc:Function&gt;</span>
+                        <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;parameter&quot;</span><span class="nt">&gt;</span>
+                            <span class="nt">&lt;ogc:Literal&gt;</span>outputBBOX<span class="nt">&lt;/ogc:Literal&gt;</span>
+                            <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;env&quot;</span><span class="nt">&gt;</span>
+                                <span class="nt">&lt;ogc:Literal&gt;</span>wms_bbox<span class="nt">&lt;/ogc:Literal&gt;</span>
+                            <span class="nt">&lt;/ogc:Function&gt;</span>
+                        <span class="nt">&lt;/ogc:Function&gt;</span>
+                        <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;parameter&quot;</span><span class="nt">&gt;</span>
+                            <span class="nt">&lt;ogc:Literal&gt;</span>outputWidth<span class="nt">&lt;/ogc:Literal&gt;</span>
+                            <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;env&quot;</span><span class="nt">&gt;</span>
+                                <span class="nt">&lt;ogc:Literal&gt;</span>wms_width<span class="nt">&lt;/ogc:Literal&gt;</span>
+                            <span class="nt">&lt;/ogc:Function&gt;</span>
+                        <span class="nt">&lt;/ogc:Function&gt;</span>
+                        <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;parameter&quot;</span><span class="nt">&gt;</span>
+                            <span class="nt">&lt;ogc:Literal&gt;</span>outputHeight<span class="nt">&lt;/ogc:Literal&gt;</span>
+                            <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;env&quot;</span><span class="nt">&gt;</span>
+                                <span class="nt">&lt;ogc:Literal&gt;</span>wms_height<span class="nt">&lt;/ogc:Literal&gt;</span>
+                            <span class="nt">&lt;/ogc:Function&gt;</span>
+                        <span class="nt">&lt;/ogc:Function&gt;</span>
+                    <span class="nt">&lt;/ogc:Function&gt;</span>
+                <span class="nt">&lt;/Transformation&gt;</span>
+
+                <span class="nt">&lt;Rule&gt;</span>
+                    <span class="nt">&lt;MinScaleDenominator&gt;</span>70000<span class="nt">&lt;/MinScaleDenominator&gt;</span>
+                    <span class="nt">&lt;Name&gt;</span>Point group cluster<span class="nt">&lt;/Name&gt;</span>
+                    <span class="nt">&lt;Title&gt;</span>Realties group<span class="nt">&lt;/Title&gt;</span>
+                    <span class="nt">&lt;TextSymbolizer&gt;</span>
+                        <span class="nt">&lt;Label&gt;</span>
+                            <span class="nt">&lt;ogc:PropertyName&gt;</span>count<span class="nt">&lt;/ogc:PropertyName&gt;</span>
+                        <span class="nt">&lt;/Label&gt;</span>
+                        <span class="nt">&lt;Font&gt;</span>
+                            <span class="nt">&lt;CssParameter</span> <span class="na">name=</span><span class="s">&quot;font-family&quot;</span><span class="nt">&gt;</span>Arial<span class="nt">&lt;/CssParameter&gt;</span>
+                            <span class="nt">&lt;CssParameter</span> <span class="na">name=</span><span class="s">&quot;font-size&quot;</span><span class="nt">&gt;</span>12<span class="nt">&lt;/CssParameter&gt;</span>
+                            <span class="nt">&lt;CssParameter</span> <span class="na">name=</span><span class="s">&quot;font-weight&quot;</span><span class="nt">&gt;</span>bold<span class="nt">&lt;/CssParameter&gt;</span>
+                        <span class="nt">&lt;/Font&gt;</span>
+                        <span class="nt">&lt;LabelPlacement&gt;</span>
+                            <span class="nt">&lt;PointPlacement&gt;</span>
+                                <span class="nt">&lt;AnchorPoint&gt;</span>
+                                    <span class="nt">&lt;AnchorPointX&gt;</span>0.5<span class="nt">&lt;/AnchorPointX&gt;</span>
+                                    <span class="nt">&lt;AnchorPointY&gt;</span>0.8<span class="nt">&lt;/AnchorPointY&gt;</span>
+                                <span class="nt">&lt;/AnchorPoint&gt;</span>
+                            <span class="nt">&lt;/PointPlacement&gt;</span>
+                        <span class="nt">&lt;/LabelPlacement&gt;</span>
+                        <span class="nt">&lt;Fill&gt;</span>
+                            <span class="nt">&lt;CssParameter</span> <span class="na">name=</span><span class="s">&quot;fill&quot;</span><span class="nt">&gt;</span>#000<span class="nt">&lt;/CssParameter&gt;</span>
+                            <span class="nt">&lt;CssParameter</span> <span class="na">name=</span><span class="s">&quot;fill-opacity&quot;</span><span class="nt">&gt;</span>1.0<span class="nt">&lt;/CssParameter&gt;</span>
+                        <span class="nt">&lt;/Fill&gt;</span>
+                        <span class="nt">&lt;VendorOption</span> <span class="na">name=</span><span class="s">&quot;partials&quot;</span><span class="nt">&gt;</span>true<span class="nt">&lt;/VendorOption&gt;</span>
+                    <span class="nt">&lt;/TextSymbolizer&gt;</span>
+                    <span class="nt">&lt;PointSymbolizer&gt;</span>
+                        <span class="nt">&lt;Graphic&gt;</span>
+                            <span class="nt">&lt;Mark&gt;</span>
+                                <span class="nt">&lt;WellKnownName&gt;</span>circle<span class="nt">&lt;/WellKnownName&gt;</span>
+                                <span class="nt">&lt;Fill&gt;</span>
+                                    <span class="nt">&lt;CssParameter</span> <span class="na">name=</span><span class="s">&quot;fill&quot;</span><span class="nt">&gt;</span>#1E90FF<span class="nt">&lt;/CssParameter&gt;</span>
+                                    <span class="nt">&lt;CssParameter</span> <span class="na">name=</span><span class="s">&quot;fill-opacity&quot;</span><span class="nt">&gt;</span>0.75<span class="nt">&lt;/CssParameter&gt;</span>
+                                <span class="nt">&lt;/Fill&gt;</span>
+                            <span class="nt">&lt;/Mark&gt;</span>
+                            <span class="nt">&lt;Size&gt;</span>
+                                <span class="nt">&lt;ogc:Add&gt;</span>
+                                    <span class="nt">&lt;ogc:Literal&gt;</span>25<span class="nt">&lt;/ogc:Literal&gt;</span>
+                                    <span class="nt">&lt;ogc:Mul&gt;</span>
+                                        <span class="nt">&lt;ogc:Function</span> <span class="na">name=</span><span class="s">&quot;log&quot;</span><span class="nt">&gt;</span>
+                                           <span class="nt">&lt;ogc:PropertyName&gt;</span>count<span class="nt">&lt;/ogc:PropertyName&gt;</span>
+                                        <span class="nt">&lt;/ogc:Function&gt;</span>
+                                        <span class="nt">&lt;ogc:Literal&gt;</span>5<span class="nt">&lt;/ogc:Literal&gt;</span>
+                                    <span class="nt">&lt;/ogc:Mul&gt;</span>
+                                <span class="nt">&lt;/ogc:Add&gt;</span>
+                            <span class="nt">&lt;/Size&gt;</span>
+                        <span class="nt">&lt;/Graphic&gt;</span>
+                    <span class="nt">&lt;/PointSymbolizer&gt;</span>
+                <span class="nt">&lt;/Rule&gt;</span>
+            <span class="nt">&lt;/FeatureTypeStyle&gt;</span>
+
+        <span class="nt">&lt;/UserStyle&gt;</span>
+    <span class="nt">&lt;/NamedLayer&gt;</span>
+<span class="nt">&lt;/StyledLayerDescriptor&gt;</span>
+</pre></div> <p></details></p> <p>Для сравнения представлены изображения с кластеризацией объектов и без&nbsp;неё.</p> <div id="map"></div> <div id="map-zoom"></div> <p>Так же, кластеризация позволила значительно увеличить производительность системы. Рендер большого числа отдельных маркеров выполнялся медленно и существенно нагружал процессор. Часто соединение обрывалось по <code>504</code>. Объединение в кластеры работает очень быстро без нагрузки на&nbsp;систему.</p> <p>Кластеризованый результат (полная карта) загружается в среднем за 1.6 секунд. Тогда как отдельные маркеры грузились порядка 130&nbsp;секунд.</p> <h4 id="zagruzka-klasterizirovannykh-markerov"><a class="toclink" href="#zagruzka-klasterizirovannykh-markerov">Загрузка кластеризированных&nbsp;маркеров</a></h4> <p><img alt="waterfall cluster" class="center" src="/media/pointstacker/waterfall-cluster.png"></p> <table> <thead> <tr> <th>Load Time</th> <th>First Byte</th> <th>Start Render</th> <th>Speed Index</th> <th>Interactive (beta)</th> <th>Time</th> <th>Requests</th> <th>Bytes In</th> </tr> </thead> <tbody> <tr> <td>1.697s</td> <td>1.669s</td> <td>3.780s</td> <td>3780</td> <td>&gt; 3.813s</td> <td>1.697s</td> <td>1</td> <td>9 <span class="caps">KB</span></td> </tr> </tbody> </table> <h4 id="zagruzka-otdelnykh-markerov"><a class="toclink" href="#zagruzka-otdelnykh-markerov">Загрузка отдельных&nbsp;маркеров</a></h4> <p><img alt="waterfall points" src="/media/pointstacker/waterfall-points.png"></p> <table> <thead> <tr> <th>Load Time</th> <th>First Byte</th> <th>Start Render</th> <th>Speed Index</th> <th>Interactive (beta)</th> <th>Time</th> <th>Requests</th> <th>Bytes In</th> </tr> </thead> <tbody> <tr> <td>130.397s</td> <td>8.268s</td> <td>21.934s</td> <td>57691</td> <td>8.445s</td> <td>130.397s</td> <td>1</td> <td>960 <span class="caps">KB</span></td> </tr> </tbody> </table> <p>Так что простое объединение маркеров в кластеры, позволило повысить скорость загрузки страницы более чем в 100&nbsp;раз!</p> <script>
+$("#map").wbtComparator({
+    // direction: "horizontal",
+    src: ["/media/pointstacker/cluster.png", "/media/pointstacker/objects.png"],
+    timeout: false
+});
+$("#map-zoom").wbtComparator({
+    // direction: "horizontal",
+    src: ["/media/pointstacker/zoom-cluster.png", "/media/pointstacker/zoom-objects.png"],
+    timeout: false
+});
+$('table').addClass('table table-bordered table-responsive');
+</script> </article> <div class="comments"> <div id="disqus_thread"></div> <script type="text/javascript">
+                    var disqus_identifier = "drafts/klasterizatsiia-markerov-v-geoserver.html";
+                    (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//samael500.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script> </div> </div> <div class="col-md-3 content-right"> <div class="anchorific"></div> </div> </div> </div> </div> </div> <div class="footer"> <div class="container"> <p>This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.</p> <p><a href="http://github.com/samael500/w3-personal-blog/">W3 Personal Blog</a> is a flat <a href="http://getbootstrap.com/">bootstrap</a> responsive theme designed by <a href="https://w3layouts.com/personal-blog-a-blogging-category-flat-bootstrap-responsive-web-template/">W3layouts</a> ported to a pelican by <a href="http://samael500.github.io/">Samael500</a>.<p> <p>Copyrights &copy; 2015&mdash;2017 Maks live All rights reserved.</p> <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> <img alt="Creative Commons License" style="border-width:0" src="/media/by-nc-sa.svg"></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p> </div> </div> <script type="text/javascript" src="https://www.l2.io/ip.js?var=userip"></script> <script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter32194009 = new Ya.Metrika({
+                    id:32194009,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true,
+                    params:{'ip': userip}
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script> <noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt></div></noscript> <script type="text/javascript">
+    var disqus_shortname = 'samael500';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script> </body> </html>
