@@ -44,7 +44,7 @@
         <span class="nt">&lt;/ogc:Function&gt;</span>
     <span class="nt">&lt;/ogc:Function&gt;</span>
 <span class="nt">&lt;/Transformation&gt;</span>
-</pre></div> <p>Далее для кластеров необходимо задать стиль отображения. Будем отображать кластеры на карте в виде кругов с текстом соответствующим количеству объектов вошедших в кластер. Размер круга выбираем в зависимости от числа объектов вошедших в него, например по&nbsp;формуле:</p> <div class="highlight"><pre><span></span><span class="mi">25</span> <span class="o">+</span> <span class="n">log</span> <span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5</span>
+</pre></div> <p>Далее для кластеров необходимо задать стиль отображения. Будем отображать кластеры на карте в виде кругов с текстом соответствующим количеству объектов вошедших в кластер. Размер круга выбираем в зависимости от числа объектов вошедших в него, например по&nbsp;формуле:</p> <div class="highlight"><pre><span></span><span class="mi">25</span> <span class="o">+</span> <span class="n">log</span> <span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="o">*</span> <span class="mi">5</span>
 </pre></div> <p>Стиль состоит из описания текста <code>TextSymbolizer</code> и точки <code>PointSymbolizer</code>.</p> <div class="highlight"><pre><span></span><span class="nt">&lt;Rule&gt;</span>
     <span class="nt">&lt;Name&gt;</span>Point group cluster<span class="nt">&lt;/Name&gt;</span>
     <span class="nt">&lt;Title&gt;</span>Realties group<span class="nt">&lt;/Title&gt;</span>
