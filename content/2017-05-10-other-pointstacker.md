@@ -3,7 +3,7 @@ Date: 2017-05-10 15:00
 Modified: 2017-05-10 15:00
 Category: Python
 Tags: geoserver, map, postgis, gis, geodata, sld
-Image: /media/pointstacker/banner.png
+Image: /media/pointstacker/pointstacker.png
 Image_width: 1280
 Image_height: 791
 Summary:
@@ -14,7 +14,6 @@ Summary:
     заставляет геосервер нагружать систему на 100%. Для оптимизации работы системы,
     а также повышения наглядности для пользователя. Отдельные маркеры на карте
     необходимо группировать в кластеры.
-Status: draft
 
 На одном из текущих проектов мы строим геоинформационную систему.
 Работаем с геоданными через [PostGIS](http://postgis.net/)
