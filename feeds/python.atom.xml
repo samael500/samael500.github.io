@@ -1,5 +1,365 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks live</title><link href="https://maks.live/" rel="alternate"></link><link href="https://maks.live/feeds/python.atom.xml" rel="self"></link><id>https://maks.live/</id><updated>2017-04-10T15:00:00+03:00</updated><entry><title>Простой чат на AioHTTP</title><link href="https://maks.live/articles/python/prostoi-chat-na-aiohttp/" rel="alternate"></link><published>2017-04-10T15:00:00+03:00</published><updated>2017-04-10T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:maks.live,2017-04-10:articles/python/prostoi-chat-na-aiohttp/</id><summary type="html">&lt;p&gt;В повседневной работе я тесно связан с &lt;code&gt;Python 3&lt;/code&gt;, но такие его замечательные
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Maks live</title><link href="https://maks.live/" rel="alternate"></link><link href="https://maks.live/feeds/python.atom.xml" rel="self"></link><id>https://maks.live/</id><updated>2017-05-10T15:00:00+03:00</updated><entry><title>Кластеризация маркеров в GeoServer</title><link href="https://maks.live/articles/python/klasterizatsiia-markerov-v-geoserver/" rel="alternate"></link><published>2017-05-10T15:00:00+03:00</published><updated>2017-05-10T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:maks.live,2017-05-10:articles/python/klasterizatsiia-markerov-v-geoserver/</id><summary type="html">&lt;p&gt;На одном из текущих проектов мы строим геоинформационную систему.
+Работаем с геоданными через &lt;a href="http://postgis.net/"&gt;PostGIS&lt;/a&gt;
+и &lt;a href="http://geoserver.org/"&gt;GeoServer&lt;/a&gt;. Объектов на карте достаточно много
+и в перспективе будет всё больше. Отрисовка всех маркеров на крупном масштабе
+заставляет геосервер нагружать систему на 100%. Для оптимизации работы системы,
+а также повышения наглядности для пользователя. Отдельные маркеры на карте
+необходимо группировать в&amp;nbsp;кластеры.&lt;/p&gt;
+&lt;p&gt;Как оказалось, сделать это силами геосервeра очень просто,
+но пока этот способ был найден, пришлось перерыть
+всю документацию по геосерверу и весь &lt;code&gt;Gis StackExchange&lt;/code&gt;. В результате
+группировка точек в кластеры осуществляется с помощью векторной трансформации
+&lt;a href="http://docs.geoserver.org/latest/en/user/styling/ysld/reference/transforms.html#point-stacker"&gt;vec:PointStacker&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;link rel="stylesheet" href="/extra/wbt/comparator.css"&gt;
+&lt;script src="/extra/wbt/comparator.js"&gt;&lt;/script&gt;&lt;/p&gt;
+&lt;h3 id="klasterizatsiia-tochek"&gt;&lt;a class="toclink" href="#klasterizatsiia-tochek"&gt;Кластеризация&amp;nbsp;точек&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Для объединения объектов в один кластер необходимо в стиле слоя объявить
+векторную трансформацию &lt;code&gt;vec:PointStacker&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Данная трансформация принимает следующие&amp;nbsp;параметры:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;cellSize&lt;/code&gt; &amp;#8212; Размер ячейки в пределах которой точки будут объединяться в&amp;nbsp;кластер.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;outputBBOX&lt;/code&gt; &amp;#8212; Координаты углов результирующего&amp;nbsp;тайла.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;outputWidth&lt;/code&gt; &amp;#8212; Ширина результирующего&amp;nbsp;тайла.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;outputHeight&lt;/code&gt; &amp;#8212; Высота результирующего&amp;nbsp;тайла.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;На выходе получаем кластеры с информацие о количестве&amp;nbsp;объектов.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;geom&lt;/code&gt; &amp;#8212; геометрия&amp;nbsp;кластера.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;count&lt;/code&gt; &amp;#8212; число объектов вошедших в&amp;nbsp;кластер.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;countUnique&lt;/code&gt; &amp;#8212; число уникальных объектов в&amp;nbsp;кластере.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Размер ячейки выбираем &amp;#8220;на глаз&amp;#8221;, чтобы объекты красиво группировались
+с точки зрения пользователя. Чем больше ячейка, тем меньше кластеров
+получается в&amp;nbsp;результате.&lt;/p&gt;
+&lt;p&gt;Остальные параметры передаем из исходного тайла через функцию &lt;code&gt;env&lt;/code&gt;
+входящего &lt;code&gt;wms&lt;/code&gt; запроса.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;Transformation&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;vec:PointStacker&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;parameter&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;data&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;parameter&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;cellSize&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;99&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;parameter&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;outputBBOX&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;env&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;wms_bbox&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;parameter&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;outputWidth&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;env&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;wms_width&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;parameter&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;outputHeight&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;env&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;wms_height&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/Transformation&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Далее для кластеров необходимо задать стиль отображения. Будем отображать
+кластеры на карте в виде кругов с текстом соответствующим количеству
+объектов вошедших в кластер. Размер круга выбираем
+в зависимости от числа объектов вошедших в него, например по&amp;nbsp;формуле:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;log&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Стиль состоит из описания текста &lt;code&gt;TextSymbolizer&lt;/code&gt; и точки &lt;code&gt;PointSymbolizer&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;Rule&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;Name&amp;gt;&lt;/span&gt;Point group cluster&lt;span class="nt"&gt;&amp;lt;/Name&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;Title&amp;gt;&lt;/span&gt;Realties group&lt;span class="nt"&gt;&amp;lt;/Title&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;TextSymbolizer&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;Label&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;ogc:PropertyName&amp;gt;&lt;/span&gt;count&lt;span class="nt"&gt;&amp;lt;/ogc:PropertyName&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/Label&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;Font&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;CssParameter&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;font-family&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Arial&lt;span class="nt"&gt;&amp;lt;/CssParameter&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;CssParameter&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;font-size&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;12&lt;span class="nt"&gt;&amp;lt;/CssParameter&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;CssParameter&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;font-weight&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;bold&lt;span class="nt"&gt;&amp;lt;/CssParameter&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/Font&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;LabelPlacement&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;PointPlacement&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;AnchorPoint&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;AnchorPointX&amp;gt;&lt;/span&gt;0.5&lt;span class="nt"&gt;&amp;lt;/AnchorPointX&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;AnchorPointY&amp;gt;&lt;/span&gt;0.8&lt;span class="nt"&gt;&amp;lt;/AnchorPointY&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;/AnchorPoint&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;/PointPlacement&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/LabelPlacement&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;Fill&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;CssParameter&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;fill&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;#000&lt;span class="nt"&gt;&amp;lt;/CssParameter&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;CssParameter&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;fill-opacity&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;1.0&lt;span class="nt"&gt;&amp;lt;/CssParameter&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/Fill&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;VendorOption&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;partials&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;true&lt;span class="nt"&gt;&amp;lt;/VendorOption&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/TextSymbolizer&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;PointSymbolizer&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;Graphic&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;Mark&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;WellKnownName&amp;gt;&lt;/span&gt;circle&lt;span class="nt"&gt;&amp;lt;/WellKnownName&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;Fill&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;CssParameter&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;fill&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;#1E90FF&lt;span class="nt"&gt;&amp;lt;/CssParameter&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;CssParameter&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;fill-opacity&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;0.75&lt;span class="nt"&gt;&amp;lt;/CssParameter&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;/Fill&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;/Mark&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;Size&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;ogc:Add&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;25&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;ogc:Mul&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;log&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+                           &lt;span class="nt"&gt;&amp;lt;ogc:PropertyName&amp;gt;&lt;/span&gt;count&lt;span class="nt"&gt;&amp;lt;/ogc:PropertyName&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;5&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;/ogc:Mul&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;/ogc:Add&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;/Size&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/Graphic&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/PointSymbolizer&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/Rule&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Для описания стиля текста кластера важно указать опцию &lt;code&gt;partials&lt;/code&gt;,
+иначе любой текст на границе тайла не будет отображаться и, возможно,
+возникновение кластеров без подписи числа&amp;nbsp;объектов.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;VendorOption&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;partials&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;true&lt;span class="nt"&gt;&amp;lt;/VendorOption&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;В одном слое у нас отображаются объекты разных торговых сетей
+и стиль иконок должен быть различным для них.
+Но при кластеризации сохраняется только информация о количестве объектов,
+но никак не о качестве (индивидуальных особенностях).
+Даже для кластера из одного объекта нельзя получить свойства этого объекта.
+Поэтому будем запускать кластеризацию, начиная с некоторого масштаба.
+А для меньшего масштаба отображать все точки&amp;nbsp;отдельно.&lt;/p&gt;
+&lt;p&gt;Разделить отображения можно с помощью задания минимального
+и максимального масштаба&amp;nbsp;отображения.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!-- Стиль отдельного объекта для масштабов меньше заданного максимальной величиной --&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;MaxScaleDenominator&amp;gt;&lt;/span&gt;70000&lt;span class="nt"&gt;&amp;lt;/MaxScaleDenominator&amp;gt;&lt;/span&gt;
+
+&lt;span class="c"&gt;&amp;lt;!-- Стиль кластера для всех масштабов больше чем минимальная величина --&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;MinScaleDenominator&amp;gt;&lt;/span&gt;70000&lt;span class="nt"&gt;&amp;lt;/MinScaleDenominator&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="rezultat"&gt;&lt;a class="toclink" href="#rezultat"&gt;Результат&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;details&gt;
+    &lt;summary&gt;Весь стиль объектов&lt;/summary&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;StyledLayerDescriptor&lt;/span&gt; &lt;span class="na"&gt;version=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;1.0.0&amp;quot;&lt;/span&gt;
+    &lt;span class="na"&gt;xmlns=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://www.opengis.net/sld&amp;quot;&lt;/span&gt;
+    &lt;span class="na"&gt;xmlns:ogc=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://www.opengis.net/ogc&amp;quot;&lt;/span&gt;
+    &lt;span class="na"&gt;xmlns:xlink=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://www.w3.org/1999/xlink&amp;quot;&lt;/span&gt;
+    &lt;span class="na"&gt;xmlns:xsi=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://www.w3.org/2001/XMLSchema-instance&amp;quot;&lt;/span&gt;
+    &lt;span class="na"&gt;xsi:schemaLocation=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;NamedLayer&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;Name&amp;gt;&lt;/span&gt;Realties&lt;span class="nt"&gt;&amp;lt;/Name&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;UserStyle&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;Name&amp;gt;&lt;/span&gt;Realties&lt;span class="nt"&gt;&amp;lt;/Name&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;Title&amp;gt;&lt;/span&gt;Realties objects icons&lt;span class="nt"&gt;&amp;lt;/Title&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;Abstract&amp;gt;&lt;/span&gt;SVG styles for realties objects&lt;span class="nt"&gt;&amp;lt;/Abstract&amp;gt;&lt;/span&gt;
+
+            &lt;span class="nt"&gt;&amp;lt;FeatureTypeStyle&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;Rule&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;MaxScaleDenominator&amp;gt;&lt;/span&gt;70000&lt;span class="nt"&gt;&amp;lt;/MaxScaleDenominator&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;Title&amp;gt;&lt;/span&gt;Realty&lt;span class="nt"&gt;&amp;lt;/Title&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;PointSymbolizer&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;Graphic&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;ExternalGraphic&amp;gt;&lt;/span&gt;
+                                &lt;span class="nt"&gt;&amp;lt;OnlineResource&lt;/span&gt;
+                                    &lt;span class="na"&gt;xlink:type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;simple&amp;quot;&lt;/span&gt;
+                                    &lt;span class="na"&gt;xlink:href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;./img/${logo_name}.svg&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+                                &lt;span class="nt"&gt;&amp;lt;Format&amp;gt;&lt;/span&gt;image/svg+xml&lt;span class="nt"&gt;&amp;lt;/Format&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;/ExternalGraphic&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;Size&amp;gt;&lt;/span&gt;
+                                &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;35&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;/Size&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;/Graphic&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;/PointSymbolizer&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;/Rule&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;/FeatureTypeStyle&amp;gt;&lt;/span&gt;
+
+            &lt;span class="nt"&gt;&amp;lt;FeatureTypeStyle&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;Transformation&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;vec:PointStacker&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;parameter&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;data&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;parameter&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;cellSize&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;99&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;parameter&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;outputBBOX&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;env&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+                                &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;wms_bbox&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;parameter&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;outputWidth&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;env&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+                                &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;wms_width&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;parameter&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;outputHeight&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;env&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+                                &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;wms_height&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;/Transformation&amp;gt;&lt;/span&gt;
+
+                &lt;span class="nt"&gt;&amp;lt;Rule&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;MinScaleDenominator&amp;gt;&lt;/span&gt;70000&lt;span class="nt"&gt;&amp;lt;/MinScaleDenominator&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;Name&amp;gt;&lt;/span&gt;Point group cluster&lt;span class="nt"&gt;&amp;lt;/Name&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;Title&amp;gt;&lt;/span&gt;Realties group&lt;span class="nt"&gt;&amp;lt;/Title&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;TextSymbolizer&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;Label&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;ogc:PropertyName&amp;gt;&lt;/span&gt;count&lt;span class="nt"&gt;&amp;lt;/ogc:PropertyName&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;/Label&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;Font&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;CssParameter&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;font-family&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Arial&lt;span class="nt"&gt;&amp;lt;/CssParameter&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;CssParameter&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;font-size&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;12&lt;span class="nt"&gt;&amp;lt;/CssParameter&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;CssParameter&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;font-weight&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;bold&lt;span class="nt"&gt;&amp;lt;/CssParameter&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;/Font&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;LabelPlacement&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;PointPlacement&amp;gt;&lt;/span&gt;
+                                &lt;span class="nt"&gt;&amp;lt;AnchorPoint&amp;gt;&lt;/span&gt;
+                                    &lt;span class="nt"&gt;&amp;lt;AnchorPointX&amp;gt;&lt;/span&gt;0.5&lt;span class="nt"&gt;&amp;lt;/AnchorPointX&amp;gt;&lt;/span&gt;
+                                    &lt;span class="nt"&gt;&amp;lt;AnchorPointY&amp;gt;&lt;/span&gt;0.8&lt;span class="nt"&gt;&amp;lt;/AnchorPointY&amp;gt;&lt;/span&gt;
+                                &lt;span class="nt"&gt;&amp;lt;/AnchorPoint&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;/PointPlacement&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;/LabelPlacement&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;Fill&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;CssParameter&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;fill&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;#000&lt;span class="nt"&gt;&amp;lt;/CssParameter&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;CssParameter&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;fill-opacity&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;1.0&lt;span class="nt"&gt;&amp;lt;/CssParameter&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;/Fill&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;VendorOption&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;partials&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;true&lt;span class="nt"&gt;&amp;lt;/VendorOption&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;/TextSymbolizer&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;PointSymbolizer&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;Graphic&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;Mark&amp;gt;&lt;/span&gt;
+                                &lt;span class="nt"&gt;&amp;lt;WellKnownName&amp;gt;&lt;/span&gt;circle&lt;span class="nt"&gt;&amp;lt;/WellKnownName&amp;gt;&lt;/span&gt;
+                                &lt;span class="nt"&gt;&amp;lt;Fill&amp;gt;&lt;/span&gt;
+                                    &lt;span class="nt"&gt;&amp;lt;CssParameter&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;fill&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;#1E90FF&lt;span class="nt"&gt;&amp;lt;/CssParameter&amp;gt;&lt;/span&gt;
+                                    &lt;span class="nt"&gt;&amp;lt;CssParameter&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;fill-opacity&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;0.75&lt;span class="nt"&gt;&amp;lt;/CssParameter&amp;gt;&lt;/span&gt;
+                                &lt;span class="nt"&gt;&amp;lt;/Fill&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;/Mark&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;Size&amp;gt;&lt;/span&gt;
+                                &lt;span class="nt"&gt;&amp;lt;ogc:Add&amp;gt;&lt;/span&gt;
+                                    &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;25&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+                                    &lt;span class="nt"&gt;&amp;lt;ogc:Mul&amp;gt;&lt;/span&gt;
+                                        &lt;span class="nt"&gt;&amp;lt;ogc:Function&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;log&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+                                           &lt;span class="nt"&gt;&amp;lt;ogc:PropertyName&amp;gt;&lt;/span&gt;count&lt;span class="nt"&gt;&amp;lt;/ogc:PropertyName&amp;gt;&lt;/span&gt;
+                                        &lt;span class="nt"&gt;&amp;lt;/ogc:Function&amp;gt;&lt;/span&gt;
+                                        &lt;span class="nt"&gt;&amp;lt;ogc:Literal&amp;gt;&lt;/span&gt;5&lt;span class="nt"&gt;&amp;lt;/ogc:Literal&amp;gt;&lt;/span&gt;
+                                    &lt;span class="nt"&gt;&amp;lt;/ogc:Mul&amp;gt;&lt;/span&gt;
+                                &lt;span class="nt"&gt;&amp;lt;/ogc:Add&amp;gt;&lt;/span&gt;
+                            &lt;span class="nt"&gt;&amp;lt;/Size&amp;gt;&lt;/span&gt;
+                        &lt;span class="nt"&gt;&amp;lt;/Graphic&amp;gt;&lt;/span&gt;
+                    &lt;span class="nt"&gt;&amp;lt;/PointSymbolizer&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;/Rule&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;/FeatureTypeStyle&amp;gt;&lt;/span&gt;
+
+        &lt;span class="nt"&gt;&amp;lt;/UserStyle&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/NamedLayer&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/StyledLayerDescriptor&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;/details&gt;&lt;/p&gt;
+&lt;p&gt;Для сравнения представлены изображения с кластеризацией объектов и без&amp;nbsp;неё.&lt;/p&gt;
+&lt;div id='map'&gt;&lt;/div&gt;
+
+&lt;div id='map-zoom'&gt;&lt;/div&gt;
+
+&lt;p&gt;Также кластеризация позволила значительно увеличить производительность системы.
+Рендер большого числа отдельных маркеров выполнялся медленно и существенно
+нагружал процессор. Часто соединение обрывалось по &lt;code&gt;504&lt;/code&gt;.
+Объединение в кластеры работает очень быстро без нагрузки на&amp;nbsp;систему.&lt;/p&gt;
+&lt;p&gt;Кластеризованный результат (полная карта) загружается в среднем за 1.6 секунд.
+Тогда как отдельные маркеры грузились порядка 130&amp;nbsp;секунд.&lt;/p&gt;
+&lt;h4 id="zagruzka-klasterizirovannykh-markerov"&gt;&lt;a class="toclink" href="#zagruzka-klasterizirovannykh-markerov"&gt;Загрузка кластеризированных&amp;nbsp;маркеров&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;img alt="waterfall cluster" class="center" src="/media/pointstacker/waterfall-cluster.png" /&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Load Time&lt;/th&gt;
+&lt;th&gt;First Byte&lt;/th&gt;
+&lt;th&gt;Start Render&lt;/th&gt;
+&lt;th&gt;Speed Index&lt;/th&gt;
+&lt;th&gt;Interactive (beta)&lt;/th&gt;
+&lt;th&gt;Time&lt;/th&gt;
+&lt;th&gt;Requests&lt;/th&gt;
+&lt;th&gt;Bytes In&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1.647s&lt;/td&gt;
+&lt;td&gt;1.557s&lt;/td&gt;
+&lt;td&gt;3.718s&lt;/td&gt;
+&lt;td&gt;3718&lt;/td&gt;
+&lt;td&gt;&amp;gt; 3.763s&lt;/td&gt;
+&lt;td&gt;1.677s&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;9 &lt;span class="caps"&gt;KB&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id="zagruzka-otdelnykh-markerov"&gt;&lt;a class="toclink" href="#zagruzka-otdelnykh-markerov"&gt;Загрузка отдельных&amp;nbsp;маркеров&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;img alt="waterfall points" src="/media/pointstacker/waterfall-points.png" /&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Load Time&lt;/th&gt;
+&lt;th&gt;First Byte&lt;/th&gt;
+&lt;th&gt;Start Render&lt;/th&gt;
+&lt;th&gt;Speed Index&lt;/th&gt;
+&lt;th&gt;Interactive (beta)&lt;/th&gt;
+&lt;th&gt;Time&lt;/th&gt;
+&lt;th&gt;Requests&lt;/th&gt;
+&lt;th&gt;Bytes In&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;130.397s&lt;/td&gt;
+&lt;td&gt;8.268s&lt;/td&gt;
+&lt;td&gt;21.934s&lt;/td&gt;
+&lt;td&gt;57691&lt;/td&gt;
+&lt;td&gt;8.445s&lt;/td&gt;
+&lt;td&gt;130.397s&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;960 &lt;span class="caps"&gt;KB&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Так что простое объединение маркеров в кластеры,
+позволило повысить скорость загрузки страницы в сотню&amp;nbsp;раз.&lt;/p&gt;
+&lt;script&gt;
+$("#map").wbtComparator({
+    // direction: "horizontal",
+    src: ["/media/pointstacker/cluster.png", "/media/pointstacker/objects.png"],
+    timeout: false
+});
+$("#map-zoom").wbtComparator({
+    // direction: "horizontal",
+    src: ["/media/pointstacker/zoom-cluster.png", "/media/pointstacker/zoom-objects.png"],
+    timeout: false
+});
+$('table').addClass('table table-bordered table-responsive');
+&lt;/script&gt;</summary><category term="geoserver"></category><category term="map"></category><category term="postgis"></category><category term="gis"></category><category term="geodata"></category><category term="sld"></category></entry><entry><title>Простой чат на AioHTTP</title><link href="https://maks.live/articles/python/prostoi-chat-na-aiohttp/" rel="alternate"></link><published>2017-04-10T15:00:00+03:00</published><updated>2017-04-10T15:00:00+03:00</updated><author><name>Maks</name></author><id>tag:maks.live,2017-04-10:articles/python/prostoi-chat-na-aiohttp/</id><summary type="html">&lt;p&gt;В повседневной работе я тесно связан с &lt;code&gt;Python 3&lt;/code&gt;, но такие его замечательные
 возможности, как асинхронность &lt;a href="https://docs.python.org/3/library/asyncio.html"&gt;asyncio&lt;/a&gt;
 и синтаксический сахар &lt;a href="https://www.python.org/dev/peps/pep-0492/"&gt;&lt;span class="caps"&gt;PEP&lt;/span&gt; 492&lt;/a&gt;
 использовать не приходиться. Из асинхронных задач сталкиваюсь только с &lt;code&gt;Celery&lt;/code&gt;,

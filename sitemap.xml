@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://maks.live/</loc>
-<lastmod>2017-05-10T17:59:19-00:00</lastmod>
+<lastmod>2017-05-11T15:17:14-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://maks.live/archives.html</loc>
-<lastmod>2017-05-10T17:59:19-00:00</lastmod>
+<lastmod>2017-05-11T15:17:14-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://maks.live/tags.html</loc>
-<lastmod>2017-05-10T17:59:19-00:00</lastmod>
+<lastmod>2017-05-11T15:17:14-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://maks.live/categories.html</loc>
-<lastmod>2017-05-10T17:59:19-00:00</lastmod>
+<lastmod>2017-05-11T15:17:14-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -35,6 +35,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <loc>https://maks.live/about/</loc>
 <lastmod>2017-03-27T15:00:00+03:00</lastmod>
 <changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://maks.live/articles/python/klasterizatsiia-markerov-v-geoserver/</loc>
+<lastmod>2017-05-10T15:00:00+03:00</lastmod>
+<changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
@@ -180,7 +187,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://maks.live/author/maks/</loc>
-<lastmod>2017-04-10T15:00:00+02:30</lastmod>
+<lastmod>2017-05-10T15:00:00+02:30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
