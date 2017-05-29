@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru"> <head><title>Web исключения в Django | Maks live</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#00aeff"><meta name="msapplication-navbutton-color" content="#00aeff"><meta name="apple-mobile-web-app-status-bar-style" content="#00aeff"><meta name="author" content="Maks"><meta name="robots" content="index, follow"><meta name="keywords" content="article, django, exceptions, web, http, response"><meta name="description" content="Как и положено веб фраймворку, Django позволяет возвращать в ответ на запрос HttpResponse с любым статус кодом из диапазона [100 .. 599]. Этот ответ должен быть явно отправлен через return во вьюхе обрабатывающей запрос. Однако pythonyc way предусматривает не только явный return, но и гибкую обработку исключений. Рассмотрим веб исключения в Django."><meta property="og:title" content="Web исключения в Django"><meta property="og:url" content="https://maks.live/drafts/web-iskliucheniia-v-django.html"><meta property="og:site_name" content="Maks live"><meta property="og:type" content="article"><meta property="og:image" content="https://maks.live/media/web-exceptions/pointstacker.png"><meta property="og:description" content="Как и положено веб фраймворку, Django позволяет возвращать в ответ на запрос HttpResponse с любым статус кодом из диапазона [100 .. 599]. Этот ответ должен быть явно отправлен через return во вьюхе обрабатывающей запрос. Однако pythonyc way предусматривает не только явный return, но и гибкую обработку исключений. Рассмотрим веб исключения в Django."><meta property="og:image:width" content="1280"><meta property="og:image:height" content="791"><link rel="canonical" href="https://maks.live/drafts/web-iskliucheniia-v-django.html"><link href="https://maks.live/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Maks live Atom"><link href="https://maks.live/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Maks live RSS"><link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css"><link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css"><link rel="stylesheet" type="text/css" href="/theme/css/style.css"><link rel="stylesheet" type="text/css" href="/theme/css/pygment.css"><link rel="stylesheet" type="text/css" href="/theme/css/social-likes_flat.css"><script type="text/javascript" src="/theme/js/jquery.min.js"></script><script type="text/javascript" src="/theme/js/bootstrap.min.js"></script><script type="text/javascript" src="/theme/js/social-likes.min.js"></script><link rel="stylesheet" type="text/css" href="https://maks.live/theme/css/tree.css"><link rel="stylesheet" type="text/css" href="https://maks.live/theme/css/anchorific.css"><script type="text/javascript" src="https://maks.live/theme/js/anchorific.js"></script></head> <body id="index"> <a class="forkmegithub" href="https://github.com/Samael500"> <img style="position: absolute; top: 0; right: 0; border: 0;" src="/theme/images/forkme_right_gray.png" alt="Fork me on GitHub"> </a> <div class="header"> <div class="container"> <div class="logo"> <a href="https://maks.live/"> MAKS LIVE<br><small>samael500 blog</small> </a> </div> <div class="top-menu"> <div class="search"> <script>
+  (function() {
+    var cx = '006263355362628034990:cuxoisonrno';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script> <form id="searchbox_006263355362628034990:cuxoisonrno" action="https://www.google.com/"> <input value="006263355362628034990:cuxoisonrno" name="cx" type="hidden"> <input value="FORID:11" name="cof" type="hidden"> <input id="q" name="q" type="text" required> <input type="submit" value> </form> </div> <span class="menu"> </span> <ul> <li> <a href="/">HOME</a></li> <li> <a href="/tag/best/">BEST</a></li> <li><a href="https://maks.live/about/">ABOUT</a></li> <div class="clearfix"></div> </ul> <div class="clearfix"></div> <script>
+                $("span.menu").click(function(){
+                    $(".top-menu ul").slideToggle("slow" , function(){
+                    });
+                });
+            </script> </div> </div> </div> <div class="content"> <div class="container"> <div class="content-grids"> <div class="single-main"> <div class="col-md-9 single-grid"> <header> <h4> <a href="https://maks.live/drafts/web-iskliucheniia-v-django.html" title="Web исключения в Django">Web исключения в&nbsp;Django</a> Jun 01, 2017 </h4> <div class="footer art-info"> Author: <a class="url fn" href="https://maks.live/author/maks/">Maks</a> | Category: <a href="https://maks.live/category/python/">Python</a> | <a href="https://maks.live/drafts/web-iskliucheniia-v-django.html#disqus_thread">Comments</a> <br> Tags: <a href="https://maks.live/tag/django/">django</a> <a href="https://maks.live/tag/exceptions/">exceptions</a> <a href="https://maks.live/tag/web/">web</a> <a href="https://maks.live/tag/http/">http</a> <a href="https://maks.live/tag/response/">response</a> </div><div class="social-likes"> <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div> <div class="twitter" data-via="samael500" title="Поделиться ссылкой в Твиттере">Twitter</div> <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div> <div class="plusone" title="Поделиться ссылкой в Google+">Google+</div> </div> </header> <article class="content"> <p>Как и положено веб фраймворку, <code>Django</code> позволяет возвращать в ответ на запрос <code>HttpResponse</code> с любым статус кодом из диапазона <code>[100 .. 599]</code>. Этот ответ должен быть явно отправлен через <code>return</code> во вьюхе обрабатывающей запрос. Однако <code>pythonyc way</code> предусматривает не только явный <code>return</code>, но и гибкую обработку исключений. Рассмотрим веб исключения в <code>Django</code>.</p> <h3 id="standartnye-iskliucheniia"><a class="toclink" href="#standartnye-iskliucheniia">Стандартные&nbsp;исключения</a></h3> <p><code>Django</code> допускает ограниченный набор <code>http</code> ответов через выбрасывание&nbsp;исключении.</p> <ul> <li><code>400</code> <a href="https://docs.djangoproject.com/en/1.11/ref/exceptions/#suspiciousoperation">SuspiciousOperation</a></li> <li><code>403</code> <a href="https://docs.djangoproject.com/en/1.11/ref/exceptions/#permissiondenied">PermissionDenied</a></li> <li><code>404</code> <a href="https://docs.djangoproject.com/en/1.11/topics/http/views/#the-http404-exception">Http404</a></li> <li><code>500</code> Любое другое неперехваченное&nbsp;исключение</li> </ul> <h4 id="nastroika-http-otveta"><a class="toclink" href="#nastroika-http-otveta">Настройка http&nbsp;ответа</a></h4> <p>Ответ возвращаемый каждым из этих исключений можно персонализировать через перегрузку соответствующих <a href="https://docs.djangoproject.com/en/1.11/topics/http/views/#customizing-error-views">хендлеров</a> в файле <code>urls.py</code>.</p> <div class="highlight"><pre><span></span><span class="c1"># views.py</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="kn">import</span> <span class="n">TemplateView</span>
+
+<span class="k">class</span> <span class="nc">ErrorHandler</span><span class="p">(</span><span class="n">TemplateView</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot; Render error template &quot;&quot;&quot;</span>
+
+    <span class="n">error_code</span> <span class="o">=</span> <span class="mi">404</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;index/error.html&#39;</span>
+
+    <span class="k">def</span> <span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; For error on any methods return just GET &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;error_code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_code</span>
+        <span class="k">return</span> <span class="n">context</span>
+
+    <span class="k">def</span> <span class="nf">render_to_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="o">**</span><span class="n">response_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return correct status code &quot;&quot;&quot;</span>
+        <span class="n">response_kwargs</span> <span class="o">=</span> <span class="n">response_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">response_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">error_code</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">render_to_response</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="o">**</span><span class="n">response_kwargs</span><span class="p">)</span>
+</pre></div> <div class="highlight"><pre><span></span><span class="c1"># urls.py</span>
+<span class="kn">from</span> <span class="nn">index.views</span> <span class="kn">import</span> <span class="n">ErrorHandler</span>
+
+<span class="c1"># error handing handlers - fly binding</span>
+<span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">403</span><span class="p">,</span> <span class="mi">404</span><span class="p">,</span> <span class="mi">500</span><span class="p">):</span>
+    <span class="nb">vars</span><span class="p">()[</span><span class="s1">&#39;handler{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">code</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ErrorHandler</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="n">error_code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+</pre></div> <h4 id="testirovanie-khendlerov"><a class="toclink" href="#testirovanie-khendlerov">Тестирование&nbsp;хендлеров</a></h4> <p>Проверить работу хендлеров, можно явно выбросив соответствующие исключения. Перегрузив какую либо из существующих вьюх через <code>mock</code>. Но этот способ не позволяет проверить ответ со статусом <code>500</code>, т.к. в тестах общие исключения не перехватываются. Полностью убедится в корректности обработки ошибки сервера &#8212; можно только через <a href="https://docs.djangoproject.com/en/1.11/topics/testing/tools/#django.test.LiveServerTestCase">LiveServerTestCase</a>.</p> <div class="highlight"><pre><span></span><span class="c1"># tests.py</span>
+<span class="kn">from</span> <span class="nn">unittest</span> <span class="kn">import</span> <span class="n">mock</span>
+
+<span class="kn">from</span> <span class="nn">django.test</span> <span class="kn">import</span> <span class="n">TestCase</span>
+<span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="kn">import</span> <span class="n">SuspiciousOperation</span><span class="p">,</span> <span class="n">PermissionDenied</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">Http404</span>
+<span class="kn">from</span> <span class="nn">index</span> <span class="kn">import</span> <span class="n">views</span>
+
+<span class="k">class</span> <span class="nc">ErrorHandlersTestCase</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot; Check is correct error handlers work &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">raise_</span><span class="p">(</span><span class="n">exception</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Test exception&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrapped</span>
+
+    <span class="k">def</span> <span class="nf">test_index_page</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Should check is 200 on index page &quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTemplateUsed</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;index/index.html&#39;</span><span class="p">)</span>
+
+    <span class="nd">@mock.patch</span><span class="p">(</span><span class="s1">&#39;index.views.IndexView.get&#39;</span><span class="p">,</span> <span class="n">raise_</span><span class="p">(</span><span class="n">Http404</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">test_404_page</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Should check is 404 page correct &quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">404</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTemplateUsed</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;index/error.html&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s1">&#39;404 Page not found&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+
+    <span class="nd">@mock.patch</span><span class="p">(</span><span class="s1">&#39;index.views.IndexView.get&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">ErrorHandler</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="n">error_code</span><span class="o">=</span><span class="mi">500</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">test_500_page</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Should check is 500 page correct &quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTemplateUsed</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;index/error.html&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s1">&#39;500 Server Error&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+
+    <span class="nd">@mock.patch</span><span class="p">(</span><span class="s1">&#39;index.views.IndexView.get&#39;</span><span class="p">,</span> <span class="n">raise_</span><span class="p">(</span><span class="n">SuspiciousOperation</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">test_400_page</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Should check is 400 page correct &quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTemplateUsed</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;index/error.html&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s1">&#39;400 Bad request&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+
+    <span class="nd">@mock.patch</span><span class="p">(</span><span class="s1">&#39;index.views.IndexView.get&#39;</span><span class="p">,</span> <span class="n">raise_</span><span class="p">(</span><span class="n">PermissionDenied</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">test_403_page</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Should check is 403 page correct &quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">403</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTemplateUsed</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;index/error.html&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s1">&#39;403 Permission Denied&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+</pre></div> <h3 id="rasshirennye-iskliucheniia"><a class="toclink" href="#rasshirennye-iskliucheniia">Расширенные&nbsp;исключения</a></h3> <p>В <a href="https://github.com/aio-libs/aiohttp">AioHTTP</a>, любой <code>HttpResponse</code> можно выбрасывать как исключение. Это действительно круто. Но если попробовать такое в <code>Django</code>, получаем ошибку типа, т.к. исключение должно быть наследником базового класса&nbsp;исключений.</p> <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">raise</span> <span class="n">HttpResponse</span><span class="p">()</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;console&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">TypeError</span><span class="p">:</span> <span class="n">exceptions</span> <span class="n">must</span> <span class="n">derive</span> <span class="kn">from</span> <span class="nn">BaseException</span>
+</pre></div> <p>С пакетом <a href="https://pypi.python.org/pypi/django-web-exceptions">Django web exceptions</a> можно выбрасывать любой <code>http</code> ответ как&nbsp;исключение.</p> <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">web_exceptions</span> <span class="kn">import</span> <span class="n">exceptions</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">HTTPOk</span><span class="p">()</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;console&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="n">web_exceptions</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">HTTPOk</span><span class="p">:</span> <span class="n">OK</span>
+</pre></div> <h4 id="bystryi-start"><a class="toclink" href="#bystryi-start">Быстрый&nbsp;старт</a></h4> <p>1 Устанавливаем через <code>pip</code></p> <div class="highlight"><pre><span></span>pip install django-web-exceptions
+</pre></div> <p>2 Подключаем <code>middleware</code></p> <div class="highlight"><pre><span></span><span class="c1"># settings.py</span>
+<span class="n">MIDDLEWARE</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="c1"># ...</span>
+    <span class="s1">&#39;web_exceptions.middleware.WebExceptionsMiddleware&#39;</span><span class="p">,</span>
+    <span class="c1"># ...</span>
+<span class="p">)</span>
+</pre></div> <p>3 Вызываем&nbsp;исключение</p> <div class="highlight"><pre><span></span><span class="c1"># views.py</span>
+<span class="kn">from</span> <span class="nn">web_exceptions</span> <span class="kn">import</span> <span class="n">exceptions</span>
+
+<span class="c1"># ...</span>
+
+<span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Simple view raise redirectexception &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">HTTPMovedPermanently</span><span class="p">(</span><span class="s1">&#39;/foo&#39;</span><span class="p">)</span>
+</pre></div> <h4 id="kak-eto-rabotaet"><a class="toclink" href="#kak-eto-rabotaet">Как это&nbsp;работает</a></h4> <p>Для того чтобы выбрасывать <code>http</code> ответ как исключение, в базовом классе наследуемся сразу от <code>HttpResponse</code> и <code>Exception</code>.</p> <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+
+<span class="k">class</span> <span class="nc">HTTPException</span><span class="p">(</span><span class="n">HttpResponse</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base Web explanation</span>
+<span class="sd">    In subclasses should set status_code attr</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">status_code</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">empty_body</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">reason</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">HttpResponse</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">headers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reason_phrase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reason_phrase</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">reason</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">empty_body</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;{}: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reason_phrase</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">charset</span><span class="p">)</span>
+        <span class="ne">Exception</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reason_phrase</span><span class="p">)</span>
+</pre></div> <h3 id="web-exceptions-links"><a class="toclink" href="#web-exceptions-links">Web exceptions&nbsp;links</a></h3> <ul> <li>Source code on <span class="caps">GH</span> &#8212; <a href="https://github.com/samael500/web-exceptions">samael500/web-exceptions</a></li> <li>Pypi package &#8212; <a href="https://pypi.python.org/pypi/django-web-exceptions/0.1.4">django-web-exceptions</a></li> <li>Docs on readthedocs &#8212; <a href="http://web-exceptions.readthedocs.io/en/latest/readme.html">web-exceptions.readthedocs.io</a></li> <li>Example usage proj on <span class="caps">GH</span> &#8212; <a href="https://github.com/samael500/web-exceptions/tree/master/example">samael500/web-exceptions/example</a></li> </ul> </article> <div class="comments"> <div id="disqus_thread"></div> <script type="text/javascript">
+                    var disqus_identifier = "drafts/web-iskliucheniia-v-django.html";
+                    (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//samael500.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script> </div> </div> <div class="col-md-3 content-right"> <div class="anchorific"></div> </div> </div> </div> </div> </div> <div class="footer"> <div class="container"> <p>This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.</p> <p><a href="http://github.com/samael500/w3-personal-blog/">W3 Personal Blog</a> is a flat <a href="http://getbootstrap.com/">bootstrap</a> responsive theme designed by <a href="https://w3layouts.com/personal-blog-a-blogging-category-flat-bootstrap-responsive-web-template/">W3layouts</a> ported to a pelican by <a href="http://samael500.github.io/">Samael500</a>.<p> <p>Copyrights &copy; 2015&mdash;2017 Maks live All rights reserved.</p> <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> <img alt="Creative Commons License" style="border-width:0" src="/media/by-nc-sa.svg"></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p> </div> </div> <script type="text/javascript" src="https://www.l2.io/ip.js?var=userip"></script> <script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter32194009 = new Ya.Metrika({
+                    id:32194009,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true,
+                    params:{'ip': userip}
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script> <noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt></div></noscript> <script type="text/javascript">
+    var disqus_shortname = 'samael500';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script> </body> </html>
