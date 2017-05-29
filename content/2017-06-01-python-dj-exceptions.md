@@ -202,7 +202,7 @@ def index(request):
 
 #### Как это работает
 
-Для того что бы выбрасывать `http` ответ как исключение,
+Для того чтобы выбрасывать `http` ответ как исключение,
 в базовом классе наследуемся сразу от `HttpResponse` и `Exception`.
 
 ```python
@@ -232,6 +232,7 @@ class HTTPException(HttpResponse, Exception):
 
 ### Web exceptions links
 
-- Source code on GH [samael500/web-exceptions](https://github.com/samael500/web-exceptions)
-- Pypi package [django-web-exceptions](https://pypi.python.org/pypi/django-web-exceptions/0.1.4)
-- Docs on readthedocs [web-exceptions.readthedocs.io](http://web-exceptions.readthedocs.io/en/latest/readme.html)
+- Source code on GH -- [samael500/web-exceptions](https://github.com/samael500/web-exceptions)
+- Pypi package -- [django-web-exceptions](https://pypi.python.org/pypi/django-web-exceptions/0.1.4)
+- Docs on readthedocs -- [web-exceptions.readthedocs.io](http://web-exceptions.readthedocs.io/en/latest/readme.html)
+- Example usage proj on GH -- [samael500/web-exceptions/example](https://github.com/samael500/web-exceptions/tree/master/example)
