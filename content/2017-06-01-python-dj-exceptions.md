@@ -1,9 +1,9 @@
 Title: Web исключения в Django
-Date: 2017-06-01 15:00
-Modified: 2017-06-01 15:00
+Date: 2017-06-10 15:00
+Modified: 2017-06-10 15:00
 Category: Python
 Tags: django, exceptions, web, http, response
-Image: /media/web-exceptions/pointstacker.png
+Image: /media/web-exceptions/web-exceptions.png
 Image_width: 1280
 Image_height: 791
 Summary:
@@ -14,7 +14,6 @@ Summary:
     Однако `pythonyc way` предусматривает не только
     явный `return`, но и гибкую обработку исключений.
     Рассмотрим веб исключения в `Django`.
-Status: draft
 
 Как и положено веб фраймворку, `Django` позволяет
 возвращать в ответ на запрос `HttpResponse` с любым статус кодом
