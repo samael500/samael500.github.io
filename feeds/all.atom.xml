@@ -8,7 +8,7 @@
 Рассмотрим веб исключения в &lt;code&gt;Django&lt;/code&gt;.&lt;/p&gt;
 &lt;h3 id="standartnye-iskliucheniia"&gt;&lt;a class="toclink" href="#standartnye-iskliucheniia"&gt;Стандартные&amp;nbsp;исключения&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;Django&lt;/code&gt; допускает ограниченный набор &lt;code&gt;http&lt;/code&gt; ответов через
-выбрасывание&amp;nbsp;исключении.&lt;/p&gt;
+выбрасывание&amp;nbsp;исключений.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;400&lt;/code&gt; &lt;a href="https://docs.djangoproject.com/en/1.11/ref/exceptions/#suspiciousoperation"&gt;SuspiciousOperation&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;403&lt;/code&gt; &lt;a href="https://docs.djangoproject.com/en/1.11/ref/exceptions/#permissiondenied"&gt;PermissionDenied&lt;/a&gt;&lt;/li&gt;
