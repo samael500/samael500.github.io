@@ -26,7 +26,7 @@ Summary:
 ### Стандартные исключения
 
 `Django` допускает ограниченный набор `http` ответов через
-выбрасывание исключении.
+выбрасывание исключений.
 
 - `400` [SuspiciousOperation](https://docs.djangoproject.com/en/1.11/ref/exceptions/#suspiciousoperation)
 - `403` [PermissionDenied](https://docs.djangoproject.com/en/1.11/ref/exceptions/#permissiondenied)
