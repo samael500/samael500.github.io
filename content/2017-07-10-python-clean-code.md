@@ -12,7 +12,7 @@ Summary:
 
 ### Табы или пробелы?
 
-Недавно на `stackoverflow` собрали
+Безусловно пробелы. Недавно на `stackoverflow` собрали
 [статистику](https://stackoverflow.blog/2017/06/15/developers-use-spaces-make-money-use-tabs/)
 и определили что пробелы всреднм приносят больший заработок чем табуляция.
 Но это конечно же шуточный аргумент, если серьезно, ответ гораздо проще.
@@ -27,25 +27,39 @@ Summary:
 Особенно это опасно в `python`, т.к. в этом случае можно перепутать уровень
 вложенности и нарушить логику программы.
 
+```python
+class Foo(object):
+
+    """ some Foo class """
+
+    def bar(self, *args, **kwargs):
+        for i in range(42):
+            yield i
+```
+
+Этот код будет очень по разному выглядить в разных редакторах.
+
+![nano tabs](/media/clean-code/nano-tabs.png){.center}
+![vim tabs](/media/clean-code/vim-tabs.png){.center}
+![sublime tabs](/media/clean-code/sublime-tabs.png){.center}
 
 ```diff
 diff --git a/example.py b/example.py
-index b2a57d0..af10ee4 100644
---- a/example.py # spaces
-+++ b/example.py # tabs
-@@ -2,9 +2,9 @@
- 
+index 8ed55ea..f88b207 100644
+--- a/example.py  # tabs
++++ b/example.py  # spaces
+@@ -1,7 +1,7 @@
  class Foo(object):
  
--    """ some Foo class """
-+       """ some Foo class """
+-       """ some Foo class """
++    """ some Foo class """
  
--    def bar(self, *args, **kwargs):
--        for i in range(42):
--            yield i
-+       def bar(self, *args, **kwargs):
-+               for i in range(42):
-+                       yield i
+-       def bar(self, *args, **kwargs):
+-               for i in range(42):
+-                       yield i
++    def bar(self, *args, **kwargs):
++        for i in range(42):
++            yield i
 ```
 
 Иногда табуляция может иметь ширину 0, но тем неменее присутсвовать в отступах в коде.
