@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru"> <head><title>Чистый код — меньше забот | Maks live</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#00aeff"><meta name="msapplication-navbutton-color" content="#00aeff"><meta name="apple-mobile-web-app-status-bar-style" content="#00aeff"><meta name="author" content="Maks"><meta name="robots" content="index, follow"><meta name="keywords" content="article, code, style, pep8, codestandart"><meta name="description" content><meta property="og:title" content="Чистый код — меньше забот"><meta property="og:url" content="https://maks.live/drafts/chistyi-kod-menshe-zabot.html"><meta property="og:site_name" content="Maks live"><meta property="og:type" content="article"><meta property="og:image" content="https://maks.live/media/ /web-exceptions.png"><meta property="og:description" content><meta property="og:image:width" content="1280"><meta property="og:image:height" content="791"><link rel="canonical" href="https://maks.live/drafts/chistyi-kod-menshe-zabot.html"><link href="https://maks.live/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Maks live Atom"><link href="https://maks.live/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Maks live RSS"><link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css"><link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css"><link rel="stylesheet" type="text/css" href="/theme/css/style.css"><link rel="stylesheet" type="text/css" href="/theme/css/pygment.css"><link rel="stylesheet" type="text/css" href="/theme/css/social-likes_flat.css"><script type="text/javascript" src="/theme/js/jquery.min.js"></script><script type="text/javascript" src="/theme/js/bootstrap.min.js"></script><script type="text/javascript" src="/theme/js/social-likes.min.js"></script><link rel="stylesheet" type="text/css" href="https://maks.live/theme/css/tree.css"><link rel="stylesheet" type="text/css" href="https://maks.live/theme/css/anchorific.css"><script type="text/javascript" src="https://maks.live/theme/js/anchorific.js"></script></head> <body id="index"> <a class="forkmegithub" href="https://github.com/Samael500"> <img style="position: absolute; top: 0; right: 0; border: 0;" src="/theme/images/forkme_right_gray.png" alt="Fork me on GitHub"> </a> <div class="header"> <div class="container"> <div class="logo"> <a href="https://maks.live/"> MAKS LIVE<br><small>samael500 blog</small> </a> </div> <div class="top-menu"> <div class="search"> <script>
+  (function() {
+    var cx = '006263355362628034990:cuxoisonrno';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script> <form id="searchbox_006263355362628034990:cuxoisonrno" action="https://www.google.com/"> <input value="006263355362628034990:cuxoisonrno" name="cx" type="hidden"> <input value="FORID:11" name="cof" type="hidden"> <input id="q" name="q" type="text" required> <input type="submit" value> </form> </div> <span class="menu"> </span> <ul> <li> <a href="/">HOME</a></li> <li> <a href="/tag/best/">BEST</a></li> <li><a href="https://maks.live/about/">ABOUT</a></li> <div class="clearfix"></div> </ul> <div class="clearfix"></div> <script>
+                $("span.menu").click(function(){
+                    $(".top-menu ul").slideToggle("slow" , function(){
+                    });
+                });
+            </script> </div> </div> </div> <div class="content"> <div class="container"> <div class="content-grids"> <div class="single-main"> <div class="col-md-9 single-grid"> <header> <h4> <a href="https://maks.live/drafts/chistyi-kod-menshe-zabot.html" title="Чистый код — меньше забот">Чистый код &#8212; меньше&nbsp;забот</a> Jul 10, 2017 </h4> <div class="footer art-info"> Author: <a class="url fn" href="https://maks.live/author/maks/">Maks</a> | Category: <a href="https://maks.live/category/python/">Python</a> | <a href="https://maks.live/drafts/chistyi-kod-menshe-zabot.html#disqus_thread">Comments</a> <br> Tags: <a href="https://maks.live/tag/code/">code</a> <a href="https://maks.live/tag/style/">style</a> <a href="https://maks.live/tag/pep8/">pep8</a> <a href="https://maks.live/tag/codestandart/">codestandart</a> </div><div class="social-likes"> <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div> <div class="twitter" data-via="samael500" title="Поделиться ссылкой в Твиттере">Twitter</div> <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div> <div class="plusone" title="Поделиться ссылкой в Google+">Google+</div> </div> </header> <article class="content"> <h3 id="taby-ili-probely"><a class="toclink" href="#taby-ili-probely">Табы или&nbsp;пробелы?</a></h3> <p>Безусловно пробелы. Недавно на <code>stackoverflow</code> собрали <a href="https://stackoverflow.blog/2017/06/15/developers-use-spaces-make-money-use-tabs/">статистику</a> и определили что пробелы всреднм приносят больший заработок чем табуляция. Но это конечно же шуточный аргумент, если серьезно, ответ гораздо проще. Иногда нужно отредактировать код по <code>ssh</code> на удаленной машине, иногда нужно взглянуть на код в <code>web</code> интерфейсе системы контроля версий, иногда приходится открывать код в другом редакторе. Код должен всегда выглядеть одинаково независимо от настроек системы, это гарантируют проблеы, но не обещает&nbsp;табуляция.</p> <p>Один и тот же фрагмент кода, с использованием пробелов и табуляции может выглядить очень по разному, что может приводить к ошибкам при редактировании. Особенно это опасно в <code>python</code>, т.к. в этом случае можно перепутать уровень вложенности и нарушить логику&nbsp;программы.</p> <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot; some Foo class &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">bar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">42</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">i</span>
+</pre></div> <p>Этот код будет очень по разному выглядить в разных&nbsp;редакторах.</p> <p><img alt="nano tabs" class="center" src="/media/clean-code/nano-tabs.png"> <img alt="vim tabs" class="center" src="/media/clean-code/vim-tabs.png"> <img alt="sublime tabs" class="center" src="/media/clean-code/sublime-tabs.png"></p> <div class="highlight"><pre><span></span><span class="gh">diff --git a/example.py b/example.py</span>
+<span class="gh">index 8ed55ea..f88b207 100644</span>
+<span class="gd">--- a/example.py  # tabs</span>
+<span class="gi">+++ b/example.py  # spaces</span>
+<span class="gu">@@ -1,7 +1,7 @@</span>
+ class Foo(object):
+
+<span class="gd">-       &quot;&quot;&quot; some Foo class &quot;&quot;&quot;</span>
+<span class="gi">+    &quot;&quot;&quot; some Foo class &quot;&quot;&quot;</span>
+
+<span class="gd">-       def bar(self, *args, **kwargs):</span>
+<span class="gd">-               for i in range(42):</span>
+<span class="gd">-                       yield i</span>
+<span class="gi">+    def bar(self, *args, **kwargs):</span>
+<span class="gi">+        for i in range(42):</span>
+<span class="gi">+            yield i</span>
+</pre></div> <p>Иногда табуляция может иметь ширину 0, но тем неменее присутсвовать в отступах в&nbsp;коде.</p> <p><img alt="tab width" class="center" src="/media/clean-code/tabwidth.png"></p> </article> <div class="comments"> <div id="disqus_thread"></div> <script type="text/javascript">
+                    var disqus_identifier = "drafts/chistyi-kod-menshe-zabot.html";
+                    (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//samael500.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script> </div> </div> <div class="col-md-3 content-right"> <div class="anchorific"></div> </div> </div> </div> </div> </div> <div class="footer"> <div class="container"> <p>This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.</p> <p><a href="http://github.com/samael500/w3-personal-blog/">W3 Personal Blog</a> is a flat <a href="http://getbootstrap.com/">bootstrap</a> responsive theme designed by <a href="https://w3layouts.com/personal-blog-a-blogging-category-flat-bootstrap-responsive-web-template/">W3layouts</a> ported to a pelican by <a href="http://samael500.github.io/">Samael500</a>.<p> <p>Copyrights &copy; 2015&mdash;2017 Maks live All rights reserved.</p> <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> <img alt="Creative Commons License" style="border-width:0" src="/media/by-nc-sa.svg"></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p> </div> </div> <script type="text/javascript" src="https://www.l2.io/ip.js?var=userip"></script> <script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter32194009 = new Ya.Metrika({
+                    id:32194009,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true,
+                    params:{'ip': userip}
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script> <noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt></div></noscript> <script>
+        (function(w, d, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    var options = {
+                        project: '987654231',
+                        attributes_dataset: [
+                            'cerber-event',
+                            'cerber-head',
+                            'second-cerber-event',
+                            'cerber-topline'
+                        ],
+                        custom_vars: {
+                            'test_key1': 'test_val1',
+                            'test_key2': 'test_val2'
+                        },
+                        trackLinks: true,
+                        splits: ['some_split']
+                    };
+                    w.top100Counter = new top100(
+                        options
+                    );
+
+                    w.top100Counter.sendCustomVars({'test=test.,!@#$%^&*()_test': 'test=test.,!@#$%^&*()_test'});
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+
+            var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function() {
+                    n.parentNode.insertBefore(s, n);
+                };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src =
+                (d.location.protocol == "https:" ? "http:" : "http:") +
+                "//stand07.cerber.rambler.ru/counters/top100.js"
+                //"//st.top100.ru/top100/top100.js";
+
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f, false);
+            } else {
+                f();
+            }
+        })(window, document, "_top100q");
+</script> <script type="text/javascript">
+    var disqus_shortname = 'samael500';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script> </body> </html>

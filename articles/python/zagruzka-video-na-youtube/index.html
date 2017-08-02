@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru"> <head><title>Загрузка видео на youtube | Maks live</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#00aeff"><meta name="msapplication-navbutton-color" content="#00aeff"><meta name="apple-mobile-web-app-status-bar-style" content="#00aeff"><meta name="author" content="Maks"><meta name="robots" content="index, follow"><meta name="keywords" content="article, python, youtube, oauth2, video upload"><meta name="description" content="В одном из моих собственных проектов, возникла задача автоматической загрузки видео на канал на youtube. Делается это достаточно просто, при помощи гугловского api клиента для python. Единственное затруднение вызвало полумагическое получение ключей доступа к api…"><meta property="og:title" content="Загрузка видео на youtube"><meta property="og:url" content="https://maks.live/articles/python/zagruzka-video-na-youtube/"><meta property="og:site_name" content="Maks live"><meta property="og:type" content="article"><meta property="og:image" content="https://maks.live/media/youtube-upload/python_youtube.jpg"><meta property="og:description" content="В одном из моих собственных проектов, возникла задача автоматической загрузки видео на канал на youtube. Делается это достаточно просто, при помощи гугловского api клиента для python. Единственное затруднение вызвало полумагическое получение ключей доступа к api…"><meta property="og:image:width" content="580"><meta property="og:image:height" content="328"><link rel="canonical" href="https://maks.live/articles/python/zagruzka-video-na-youtube/"><link href="https://maks.live/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Maks live Atom"><link href="https://maks.live/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Maks live RSS"><link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css"><link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css"><link rel="stylesheet" type="text/css" href="/theme/css/style.css"><link rel="stylesheet" type="text/css" href="/theme/css/pygment.css"><link rel="stylesheet" type="text/css" href="/theme/css/social-likes_flat.css"><script type="text/javascript" src="/theme/js/jquery.min.js"></script><script type="text/javascript" src="/theme/js/bootstrap.min.js"></script><script type="text/javascript" src="/theme/js/social-likes.min.js"></script><link rel="stylesheet" type="text/css" href="https://maks.live/theme/css/tree.css"><link rel="stylesheet" type="text/css" href="https://maks.live/theme/css/anchorific.css"><script type="text/javascript" src="https://maks.live/theme/js/anchorific.js"></script></head> <body id="index"> <a class="forkmegithub" href="https://github.com/Samael500"> <img style="position: absolute; top: 0; right: 0; border: 0;" src="/theme/images/forkme_right_gray.png" alt="Fork me on GitHub"> </a> <div class="header"> <div class="container"> <div class="logo"> <a href="https://maks.live/"> MAKS LIVE<br><small>samael500 blog</small> </a> </div> <div class="top-menu"> <div class="search"> <script>
+<html lang="ru"> <head><title>Загрузка видео на youtube | Maks live</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#00aeff"><meta name="msapplication-navbutton-color" content="#00aeff"><meta name="apple-mobile-web-app-status-bar-style" content="#00aeff"><meta name="author" content="Maks"><meta name="robots" content="index, follow"><meta name="keywords" content="article, python, youtube, oauth2, video upload"><meta name="description" content="В одном из моих собственных проектов, возникла задача автоматической загрузки видео на канал на youtube. Делается это достаточно просто, при помощи гугловского api клиента для python. Единственное затруднение вызвало полумагическое получение ключей доступа к api…"><meta property="og:title" content="Загрузка видео на youtube"><meta property="og:url" content="https://maks.live/articles/python/zagruzka-video-na-youtube/"><meta property="og:site_name" content="Maks live"><meta property="og:type" content="article"><meta property="og:image" content="https://maks.live/media/youtube-upload/python_youtube.jpg"><meta property="og:description" content="В одном из моих собственных проектов, возникла задача автоматической загрузки видео на канал на youtube. Делается это достаточно просто, при помощи гугловского api клиента для python. Единственное затруднение вызвало полумагическое получение ключей доступа к api…"><link rel="canonical" href="https://maks.live/articles/python/zagruzka-video-na-youtube/"><link href="https://maks.live/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Maks live Atom"><link href="https://maks.live/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Maks live RSS"><link rel="stylesheet" type="text/css" href="/theme/css/bootstrap.css"><link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.css"><link rel="stylesheet" type="text/css" href="/theme/css/style.css"><link rel="stylesheet" type="text/css" href="/theme/css/pygment.css"><link rel="stylesheet" type="text/css" href="/theme/css/social-likes_flat.css"><script type="text/javascript" src="/theme/js/jquery.min.js"></script><script type="text/javascript" src="/theme/js/bootstrap.min.js"></script><script type="text/javascript" src="/theme/js/social-likes.min.js"></script><link rel="stylesheet" type="text/css" href="https://maks.live/theme/css/tree.css"><link rel="stylesheet" type="text/css" href="https://maks.live/theme/css/anchorific.css"><script type="text/javascript" src="https://maks.live/theme/js/anchorific.js"></script></head> <body id="index"> <a class="forkmegithub" href="https://github.com/Samael500"> <img style="position: absolute; top: 0; right: 0; border: 0;" src="/theme/images/forkme_right_gray.png" alt="Fork me on GitHub"> </a> <div class="header"> <div class="container"> <div class="logo"> <a href="https://maks.live/"> MAKS LIVE<br><small>samael500 blog</small> </a> </div> <div class="top-menu"> <div class="search"> <script>
   (function() {
     var cx = '006263355362628034990:cuxoisonrno';
     var gcse = document.createElement('script');
@@ -247,7 +247,54 @@ curl --data <span class="nv">$data</span> <span class="s2">&quot;https://account
             d.addEventListener("DOMContentLoaded", f, false);
         } else { f(); }
     })(document, window, "yandex_metrika_callbacks");
-</script> <noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt></div></noscript> <script type="text/javascript">
+</script> <noscript><div><img src="https://mc.yandex.ru/watch/32194009" style="position:absolute; left:-9999px;" alt></div></noscript> <script>
+        (function(w, d, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    var options = {
+                        project: '987654231',
+                        attributes_dataset: [
+                            'cerber-event',
+                            'cerber-head',
+                            'second-cerber-event',
+                            'cerber-topline'
+                        ],
+                        custom_vars: {
+                            'test_key1': 'test_val1',
+                            'test_key2': 'test_val2'
+                        },
+                        trackLinks: true,
+                        splits: ['some_split']
+                    };
+                    w.top100Counter = new top100(
+                        options
+                    );
+
+                    w.top100Counter.sendCustomVars({'test=test.,!@#$%^&*()_test': 'test=test.,!@#$%^&*()_test'});
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+
+            var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function() {
+                    n.parentNode.insertBefore(s, n);
+                };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src =
+                (d.location.protocol == "https:" ? "http:" : "http:") +
+                "//stand07.cerber.rambler.ru/counters/top100.js"
+                //"//st.top100.ru/top100/top100.js";
+
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f, false);
+            } else {
+                f();
+            }
+        })(window, document, "_top100q");
+</script> <script type="text/javascript">
     var disqus_shortname = 'samael500';
     (function () {
         var s = document.createElement('script'); s.async = true;
