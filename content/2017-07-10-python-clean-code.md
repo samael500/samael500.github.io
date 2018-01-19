@@ -6,6 +6,7 @@ Tags: code, style, pep8, codestandart
 Image: /media/ /web-exceptions.png
 Image_width: 1280
 Image_height: 791
+Status: Draft
 Summary:
 
 <!-- Сопровождение, обновление и внесение нового функционала в `legacy` код --  -->
