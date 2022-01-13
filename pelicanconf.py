@@ -86,7 +86,7 @@ EXTRA_PATH_METADATA = {
     'stuff/yandex_5956fbabd1f7743f.html': {'path': 'yandex_5956fbabd1f7743f.html'},
 }
 # article
-ARTICLE_URL = u'articles/{category}/{slug}/'
+ARTICLE_URL = u'articles/{category}/{slug}/?flag=custom&ysclid=22kwrz7a3163'
 ARTICLE_SAVE_AS = u'articles/{category}/{slug}/index.html'
 # page
 PAGE_URL = u'{slug}/'
